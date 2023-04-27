@@ -1,7 +1,12 @@
+using LBS.WebAPI.Service.DataStores;
+using LBS.WebAPI.Service.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IProductService,ProductDataStore>();
 
 var app = builder.Build();
 
