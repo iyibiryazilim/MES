@@ -1,0 +1,13 @@
+
+MES/obj/Debug/net7.0/MES.RazorAssemblyInfo.cs
+MES/obj/Debug/net7.0/MES.RazorAssemblyInfo.cache
+MES/obj/MES.csproj.nuget.dgspec.json
+*.cache
+*.props
+*.targets
+MES/obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs
+MES/obj/Debug/net7.0/MES.AssemblyInfo.cs
+MES/obj/Debug/net7.0/MES.GeneratedMSBuildEditorConfig.editorconfig
+MES/MES.csproj.user
+MES/obj/project.assets.json
+MES/obj/Debug/net7.0/MES.GlobalUsings.g.cs
