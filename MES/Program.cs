@@ -11,6 +11,8 @@ builder.Services.AddLogging();
 builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
 builder.Services.AddTransient<IWorkstationGroupService, WorkstationGroupDataStore>();
 builder.Services.AddTransient<IProductService,ProductDataStore>();
+builder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
+
 
 var app = builder.Build();
 
