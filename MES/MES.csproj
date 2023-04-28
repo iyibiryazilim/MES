@@ -6,8 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
-    <PackageReference Include="LBS.WebAPI.Service" Version="1.0.1" />
+    <PackageReference Include="LBS.WebAPI.Service" Version="1.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="HttpClientService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HttpClientService\" />
+  </ItemGroup>
 </Project>
