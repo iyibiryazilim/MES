@@ -1,11 +1,15 @@
 using LBS.WebAPI.Service.DataStores;
 using LBS.WebAPI.Service.Services;
+using MES.HttpClientService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddLogging();
+builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
+builder.Services.AddTransient<IWorkstationGroupService, WorkstationGroupDataStore>();
 builder.Services.AddTransient<IProductService,ProductDataStore>();
 
 var app = builder.Build();
