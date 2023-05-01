@@ -14,8 +14,16 @@
 
   <ItemGroup>
     <None Remove="HttpClientService\" />
+    <None Remove="Views\WorkOrder\" />
+    <None Remove="ViewModels\WorkOrderViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HttpClientService\" />
+    <Folder Include="Views\WorkOrder\" />
+    <Folder Include="ViewModels\WorkOrderViewModels\" />
+    <Folder Include="wwwroot\assets\js\mes\workOrder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\assets\js\mes\workOrder\" />
   </ItemGroup>
 </Project>
