@@ -15,6 +15,12 @@ builder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
 builder.Services.AddTransient<IProductionService, ProductionOrderDataStore>();
 builder.Services.AddTransient<IEmployeeGroupService, EmployeeGroupDataStore>();
 builder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
+builder.Services.AddTransient<IEndProductService, EndProductDataStore>();
+builder.Services.AddTransient<ISemiProductService, SemiProductDataStore>();
+builder.Services.AddTransient<IRawProductService, RawProductDataStore>();
+
+
+
 
 
 var app = builder.Build();
@@ -39,3 +45,4 @@ app.MapControllerRoute(
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
