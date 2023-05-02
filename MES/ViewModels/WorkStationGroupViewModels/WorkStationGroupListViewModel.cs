@@ -1,6 +1,8 @@
-﻿namespace MES.ViewModels.WorkStationGroupViewModels
+﻿using LBS.Shared.Entity.Models;
+
+namespace MES.ViewModels.WorkStationGroupViewModels
 {
-	public class WorkStationGroupListViewModel
-	{
+	public class WorkStationGroupListViewModel : WorkstationGroup
+    {
 	}
 }
