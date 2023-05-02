@@ -35,10 +35,7 @@ var WorkOrderList = function () {
                 { data: 'referenceId' },
                 { data: 'referenceId' },
                 { data: 'status' },
-                { data: 'operationBeginDate' },
-                { data: 'operationDueDate' },
-                { data: 'operationActualBeginDate' },
-                { data: 'operationActualDueDate' },
+                { data: 'realizationRate' },              
                 { data: 'referenceId' },
 
             ],
@@ -66,23 +63,20 @@ var WorkOrderList = function () {
 
                         var output;
 
-                        output = `<td class="d-flex align-items-center">
-															<!--begin:: Avatar -->
-															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-																<a href="../../demo46/dist/apps/user-management/users/view.html">
-																	<div class="symbol-label">
-																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
-																	</div>
-																</a>
-															</div>
-															<!--end::Avatar-->
-															<!--begin::User details-->
-															<div class="d-flex flex-column">
-																<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">Emma Smith</a>
-																<span>smith@kpmg.com</span>
-															</div>
-															<!--begin::User details-->
-														</td>`
+                        output = `<div class="d-flex">
+							<!--begin::Thumbnail-->
+							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
+								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
+							</a>
+							<!--end::Thumbnail-->
+							<div class="ms-5">
+								<!--begin::Title-->
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.referenceId + `</a>
+								<!--end::Title-->
+								<!--begin::Description-->
+								<div class="text-muted fs-7 fw-bold">`+ full.referenceId + `</div>
+								<!--end::Description-->
+							</div>`
                         return output;
 
                     },
@@ -110,58 +104,19 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.operationBeginDate + `</div>`
+                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
                         return output;
 
                     },
 
                 },
-                {
-
-                    orderable: true,
-                    targets: 4,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.operationDueDate + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 5,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.operationActualBeginDate + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 6,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.operationActualDueDate + `</div>`
-                        return output;
-
-                    },
-
-                },
+                
                 {
 
                     orderable: false,
-                    targets: 7,
+                    targets: 4,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -210,7 +165,7 @@ var WorkOrderList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[data-kt-ecommerce-category-filter="search"]');
+        const filterSearch = document.querySelector('[mes-workorder-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
