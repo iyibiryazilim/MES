@@ -33,6 +33,7 @@ var WorkOrderList = function () {
             columns: [
 
                 { data: 'referenceId' },
+                { data: 'referenceId' },
                 { data: 'status' },
                 { data: 'operationBeginDate' },
                 { data: 'operationDueDate' },
@@ -50,7 +51,7 @@ var WorkOrderList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ data +`" />
+                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId +`" />
                         </div>`
                         return output;
 
@@ -65,7 +66,23 @@ var WorkOrderList = function () {
 
                         var output;
 
-                        output = `<div class="badge badge-light fw-bold">`+full.status+`</div>`
+                        output = `<td class="d-flex align-items-center">
+															<!--begin:: Avatar -->
+															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+																<a href="../../demo46/dist/apps/user-management/users/view.html">
+																	<div class="symbol-label">
+																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
+																	</div>
+																</a>
+															</div>
+															<!--end::Avatar-->
+															<!--begin::User details-->
+															<div class="d-flex flex-column">
+																<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">Emma Smith</a>
+																<span>smith@kpmg.com</span>
+															</div>
+															<!--begin::User details-->
+														</td>`
                         return output;
 
                     },
@@ -79,7 +96,7 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.operationBeginDate + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.status + `</div>`
                         return output;
 
                     },
@@ -93,7 +110,7 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.operationDueDate + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.operationBeginDate + `</div>`
                         return output;
 
                     },
@@ -107,7 +124,7 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.operationActualBeginDate + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.operationDueDate + `</div>`
                         return output;
 
                     },
@@ -121,6 +138,20 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
+                        output = `<div class="badge badge-light fw-bold">` + full.operationActualBeginDate + `</div>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 6,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
                         output = `<div class="badge badge-light fw-bold">` + full.operationActualDueDate + `</div>`
                         return output;
 
@@ -130,13 +161,11 @@ var WorkOrderList = function () {
                 {
 
                     orderable: false,
-                    targets: 6,
+                    targets: 7,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-							Actions
-							<i class="ki-duotone ki-down fs-5 ms-1"></i>
+                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksiyonlar<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">

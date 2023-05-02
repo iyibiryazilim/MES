@@ -15,7 +15,7 @@ namespace MES.HttpClientService
     }
 
     , LazyThreadSafetyMode.None);
-        public string Token { get; set; } = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaXlpYmlyIiwianRpIjoiOTk0ODg2NGItMjBkNy00OTg5LTgwYTUtZDllODM3ZGNkMjRlIiwiZXhwIjoxNjgyNzY3MjUyLCJpc3MiOiJpeWliaXIifQ.vk-fyHYDKp3riRc_m8-VS2GRIU8WMGYadbk3nymbcmc";
+        public string Token { get; set; } = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaXlpYmlyIiwianRpIjoiNzAxMjNmNjUtMGUzMy00ZTkwLWExOTMtZWI1OTYxYWI1YmFlIiwiZXhwIjoxNjgzMDkzMDcxLCJpc3MiOiJpeWliaXIifQ.ZKeCFhqg-aIz7L3RT3BEUC6C-rg1XRpjPcg0NfAqzes";
 
         public HttpClient GetOrCreateHttpClient()
         {
