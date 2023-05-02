@@ -4,7 +4,7 @@
 
 // Class definition
 
-var ProductionOrderList = function () {
+var StopCauseList = function () {
 
     // Shared variables
     var table;
@@ -15,7 +15,7 @@ var ProductionOrderList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/ProductionOrder/GetJsonResult';
+        var postUrl = '/StopCause/GetJsonResult';
 
         datatable = $(table).DataTable({
             responsive: true,
@@ -32,18 +32,15 @@ var ProductionOrderList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'productionDate' },
                 { data: 'code' },
-                { data: 'product' },
-                { data: 'subUnitset' },             
-                { data: 'plannedAmount' },
-                { data: 'actualAmount' },
-                { data: 'realizationRate' },
+                { data: 'name' },
+                { data: 'affectsCost' },
+                { data: 'affectsPlan' },
                 { data: 'referenceId' },
-                
+
 
             ],
-            
+
             columnDefs: [
                 {
                     orderable: true,
@@ -68,7 +65,7 @@ var ProductionOrderList = function () {
 
                         var output;
 
-                        output = `<div class="badge badge-light fw-bold">` + full.productionDate + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.code + `</div>`
                         return output;
 
                     },
@@ -82,7 +79,7 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.code + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.name + `</div>`
                         return output;
 
                     },
@@ -96,24 +93,7 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<td class="d-flex align-items-center">
-															<!--begin:: Avatar -->
-															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-																<a href="../../demo46/dist/apps/user-management/users/view.html">
-																	<div class="symbol-label">
-																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100">
-																	</div>
-																</a>
-															</div>
-															<!--end::Avatar-->
-															<!--begin::User details-->
-															<div class="d-flex flex-column">
-																<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">`+ full.product.name + `</a>
-																<span>smith@kpmg.com</span>
-															</div>
-															<!--begin::User details-->
-														</td>`
-                        //output = `<div class="badge badge-light fw-bold">` + full.product. + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.affectsCost + `</div>`
                         return output;
 
                     },
@@ -127,59 +107,8 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.subUnitset.code + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.affectsPlan + `</div>`
                         return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 5,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.plannedAmount + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 6,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.actualAmount + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 7,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        if (full.realizationRate >= 100) {
-                            output = `<div class="badge badge-light-primary fw-bold">` + full.realizationRate + `</div>`
-                            return output;
-                        } else if (full.realizationRate < 100 && full.realizationRate > 0) {
-                            output = `<span class="fw-bold text-warning ms-3">` + full.realizationRate + `</span>`
-                            return output;
-                        } else {
-                            output = `<div class="badge badge-light-danger fw-bold">` + full.realizationRate + `</div>`
-                            return output;
-                        }
-                        
 
                     },
 
@@ -187,7 +116,7 @@ var ProductionOrderList = function () {
                 {
 
                     orderable: false,
-                    targets: 8,
+                    targets: 5,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -238,7 +167,7 @@ var ProductionOrderList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[mes-production-order-table-filter="search"]');
+        const filterSearch = document.querySelector('[mes-stop-cause-table-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
@@ -390,7 +319,7 @@ var ProductionOrderList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_productionOrder_table');
+            table = document.querySelector('#mes_stop_cause_table');
 
             if (!table) {
 
@@ -400,7 +329,7 @@ var ProductionOrderList = function () {
 
             initDatatable();
             handleSearchDatatable();
-           // handleStatusFilter();
+            // handleStatusFilter();
             //handleDeleteRows();
         }
 
@@ -413,5 +342,5 @@ var ProductionOrderList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    ProductionOrderList.init();
+    StopCauseList.init();
 });

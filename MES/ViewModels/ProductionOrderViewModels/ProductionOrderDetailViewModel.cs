@@ -1,6 +1,6 @@
 ﻿namespace MES.ViewModels.OperationOrderViewModels
 {
-	public class ProductionOrderDetailViewModels
+	public class ProductionOrderDetailViewModel
 	{
 	}
 }

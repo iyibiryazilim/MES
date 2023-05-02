@@ -15,6 +15,7 @@ builder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
 builder.Services.AddTransient<IProductionService, ProductionOrderDataStore>();
 builder.Services.AddTransient<IEmployeeGroupService, EmployeeGroupDataStore>();
 builder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
+builder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
 
 
 var app = builder.Build();
