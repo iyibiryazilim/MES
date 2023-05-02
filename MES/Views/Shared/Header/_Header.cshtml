@@ -361,6 +361,25 @@
 						</div>
 						<!--end:Menu item-->
 						<!--begin:Menu item-->
+						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
+							<!--begin:Menu link-->
+							<a asp-controller="StopCause" asp-action="Index">
+							<span class="menu-link">
+								<span class="menu-icon">
+									<i class="ki-duotone ki-rocket fs-2">
+										<span class="path1"></span>
+										<span class="path2"></span>
+									</i>
+								</span>
+								<span class="menu-title">Duruş Nedenleri</span>
+								
+							</span>
+							<!--end:Menu link-->
+							</a>
+						</div>
+						<!--end:Menu item-->
+						<!--begin:Menu item-->
+						<!--begin:Menu item-->
                         <div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
                             <!--begin:Menu link-->
                             <a asp-controller="WorkOrder" asp-action="Index">
@@ -396,7 +415,7 @@
 						<!--begin:Menu item-->
 						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
 							<!--begin:Menu link-->
-							<a asp-controller="WorkStationGroup" asp-action="Index">
+							<a asp-controller="SalesOrderLine" asp-action="Index">
 							<span class="menu-link">
 								<span class="menu-icon">
 									<i class="ki-duotone ki-rocket fs-2">
@@ -404,7 +423,7 @@
 										<span class="path2"></span>
 									</i>
 								</span>
-								<span class="menu-title">İş İstasyonu Grupları</span>
+								<span class="menu-title">Bekleyen Satış Siparişleri</span>
 								
 							</span>
 							<!--end:Menu link-->
@@ -414,496 +433,21 @@
 						<!--begin:Menu item-->
 						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
 							<!--begin:Menu link-->
-							<a asp-controller="EmployeeGroup" asp-action="Index">
+							<a asp-controller="PurchaseOrderLine" asp-action="Index">
 							<span class="menu-link">
 								<span class="menu-icon">
 									<i class="ki-duotone ki-handcart fs-2"></i>
 								</span>
-								<span class="menu-title">Çalışan Grupları</span>
+								<span class="menu-title">Bekleyen Satın Alma Siparişleri</span>
 								
 							</span>
 							</a>
 							
 						</div>
 						<!--end:Menu item-->
-						<!--begin:Menu item-->
-                        <div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-                            <!--begin:Menu link-->
-                            <a asp-controller="WorkOrder" asp-action="Index">
-                                <span class="menu-link">
-                                    <span class="menu-icon">
-                                        <i class="ki-duotone ki-chart fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </span>
-                                    <span class="menu-title">İş Emri</span>
-                                </span>
-                                <!--end:Menu link-->
-								</a>
 
-                        </div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<!--begin:Menu link-->
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-shield-tick fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-									</i>
-								</span>
-								<span class="menu-title">User Management</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<!--end:Menu link-->
-							<!--begin:Menu sub-->
-							<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-								<!--begin:Menu item-->
-								<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-									<!--begin:Menu link-->
-									<span class="menu-link">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Users</span>
-										<span class="menu-arrow"></span>
-									</span>
-									<!--end:Menu link-->
-									<!--begin:Menu sub-->
-									<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-										<!--begin:Menu item-->
-										<div class="menu-item">
-											<!--begin:Menu link-->
-											<a class="menu-link" href="../../demo46/dist/apps/user-management/users/list.html">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Users List</span>
-											</a>
-											<!--end:Menu link-->
-										</div>
-										<!--end:Menu item-->
-										<!--begin:Menu item-->
-										<div class="menu-item">
-											<!--begin:Menu link-->
-											<a class="menu-link" href="../../demo46/dist/apps/user-management/users/view.html">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">View User</span>
-											</a>
-											<!--end:Menu link-->
-										</div>
-										<!--end:Menu item-->
-									</div>
-									<!--end:Menu sub-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-									<!--begin:Menu link-->
-									<span class="menu-link">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Roles</span>
-										<span class="menu-arrow"></span>
-									</span>
-									<!--end:Menu link-->
-									<!--begin:Menu sub-->
-									<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-										<!--begin:Menu item-->
-										<div class="menu-item">
-											<!--begin:Menu link-->
-											<a class="menu-link" href="../../demo46/dist/apps/user-management/roles/list.html">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Roles List</span>
-											</a>
-											<!--end:Menu link-->
-										</div>
-										<!--end:Menu item-->
-										<!--begin:Menu item-->
-										<div class="menu-item">
-											<!--begin:Menu link-->
-											<a class="menu-link" href="../../demo46/dist/apps/user-management/roles/view.html">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">View Roles</span>
-											</a>
-											<!--end:Menu link-->
-										</div>
-										<!--end:Menu item-->
-									</div>
-									<!--end:Menu sub-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/user-management/permissions.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Permissions</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-							</div>
-							<!--end:Menu sub-->
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<a asp-controller="ProductionOrder" asp-action="Index">
-							<!--begin:Menu link-->
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-phone fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-									</i>
-								</span>
-								<span class="menu-title">Üretim Emirleri</span>
-								
-							</span>
-							</a>
-							<!--end:Menu link-->
-							<!--begin:Menu sub-->
-							
-							<!--end:Menu sub-->
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<!--begin:Menu link-->
-							<a asp-controller="Employee" asp-action="Index">
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-basket fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-										<span class="path3"></span>
-										<span class="path4"></span>
-									</i>
-								</span>
-								<span class="menu-title">Çalışan</span>
-								
-							</span>
-							</a>
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<!--begin:Menu link-->
-							<a asp-controller="StopCause" asp-action="Index">
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-briefcase fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-									</i>
-								</span>
-								<span class="menu-title">Duruş Nedenleri</span>
-								
-							</span>
-							</a>
+					
 						
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<!--begin:Menu link-->
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-credit-cart fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-									</i>
-								</span>
-								<span class="menu-title">Invoice Management</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<!--end:Menu link-->
-							<!--begin:Menu sub-->
-							<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-								<!--begin:Menu item-->
-								<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-									<!--begin:Menu link-->
-									<span class="menu-link">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Profile</span>
-										<span class="menu-arrow"></span>
-									</span>
-									<!--end:Menu link-->
-									<!--begin:Menu sub-->
-									<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-										<!--begin:Menu item-->
-										<div class="menu-item">
-											<!--begin:Menu link-->
-											<a class="menu-link" href="../../demo46/dist/apps/invoices/view/invoice-1.html">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Invoice 1</span>
-											</a>
-											<!--end:Menu link-->
-										</div>
-										<!--end:Menu item-->
-										<!--begin:Menu item-->
-										<div class="menu-item">
-											<!--begin:Menu link-->
-											<a class="menu-link" href="../../demo46/dist/apps/invoices/view/invoice-2.html">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Invoice 2</span>
-											</a>
-											<!--end:Menu link-->
-										</div>
-										<!--end:Menu item-->
-										<!--begin:Menu item-->
-										<div class="menu-item">
-											<!--begin:Menu link-->
-											<a class="menu-link" href="../../demo46/dist/apps/invoices/view/invoice-3.html">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Invoice 3</span>
-											</a>
-											<!--end:Menu link-->
-										</div>
-										<!--end:Menu item-->
-									</div>
-									<!--end:Menu sub-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/invoices/create.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Create Invoice</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-							</div>
-							<!--end:Menu sub-->
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<!--begin:Menu link-->
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-file-added fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-									</i>
-								</span>
-								<span class="menu-title">File Manager</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<!--end:Menu link-->
-							<!--begin:Menu sub-->
-							<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/file-manager/folders.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Folders</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/file-manager/files.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Files</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/file-manager/blank.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Blank Directory</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/file-manager/settings.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Settings</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-							</div>
-							<!--end:Menu sub-->
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<!--begin:Menu link-->
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-sms fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-									</i>
-								</span>
-								<span class="menu-title">Inbox</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<!--end:Menu link-->
-							<!--begin:Menu sub-->
-							<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/inbox/listing.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Messages</span>
-										<span class="menu-badge">
-											<span class="badge badge-light-success">3</span>
-										</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/inbox/compose.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Compose</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/inbox/reply.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">View & Reply</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-							</div>
-							<!--end:Menu sub-->
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<!--begin:Menu link-->
-							<span class="menu-link">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-message-text-2 fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-										<span class="path3"></span>
-									</i>
-								</span>
-								<span class="menu-title">Chat</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<!--end:Menu link-->
-							<!--begin:Menu sub-->
-							<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/chat/private.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Private Chat</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/chat/group.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Group Chat</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="../../demo46/dist/apps/chat/drawer.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Drawer Chat</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-							</div>
-							<!--end:Menu sub-->
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div class="menu-item">
-							<!--begin:Menu link-->
-							<a class="menu-link" href="../../demo46/dist/apps/calendar.html">
-								<span class="menu-icon">
-									<i class="ki-duotone ki-calendar-8 fs-2">
-										<span class="path1"></span>
-										<span class="path2"></span>
-										<span class="path3"></span>
-										<span class="path4"></span>
-										<span class="path5"></span>
-										<span class="path6"></span>
-									</i>
-								</span>
-								<span class="menu-title">Calendar</span>
-							</a>
-							<!--end:Menu link-->
-						</div>
-						<!--end:Menu item-->
 					</div>
 					<!--end:Menu sub-->
 				</div>

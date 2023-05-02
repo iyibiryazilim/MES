@@ -57,25 +57,26 @@ var WorkStationGroupList = function () {
 
                     orderable: true,
                     targets: 1,
+                    className:'d-flex align-items-center',
                     render: function (data, type, full, meta) {
 
                         var output;
 
-                        output = `<div class="d-flex">
-							<!--begin::Thumbnail-->
-							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
-								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
-							</a>
-							<!--end::Thumbnail-->
-							<div class="ms-5">
-								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+full.code+`</a>
-								<!--end::Title-->
-								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold">`+full.name+`</div>
-								<!--end::Description-->
-							</div>
-						</div>`
+                        output = `<!--begin:: Avatar -->
+								<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+									<a href="../../demo46/dist/apps/user-management/users/view.html">
+										<div class="symbol-label">
+											<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
+										</div>
+									</a>
+								</div>
+								<!--end::Avatar-->
+								<!--begin::User details-->
+								<div class="d-flex flex-column">
+									<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">` + full.product.code +`</a>
+									<span>` + full.product.name+`</span>
+								</div>
+								<!--begin::User details-->`
                         return output;
 
                     },
