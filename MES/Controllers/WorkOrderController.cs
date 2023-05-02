@@ -23,6 +23,7 @@ public class WorkOrderController : Controller
     }
     public IActionResult Index()
     {
+        ViewData["Title"] = "İş Emirleri";
         return View();
     }
 
