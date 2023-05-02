@@ -92,11 +92,11 @@ var ProductionOrderList = function () {
 
                     orderable: true,
                     targets: 3,
-                    className: 'text-start pe-0',
+                    className: 'd-flex align-items-center',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<td class="d-flex align-items-center">
+                        output = `
 															<!--begin:: Avatar -->
 															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
 																<a href="../../demo46/dist/apps/user-management/users/view.html">
@@ -108,11 +108,13 @@ var ProductionOrderList = function () {
 															<!--end::Avatar-->
 															<!--begin::User details-->
 															<div class="d-flex flex-column">
-																<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">`+ full.product.name + `</a>
-																<span>smith@kpmg.com</span>
+																<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">`+ full.product.code + `</a>
+																<span>`+ full.product.name + `</span>
 															</div>
 															<!--begin::User details-->
-														</td>`
+
+
+														`
                         //output = `<div class="badge badge-light fw-bold">` + full.product. + `</div>`
                         return output;
 
@@ -155,7 +157,9 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.actualAmount + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.actualAmount + `</div>
+                        
+                        `
                         return output;
 
                     },
@@ -169,16 +173,20 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        if (full.realizationRate >= 100) {
-                            output = `<div class="badge badge-light-primary fw-bold">` + full.realizationRate + `</div>`
-                            return output;
-                        } else if (full.realizationRate < 100 && full.realizationRate > 0) {
-                            output = `<span class="fw-bold text-warning ms-3">` + full.realizationRate + `</span>`
-                            return output;
-                        } else {
-                            output = `<div class="badge badge-light-danger fw-bold">` + full.realizationRate + `</div>`
-                            return output;
-                        }
+
+                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
+															<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+														</div>`
+                        //if (full.realizationRate >= 100) {
+                        //    output = `<div class="badge badge-light-primary fw-bold">` + full.realizationRate + `</div>`
+                        //    return output;
+                        //} else if (full.realizationRate < 100 && full.realizationRate > 0) {
+                        //    output = `<span class="fw-bold text-warning ms-3">` + full.realizationRate + `</span>`
+                        //    return output;
+                        //} else {
+                        //    output = `<div class="badge badge-light-danger fw-bold">` + full.realizationRate + `</div>`
+                           return output;
+                        //}
                         
 
                     },

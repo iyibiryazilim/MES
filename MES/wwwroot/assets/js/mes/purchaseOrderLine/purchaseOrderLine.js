@@ -1,9 +1,10 @@
-﻿"use strict";
+﻿
+"use strict";
 
 
 // Class definition
 
-var EmployeeGroupList = function () {
+var PurchaseOrderLineList = function () {
 
     // Shared variables
     var table;
@@ -14,10 +15,9 @@ var EmployeeGroupList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/EmployeeGroup/GetJsonResult';
+        var postUrl = '/PurchaseOrderLine/GetJsonResult';
 
         datatable = $(table).DataTable({
-
             responsive: true,
             autoWidth: false,
             searchDelay: 500,
@@ -32,11 +32,18 @@ var EmployeeGroupList = function () {
             columns: [
 
                 { data: 'referenceId' },
+                { data: 'productionDate' },
                 { data: 'code' },
-                { data: 'name' },
+                { data: 'product' },
+                { data: 'subUnitset' },
+                { data: 'plannedAmount' },
+                { data: 'actualAmount' },
+                { data: 'realizationRate' },
                 { data: 'referenceId' },
 
+
             ],
+
             columnDefs: [
                 {
                     orderable: true,
@@ -46,8 +53,8 @@ var EmployeeGroupList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-							<input class="form-check-input" type="checkbox" value="`+ data + `" />
-						</div>`
+                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
+                        </div>`
                         return output;
 
                     },
@@ -61,21 +68,7 @@ var EmployeeGroupList = function () {
 
                         var output;
 
-                        output = `<div class="d-flex">
-							<!--begin::Thumbnail-->
-							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
-								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
-							</a>
-							<!--end::Thumbnail-->
-							<div class="ms-5">
-								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
-								<!--end::Title-->
-								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold"></div>
-								<!--end::Description-->
-							</div>
-						</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.productionDate + `</div>`
                         return output;
 
                     },
@@ -89,7 +82,7 @@ var EmployeeGroupList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light-success">` + full.name + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.code + `</div>`
                         return output;
 
                     },
@@ -97,8 +90,112 @@ var EmployeeGroupList = function () {
                 },
                 {
 
-                    orderable: false,
+                    orderable: true,
                     targets: 3,
+                    className: 'd-flex align-items-center',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `
+															<!--begin:: Avatar -->
+															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+																<a href="../../demo46/dist/apps/user-management/users/view.html">
+																	<div class="symbol-label">
+																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100">
+																	</div>
+																</a>
+															</div>
+															<!--end::Avatar-->
+															<!--begin::User details-->
+															<div class="d-flex flex-column">
+																<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">`+ full.product.code + `</a>
+																<span>`+ full.product.name + `</span>
+															</div>
+															<!--begin::User details-->
+
+
+														`
+                        //output = `<div class="badge badge-light fw-bold">` + full.product. + `</div>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 4,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="badge badge-light fw-bold">` + full.subUnitset.code + `</div>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 5,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="badge badge-light fw-bold">` + full.plannedAmount + `</div>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 6,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="badge badge-light fw-bold">` + full.actualAmount + `</div>
+                        
+                        `
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 7,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+
+                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
+															<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+														</div>`
+                        //if (full.realizationRate >= 100) {
+                        //    output = `<div class="badge badge-light-primary fw-bold">` + full.realizationRate + `</div>`
+                        //    return output;
+                        //} else if (full.realizationRate < 100 && full.realizationRate > 0) {
+                        //    output = `<span class="fw-bold text-warning ms-3">` + full.realizationRate + `</span>`
+                        //    return output;
+                        //} else {
+                        //    output = `<div class="badge badge-light-danger fw-bold">` + full.realizationRate + `</div>`
+                        return output;
+                        //}
+
+
+                    },
+
+                },
+                {
+
+                    orderable: false,
+                    targets: 8,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -149,7 +246,7 @@ var EmployeeGroupList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[data-kt-ecommerce-category-filter="search"]');
+        const filterSearch = document.querySelector('[mes-production-order-table-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
@@ -301,7 +398,7 @@ var EmployeeGroupList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_workStationGroup_table');
+            table = document.querySelector('mes_purchaseOrderLine_table');
 
             if (!table) {
 
@@ -311,7 +408,7 @@ var EmployeeGroupList = function () {
 
             initDatatable();
             handleSearchDatatable();
-            handleStatusFilter();
+            // handleStatusFilter();
             //handleDeleteRows();
         }
 
@@ -324,5 +421,5 @@ var EmployeeGroupList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    EmployeeGroupList.init();
+    PurchaseOrderLineList.init();
 });
