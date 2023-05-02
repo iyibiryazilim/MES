@@ -1,3 +1,4 @@
+using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.DataStores;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
@@ -10,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddLogging();
 builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
 builder.Services.AddTransient<IWorkstationGroupService, WorkstationGroupDataStore>();
+builder.Services.AddTransient<IWorkstationServise, WorkStationDataStore>();
 builder.Services.AddTransient<IProductService,ProductDataStore>();
 builder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
 builder.Services.AddTransient<IProductionService, ProductionOrderDataStore>();

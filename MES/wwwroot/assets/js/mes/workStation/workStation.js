@@ -1,10 +1,9 @@
-﻿
-"use strict";
+﻿"use strict";
 
 
 // Class definition
 
-var WorkOrderList = function () {
+var WorkStationList = function () {
 
     // Shared variables
     var table;
@@ -15,7 +14,7 @@ var WorkOrderList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/WorkOrder/GetJsonResult';
+        var postUrl = '/WorkStation/GetJsonResult';
 
         datatable = $(table).DataTable({
 
@@ -33,9 +32,9 @@ var WorkOrderList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'referenceId' },
-                { data: 'status' },
-                { data: 'realizationRate' },              
+                { data: 'code' },
+                { data: 'name' },
+                { data: 'permissionCode' },
                 { data: 'referenceId' },
 
             ],
@@ -48,8 +47,8 @@ var WorkOrderList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId +`" />
-                        </div>`
+							<input class="form-check-input" type="checkbox" value="`+ data + `" />
+						</div>`
                         return output;
 
                     },
@@ -71,12 +70,13 @@ var WorkOrderList = function () {
 							<!--end::Thumbnail-->
 							<div class="ms-5">
 								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.referenceId + `</a>
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
 								<!--end::Title-->
 								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold">`+ full.referenceId + `</div>
+								<div class="text-muted fs-7 fw-bold">`+ full.name + `</div>
 								<!--end::Description-->
-							</div>`
+							</div>
+						</div>`
                         return output;
 
                     },
@@ -90,7 +90,7 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.status + `</div>`
+                        output = `<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">` + full.code + `</a>`;
                         return output;
 
                     },
@@ -104,15 +104,13 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
+                        output = `<div class="text-muted fs-7 fw-bold">` + "progress bar" + `</div>`;
                         return output;
 
                     },
 
                 },
-                
+
                 {
 
                     orderable: false,
@@ -120,7 +118,9 @@ var WorkOrderList = function () {
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksiyonlar<i class="ki-duotone ki-down fs-5 ms-1"></i>
+                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+							İşlemler
+							<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
@@ -165,7 +165,7 @@ var WorkOrderList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[mes-workorder-filter="search"]');
+        const filterSearch = document.querySelector('[data-kt-ecommerce-category-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
@@ -317,7 +317,7 @@ var WorkOrderList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_workOrder_table');
+            table = document.querySelector('#mes_workStation_table');
 
             if (!table) {
 
@@ -340,5 +340,5 @@ var WorkOrderList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    WorkOrderList.init();
+    WorkStationList.init();
 });
