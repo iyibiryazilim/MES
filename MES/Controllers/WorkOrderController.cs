@@ -52,7 +52,7 @@ public class WorkOrderController : Controller
                 Workstation = item.Workstation,
                 ActualAmount = 0,
                 PlannedAmount = 0,
-                RealizationRate = 10,
+                RealizationRate = 50,
                 
             };
             //_workOrder.RealizationRate = Convert.ToInt32((_workOrder.ActualAmount / _workOrder.PlannedAmount) * 100);

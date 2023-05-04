@@ -364,7 +364,7 @@ var SemiProductList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_semiproduct_table');
+            table = document.querySelector('#mes_semiProduct_table');
 
             if (!table) {
 

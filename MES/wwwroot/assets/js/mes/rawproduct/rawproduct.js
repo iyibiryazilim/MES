@@ -364,7 +364,7 @@ var RawProductList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_rawproduct_table');
+            table = document.querySelector('#mes_rawProduct_table');
 
             if (!table) {
                 console.log("table bulunamadı")

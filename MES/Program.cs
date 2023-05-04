@@ -1,4 +1,3 @@
-using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.DataStores;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
