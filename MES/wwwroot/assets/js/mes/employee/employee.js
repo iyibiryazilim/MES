@@ -34,6 +34,7 @@ var EmployeeList = function () {
                 { data: 'referenceId' },
                 { data: 'name' },
                 { data: 'code' },
+                { data: 'shiftProgress' },
                 { data: 'referenceId' },
 
 
@@ -80,6 +81,7 @@ var EmployeeList = function () {
                     },
 
                 },
+               
                 {
 
                     orderable: true,
@@ -88,7 +90,7 @@ var EmployeeList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.code + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.code + `</div>`
                         return output;
 
                     },
@@ -96,8 +98,42 @@ var EmployeeList = function () {
                 },
                 {
 
-                    orderable: false,
+                    orderable: true,
                     targets: 3,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+
+                        var output;
+                        if (full.shiftProgress <= 33 && full.shiftProgress >= 0) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftProgress + `</div>
+                                    <div class="h-8px mx-3 w-100 bg-light-danger rounded">
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.shiftProgress + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+                        } else if (full.shiftProgress > 33 && full.shiftProgress <= 66) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftProgress + `</div>
+                                    <div class="h-8px mx-3 w-100 bg-light-warning rounded">
+									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ full.shiftProgress + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+
+                        }
+                        else {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftProgress + `</div>
+                                    <div class="h-8px mx-3 w-100 bg-light-primary rounded">
+									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ full.shiftProgress + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+                        }
+
+                    },
+
+                },
+                {
+
+                    orderable: false,
+                    targets: 4,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

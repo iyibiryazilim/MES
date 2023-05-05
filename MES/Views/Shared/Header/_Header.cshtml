@@ -115,7 +115,7 @@
 						<!--begin:Menu item-->
 						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
 							<!--begin:Menu link-->
-							<a asp-controller="WorkStationGroup" asp-action="Index">
+							<a asp-controller="Demand" asp-action="Index">
 								<span class="menu-link">
 									<span class="menu-icon">
 										<i class="ki-duotone ki-rocket fs-2">
@@ -123,7 +123,7 @@
 											<span class="path2"></span>
 										</i>
 									</span>
-									<span class="menu-title">Bekleyen Taleplerim</span>
+									<span class="menu-title">Bekleyen Talepler</span>
 
 								</span>
 								<!--end:Menu link-->
@@ -134,6 +134,36 @@
 					<!--end:Menu sub-->
 				</div>
 				<!--end:Menu item-->
+				<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+					<!--begin:Menu link-->
+					<span class="menu-link">
+						<span class="menu-title">Bakım</span>
+						<span class="menu-arrow d-lg-none"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
+						<!--begin:Menu item-->
+						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
+							<!--begin:Menu link-->
+							<a asp-controller="RepairDemand" asp-action="Index">
+								<span class="menu-link">
+									<span class="menu-icon">
+										<i class="ki-duotone ki-rocket fs-2">
+											<span class="path1"></span>
+											<span class="path2"></span>
+										</i>
+									</span>
+									<span class="menu-title">Bakım Talepleri</span>
+
+								</span>
+								<!--end:Menu link-->
+							</a>
+						</div>
+						<!--end:Menu item-->	
+					</div>
+					<!--end:Menu sub-->
+				</div>
 				<!--begin:Menu item-->
 				<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
 					<!--begin:Menu link-->
@@ -265,7 +295,7 @@
 						<!--begin:Menu item-->
 						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
 							<!--begin:Menu link-->
-							<a asp-controller="EmployeeGroup" asp-action="Index">
+							<a asp-controller="Reçeteler" asp-action="Index">
 							<span class="menu-link">
 								<span class="menu-icon">
 									<i class="ki-duotone ki-handcart fs-2"></i>
@@ -278,9 +308,27 @@
 						</div>
 						<!--end:Menu item-->
 						<!--begin:Menu item-->
+						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
+							<!--begin:Menu link-->
+							<a asp-controller="StopCause" asp-action="Index">
+								<span class="menu-link">
+									<span class="menu-icon">
+										<i class="ki-duotone ki-rocket fs-2">
+											<span class="path1"></span>
+											<span class="path2"></span>
+										</i>
+									</span>
+									<span class="menu-title">Duruş Nedenleri</span>
+
+								</span>
+								<!--end:Menu link-->
+							</a>
+						</div>
+						<!--end:Menu item-->
+						<!--begin:Menu item-->
                         <div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
                             <!--begin:Menu link-->
-                            <a asp-controller="WorkOrder" asp-action="Index">
+                            <a asp-controller="Routes" asp-action="Index">
                                 <span class="menu-link">
                                     <span class="menu-icon">
                                         <i class="ki-duotone ki-chart fs-2">
@@ -313,7 +361,7 @@
 						<!--begin:Menu item-->
 						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
 							<!--begin:Menu link-->
-							<a asp-controller="WorkStationGroup" asp-action="Index">
+							<a asp-controller="xxx" asp-action="Index">
 							<span class="menu-link">
 								<span class="menu-icon">
 									<i class="ki-duotone ki-rocket fs-2">
@@ -346,7 +394,7 @@
 						<!--begin:Menu item-->
 						<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
 							<!--begin:Menu link-->
-							<a asp-controller="StopCause" asp-action="Index">
+							<a asp-controller="xxxx" asp-action="Index">
 							<span class="menu-link">
 								<span class="menu-icon">
 									<i class="ki-duotone ki-rocket fs-2">
@@ -354,7 +402,7 @@
 										<span class="path2"></span>
 									</i>
 								</span>
-								<span class="menu-title">Duruş Nedenleri</span>
+								<span class="menu-title">Duruş Hareketleri</span>
 								
 							</span>
 							<!--end:Menu link-->

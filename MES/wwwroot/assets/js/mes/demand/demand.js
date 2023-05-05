@@ -4,7 +4,7 @@
 
 // Class definition
 
-var WorkOrderList = function () {
+var DemandList = function () {
 
     // Shared variables
     var table;
@@ -15,10 +15,9 @@ var WorkOrderList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/WorkOrder/GetJsonResult';
+        var postUrl = '/Demand/GetJsonResult';
 
         datatable = $(table).DataTable({
-
             responsive: true,
             autoWidth: false,
             searchDelay: 500,
@@ -33,19 +32,18 @@ var WorkOrderList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'status' },
-                { data: 'referenceId' },
-                { data: 'operationBeginDate' },
-                { data: 'product.name' },
-                { data: 'workstation.name' },           
-                { data: 'operation.name' },  
-                { data: 'plannedAmount' },  
-                { data: 'actualAmount' },  
-                { data: 'operationDueDate' },
-                { data: 'realizationRate' },  
+                { data: 'code' },//kod
+                { data: 'demandDate' },//tarih
+                { data: 'warehouse' },//ürün
+                { data: 'warehouse' },//ambar
+                { data: 'warehouse' },//talepMiktarı
+                { data: 'warehouse' },//KarşılananMiktarı
+                { data: 'warehouse' },//iptal
                 { data: 'referenceId' },
 
+
             ],
+
             columnDefs: [
                 {
                     orderable: true,
@@ -55,14 +53,13 @@ var WorkOrderList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId +`" />
+                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
                         </div>`
                         return output;
 
                     },
 
                 },
-                
                 {
 
                     orderable: true,
@@ -71,30 +68,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        switch (full.status) {
-                            case 0:
-                                output = `<div class="badge badge-light-danger fw-bold">` + "Başlamadı "  + `</div>`
-                                return output;
-                                break;
-                            case 1:
-                                output = `<div class="badge badge-light-warning fw-bold">` + "Devam Ediyor " + `</div>`
-                                return output;
-                                break;
-                            case 2:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.status + `</div>`
-                                return output;
-                                break;
-                            case 3:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.status + `</div>`
-                                return output;
-                                break;
-                            case 4:
-                                output = `<div class="badge badge-light-primary fw-bold">` + "Kapanmış "  + `</div>`
-                                return output;
-                                break;
-                            default:
-                        }
-                        
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+                        return output;
 
                     },
 
@@ -107,9 +82,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
                         return output;
-
 
                     },
 
@@ -122,9 +96,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1 ">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
                         return output;
-
 
                     },
 
@@ -137,9 +110,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
                         return output;
-
 
                     },
 
@@ -152,9 +124,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
                         return output;
-
 
                     },
 
@@ -167,12 +138,10 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
                         return output;
 
-
                     },
-
                 },
                 {
 
@@ -182,88 +151,22 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
                         return output;
 
-
                     },
 
                 },
-                {
-
-                    orderable: true,
-                    targets: 8,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
-                        return output;
-
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 9,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
-                        return output;
-
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 10,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        if (full.realizationRate <= 33 && full.realizationRate >= 0) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-                        } else if (full.realizationRate > 33 && full.realizationRate <= 66) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-warning rounded">
-									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-
-                        }
-                        else {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-primary rounded">
-									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-                        }
-
-                        
-                        
-
-                    },
-
-                },
-                
                 {
 
                     orderable: false,
-                    targets: 11,
+                    targets: 8,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">İşlemler<i class="ki-duotone ki-down fs-5 ms-1"></i>
+                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+							İşlemler
+							<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
@@ -308,7 +211,7 @@ var WorkOrderList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[mes-workorder-filter="search"]');
+        const filterSearch = document.querySelector('[data-kt-ecommerce-category-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
@@ -460,7 +363,7 @@ var WorkOrderList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_workOrder_table');
+            table = document.querySelector('#mes_demand_table');
 
             if (!table) {
 
@@ -470,7 +373,7 @@ var WorkOrderList = function () {
 
             initDatatable();
             handleSearchDatatable();
-            handleStatusFilter();
+            // handleStatusFilter();
             //handleDeleteRows();
         }
 
@@ -483,5 +386,5 @@ var WorkOrderList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    WorkOrderList.init();
+    DemandList.init();
 });

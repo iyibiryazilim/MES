@@ -2,8 +2,10 @@
 using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.Models;
 using MES.ViewModels.SemiProductViewModels;
 using MES.ViewModels.WorkOrderViewModels;
+using MES.ViewModels.WorkStationViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers;
@@ -24,7 +26,8 @@ public class WorkOrderController : Controller
     public IActionResult Index()
     {
         ViewData["Title"] = "İş Emirleri";
-        return View();
+        WorkOrderListViewModel viewModel = new WorkOrderListViewModel();
+        return View(viewModel);
     }
 
     [HttpPost]
@@ -33,14 +36,14 @@ public class WorkOrderController : Controller
         return Json(new { data = GetWorkOrder() });
     }
 
-    private async IAsyncEnumerable<WorkOrderListViewModel> GetWorkOrder()
+    private async IAsyncEnumerable<WorkOrderModel> GetWorkOrder()
     {
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
 
         var result = _workOrderService.Getobjects(httpClient);
         await foreach (var item in result)
         {
-            WorkOrderListViewModel _workOrder = new WorkOrderListViewModel
+            WorkOrderModel _workOrder = new WorkOrderModel
             {
                 Operation = item.Operation,
                 OperationActualBeginDate = item.OperationActualBeginDate,

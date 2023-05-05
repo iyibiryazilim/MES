@@ -1,11 +1,13 @@
-﻿using LBS.Shared.Entity.Models;
-using LBS.WebAPI.Service.Services;
+﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.ViewModels.OperationViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace MES.Controllers
 {
-    public class OperationController : Controller
+	public class OperationController : Controller
     {
         ILogger<OperationController> _logger;
         IHttpClientService _httpClientService;
@@ -33,14 +35,27 @@ namespace MES.Controllers
             return Json(new { data = GetOperation() });
         }
 
-        public async IAsyncEnumerable<Operation> GetOperation()
+        public async IAsyncEnumerable<OperationListViewModel> GetOperation()
         {
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             var result = _service.GetObjects(httpClient);
 
-            await foreach (var item in result)
-                yield return item;
+			await foreach (var item in result)
+			{
+                yield return new OperationListViewModel
+                {
+                    Active = item.Active,
+                    Code = item.Code,
+                    Name = item.Name,
+                    ReferenceId = item.ReferenceId,
+                    ActiveWorkOrderCount = 5
+                    
+                   
+				};
+			}
+		}
 
-        }
+        
+        
     }
 }

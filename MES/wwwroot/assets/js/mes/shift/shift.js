@@ -64,7 +64,7 @@ var ShiftList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold ">` + data + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
                         return output;
 
                     },
@@ -78,7 +78,7 @@ var ShiftList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + data + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
                         return output;
 
                     },
