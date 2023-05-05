@@ -214,13 +214,13 @@ var EndProductList = function () {
         });
 
     }
-
+    
 
 
     // Handle status filter dropdown
     var handleStatusFilter = () => {
 
-        const filterStatus = document.querySelector('[data-kt-ecommerce-product-filter="status"]');
+        const filterStatus = document.querySelector('[data-kt-ecommerce-product-filter="status"');
 
         $(filterStatus).on('change', e => {
 
@@ -357,7 +357,7 @@ var EndProductList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_endproduct_table');
+            table = document.querySelector('#mes_endProduct_table');
 
             if (!table) {
 

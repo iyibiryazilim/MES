@@ -32,10 +32,10 @@ var EmployeeList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'code' },
                 { data: 'name' },
+                { data: 'code' },
                 { data: 'referenceId' },
-                
+
 
             ],
 
@@ -63,7 +63,18 @@ var EmployeeList = function () {
 
                         var output;
 
-                        output = `<div class="badge badge-light fw-bold">` + full.code + `</div>`
+                        output = `<div class="d-flex align-items-center">
+																<!--begin::Thumbnail-->
+										<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
+											<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
+										</a>
+										<!--end::Thumbnail-->
+										<div class="ms-5">
+											<!--begin::Title-->
+											<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">`+ data + `</a>
+											<!--end::Title-->
+																</div>
+															</div>`
                         return output;
 
                     },
@@ -77,7 +88,7 @@ var EmployeeList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.name + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.code + `</div>`
                         return output;
 
                     },
@@ -91,19 +102,19 @@ var EmployeeList = function () {
                     render: function (data, type, full, meta) {
                         var output;
                         output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-							Actions
+							İşlemler
 							<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Edit</a>
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Düzenle</a>
 							</div>
 							<!--end::Menu item-->
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Delete</a>
+								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Sil</a>
 							</div>
 							<!--end::Menu item-->
 						</div>

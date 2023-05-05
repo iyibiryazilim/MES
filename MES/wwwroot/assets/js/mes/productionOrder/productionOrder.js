@@ -64,11 +64,11 @@ var ProductionOrderList = function () {
 
                     orderable: true,
                     targets: 1,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-
-                        output = `<div class="badge badge-light fw-bold">` + full.productionDate + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">` + full.productionDate + `</div>`
                         return output;
 
                     },
@@ -82,7 +82,7 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.code + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">` + full.code + `</div>`
                         return output;
 
                     },
@@ -115,7 +115,7 @@ var ProductionOrderList = function () {
 
 
 														`
-                        //output = `<div class="badge badge-light fw-bold">` + full.product. + `</div>`
+                      
                         return output;
 
                     },
@@ -129,7 +129,7 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.subUnitset.code + `</div>`
+                        output = `<div class="fw-bold">` + full.subUnitset.code + `</div>`
                         return output;
 
                     },
@@ -143,7 +143,7 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.plannedAmount + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">` + full.plannedAmount + `</div>`
                         return output;
 
                     },
@@ -157,7 +157,7 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.actualAmount + `</div>
+                        output = `<div class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">` + full.actualAmount + `</div>
                         
                         `
                         return output;
@@ -173,21 +173,27 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
+                        if (full.realizationRate <= 33 && full.realizationRate >= 0) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
+                                    <div class="h-8px mx-3 w-100 bg-light-danger rounded">
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+                        } else if (full.realizationRate > 33 && full.realizationRate <= 66) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
+                                    <div class="h-8px mx-3 w-100 bg-light-warning rounded">
+									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
 
-                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
-															<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-														</div>`
-                        //if (full.realizationRate >= 100) {
-                        //    output = `<div class="badge badge-light-primary fw-bold">` + full.realizationRate + `</div>`
-                        //    return output;
-                        //} else if (full.realizationRate < 100 && full.realizationRate > 0) {
-                        //    output = `<span class="fw-bold text-warning ms-3">` + full.realizationRate + `</span>`
-                        //    return output;
-                        //} else {
-                        //    output = `<div class="badge badge-light-danger fw-bold">` + full.realizationRate + `</div>`
-                           return output;
-                        //}
-                        
+                        }
+                        else {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
+                                    <div class="h-8px mx-3 w-100 bg-light-primary rounded">
+									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+                        }
 
                     },
 
@@ -200,19 +206,19 @@ var ProductionOrderList = function () {
                     render: function (data, type, full, meta) {
                         var output;
                         output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-							Actions
+							İşlemler
 							<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Edit</a>
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Düzenle</a>
 							</div>
 							<!--end::Menu item-->
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Delete</a>
+								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Sil</a>
 							</div>
 							<!--end::Menu item-->
 						</div>

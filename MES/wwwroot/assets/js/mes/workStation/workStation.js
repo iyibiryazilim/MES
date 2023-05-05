@@ -104,7 +104,9 @@ var WorkStationList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-muted fs-7 fw-bold">` + "progress bar" + `</div>`;
+                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ 50 + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`;
                         return output;
 
                     },
