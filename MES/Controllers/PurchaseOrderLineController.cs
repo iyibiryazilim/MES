@@ -21,6 +21,7 @@ namespace MES.Controllers
         }
         public IActionResult Index()
         {
+            ViewData["Title"] = "Bekleyen Satıl Alma İşlemleri";
             return View();
         }
 

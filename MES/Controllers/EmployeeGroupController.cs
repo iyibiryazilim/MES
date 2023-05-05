@@ -9,21 +9,22 @@ namespace MES.Controllers
 	{
 		ILogger<EmployeeGroupController> _logger;
 		IHttpClientService _httpClientService;
-		IEmployeeGroupService _employeeGroupService;
+		IEmployeeGroupService _service;
 
         public EmployeeGroupController(ILogger<EmployeeGroupController> logger,
 			IHttpClientService httpClientService,
-			IEmployeeGroupService employeeGroupService)
+			IEmployeeGroupService service)
         {
             _logger = logger;
 			_httpClientService = httpClientService;
-			_employeeGroupService = employeeGroupService;
+			_service = service;
 
         }
 
         public IActionResult Index()
 		{
-			return View();
+            ViewData["Title"] = "Çalışan Grupları";
+            return View();
 		}
 
 		[HttpPost]
@@ -35,7 +36,7 @@ namespace MES.Controllers
 		public async IAsyncEnumerable<EmployeeGroup> GetEmployeGroups()
 		{
 			HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-			var result = _employeeGroupService.GetObjects(httpClient);
+			var result = _service.GetObjects(httpClient);
 
 			await foreach (var item in result)			
 				yield return item;

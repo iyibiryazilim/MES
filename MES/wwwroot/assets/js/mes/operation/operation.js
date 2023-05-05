@@ -1,10 +1,9 @@
-﻿
-"use strict";
+﻿"use strict";
 
 
 // Class definition
 
-var WorkOrderList = function () {
+var OperationList = function () {
 
     // Shared variables
     var table;
@@ -15,7 +14,7 @@ var WorkOrderList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/WorkOrder/GetJsonResult';
+        var postUrl = '/Operation/GetJsonResult';
 
         datatable = $(table).DataTable({
 
@@ -33,12 +32,10 @@ var WorkOrderList = function () {
             columns: [
 
                 { data: 'referenceId' },
+                { data: 'code' },
+                { data: 'name' },
                 { data: 'referenceId' },
-                { data: 'status' },
-                { data: 'operationBeginDate' },
-                { data: 'operationDueDate' },
-                { data: 'realizationRate' },              
-                { data: 'referenceId' },
+
 
             ],
             columnDefs: [
@@ -47,34 +44,27 @@ var WorkOrderList = function () {
                     targets: 0,
                     render: function (data, type, full, meta) {
 
+                        //console.log(full)
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId +`" />
+                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
                         </div>`
                         return output;
 
                     },
 
                 },
+                
                 {
 
                     orderable: true,
                     targets: 1,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-
-                        output = `<div class="d-flex">
-							<!--begin::Thumbnail-->
-							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
-								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
-							</a>
-							<!--end::Thumbnail-->
-							<div class="d-flex align-items-center">
-								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.referenceId + `</a>								
-							</div>`
+                        output = `<div class="fw-bold ">` + data + `</div>`
                         return output;
 
                     },
@@ -88,96 +78,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        switch (full.status) {
-                            case 0:
-                                output = `<div class="badge badge-light-danger fw-bold">` + "Başlamadı "  + `</div>`
-                                return output;
-                                break;
-                            case 1:
-                                output = `<div class="badge badge-light-warning fw-bold">` + "Devam Ediyor " + `</div>`
-                                return output;
-                                break;
-                            case 2:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.status + `</div>`
-                                return output;
-                                break;
-                            case 3:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.status + `</div>`
-                                return output;
-                                break;
-                            case 4:
-                                output = `<div class="badge badge-light-primary fw-bold">` + "Kapanmış "  + `</div>`
-                                return output;
-                                break;
-                            default:
-                        }
-                        
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 3,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.operationBeginDate + `</div>`
+                        output = `<div class="fw-bold">` + data + `</div>`
                         return output;
-
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 4,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.operationDueDate + `</div>`
-                        return output;
-
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 5,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        if (full.realizationRate <= 33 && full.realizationRate >= 0) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-                        } else if (full.realizationRate > 33 && full.realizationRate <= 66) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-warning rounded">
-									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-
-                        }
-                        else {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-primary rounded">
-									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-                        }
-
-                        
-                        
 
                     },
 
@@ -186,7 +88,7 @@ var WorkOrderList = function () {
                 {
 
                     orderable: false,
-                    targets: 6,
+                    targets: 3,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -235,7 +137,7 @@ var WorkOrderList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[mes-workorder-filter="search"]');
+        const filterSearch = document.querySelector('[data-kt-ecommerce-category-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
@@ -250,7 +152,7 @@ var WorkOrderList = function () {
     // Handle status filter dropdown
     var handleStatusFilter = () => {
 
-        const filterStatus = document.querySelector('[data-kt-ecommerce-product-filter="status"]');
+        const filterStatus = document.querySelector('[data-kt-ecommerce-product-filter="status"');
 
         $(filterStatus).on('change', e => {
 
@@ -387,7 +289,7 @@ var WorkOrderList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_workOrder_table');
+            table = document.querySelector('#mes_operation_table');
 
             if (!table) {
 
@@ -410,5 +312,6 @@ var WorkOrderList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    WorkOrderList.init();
+    
+    OperationList.init();
 });

@@ -20,7 +20,8 @@ public class WorkStationGroupController : Controller
 	}
 	public IActionResult Index()
 	{
-		return View();
+        ViewData["Title"] = "İş İstasyonu Grupları";
+        return View();
 	}
 
 	[HttpPost]

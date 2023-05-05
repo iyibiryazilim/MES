@@ -23,7 +23,7 @@ namespace MES.Controllers
 
         public IActionResult Index()
         {
-
+            ViewData["Title"] = "İş İstasyonları";
             return View();
         }
 

@@ -22,8 +22,8 @@ namespace MES.Controllers
 
         public IActionResult Index()
 		{
-		
-			return View();
+            ViewData["Title"] = "Çalışanlar";
+            return View();
 		}
 
 		public async ValueTask<IActionResult> GetJsonResult()
