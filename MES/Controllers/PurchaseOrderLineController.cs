@@ -7,11 +7,11 @@ namespace MES.Controllers
 {
     public class PurchaseOrderLineController : Controller
     {
-        readonly ILogger<SalesOrderLineController> _logger;
+        readonly ILogger<PurchaseOrderLineController> _logger;
         readonly IHttpClientService _httpClientService;
         readonly IPurchaseOrderLineService _purchaseOrderLineService;
 
-        public PurchaseOrderLineController(ILogger<SalesOrderLineController> logger, 
+        public PurchaseOrderLineController(ILogger<PurchaseOrderLineController> logger, 
             IHttpClientService httpClientService,
             IPurchaseOrderLineService purchaseOrderLineService)
         {
