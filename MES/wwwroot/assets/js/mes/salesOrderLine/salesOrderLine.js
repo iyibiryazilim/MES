@@ -32,13 +32,13 @@ var SalesOrderLineList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'productionDate' },
+                { data: 'orderDate' },
                 { data: 'code' },
+                { data: 'current' },
                 { data: 'product' },
-                { data: 'subUnitset' },
-                { data: 'plannedAmount' },
-                { data: 'actualAmount' },
-                { data: 'realizationRate' },
+                { data: 'quantity' },
+                { data: 'description' },
+                { data: 'warehouse' },
                 { data: 'referenceId' },
 
 
@@ -66,9 +66,10 @@ var SalesOrderLineList = function () {
                     targets: 1,
                     render: function (data, type, full, meta) {
 
+                        console.log()
                         var output;
 
-                        output = `<div class="badge badge-light fw-bold">` + full.productionDate + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.order.orderDate + `</div>`
                         return output;
 
                     },
@@ -78,11 +79,11 @@ var SalesOrderLineList = function () {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-start pe-0',
+                    classname: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.code + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.order.code + `</div>`
                         return output;
 
                     },
@@ -92,30 +93,12 @@ var SalesOrderLineList = function () {
 
                     orderable: true,
                     targets: 3,
-                    className: 'd-flex align-items-center',
+                    classname: 'd-flex align-items-center',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `
-															<!--begin:: Avatar -->
-															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-																<a href="../../demo46/dist/apps/user-management/users/view.html">
-																	<div class="symbol-label">
-																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100">
-																	</div>
-																</a>
-															</div>
-															<!--end::Avatar-->
-															<!--begin::User details-->
-															<div class="d-flex flex-column">
-																<a href="../../demo46/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">`+ full.product.code + `</a>
-																<span>`+ full.product.name + `</span>
-															</div>
-															<!--begin::User details-->
 
-
-														`
-                        //output = `<div class="badge badge-light fw-bold">` + full.product. + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.order.current.definition + `</div>`
                         return output;
 
                     },
@@ -129,7 +112,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.subUnitset.code + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.product.name + `</div>`
                         return output;
 
                     },
@@ -143,7 +126,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.plannedAmount + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.quantity + `</div>`
                         return output;
 
                     },
@@ -157,7 +140,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.actualAmount + `</div>
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>
                         
                         `
                         return output;
@@ -171,23 +154,14 @@ var SalesOrderLineList = function () {
                     targets: 7,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
+                        if (full.warehouse != null) {
+                            var value = full.warehouse.name
+                        }
                         var output;
-
-                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
-															<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-														</div>`
-                        //if (full.realizationRate >= 100) {
-                        //    output = `<div class="badge badge-light-primary fw-bold">` + full.realizationRate + `</div>`
-                        //    return output;
-                        //} else if (full.realizationRate < 100 && full.realizationRate > 0) {
-                        //    output = `<span class="fw-bold text-warning ms-3">` + full.realizationRate + `</span>`
-                        //    return output;
-                        //} else {
-                        //    output = `<div class="badge badge-light-danger fw-bold">` + full.realizationRate + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + value + `</div>
+                        
+                        `
                         return output;
-                        //}
-
 
                     },
 
@@ -200,19 +174,19 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
                         var output;
                         output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-							Actions
+							İşlemler
 							<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Edit</a>
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Düzenle</a>
 							</div>
 							<!--end::Menu item-->
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Delete</a>
+								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Sil</a>
 							</div>
 							<!--end::Menu item-->
 						</div>
@@ -246,7 +220,7 @@ var SalesOrderLineList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[mes-production-order-table-filter="search"]');
+        const filterSearch = document.querySelector('[mes-sales-order-line-table-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
