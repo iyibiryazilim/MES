@@ -1,6 +1,8 @@
 ﻿using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.ViewModels.EmployeeGroupViewModels;
+using MES.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers
@@ -9,21 +11,22 @@ namespace MES.Controllers
 	{
 		ILogger<EmployeeGroupController> _logger;
 		IHttpClientService _httpClientService;
-		IEmployeeGroupService _employeeGroupService;
+		IEmployeeGroupService _service;
 
         public EmployeeGroupController(ILogger<EmployeeGroupController> logger,
 			IHttpClientService httpClientService,
-			IEmployeeGroupService employeeGroupService)
+			IEmployeeGroupService service)
         {
             _logger = logger;
 			_httpClientService = httpClientService;
-			_employeeGroupService = employeeGroupService;
+			_service = service;
 
         }
 
         public IActionResult Index()
 		{
-			return View();
+            ViewData["Title"] = "Çalışan Grupları";
+            return View();
 		}
 
 		[HttpPost]
@@ -32,14 +35,22 @@ namespace MES.Controllers
 			return Json(new { data = GetEmployeGroups() });
 		}
 
-		public async IAsyncEnumerable<EmployeeGroup> GetEmployeGroups()
+		public async IAsyncEnumerable<EmployeeGroupListViewModel> GetEmployeGroups()
 		{
 			HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-			var result = _employeeGroupService.GetObjects(httpClient);
+			var result = _service.GetObjects(httpClient);
 
-			await foreach (var item in result)			
-				yield return item;
-			
+			await foreach (var item in result)
+			{
+				yield return new EmployeeGroupListViewModel
+				{
+					Code = item.Code,
+					Name = item.Name,
+					ReferenceId = item.ReferenceId,
+					Count = 5
+
+				};
+			}
 		}
 	}
 }

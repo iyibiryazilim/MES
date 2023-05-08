@@ -1,6 +1,8 @@
 ﻿using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.ViewModels.ProductViewModels;
+using MES.ViewModels.WorkStationGroupViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers;
@@ -20,7 +22,8 @@ public class WorkStationGroupController : Controller
 	}
 	public IActionResult Index()
 	{
-		return View();
+        ViewData["Title"] = "İş İstasyonu Grupları";
+        return View();
 	}
 
 	[HttpPost]
@@ -29,15 +32,22 @@ public class WorkStationGroupController : Controller
 		return Json(new { data = GetWorkstations() });
 	}
 
-	private async IAsyncEnumerable<WorkstationGroup> GetWorkstations()
+	private async IAsyncEnumerable<WorkStationGroupListViewModel> GetWorkstations()
 	{
 		HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
 
 		var result = _workstationGroupService.GetObjects(httpClient);
 
 		await foreach (var item in result)
-			yield return item;
-
+		{
+			yield return new WorkStationGroupListViewModel
+			{
+				Code = item.Code,
+				Name = item.Name,
+				ReferenceId = item.ReferenceId,
+				Count = 5
+			};
+		}
 
 	}
 }

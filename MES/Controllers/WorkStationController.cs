@@ -1,8 +1,10 @@
 ﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.Models;
 using MES.ViewModels.ProductViewModels;
 using MES.ViewModels.WorkStationViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace MES.Controllers
 {
@@ -23,8 +25,9 @@ namespace MES.Controllers
 
         public IActionResult Index()
         {
-
-            return View();
+            ViewData["Title"] = "İş İstasyonları";
+            WorkStationListViewModel viewModel = new WorkStationListViewModel();
+            return View(viewModel);
         }
 
         public async ValueTask<IActionResult> GetJsonResult()
@@ -33,20 +36,24 @@ namespace MES.Controllers
         }
 
 
-        public async IAsyncEnumerable<WorkStationListViewModel> GetWorkstation()
+        public async IAsyncEnumerable<WorkStationModel> GetWorkstation()
         {
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             var result = _service.GetObjects(httpClient);
 
             await foreach (var item in result)
             {
-                yield return new WorkStationListViewModel
+                yield return new WorkStationModel
                 {
                     Code = item.Code,
                     Name = item.Name,
                     PermissionCode = item.PermissionCode,
                     ReferenceId = item.ReferenceId,
-                    SpeCode = item.SpeCode
+                    SpeCode = item.SpeCode,
+                    EstimatedMaintanceDate = DateTime.Now
+                    
+                
+                    
                 };
             }
         }

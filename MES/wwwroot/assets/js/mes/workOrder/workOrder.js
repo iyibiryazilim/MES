@@ -33,11 +33,16 @@ var WorkOrderList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'referenceId' },
                 { data: 'status' },
+                { data: 'referenceId' },
                 { data: 'operationBeginDate' },
+                { data: 'product.name' },
+                { data: 'workstation.name' },           
+                { data: 'operation.name' },  
+                { data: 'plannedAmount' },  
+                { data: 'actualAmount' },  
                 { data: 'operationDueDate' },
-                { data: 'realizationRate' },              
+                { data: 'realizationRate' },  
                 { data: 'referenceId' },
 
             ],
@@ -57,44 +62,22 @@ var WorkOrderList = function () {
                     },
 
                 },
+                
                 {
 
                     orderable: true,
                     targets: 1,
-                    render: function (data, type, full, meta) {
-
-                        var output;
-
-                        output = `<div class="d-flex">
-							<!--begin::Thumbnail-->
-							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
-								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
-							</a>
-							<!--end::Thumbnail-->
-							<div class="d-flex align-items-center">
-								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.referenceId + `</a>								
-							</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 2,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
                         switch (full.status) {
                             case 0:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.status + `</div>`
+                                output = `<div class="badge badge-light-danger fw-bold">` + "Başlamadı "  + `</div>`
                                 return output;
                                 break;
                             case 1:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü "+full.status + `</div>`
+                                output = `<div class="badge badge-light-warning fw-bold">` + "Devam Ediyor " + `</div>`
                                 return output;
                                 break;
                             case 2:
@@ -106,7 +89,7 @@ var WorkOrderList = function () {
                                 return output;
                                 break;
                             case 4:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " +full.status + `</div>`
+                                output = `<div class="badge badge-light-primary fw-bold">` + "Kapanmış "  + `</div>`
                                 return output;
                                 break;
                             default:
@@ -119,12 +102,27 @@ var WorkOrderList = function () {
                 {
 
                     orderable: true,
+                    targets: 2,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        return output;
+
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
                     targets: 3,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.operationBeginDate + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1 ">` + data + `</div>`
                         return output;
 
 
@@ -139,7 +137,7 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.operationDueDate + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
                         return output;
 
 
@@ -150,6 +148,81 @@ var WorkOrderList = function () {
 
                     orderable: true,
                     targets: 5,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        return output;
+
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 6,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        return output;
+
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 7,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        return output;
+
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 8,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        return output;
+
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 9,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        return output;
+
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 10,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
@@ -186,7 +259,7 @@ var WorkOrderList = function () {
                 {
 
                     orderable: false,
-                    targets: 6,
+                    targets: 11,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

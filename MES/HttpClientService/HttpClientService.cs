@@ -16,6 +16,7 @@ namespace MES.HttpClientService
 
     , LazyThreadSafetyMode.None);
 
+
         public string Token { get; set; } = "";
 
         public HttpClient GetOrCreateHttpClient()

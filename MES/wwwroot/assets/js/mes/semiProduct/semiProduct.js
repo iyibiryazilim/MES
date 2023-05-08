@@ -34,7 +34,6 @@ var SemiProductList = function () {
 
                 { data: 'referenceId' },
                 { data: 'name' },
-                { data: 'code' },
                 { data: 'unitset' },
                 { data: 'producerCode' },
                 { data: 'speCode' },
@@ -67,41 +66,33 @@ var SemiProductList = function () {
 
                         var output;
 
-                        output = `<div class="d-flex align-items-center">
-																<!--begin::Thumbnail-->
-																<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
-																	<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
-																</a>
-																<!--end::Thumbnail-->
-																<div class="ms-5">
-																	<!--begin::Title-->
-																	<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">`+ full.name + `</a>
-																	<!--end::Title-->
-																</div>
-															</div>`
+
+
+                        output = `<div class="d-flex">
+							<!--begin::Thumbnail-->
+							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
+						    	<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
+						    </a>
+							<!--end::Thumbnail-->
+							<div class="ms-5">
+								<!--begin::Title-->
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.name + `</a>
+								<!--end::Title-->
+								<!--begin::Description-->
+								<div class="text-muted fs-7 fw-bold">`+ full.code + `</div>
+								<!--end::Description-->
+							
+						</div>`
                         return output;
 
                     },
 
                 },
+
                 {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-end pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="fw-bold ">` + full.code + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 3,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
 
@@ -115,7 +106,7 @@ var SemiProductList = function () {
                 {
 
                     orderable: true,
-                    targets: 4,
+                    targets: 3,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
 
@@ -129,7 +120,7 @@ var SemiProductList = function () {
                 {
 
                     orderable: true,
-                    targets: 5,
+                    targets: 4,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
 
@@ -143,27 +134,20 @@ var SemiProductList = function () {
                 {
 
                     orderable: true,
-                    targets: 6,
+                    targets: 5,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        if (full.stockQuentity < 50) {
-                            output = `<span class="badge badge-light-warning">Low stock</span>
-									  <span class="fw-bold text-warning ms-3">`+ full.stockQuentity + `</span>`
-                            return output;
-                        } else {
-                            output = `<div class="fw-bold">` + full.stockQuentity + `</div>`
-                            return output;
-                        }
-
+                        output = `<div class="fw-bold">` + full.stockQuentity + `</div>`
+                        return output;
 
                     },
                 },
                 {
 
                     orderable: false,
-                    targets: 7,
+                    targets: 6,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

@@ -33,6 +33,7 @@ var WorkStationGroupList = function () {
                 { data: 'referenceId' },
                 { data: 'code' },
                 { data: 'name' },
+                { data: 'count' },
                 { data: 'referenceId' },
 
             ],
@@ -89,7 +90,21 @@ var WorkStationGroupList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<span class="text-gray-800 text-hover-primary fs-5 fw-bold">` + full.name +`</span>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.name +`</div>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 3,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.count + `</div>`
                         return output;
 
                     },
@@ -98,7 +113,7 @@ var WorkStationGroupList = function () {
                 {
 
                     orderable: false,
-                    targets: 3,
+                    targets: 4,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

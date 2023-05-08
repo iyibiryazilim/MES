@@ -22,6 +22,13 @@ builder.Services.AddTransient<ISemiProductService, SemiProductDataStore>();
 builder.Services.AddTransient<IRawProductService, RawProductDataStore>();
 builder.Services.AddTransient<ISalesOrderLineService, SalesOrderLineDataStore>();
 builder.Services.AddTransient<IPurchaseOrderLineService, PurchaseOrderLineDataStore>();
+builder.Services.AddTransient<IOperationService, OperationDataStore>();
+builder.Services.AddTransient<IShiftService, ShiftDataStore>();
+builder.Services.AddTransient<IDemandService, DemandDataStore>();
+
+
+
+
 
 var app = builder.Build();
 

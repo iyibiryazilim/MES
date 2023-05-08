@@ -21,6 +21,7 @@ public class ProductionOrderController : Controller
     }
     public IActionResult Index()
     {
+        ViewData["Title"] = "Üretim Emirleri";
         return View();
     }
 

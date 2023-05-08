@@ -33,8 +33,8 @@ var WorkStationList = function () {
 
                 { data: 'referenceId' },
                 { data: 'code' },
-                { data: 'name' },
-                { data: 'permissionCode' },
+                { data: null },
+                { data: 'estimatedMaintanceDate' },
                 { data: 'referenceId' },
 
             ],
@@ -82,6 +82,7 @@ var WorkStationList = function () {
                     },
 
                 },
+                
                 {
 
                     orderable: true,
@@ -90,8 +91,28 @@ var WorkStationList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">` + full.code + `</a>`;
-                        return output;
+                        var realizationRate = 50
+                        if (realizationRate <= 33 && realizationRate >= 0) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + realizationRate + `</div>
+                                    <div class="h-8px mx-3 w-75 bg-light-danger rounded">
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+                        } else if (realizationRate > 33 && realizationRate <= 66) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + realizationRate + `</div>
+                                    <div class="h-8px mx-3 w-75 bg-light-warning rounded">
+									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+
+                        }
+                        else {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + realizationRate + `</div>
+                                    <div class="h-8px mx-3 w-75 bg-light-primary rounded">
+									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+								  </div>`
+                            return output;
+                        }
 
                     },
 
@@ -99,14 +120,12 @@ var WorkStationList = function () {
                 {
 
                     orderable: true,
-                    targets: 3,
+                    targets:3,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="h-8px mx-3 w-100 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ 50 + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`;
+                        output = `<div class="text-gray-800 text-hover-primary mb-1 ">` + full.estimatedMaintanceDate + `</div>`
                         return output;
 
                     },
@@ -116,7 +135,7 @@ var WorkStationList = function () {
                 {
 
                     orderable: false,
-                    targets: 4,
+                    targets:4,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

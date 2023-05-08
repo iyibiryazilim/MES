@@ -1,6 +1,9 @@
 ﻿using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.ViewModels.EmployeeGroupViewModels;
+using MES.ViewModels.EmployeeViewModels;
+using MES.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers
@@ -22,8 +25,8 @@ namespace MES.Controllers
 
         public IActionResult Index()
 		{
-		
-			return View();
+            ViewData["Title"] = "Çalışanlar";
+            return View();
 		}
 
 		public async ValueTask<IActionResult> GetJsonResult()
@@ -32,13 +35,21 @@ namespace MES.Controllers
 		}
 
 
-		public async IAsyncEnumerable<Employee> GetEmployees()
+		public async IAsyncEnumerable<EmployeeListViewModel> GetEmployees()
 		{
 			HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
 			var result = _employeeService.GetObjects(httpClient);
 
 			await foreach (var item in result)
-				yield return item;
+			{
+				yield return new EmployeeListViewModel
+				{
+					Code = item.Code,
+					Name = item.Name,
+					ReferenceId = item.ReferenceId,
+					ShiftProgress = 67
+				};
+			}
 		}
 			
 	}
