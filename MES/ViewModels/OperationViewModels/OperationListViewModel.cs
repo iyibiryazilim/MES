@@ -2,8 +2,8 @@
 
 namespace MES.ViewModels.OperationViewModels
 {
-    public class OperationListViewModel : Operation
+    public class OperationListViewModel
     {
-        public int ActiveWorkOrderCount { get; set; }
+        
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MES.ViewModels.OperationViewModels
 {
-    public class OperationDetailViewModel : Operation
+    public class OperationDetailViewModel 
     {
     }
 }
