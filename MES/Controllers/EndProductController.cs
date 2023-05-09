@@ -1,25 +1,28 @@
-﻿using LBS.Shared.Entity.BaseModels;
-using LBS.Shared.Entity.Models;
+﻿using AutoMapper;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.Models;
 using MES.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers
 {
-    public class EndProductController : Controller
+	public class EndProductController : Controller
     {
         readonly ILogger<EndProductController> _logger;
         readonly IEndProductService _service;
         readonly IHttpClientService _httpClientService;
+        readonly IMapper _mapper;
         public EndProductController(ILogger<EndProductController> logger,
             IHttpClientService httpClientService,
-            IEndProductService service)
+            IEndProductService service,IMapper mapper)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _service = service;
-        }
+            _mapper = mapper;
+
+		}
 
 
         public IActionResult Index()
@@ -28,11 +31,35 @@ namespace MES.Controllers
             return View();
         }
 
-        public async ValueTask<IActionResult> GetJsonResult()
+		public async Task<IActionResult> Detail(int referenceId)
+		{
+			EndProductDetailViewModel viewModel = new EndProductDetailViewModel();
+			HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+			var product = await _service.GetObject(httpClient, referenceId);
+
+			if (httpClient == null)
+                BadRequest();
+        
+            if(product == null)
+                return NotFound();
+
+            viewModel.EndProductModel = _mapper.Map<EndProductModel>(product);
+            viewModel.EndProductModel.SellQuentity = 0;
+            viewModel.EndProductModel.FirstQuentity = 0;
+            viewModel.EndProductModel.StockQuentity = 0;
+            viewModel.EndProductModel.PurchaseQuentity = 0;
+			viewModel.EndProductModel.RevolutionSpeed = 0;
+
+
+
+			//ViewData["Title"] = "Mamul Detayı";
+			return View(viewModel);
+		}
+
+		public async ValueTask<IActionResult> GetJsonResult()
         {
             return Json(new { data = GetEndProducts() });
         }
-
 
         public async IAsyncEnumerable<EndProductListViewModel> GetEndProducts()
         {

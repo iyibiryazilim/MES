@@ -1,6 +1,7 @@
 using LBS.WebAPI.Service.DataStores;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,9 @@ builder.Services.AddTransient<IShiftService, ShiftDataStore>();
 builder.Services.AddTransient<IDemandService, DemandDataStore>();
 builder.Services.AddTransient<IRoutingService, RoutingDataStore>();
 builder.Services.AddTransient<IStopTransactionService, StopTransactionDataStore>();
+
+builder.Services.AddAutoMapper(typeof(EndProductProfile));
+
 
 
 
