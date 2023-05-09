@@ -9,8 +9,8 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
-    <PackageReference Include="LBS.Shared.Entity" Version="1.0.3" />
-    <PackageReference Include="LBS.WebAPI.Service" Version="1.0.3" />
+    <PackageReference Include="LBS.Shared.Entity" Version="1.0.5" />
+    <PackageReference Include="LBS.WebAPI.Service" Version="1.0.5" />
   </ItemGroup>
 
   <ItemGroup>

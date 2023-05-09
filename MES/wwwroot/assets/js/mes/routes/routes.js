@@ -4,7 +4,7 @@
 
 // Class definition
 
-var PurchaseOrderLineList = function () {
+var RoutesList = function () {
 
     // Shared variables
     var table;
@@ -15,9 +15,10 @@ var PurchaseOrderLineList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/PurchaseOrderLine/GetJsonResult';
+        var postUrl = '/Routes/GetJsonResult';
 
         datatable = $(table).DataTable({
+
             responsive: true,
             autoWidth: false,
             searchDelay: 500,
@@ -32,16 +33,14 @@ var PurchaseOrderLineList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                
-                { data: 'product' },
-                { data: 'quantity' },
-                { data: 'description' },
-                { data: 'warehouse' },
+                { data: 'code' },
+                { data: 'status' },
+                { data: 'name' },
+                { data: 'cardType' },
                 { data: 'referenceId' },
 
 
             ],
-
             columnDefs: [
                 {
                     orderable: true,
@@ -51,7 +50,7 @@ var PurchaseOrderLineList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
+                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
                         </div>`
                         return output;
 
@@ -59,6 +58,7 @@ var PurchaseOrderLineList = function () {
 
                 },
                 
+
                 {
 
                     orderable: true,
@@ -67,7 +67,7 @@ var PurchaseOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.product.name + `</div>`
+                        output = `<div class="fw-bold">` + full.code + `</div>`
                         return output;
 
                     },
@@ -81,7 +81,7 @@ var PurchaseOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.quantity + `</div>`
+                        output = `<div class="fw-bold">` + full.status + `</div>`
                         return output;
 
                     },
@@ -95,9 +95,7 @@ var PurchaseOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>
-                        
-                        `
+                        output = `<div class="fw-bold">` + full.name + `</div>`
                         return output;
 
                     },
@@ -109,19 +107,15 @@ var PurchaseOrderLineList = function () {
                     targets: 4,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-                        console.log(full)
-                        if (full.warehouse != null) {
-                            var value = full.warehouse.name 
-                        }
+
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + value + `</div>
-                        
-                        `
+                        output = `<div class="fw-bold">` + full.cardType + `</div>`
                         return output;
 
                     },
 
                 },
+                
                 {
 
                     orderable: false,
@@ -129,9 +123,7 @@ var PurchaseOrderLineList = function () {
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-							İşlemler
-							<i class="ki-duotone ki-down fs-5 ms-1"></i>
+                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">İşlemler<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
@@ -176,7 +168,7 @@ var PurchaseOrderLineList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[mes-purchase-order-line-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-kt-ecommerce-category-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 
@@ -328,17 +320,17 @@ var PurchaseOrderLineList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_purchaseOrderLine_table');
+            table = document.querySelector('#mes_routing_table');
 
             if (!table) {
-
+                console.log("table bulunamadı")
                 return;
 
             }
 
             initDatatable();
             handleSearchDatatable();
-            // handleStatusFilter();
+            handleStatusFilter();
             //handleDeleteRows();
         }
 
@@ -351,5 +343,5 @@ var PurchaseOrderLineList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    PurchaseOrderLineList.init();
+    RoutesList.init();
 });
