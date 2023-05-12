@@ -49,6 +49,14 @@ namespace MES.Controllers
             viewModel.RawProductModel.StockQuentity = 0;
             viewModel.RawProductModel.PurchaseQuentity = 0;
             viewModel.RawProductModel.RevolutionSpeed = 0;
+            viewModel.RawProductModel.DailyStock = 0;
+            viewModel.RawProductModel.DailyStockChange = 0;
+            viewModel.RawProductModel.WeeklyStock = 0;
+            viewModel.RawProductModel.WeeklyStockChange = 0;
+            viewModel.RawProductModel.MonthlyStock = 0;
+            viewModel.RawProductModel.MonthlyStockChange = 0;
+            viewModel.RawProductModel.YearlyStock = 0;
+            viewModel.RawProductModel.YearlyStockChange = 0;
 
 
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers
 {
-	public class EndProductController : Controller
+    public class EndProductController : Controller
     {
         readonly ILogger<EndProductController> _logger;
         readonly IEndProductService _service;
@@ -15,14 +15,14 @@ namespace MES.Controllers
         readonly IMapper _mapper;
         public EndProductController(ILogger<EndProductController> logger,
             IHttpClientService httpClientService,
-            IEndProductService service,IMapper mapper)
+            IEndProductService service, IMapper mapper)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _service = service;
             _mapper = mapper;
 
-		}
+        }
 
 
         public IActionResult Index()
@@ -31,16 +31,16 @@ namespace MES.Controllers
             return View();
         }
 
-		public async Task<IActionResult> Detail(int referenceId)
-		{
-			EndProductDetailViewModel viewModel = new EndProductDetailViewModel();
-			HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-			var product = await _service.GetObject(httpClient, referenceId);
+        public async Task<IActionResult> Detail(int referenceId)
+        {
+            EndProductDetailViewModel viewModel = new EndProductDetailViewModel();
+            HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+            var product = await _service.GetObject(httpClient, referenceId);
 
-			if (httpClient == null)
+            if (httpClient == null)
                 BadRequest();
-        
-            if(product == null)
+
+            if (product == null)
                 return NotFound();
 
             viewModel.EndProductModel = _mapper.Map<EndProductModel>(product);
@@ -48,19 +48,25 @@ namespace MES.Controllers
             viewModel.EndProductModel.FirstQuentity = 0;
             viewModel.EndProductModel.StockQuentity = 0;
             viewModel.EndProductModel.PurchaseQuentity = 0;
-			viewModel.EndProductModel.RevolutionSpeed = 0;
+            viewModel.EndProductModel.RevolutionSpeed = 0;
+            viewModel.EndProductModel.DailyStock = 0;
+            viewModel.EndProductModel.DailyStockChange = 0;
+            viewModel.EndProductModel.WeeklyStock = 0;
+            viewModel.EndProductModel.WeeklyStockChange = 0;
+            viewModel.EndProductModel.MonthlyStock = 0;
+            viewModel.EndProductModel.MonthlyStockChange = 0;
+            viewModel.EndProductModel.YearlyStock = 0;
+            viewModel.EndProductModel.YearlyStockChange = 0;
 
+            ViewData["Title"] = viewModel.EndProductModel.Name;
+            return View(viewModel);
+        }
 
-
-			ViewData["Title"] = viewModel.EndProductModel.Name;
-			return View(viewModel);
-		}
-
-		public async ValueTask<IActionResult> GetJsonResult()
+        public async ValueTask<IActionResult> GetJsonResult()
         {
             return Json(new { data = GetEndProducts() });
         }
-
+        
         public async IAsyncEnumerable<EndProductListViewModel> GetEndProducts()
         {
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();

@@ -23,5 +23,38 @@ namespace MES.Models
 		/// Devir hızı
 		/// </summary>
         public double RevolutionSpeed { get; set; } = default;
+
+		/// <summary>
+		/// Günlük stok durmu
+		/// </summary>
+		public double DailyStock { get; set; } = default;
+        /// <summary>
+        /// Günlük stok değişim durumu
+        /// </summary>
+        public double DailyStockChange { get; set; } = default;
+        /// <summary>
+        /// Haftalık stok durumu
+        /// </summary>
+        public double WeeklyStock { get; set; }
+        /// <summary>
+        /// Haftalık stok değişim durumu
+        /// </summary>
+        public double WeeklyStockChange { get; set; } = default;
+        /// <summary>
+        /// Aylık stok durumu
+        /// </summary>
+        public double MonthlyStock { get; set; }
+        /// <summary>
+        /// Aylık stok değişim durumu
+        /// </summary>
+        public double MonthlyStockChange { get; set; } = default;
+        /// <summary>
+        /// Yıllık stok durumu
+        /// </summary>
+        public double YearlyStock { get; set; }
+        /// <summary>
+        /// Yıllık stok değişim durumu
+        /// </summary>
+        public double YearlyStockChange { get; set; } = default;
     }
 }
