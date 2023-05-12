@@ -1,10 +1,12 @@
 ﻿using LBS.Shared.Entity.Models;
+using MES.Models;
 
 namespace MES.ViewModels.SemiProductViewModels
 {
-    public class SemiProductDetailViewModel : SemiProduct
+    public class SemiProductDetailViewModel 
     {
-        public short stockQuentity { get; set; } = default;
+
+        public SemiProductModel? SemiProductModel { get; set; }
 
     }
 }
