@@ -15,7 +15,8 @@ var SemiProductList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/RawProduct/GetJsonResult';
+        var postUrl = '/SemiProduct/GetJsonResult';
+        var detailUrl = `/SemiProduct/Detail/`
 
         datatable = $(table).DataTable({
 
@@ -70,13 +71,13 @@ var SemiProductList = function () {
 
                         output = `<div class="d-flex">
 							<!--begin::Thumbnail-->
-							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
+							<a href="`+ detailUrl + `?referenceId=` + full.referenceId + ` " class="symbol symbol - 50px">
 						    	<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
 						    </a>
 							<!--end::Thumbnail-->
 							<div class="ms-5">
 								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.name + `</a>
+								<a href="`+ detailUrl + `?referenceId=` + full.referenceId + ` " class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">` + full.name + `</a>
 								<!--end::Title-->
 								<!--begin::Description-->
 								<div class="text-muted fs-7 fw-bold">`+ full.code + `</div>

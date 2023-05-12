@@ -1,6 +1,8 @@
-﻿using LBS.Shared.Entity.Models;
+﻿using AutoMapper;
+using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.Models;
 using MES.ViewModels.ProductViewModels;
 using MES.ViewModels.RawProductViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +14,15 @@ namespace MES.Controllers
         readonly ILogger<RawProductController> _logger;
         readonly IRawProductService _service;
         readonly IHttpClientService _httpClientService;
+        readonly IMapper _mapper;
         public RawProductController(ILogger<RawProductController> logger,
             IHttpClientService httpClientService,
-            IRawProductService service)
+            IRawProductService service, IMapper mapper)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _service = service;
+            _mapper = mapper;
         }
 
 
@@ -27,6 +31,31 @@ namespace MES.Controllers
             ViewData["Title"] = "Hammaddeler";
             return View();
         }
+        public async Task<IActionResult> Detail(int referenceId)
+        {
+            RawProductDetailViewModel viewModel = new RawProductDetailViewModel();
+            HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+            var product = await _service.GetObject(httpClient, referenceId);
+
+            if (httpClient == null)
+                BadRequest();
+
+            if (product == null)
+                return NotFound();
+
+            viewModel.RawProductModel = _mapper.Map<RawProductModel>(product);
+            viewModel.RawProductModel.SellQuentity = 0;
+            viewModel.RawProductModel.FirstQuentity = 0;
+            viewModel.RawProductModel.StockQuentity = 0;
+            viewModel.RawProductModel.PurchaseQuentity = 0;
+            viewModel.RawProductModel.RevolutionSpeed = 0;
+
+
+
+            //ViewData["Title"] = "Mamul Detayı";
+            return View(viewModel);
+        }
+
 
         public async ValueTask<IActionResult> GetJsonResult()
         {
