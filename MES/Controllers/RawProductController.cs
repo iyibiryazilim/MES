@@ -52,7 +52,7 @@ namespace MES.Controllers
 
 
 
-            //ViewData["Title"] = "Mamul Detayı";
+            ViewData["Title"] = viewModel.RawProductModel.Name;
             return View(viewModel);
         }
 

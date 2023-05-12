@@ -1,6 +1,5 @@
 ﻿@using MES.ViewModels.RawProductViewModel;
 @model RawProductDetailViewModel
-<h1>@Model.RawProductModel.Name</h1>
 <div class="row p-3">
 	<div class="card mb-6">
 		<div class="card-body pt-9 pb-0">
@@ -224,1399 +223,799 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-6">
-		<!--begin::Statements-->
-		<div class="card">
+	<div class="col-xl-6">
+		<!--begin::List Widget 9-->
+		<div class="card card-xl-stretch mb-5 mb-xl-8">
 			<!--begin::Header-->
-			<div class="card-header card-header-stretch">
-				<!--begin::Title-->
-				<div class="card-title">
-					<h3 class="m-0 text-gray-800">Giriş Analizi</h3>
+			<div class="card-header align-items-center border-0 mt-3">
+				<h3 class="card-title align-items-start flex-column">
+					<span class="fw-bold text-dark fs-3">Giriş Analizi</span>
+
+				</h3>
+				<div class="card-toolbar">
+					<!--begin::Menu-->
+					<button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-primary btn-active-light-primary me-n3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+						<i class="ki-duotone ki-category fs-6 text-primary">
+							<span class="path1"></span>
+							<span class="path2"></span>
+							<span class="path3"></span>
+							<span class="path4"></span>
+						</i>
+					</button>
+					<!--begin::Menu 2-->
+					<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<div class="menu-content fs-6 text-dark fw-bold px-3 py-4">Quick Actions</div>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu separator-->
+						<div class="separator mb-3 opacity-75"></div>
+						<!--end::Menu separator-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<a href="#" class="menu-link px-3">New Ticket</a>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<a href="#" class="menu-link px-3">New Customer</a>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
+							<!--begin::Menu item-->
+							<a href="#" class="menu-link px-3">
+								<span class="menu-title">New Group</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<!--end::Menu item-->
+							<!--begin::Menu sub-->
+							<div class="menu-sub menu-sub-dropdown w-175px py-4">
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3">Admin Group</a>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3">Staff Group</a>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3">Member Group</a>
+								</div>
+								<!--end::Menu item-->
+							</div>
+							<!--end::Menu sub-->
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<a href="#" class="menu-link px-3">New Contact</a>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu separator-->
+						<div class="separator mt-3 opacity-75"></div>
+						<!--end::Menu separator-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<div class="menu-content px-3 py-3">
+								<a class="btn btn-primary btn-sm px-4" href="#">Generate Reports</a>
+							</div>
+						</div>
+						<!--end::Menu item-->
+					</div>
+					<!--end::Menu 2-->
+					<!--end::Menu-->
 				</div>
-				<!--end::Title-->
-				<!--begin::Toolbar-->
-				<div class="card-toolbar m-0">
-					<!--begin::Tab nav-->
-					<ul class="nav nav-stretch fs-5 fw-semibold nav-line-tabs border-transparent" role="tablist">
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_year_tab" class="nav-link text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#kt_referrals_1">This Year</a>
-						</li>
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_2019_tab" class="nav-link text-active-gray-800 me-4" data-bs-toggle="tab" role="tab" href="#kt_referrals_2">2022</a>
-						</li>
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_2018_tab" class="nav-link text-active-gray-800 me-4" data-bs-toggle="tab" role="tab" href="#kt_referrals_3">2021</a>
-						</li>
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_2017_tab" class="nav-link text-active-gray-800 ms-8" data-bs-toggle="tab" role="tab" href="#kt_referrals_4">2020</a>
-						</li>
-					</ul>
-					<!--end::Tab nav-->
-				</div>
-				<!--end::Toolbar-->
 			</div>
 			<!--end::Header-->
-			<!--begin::Tab Content-->
-			<div id="kt_referred_users_tab_content" class="tab-content">
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_1" class="card-body p-0 tab-pane fade show active" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Sep 15, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Iphone 12 Pro Mockup Mega Bundle</td>
-									<td class="text-success">$5.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">May 30, 2020</td>
-									<td class="ps-0">523445943</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-1.30</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Apr 22, 2020</td>
-									<td class="ps-0">231445943</td>
-									<td>Parcel Shipping / Delivery Service App</td>
-									<td class="text-success">$204.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+			<!--begin::Body-->
+			<div class="card-body pt-5">
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-3.jpg" class="mw-100" alt="" />
 					</div>
-				</div>
-				<!--end::Tab panel-->
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_2" class="card-body p-0 tab-pane fade" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">May 30, 2020</td>
-									<td class="ps-0">523445943</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-1.30</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Apr 22, 2020</td>
-									<td class="ps-0">231445943</td>
-									<td>Parcel Shipping / Delivery Service App</td>
-									<td class="text-success">$204.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Sep 15, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Iphone 12 Pro Mockup Mega Bundle</td>
-									<td class="text-success">$5.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bugün</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">50000</span>
+						</div>
+						<!--end::Info-->
 					</div>
+					<!--end::Section-->
 				</div>
-				<!--end::Tab panel-->
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_3" class="card-body p-0 tab-pane fade" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Sep 15, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Iphone 12 Pro Mockup Mega Bundle</td>
-									<td class="text-success">$5.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">May 30, 2020</td>
-									<td class="ps-0">523445943</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-1.30</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Apr 22, 2020</td>
-									<td class="ps-0">231445943</td>
-									<td>Parcel Shipping / Delivery Service App</td>
-									<td class="text-success">$204.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+				<!--end::Item-->
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-4.jpg" class="mw-100" alt="" />
 					</div>
-				</div>
-				<!--end::Tab panel-->
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_4" class="card-body p-0 tab-pane fade" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bu Hafta</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">70,380</span>
+
+						</div>
+						<!--end::Info-->
 					</div>
+					<!--end::Section-->
 				</div>
-				<!--end::Tab panel-->
+				<!--end::Item-->
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-5.jpg" class="mw-100" alt="" />
+					</div>
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bu Ay</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">7,200</span>
+
+						</div>
+						<!--end::Info-->
+					</div>
+					<!--end::Section-->
+				</div>
+				<!--end::Item-->
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-6.jpg" class="mw-100" alt="" />
+					</div>
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bu Yıl</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">36,450</span>
+
+						</div>
+						<!--end::Info-->
+					</div>
+					<!--end::Section-->
+				</div>
+				<!--end::Item-->
+
 			</div>
-			<!--end::Tab Content-->
+			<!--end::Body-->
 		</div>
-		<!--end::Statements-->
+		<!--end::List Widget 9-->
 	</div>
 
-	<div class="col-6">
-		<!--begin::Statements-->
-		<div class="card">
+	<div class="col-xl-6">
+		<!--begin::List Widget 9-->
+		<div class="card card-xl-stretch mb-5 mb-xl-8">
 			<!--begin::Header-->
-			<div class="card-header card-header-stretch">
-				<!--begin::Title-->
-				<div class="card-title">
-					<h3 class="m-0 text-gray-800">Çıkış Analizi</h3>
+			<div class="card-header align-items-center border-0 mt-3">
+				<h3 class="card-title align-items-start flex-column">
+					<span class="fw-bold text-dark fs-3">Giriş Analizi</span>
+
+				</h3>
+				<div class="card-toolbar">
+					<!--begin::Menu-->
+					<button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-primary btn-active-light-primary me-n3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+						<i class="ki-duotone ki-category fs-6 text-primary">
+							<span class="path1"></span>
+							<span class="path2"></span>
+							<span class="path3"></span>
+							<span class="path4"></span>
+						</i>
+					</button>
+					<!--begin::Menu 2-->
+					<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<div class="menu-content fs-6 text-dark fw-bold px-3 py-4">Quick Actions</div>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu separator-->
+						<div class="separator mb-3 opacity-75"></div>
+						<!--end::Menu separator-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<a href="#" class="menu-link px-3">New Ticket</a>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<a href="#" class="menu-link px-3">New Customer</a>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
+							<!--begin::Menu item-->
+							<a href="#" class="menu-link px-3">
+								<span class="menu-title">New Group</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<!--end::Menu item-->
+							<!--begin::Menu sub-->
+							<div class="menu-sub menu-sub-dropdown w-175px py-4">
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3">Admin Group</a>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3">Staff Group</a>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3">Member Group</a>
+								</div>
+								<!--end::Menu item-->
+							</div>
+							<!--end::Menu sub-->
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<a href="#" class="menu-link px-3">New Contact</a>
+						</div>
+						<!--end::Menu item-->
+						<!--begin::Menu separator-->
+						<div class="separator mt-3 opacity-75"></div>
+						<!--end::Menu separator-->
+						<!--begin::Menu item-->
+						<div class="menu-item px-3">
+							<div class="menu-content px-3 py-3">
+								<a class="btn btn-primary btn-sm px-4" href="#">Generate Reports</a>
+							</div>
+						</div>
+						<!--end::Menu item-->
+					</div>
+					<!--end::Menu 2-->
+					<!--end::Menu-->
 				</div>
-				<!--end::Title-->
-				<!--begin::Toolbar-->
-				<div class="card-toolbar m-0">
-					<!--begin::Tab nav-->
-					<ul class="nav nav-stretch fs-5 fw-semibold nav-line-tabs border-transparent" role="tablist">
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_year_tab" class="nav-link text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#kt_referrals_1">This Year</a>
-						</li>
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_2019_tab" class="nav-link text-active-gray-800 me-4" data-bs-toggle="tab" role="tab" href="#kt_referrals_2">2022</a>
-						</li>
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_2018_tab" class="nav-link text-active-gray-800 me-4" data-bs-toggle="tab" role="tab" href="#kt_referrals_3">2021</a>
-						</li>
-						<li class="nav-item" role="presentation">
-							<a id="kt_referrals_2017_tab" class="nav-link text-active-gray-800 ms-8" data-bs-toggle="tab" role="tab" href="#kt_referrals_4">2020</a>
-						</li>
-					</ul>
-					<!--end::Tab nav-->
-				</div>
-				<!--end::Toolbar-->
 			</div>
 			<!--end::Header-->
-			<!--begin::Tab Content-->
-			<div id="kt_referred_users_tab_content" class="tab-content">
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_1" class="card-body p-0 tab-pane fade show active" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Sep 15, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Iphone 12 Pro Mockup Mega Bundle</td>
-									<td class="text-success">$5.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">May 30, 2020</td>
-									<td class="ps-0">523445943</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-1.30</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Apr 22, 2020</td>
-									<td class="ps-0">231445943</td>
-									<td>Parcel Shipping / Delivery Service App</td>
-									<td class="text-success">$204.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+			<!--begin::Body-->
+			<div class="card-body pt-5">
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-3.jpg" class="mw-100" alt="" />
 					</div>
-				</div>
-				<!--end::Tab panel-->
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_2" class="card-body p-0 tab-pane fade" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">May 30, 2020</td>
-									<td class="ps-0">523445943</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-1.30</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Apr 22, 2020</td>
-									<td class="ps-0">231445943</td>
-									<td>Parcel Shipping / Delivery Service App</td>
-									<td class="text-success">$204.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Sep 15, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Iphone 12 Pro Mockup Mega Bundle</td>
-									<td class="text-success">$5.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bugün</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">50000</span>
+						</div>
+						<!--end::Info-->
 					</div>
+					<!--end::Section-->
 				</div>
-				<!--end::Tab panel-->
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_3" class="card-body p-0 tab-pane fade" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Sep 15, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Iphone 12 Pro Mockup Mega Bundle</td>
-									<td class="text-success">$5.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">May 30, 2020</td>
-									<td class="ps-0">523445943</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-1.30</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Apr 22, 2020</td>
-									<td class="ps-0">231445943</td>
-									<td>Parcel Shipping / Delivery Service App</td>
-									<td class="text-success">$204.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+				<!--end::Item-->
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-4.jpg" class="mw-100" alt="" />
 					</div>
-				</div>
-				<!--end::Tab panel-->
-				<!--begin::Tab panel-->
-				<div id="kt_referrals_4" class="card-body p-0 tab-pane fade" role="tabpanel">
-					<div class="table-responsive">
-						<!--begin::Table-->
-						<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-							<!--begin::Thead-->
-							<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-								<tr>
-									<th class="min-w-175px ps-9">Date</th>
-									<th class="min-w-150px px-0">Order ID</th>
-									<th class="min-w-350px">Details</th>
-									<th class="min-w-125px">Amount</th>
-									<th class="min-w-125px text-center">Invoice</th>
-								</tr>
-							</thead>
-							<!--end::Thead-->
-							<!--begin::Tbody-->
-							<tbody class="fs-6 fw-semibold text-gray-600">
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">102445788</td>
-									<td>Darknight transparency 36 Icons Pack</td>
-									<td class="text-success">$38.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 24, 2020</td>
-									<td class="ps-0">423445721</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-2.60</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Feb 09, 2020</td>
-									<td class="ps-0">426445943</td>
-									<td>Visual Design Illustration</td>
-									<td class="text-success">$31.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Nov 01, 2020</td>
-									<td class="ps-0">984445943</td>
-									<td>Abstract Vusial Pack</td>
-									<td class="text-success">$52.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Jan 04, 2020</td>
-									<td class="ps-0">324442313</td>
-									<td>Seller Fee</td>
-									<td class="text-danger">$-0.80</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="ps-9">Oct 08, 2020</td>
-									<td class="ps-0">312445984</td>
-									<td>Cartoon Mobile Emoji Phone Pack</td>
-									<td class="text-success">$76.00</td>
-									<td class="text-center">
-										<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-									</td>
-								</tr>
-							</tbody>
-							<!--end::Tbody-->
-						</table>
-						<!--end::Table-->
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bu Hafta</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">70,380</span>
+
+						</div>
+						<!--end::Info-->
 					</div>
+					<!--end::Section-->
 				</div>
-				<!--end::Tab panel-->
+				<!--end::Item-->
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-5.jpg" class="mw-100" alt="" />
+					</div>
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bu Ay</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">7,200</span>
+
+						</div>
+						<!--end::Info-->
+					</div>
+					<!--end::Section-->
+				</div>
+				<!--end::Item-->
+				<!--begin::Item-->
+				<div class="d-flex mb-7">
+					<!--begin::Symbol-->
+					<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">
+						<img src="~/assets/media/stock/600x400/img-6.jpg" class="mw-100" alt="" />
+					</div>
+					<!--end::Symbol-->
+					<!--begin::Section-->
+					<div class="d-flex align-items-center flex-wrap flex-grow-1 mt-n2 mt-lg-n1">
+						<!--begin::Title-->
+						<div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+							<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">Bu Yıl</a>
+
+						</div>
+						<!--end::Title-->
+						<!--begin::Info-->
+						<div class="text-end py-lg-0 py-2">
+							<span class="text-gray-800 fw-bolder fs-3">36,450</span>
+
+						</div>
+						<!--end::Info-->
+					</div>
+					<!--end::Section-->
+				</div>
+				<!--end::Item-->
+
 			</div>
-			<!--end::Tab Content-->
+			<!--end::Body-->
 		</div>
-		<!--end::Statements-->
-		</divc>
+		<!--end::List Widget 9-->
 	</div>
 </div>
 <div class="row p-3 ">
-	<!--begin::Statements-->
+	<!--begin::Billing History-->
 	<div class="card">
-		<!--begin::Header-->
-		<div class="card-header card-header-stretch">
+		<!--begin::Card header-->
+		<div class="card-header card-header-stretch border-bottom border-gray-200">
 			<!--begin::Title-->
 			<div class="card-title">
-				<h3 class="m-0 text-gray-800">Giriş Hareketleri</h3>
+				<!--begin::Tab nav-->
+				<ul class="nav nav-stretch nav-line-tabs border-transparent" role="tablist">
+					<!--begin::Tab nav item-->
+					<li class="nav-item" role="presentation">
+						<a id="kt_billing_6months_tab" class="nav-link fs-5 fw-semibold me-3 active" data-bs-toggle="tab" role="tab" href="#kt_billing_months"><h3>Giriş Hareketleri</h3></a>
+					</li>
+					<!--end::Tab nav item-->
+					<!--begin::Tab nav item-->
+					<li class="nav-item" role="presentation">
+						<a id="kt_billing_1year_tab" class="nav-link fs-5 fw-semibold me-3" data-bs-toggle="tab" role="tab" href="#kt_billing_year"><h3>Çıkış Hareketleri</h3></a>
+					</li>
+					<!--end::Tab nav item-->
+
+				</ul>
+				<!--end::Tab nav-->
 			</div>
 			<!--end::Title-->
 			<!--begin::Toolbar-->
 			<div class="card-toolbar m-0">
 				<!--begin::Tab nav-->
-				<ul class="nav nav-stretch fs-5 fw-semibold nav-line-tabs border-transparent" role="tablist">
+				<ul class="nav nav-stretch nav-line-tabs border-transparent" role="tablist">
+					<!--begin::Tab nav item-->
 					<li class="nav-item" role="presentation">
-						<a id="kt_referrals_year_tab" class="nav-link text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#kt_referrals_1">This Year</a>
+						<a id="kt_billing_6months_tab" class="nav-link fs-5 fw-semibold me-3 active" data-bs-toggle="tab" role="tab" href="#kt_billing_months">Month</a>
 					</li>
+					<!--end::Tab nav item-->
+					<!--begin::Tab nav item-->
 					<li class="nav-item" role="presentation">
-						<a id="kt_referrals_2019_tab" class="nav-link text-active-gray-800 me-4" data-bs-toggle="tab" role="tab" href="#kt_referrals_2">2022</a>
+						<a id="kt_billing_1year_tab" class="nav-link fs-5 fw-semibold me-3" data-bs-toggle="tab" role="tab" href="#kt_billing_year">Year</a>
 					</li>
+					<!--end::Tab nav item-->
+					<!--begin::Tab nav item-->
 					<li class="nav-item" role="presentation">
-						<a id="kt_referrals_2018_tab" class="nav-link text-active-gray-800 me-4" data-bs-toggle="tab" role="tab" href="#kt_referrals_3">2021</a>
+						<a id="kt_billing_alltime_tab" class="nav-link fs-5 fw-semibold" data-bs-toggle="tab" role="tab" href="#kt_billing_all">All Time</a>
 					</li>
-					<li class="nav-item" role="presentation">
-						<a id="kt_referrals_2017_tab" class="nav-link text-active-gray-800 ms-8" data-bs-toggle="tab" role="tab" href="#kt_referrals_4">2020</a>
-					</li>
+					<!--end::Tab nav item-->
 				</ul>
 				<!--end::Tab nav-->
 			</div>
 			<!--end::Toolbar-->
 		</div>
-		<!--end::Header-->
+		<!--end::Card header-->
 		<!--begin::Tab Content-->
-		<div id="kt_referred_users_tab_content" class="tab-content">
+		<div class="tab-content">
 			<!--begin::Tab panel-->
-			<div id="kt_referrals_1" class="card-body p-0 tab-pane fade show active" role="tabpanel">
+			<div id="kt_billing_months" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="kt_billing_months">
+				<!--begin::Table container-->
 				<div class="table-responsive">
 					<!--begin::Table-->
-					<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-						<!--begin::Thead-->
-						<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
+					<table class="table table-row-bordered align-middle gy-4 gs-9">
+						<thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
 							<tr>
-								<th class="min-w-175px ps-9">Date</th>
-								<th class="min-w-150px px-0">Order ID</th>
-								<th class="min-w-350px">Details</th>
-								<th class="min-w-125px">Amount</th>
-								<th class="min-w-125px text-center">Invoice</th>
+								<td class="min-w-150px">Date</td>
+								<td class="min-w-250px">Description</td>
+								<td class="min-w-150px">Amount</td>
+								<td class="min-w-150px">Invoice</td>
+								<td></td>
 							</tr>
 						</thead>
-						<!--end::Thead-->
-						<!--begin::Tbody-->
-						<tbody class="fs-6 fw-semibold text-gray-600">
+						<tbody class="fw-semibold text-gray-600">
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">102445788</td>
-								<td>Darknight transparency 36 Icons Pack</td>
-								<td class="text-success">$38.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Nov 01, 2020</td>
+								<td>
+									<a href="#">Invoice for Ocrober 2023</a>
+								</td>
+								<td>$123.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Oct 24, 2020</td>
-								<td class="ps-0">423445721</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-2.60</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Oct 08, 2020</td>
+								<td>
+									<a href="#">Invoice for September 2023</a>
+								</td>
+								<td>$98.03</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Oct 08, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Cartoon Mobile Emoji Phone Pack</td>
-								<td class="text-success">$76.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Aug 24, 2020</td>
+								<td>Paypal</td>
+								<td>$35.07</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Sep 15, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Iphone 12 Pro Mockup Mega Bundle</td>
-								<td class="text-success">$5.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Aug 01, 2020</td>
+								<td>
+									<a href="#">Invoice for July 2023</a>
+								</td>
+								<td>$142.80</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">May 30, 2020</td>
-								<td class="ps-0">523445943</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-1.30</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jul 01, 2020</td>
+								<td>
+									<a href="#">Invoice for June 2023</a>
+								</td>
+								<td>$123.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Apr 22, 2020</td>
-								<td class="ps-0">231445943</td>
-								<td>Parcel Shipping / Delivery Service App</td>
-								<td class="text-success">$204.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jun 17, 2020</td>
+								<td>Paypal</td>
+								<td>$523.09</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Feb 09, 2020</td>
-								<td class="ps-0">426445943</td>
-								<td>Visual Design Illustration</td>
-								<td class="text-success">$31.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jun 01, 2020</td>
+								<td>
+									<a href="#">Invoice for May 2023</a>
+								</td>
+								<td>$123.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
-							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">984445943</td>
-								<td>Abstract Vusial Pack</td>
-								<td class="text-success">$52.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Jan 04, 2020</td>
-								<td class="ps-0">324442313</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-0.80</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
+							<!--end::Table row-->
 						</tbody>
-						<!--end::Tbody-->
 					</table>
 					<!--end::Table-->
 				</div>
+				<!--end::Table container-->
 			</div>
 			<!--end::Tab panel-->
 			<!--begin::Tab panel-->
-			<div id="kt_referrals_2" class="card-body p-0 tab-pane fade" role="tabpanel">
+			<div id="kt_billing_year" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="kt_billing_year">
+				<!--begin::Table container-->
 				<div class="table-responsive">
 					<!--begin::Table-->
-					<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-						<!--begin::Thead-->
-						<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
+					<table class="table table-row-bordered align-middle gy-4 gs-9">
+						<thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
 							<tr>
-								<th class="min-w-175px ps-9">Date</th>
-								<th class="min-w-150px px-0">Order ID</th>
-								<th class="min-w-350px">Details</th>
-								<th class="min-w-125px">Amount</th>
-								<th class="min-w-125px text-center">Invoice</th>
+								<td class="min-w-150px">Date</td>
+								<td class="min-w-250px">Description</td>
+								<td class="min-w-150px">Amount</td>
+								<td class="min-w-150px">Invoice</td>
+								<td></td>
 							</tr>
 						</thead>
-						<!--end::Thead-->
-						<!--begin::Tbody-->
-						<tbody class="fs-6 fw-semibold text-gray-600">
+						<tbody class="fw-semibold text-gray-600">
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">May 30, 2020</td>
-								<td class="ps-0">523445943</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-1.30</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Dec 01, 2021</td>
+								<td>
+									<a href="#">Billing for Ocrober 2023</a>
+								</td>
+								<td>$250.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Apr 22, 2020</td>
-								<td class="ps-0">231445943</td>
-								<td>Parcel Shipping / Delivery Service App</td>
-								<td class="text-success">$204.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Oct 08, 2021</td>
+								<td>
+									<a href="#">Statements for September 2023</a>
+								</td>
+								<td>$98.03</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Feb 09, 2020</td>
-								<td class="ps-0">426445943</td>
-								<td>Visual Design Illustration</td>
-								<td class="text-success">$31.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Aug 24, 2021</td>
+								<td>Paypal</td>
+								<td>$35.07</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">984445943</td>
-								<td>Abstract Vusial Pack</td>
-								<td class="text-success">$52.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Aug 01, 2021</td>
+								<td>
+									<a href="#">Invoice for July 2023</a>
+								</td>
+								<td>$142.80</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Jan 04, 2020</td>
-								<td class="ps-0">324442313</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-0.80</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jul 01, 2021</td>
+								<td>
+									<a href="#">Statements for June 2023</a>
+								</td>
+								<td>$123.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">102445788</td>
-								<td>Darknight transparency 36 Icons Pack</td>
-								<td class="text-success">$38.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jun 17, 2021</td>
+								<td>Paypal</td>
+								<td>$23.09</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
-							<tr>
-								<td class="ps-9">Oct 24, 2020</td>
-								<td class="ps-0">423445721</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-2.60</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Oct 08, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Cartoon Mobile Emoji Phone Pack</td>
-								<td class="text-success">$76.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Sep 15, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Iphone 12 Pro Mockup Mega Bundle</td>
-								<td class="text-success">$5.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
+							<!--end::Table row-->
 						</tbody>
-						<!--end::Tbody-->
 					</table>
 					<!--end::Table-->
 				</div>
+				<!--end::Table container-->
 			</div>
 			<!--end::Tab panel-->
 			<!--begin::Tab panel-->
-			<div id="kt_referrals_3" class="card-body p-0 tab-pane fade" role="tabpanel">
+			<div id="kt_billing_all" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="kt_billing_all">
+				<!--begin::Table container-->
 				<div class="table-responsive">
 					<!--begin::Table-->
-					<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-						<!--begin::Thead-->
-						<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
+					<table class="table table-row-bordered align-middle gy-4 gs-9">
+						<thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
 							<tr>
-								<th class="min-w-175px ps-9">Date</th>
-								<th class="min-w-150px px-0">Order ID</th>
-								<th class="min-w-350px">Details</th>
-								<th class="min-w-125px">Amount</th>
-								<th class="min-w-125px text-center">Invoice</th>
+								<td class="min-w-150px">Date</td>
+								<td class="min-w-250px">Description</td>
+								<td class="min-w-150px">Amount</td>
+								<td class="min-w-150px">Invoice</td>
+								<td></td>
 							</tr>
 						</thead>
-						<!--end::Thead-->
-						<!--begin::Tbody-->
-						<tbody class="fs-6 fw-semibold text-gray-600">
+						<tbody class="fw-semibold text-gray-600">
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Feb 09, 2020</td>
-								<td class="ps-0">426445943</td>
-								<td>Visual Design Illustration</td>
-								<td class="text-success">$31.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Nov 01, 2021</td>
+								<td>
+									<a href="#">Billing for Ocrober 2023</a>
+								</td>
+								<td>$123.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">984445943</td>
-								<td>Abstract Vusial Pack</td>
-								<td class="text-success">$52.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Aug 10, 2021</td>
+								<td>Paypal</td>
+								<td>$35.07</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Jan 04, 2020</td>
-								<td class="ps-0">324442313</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-0.80</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Aug 01, 2021</td>
+								<td>
+									<a href="#">Invoice for July 2023</a>
+								</td>
+								<td>$142.80</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Sep 15, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Iphone 12 Pro Mockup Mega Bundle</td>
-								<td class="text-success">$5.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jul 20, 2021</td>
+								<td>
+									<a href="#">Statements for June 2023</a>
+								</td>
+								<td>$123.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">102445788</td>
-								<td>Darknight transparency 36 Icons Pack</td>
-								<td class="text-success">$38.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jun 17, 2021</td>
+								<td>Paypal</td>
+								<td>$23.09</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
+							<!--end::Table row-->
+							<!--begin::Table row-->
 							<tr>
-								<td class="ps-9">Oct 24, 2020</td>
-								<td class="ps-0">423445721</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-2.60</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
+								<td>Jun 01, 2021</td>
+								<td>
+									<a href="#">Invoice for May 2023</a>
+								</td>
+								<td>$123.79</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
+								</td>
+								<td class="text-right">
+									<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
 								</td>
 							</tr>
-							<tr>
-								<td class="ps-9">Oct 08, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Cartoon Mobile Emoji Phone Pack</td>
-								<td class="text-success">$76.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">May 30, 2020</td>
-								<td class="ps-0">523445943</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-1.30</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Apr 22, 2020</td>
-								<td class="ps-0">231445943</td>
-								<td>Parcel Shipping / Delivery Service App</td>
-								<td class="text-success">$204.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
+							<!--end::Table row-->
 						</tbody>
-						<!--end::Tbody-->
 					</table>
 					<!--end::Table-->
 				</div>
-			</div>
-			<!--end::Tab panel-->
-			<!--begin::Tab panel-->
-			<div id="kt_referrals_4" class="card-body p-0 tab-pane fade" role="tabpanel">
-				<div class="table-responsive">
-					<!--begin::Table-->
-					<table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
-						<!--begin::Thead-->
-						<thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-							<tr>
-								<th class="min-w-175px ps-9">Date</th>
-								<th class="min-w-150px px-0">Order ID</th>
-								<th class="min-w-350px">Details</th>
-								<th class="min-w-125px">Amount</th>
-								<th class="min-w-125px text-center">Invoice</th>
-							</tr>
-						</thead>
-						<!--end::Thead-->
-						<!--begin::Tbody-->
-						<tbody class="fs-6 fw-semibold text-gray-600">
-							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">102445788</td>
-								<td>Darknight transparency 36 Icons Pack</td>
-								<td class="text-success">$38.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Oct 24, 2020</td>
-								<td class="ps-0">423445721</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-2.60</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">102445788</td>
-								<td>Darknight transparency 36 Icons Pack</td>
-								<td class="text-success">$38.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Oct 24, 2020</td>
-								<td class="ps-0">423445721</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-2.60</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Feb 09, 2020</td>
-								<td class="ps-0">426445943</td>
-								<td>Visual Design Illustration</td>
-								<td class="text-success">$31.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Nov 01, 2020</td>
-								<td class="ps-0">984445943</td>
-								<td>Abstract Vusial Pack</td>
-								<td class="text-success">$52.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Jan 04, 2020</td>
-								<td class="ps-0">324442313</td>
-								<td>Seller Fee</td>
-								<td class="text-danger">$-0.80</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Oct 08, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Cartoon Mobile Emoji Phone Pack</td>
-								<td class="text-success">$76.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="ps-9">Oct 08, 2020</td>
-								<td class="ps-0">312445984</td>
-								<td>Cartoon Mobile Emoji Phone Pack</td>
-								<td class="text-success">$76.00</td>
-								<td class="text-center">
-									<button class="btn btn-light btn-sm btn-active-light-primary">Download</button>
-								</td>
-							</tr>
-						</tbody>
-						<!--end::Tbody-->
-					</table>
-					<!--end::Table-->
-				</div>
+				<!--end::Table container-->
 			</div>
 			<!--end::Tab panel-->
 		</div>
 		<!--end::Tab Content-->
 	</div>
-	<!--end::Statements-->
+	<!--end::Billing Address-->
 </div>
-<div class="row p-3">
+>
 	<!--class="row" style="padding : 20px"-->
 	<!--begin::Statements-->
 	<div class="card">

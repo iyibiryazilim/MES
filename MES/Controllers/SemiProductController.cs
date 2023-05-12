@@ -55,7 +55,7 @@ namespace MES.Controllers
 
 
 
-            //ViewData["Title"] = "Mamul Detayı";
+            ViewData["Title"] = viewModel.SemiProductModel.Name;
             return View(viewModel);
         }
         public async ValueTask<IActionResult> GetJsonResult()

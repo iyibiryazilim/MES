@@ -6,7 +6,13 @@ namespace MES.Models
     {
         public int StockQuentity { get; set; } = default;
         public DateTime LastTransactionDate { get; set; } = default;
+		/// <summary>
+		/// Alım Miktarı
+		/// </summary>
 		public int PurchaseQuentity { get; set; } = default;
+		/// <summary>
+		/// Satış Miktarı
+		/// </summary>
 		public int SellQuentity { get; set; } = default;
 		/// <summary>
 		/// Dönem başı stok miktarı
