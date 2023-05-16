@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LBS.Shared.Entity.BaseModels;
+using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
@@ -16,16 +17,20 @@ public class EndProductController : Controller
     readonly IMapper _mapper;
     readonly IProductTransactionLineService _transactionLineService;
     readonly IWarehouseTotalService _warehouseTotalService;
-    
+    readonly IProductWarehouseParameterService _warehouseParameterService;
+    readonly IProductMeasureService _productMeasureService;
+
     public EndProductController(ILogger<EndProductController> logger,
         IHttpClientService httpClientService,
-        IEndProductService service, IMapper mapper, IProductTransactionLineService transactionLineService)
+        IEndProductService service, IMapper mapper, IProductTransactionLineService transactionLineService, IWarehouseTotalService warehouseTotalService, IProductMeasureService productMeasureService)
     {
         _logger = logger;
         _httpClientService = httpClientService;
         _service = service;
         _mapper = mapper;
         _transactionLineService = transactionLineService;
+        _warehouseTotalService = warehouseTotalService;
+        _productMeasureService = productMeasureService;
 
     }
 
@@ -54,14 +59,21 @@ public class EndProductController : Controller
         viewModel.EndProductModel.StockQuentity = 0;
         viewModel.EndProductModel.PurchaseQuentity = 0;
         viewModel.EndProductModel.RevolutionSpeed = 0;
-        viewModel.EndProductModel.DailyStock = 0;
-        viewModel.EndProductModel.DailyStockChange = 0;
-        viewModel.EndProductModel.WeeklyStock = 0;
-        viewModel.EndProductModel.WeeklyStockChange = 0;
-        viewModel.EndProductModel.MonthlyStock = 0;
-        viewModel.EndProductModel.MonthlyStockChange = 0;
-        viewModel.EndProductModel.YearlyStock = 0;
-        viewModel.EndProductModel.YearlyStockChange = 0;
+
+        var warehouseParameters = _warehouseParameterService.GetObject(httpClient,referenceId);
+        if (warehouseParameters != null)
+        {
+            await foreach (ProductWarehouseParameter warehouseParameter in warehouseParameters)
+                viewModel.WarehouseParameters.Add(_mapper.Map<ProductWarehouseParameterModel>(warehouseParameter));
+        }
+
+        var measures = _productMeasureService.GetObjects(httpClient, referenceId);
+        if (measures != null)
+        {
+            await foreach (ProductMeasure measure in measures)
+                viewModel.ProductMeasures.Add(_mapper.Map<ProductMeasureModel>(measure));
+        }
+
 
         ViewData["Title"] = viewModel.EndProductModel.Name;
         return View(viewModel);
@@ -133,14 +145,14 @@ public class EndProductController : Controller
         }
     }
 
-    public async IAsyncEnumerable<ProductTransactionLine> GetWarehouseEndProduct(int productReferenceId)
+    public async IAsyncEnumerable<WarehouseTotal> GetWarehouseEndProduct(int productReferenceId)
     {
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-        var result = _transactionLineService.GetInputProductTransactionLineByProductRef(httpClient, productReferenceId);
-        Console.WriteLine(productReferenceId.ToString());
+        var result = _warehouseTotalService.GetObjectsAsyncByProduct(httpClient, productReferenceId);
+
         await foreach (var item in result)
         {
-            Console.WriteLine(item.IOType.ToString());
+            //Console.WriteLine(item.Product.Name.ToString());
             yield return item;
         }
     }

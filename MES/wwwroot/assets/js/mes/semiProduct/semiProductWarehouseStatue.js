@@ -31,10 +31,11 @@ var SemiProductWarehouseList = function () {
             },
             columns: [
 
-                { data: 'referenceId' },
-                { data: 'referenceId' },
-                { data: 'referenceId' },
-                { data: 'referenceId' },
+                { data: 'warehouse.name' },
+                { data: 'onhand' },
+                { data: 'onhand' },
+                { data: 'onhand' },
+                { data: 'onhand' },
             ],
             columnDefs: [
                 {
@@ -42,9 +43,10 @@ var SemiProductWarehouseList = function () {
                     targets: 0,
                     render: function (data, type, full, meta) {
 
+                        console.log(full)
                         var output;
 
-                        output = `<td>Dec 01, 2021</td>`
+                        output = `<td>` + full.warehouse.name + `</td>`
                         return output;
 
                     },
@@ -60,7 +62,7 @@ var SemiProductWarehouseList = function () {
 
 
 
-                        output = `<a href="#">Billing for Ocrober 2023</a>`
+                        output = `<td>` + full.onhand + `</td>`
                         return output;
 
                     },
@@ -75,7 +77,7 @@ var SemiProductWarehouseList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<td>$250.79</td>`
+                        output = `<td>` + full.onhand + `</td>`
                         return output;
 
                     },
@@ -89,14 +91,13 @@ var SemiProductWarehouseList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>`
+                        output = `<td>` + full.onhand + `</td>`
                         return output;
 
                     },
 
                 },
             ]
-
         });
 
 

@@ -29,6 +29,7 @@ builder.Services.AddTransient<IDemandService, DemandDataStore>();
 builder.Services.AddTransient<IRouteService, RoutesDataStore>();
 builder.Services.AddTransient<IStopTransactionService, StopTransactionDataStore>();
 builder.Services.AddTransient<IProductTransactionLineService, ProductTransactionLineDataStore>();
+builder.Services.AddTransient<IWarehouseTotalService, WarehouseTotalDataStore>();
 
 builder.Services.AddAutoMapper(typeof(EndProductProfile));
 builder.Services.AddAutoMapper(typeof(RawProductProfile));

@@ -1,60 +1,22 @@
 ﻿using LBS.Shared.Entity.Models;
+using System.ComponentModel;
 
 namespace MES.Models
 {
     public class EndProductModel : EndProduct
     {
+        
         public int StockQuentity { get; set; } = default;
         public DateTime LastTransactionDate { get; set; } = default;
-		/// <summary>
-		/// Alım Miktarı
-		/// </summary>
+        [DisplayName("Alım Miktarı")]
 		public int PurchaseQuentity { get; set; } = default;
-		/// <summary>
-		/// Satış Miktarı
-		/// </summary>
+        [DisplayName("Satış Miktarı")]
+
 		public int SellQuentity { get; set; } = default;
-		/// <summary>
-		/// Dönem başı stok miktarı
-		/// </summary>
-		public int FirstQuentity { get; set; } = default;
-
-		/// <summary>
-		/// Devir hızı
-		/// </summary>
+        [DisplayName("Dönem başı stok miktarı")]
+        public int FirstQuentity { get; set; } = default;
+        [DisplayName("Devir Hızı")]
         public double RevolutionSpeed { get; set; } = default;
-
-		/// <summary>
-		/// Günlük stok durmu
-		/// </summary>
-		public double DailyStock { get; set; } = default;
-        /// <summary>
-        /// Günlük stok değişim durumu
-        /// </summary>
-        public double DailyStockChange { get; set; } = default;
-        /// <summary>
-        /// Haftalık stok durumu
-        /// </summary>
-        public double WeeklyStock { get; set; }
-        /// <summary>
-        /// Haftalık stok değişim durumu
-        /// </summary>
-        public double WeeklyStockChange { get; set; } = default;
-        /// <summary>
-        /// Aylık stok durumu
-        /// </summary>
-        public double MonthlyStock { get; set; }
-        /// <summary>
-        /// Aylık stok değişim durumu
-        /// </summary>
-        public double MonthlyStockChange { get; set; } = default;
-        /// <summary>
-        /// Yıllık stok durumu
-        /// </summary>
-        public double YearlyStock { get; set; }
-        /// <summary>
-        /// Yıllık stok değişim durumu
-        /// </summary>
-        public double YearlyStockChange { get; set; } = default;
+        
     }
 }

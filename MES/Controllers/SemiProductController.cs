@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LBS.Shared.Entity.BaseModels;
+using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
@@ -15,16 +16,17 @@ namespace MES.Controllers
         readonly IHttpClientService _httpClientService;
         readonly IMapper _mapper;
         readonly IProductTransactionLineService _transactionLineService;
+        readonly IWarehouseTotalService _warehouseTotalService;
         public SemiProductController(ILogger<SemiProductController> logger,
             IHttpClientService httpClientService,
-            ISemiProductService service, IMapper mapper, IProductTransactionLineService transactionLineService)
+            ISemiProductService service, IMapper mapper, IProductTransactionLineService transactionLineService, IWarehouseTotalService warehouseTotalService)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _service = service;
             _mapper = mapper;
             _transactionLineService = transactionLineService;
-
+            _warehouseTotalService = warehouseTotalService;
         }
 
 
@@ -137,14 +139,14 @@ namespace MES.Controllers
             }
         }
 
-        public async IAsyncEnumerable<ProductTransactionLine> GetWarehouseSemiProduct(int productReferenceId)
+        public async IAsyncEnumerable<WarehouseTotal> GetWarehouseSemiProduct(int productReferenceId)
         {
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-            var result = _transactionLineService.GetInputProductTransactionLineByProductRef(httpClient, productReferenceId);
+            var result = _warehouseTotalService.GetObjectsAsyncByProduct(httpClient, productReferenceId);
             Console.WriteLine(productReferenceId.ToString());
             await foreach (var item in result)
             {
-                Console.WriteLine(item.IOType.ToString());
+                //Console.WriteLine(item.IOType.ToString());
                 yield return item;
             }
         }
