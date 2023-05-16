@@ -2,9 +2,7 @@
 "use strict";
 
 
-
-
-var SemiProductInputStockList = function () {
+var SemiProductWarehouseList = function () {
 
     // Shared variables
     var table;
@@ -15,8 +13,7 @@ var SemiProductInputStockList = function () {
 
     var initDatatable = function () {
         var productId = $('#ProductId').val()
-        var postUrl = '/SemiProduct/GetInputJsonResult?productReferenceId=' + productId;
-        //console.log(postUrl)
+        var postUrl = '/SemiProduct/GetWarehouseJsonResult?productReferenceId=' + productId;       
 
 
         datatable = $(table).DataTable({
@@ -34,23 +31,20 @@ var SemiProductInputStockList = function () {
             },
             columns: [
 
-                { data: 'productTransaction.transactionDate' },
-                { data: 'subUnitset.unitset.name' },
-                { data: 'quentity' },
-                { data: 'warehouse.name' },
-                { data: 'description' },
+                { data: 'referenceId' },
+                { data: 'referenceId' },
+                { data: 'referenceId' },
                 { data: 'referenceId' },
             ],
             columnDefs: [
                 {
                     orderable: true,
                     targets: 0,
-                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
 
-                        output = `<td>` + full.productTransaction.transactionDate + `</td>`
+                        output = `<td>Dec 01, 2021</td>`
                         return output;
 
                     },
@@ -60,12 +54,13 @@ var SemiProductInputStockList = function () {
 
                     orderable: true,
                     targets: 1,
-                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
 
-                        output = `<td>` + full.subUnitset.name + `</td>`
+
+
+                        output = `<a href="#">Billing for Ocrober 2023</a>`
                         return output;
 
                     },
@@ -76,11 +71,11 @@ var SemiProductInputStockList = function () {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-start pe-0',
+                    className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<td>` + full.quentity + `</td>`
+                        output = `<td>$250.79</td>`
                         return output;
 
                     },
@@ -90,46 +85,16 @@ var SemiProductInputStockList = function () {
 
                     orderable: true,
                     targets: 3,
-                    className: 'text-start pe-0',
+                    className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<td>` + full.warehouse.name + `</td>`
+                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>`
                         return output;
 
                     },
 
                 },
-                {
-
-                    orderable: true,
-                    targets: 4,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<td>` + full.description + `</td>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 5,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>`
-                        return output;
-
-                    },
-
-                },
-
-
             ]
 
         });
@@ -304,10 +269,10 @@ var SemiProductInputStockList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_semiProductStockInput_table');
+            table = document.querySelector('#mes_semiProductWarehouseList_table');
 
             if (!table) {
-
+                console.log("mes_semiProductWarehouseList_table bulunamadı")
                 return;
 
             }
@@ -325,5 +290,5 @@ var SemiProductInputStockList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    SemiProductInputStockList.init();
+    SemiProductWarehouseList.init();
 });

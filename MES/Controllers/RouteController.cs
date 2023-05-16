@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers
 {
-	public class RoutesController : Controller
+	public class RouteController : Controller
 	{
-		ILogger<RoutesController> _logger;
+		ILogger<RouteController> _logger;
 		IHttpClientService _httpClientService;
-		IRoutingService _service;
+		IRouteService _service;
 
 
-		public RoutesController(ILogger<RoutesController> logger,
+		public RouteController(ILogger<RouteController> logger,
 			IHttpClientService httpClientService,
-			IRoutingService service
+            IRouteService service
 			)
 		{
 			_logger = logger;
@@ -36,27 +36,28 @@ namespace MES.Controllers
 		{
 			return Json(new { data = GetOperation() });
 		}
-
-		public async IAsyncEnumerable<RoutesModel> GetOperation()
+		
+		public async IAsyncEnumerable<RouteModel> GetOperation()
 		{
 			HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
 			var result = _service.GetObjects(httpClient);
 
 
 			await foreach (var item in result)
-			{
-				RoutesModel model = new RoutesModel
+			{ 
+				RouteModel model = new RouteModel
 				{
+					Active = item.Active,
+					CardType = item.CardType,
 					Code = item.Code,
 					Name = item.Name,
-					Active = item.Active,			
 					ReferenceId = item.ReferenceId,
-					CardType = item.CardType,
-					Status = item.Status,
+					Status = item.Status
+					
 				};
 
 				
-
+				
 				yield return model;
 			}
 

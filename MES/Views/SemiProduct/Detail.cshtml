@@ -1,5 +1,6 @@
 ﻿@using MES.ViewModels.SemiProductViewModels;
 @model SemiProductDetailViewModel
+<input id="ProductId" type="hidden" value="@Model.SemiProductModel.ReferenceId"/>
 <div class="row p-3">
 	<div class="card mb-6">
 		<div class="card-body pt-9 pb-0">
@@ -551,10 +552,11 @@
                         <table class="table table-row-bordered align-middle gy-4 gs-9" id="mes_semiProductStockInput_table">
                             <thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
                                 <tr>
-                                    <td class="min-w-150px">Date</td>
-                                    <td class="min-w-250px">Description</td>
-                                    <td class="min-w-150px">Amount</td>
-                                    <td class="min-w-150px">Invoice</td>
+                                    <td class="min-w-150px">Tarih</td>
+                                    <td class="min-w-150px">Birim</td>
+                                    <td class="min-w-150px">Miktar</td>
+                                    <td class="min-w-150px">Ambar</td>
+                                    <td class="min-w-150px">Açıklama</td>
                                     <td></td>
                                 </tr>
                             </thead>
@@ -928,105 +930,21 @@
                     <!--begin::Table container-->
                     <div class="table-responsive">
                         <!--begin::Table-->
-                                                <span class="card-label fw-bold fs-3 mb-1">Çıkış Hareketleri</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Çıkış Hareketleri</span>
 
-                        <table class="table table-row-bordered align-middle gy-4 gs-9">
+                        <table class="table table-row-bordered align-middle gy-4 gs-9" id="mes_semiProductStockOutput_table">
                             <thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
                                 <tr>
-                                    <td class="min-w-150px">Date</td>
-                                    <td class="min-w-250px">Description</td>
-                                    <td class="min-w-150px">Amount</td>
-                                    <td class="min-w-150px">Invoice</td>
+                                    <td class="min-w-150px">Tarih</td>
+                                    <td class="min-w-150px">Birim</td>
+                                    <td class="min-w-150px">Miktar</td>
+                                    <td class="min-w-150px">Ambar</td>
+                                    <td class="min-w-150px">Açıklama</td>
                                     <td></td>
                                 </tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600">
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>Dec 01, 2021</td>
-                                    <td>
-                                        <a href="#">Billing for Ocrober 2023</a>
-                                    </td>
-                                    <td>$250.79</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>Oct 08, 2021</td>
-                                    <td>
-                                        <a href="#">Statements for September 2023</a>
-                                    </td>
-                                    <td>$98.03</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>Aug 24, 2021</td>
-                                    <td>Paypal</td>
-                                    <td>$35.07</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>Aug 01, 2021</td>
-                                    <td>
-                                        <a href="#">Invoice for July 2023</a>
-                                    </td>
-                                    <td>$142.80</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>Jul 01, 2021</td>
-                                    <td>
-                                        <a href="#">Statements for June 2023</a>
-                                    </td>
-                                    <td>$123.79</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>Jun 17, 2021</td>
-                                    <td>Paypal</td>
-                                    <td>$23.09</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
+                              
                             </tbody>
                         </table>
                         <!--end::Table-->
@@ -1486,7 +1404,7 @@
                         <!--begin::Table container-->
                         <div class="table-responsive">
                             <!--begin::Table-->
-                            <table class="table align-middle gs-0 gy-4 my-0">
+                            <table class="table align-middle gs-0 gy-4 my-0" id="mes_semiProductWarehouseList_table">
                                 <!--begin::Table head-->
                                 <thead>
                                     <tr class="fs-7 fw-bold text-gray-500">
@@ -1500,50 +1418,7 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">Best Rated Headsets of 2022</a>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="badge badge-light-success fs-7 fw-bold">Sent</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="text-gray-800 fw-bold d-block fs-6">18%(6.4k)</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">New Model BS 2000 X</a>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="badge badge-light-primary fs-7 fw-bold">In Draft</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="text-gray-800 fw-bold d-block fs-6">0.01%(1)</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">2022 Spring Conference by Beats</a>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="badge badge-light-success fs-7 fw-bold">Sent</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="text-gray-800 fw-bold d-block fs-6">37%(247)</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">Best Headsets Giveaway</a>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="badge badge-light-warning fs-7 fw-bold">In Queue</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="text-gray-800 fw-bold d-block fs-6">0%(0)</span>
-                                        </td>
-                                    </tr>
+                                    
                                 </tbody>
                                 <!--end::Table body-->
                             </table>
@@ -1867,6 +1742,7 @@
 
 
 @section Scripts{
-
+    <script src="~/assets/js/mes/semiproduct/semiproductwarehousestatue.js"></script>
     <script src="~/assets/js/mes/semiproduct/semiproductstockinputlist.js"></script>
+    <script src="~/assets/js/mes/semiproduct/semiproductoutputlist.js"></script>
 }

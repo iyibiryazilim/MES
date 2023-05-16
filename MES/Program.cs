@@ -26,8 +26,9 @@ builder.Services.AddTransient<IPurchaseOrderLineService, PurchaseOrderLineDataSt
 builder.Services.AddTransient<IOperationService, OperationDataStore>();
 builder.Services.AddTransient<IShiftService, ShiftDataStore>();
 builder.Services.AddTransient<IDemandService, DemandDataStore>();
-builder.Services.AddTransient<IRoutingService, RoutingDataStore>();
+//builder.Services.AddTransient<IRoutingService, RoutingDataStore>();
 builder.Services.AddTransient<IStopTransactionService, StopTransactionDataStore>();
+builder.Services.AddTransient<IProductTransactionLineService, ProductTransactionLineDataStore>();
 
 builder.Services.AddAutoMapper(typeof(EndProductProfile));
 

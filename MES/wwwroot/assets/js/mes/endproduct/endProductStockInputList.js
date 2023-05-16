@@ -1,22 +1,17 @@
 ﻿
 "use strict";
 
-
-// Class definition
-
 var EndProductInputStockList = function () {
-
     // Shared variables
     var table;
     var datatable;
-
-
     // Private functions
 
     var initDatatable = function () {
+        var productId = $('#ProductId').val()
+        var postUrl = '/EndProduct/GetInputJsonResult?productReferenceId=' + productId;
+        console.log(postUrl)
 
-        var postUrl = '/EndProduct/GetJsonResult';
-        var detailUrl = `/EndProduct/Detail/`
 
         datatable = $(table).DataTable({
 
@@ -26,31 +21,30 @@ var EndProductInputStockList = function () {
             destroy: true,
             info: false,
             order: [],
-            pageLength: 25,
+            pageLength: 10,
             ajax: {
                 url: postUrl,
                 type: 'POST'
             },
             columns: [
 
-                { data: 'date' },
+                { data: 'productTransaction.transactionDate' },
+                { data: 'subUnitset.unitset.name' },
+                { data: 'quentity' },
+                { data: 'warehouse.name' },
                 { data: 'description' },
-                { data: 'amount' },
-                { data: 'invoice' },
                 { data: 'referenceId' },
-                
-
-
             ],
             columnDefs: [
                 {
                     orderable: true,
                     targets: 0,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
 
-                        output = `<td>Dec 01, 2021</td>`
+                        output = `<td>` + full.productTransaction.transactionDate + `</td>`
                         return output;
 
                     },
@@ -60,13 +54,12 @@ var EndProductInputStockList = function () {
 
                     orderable: true,
                     targets: 1,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
 
-
-
-                        output = `<a href="#">Billing for Ocrober 2023</a>`
+                        output = `<td>` + full.subUnitset.name + `</td>`
                         return output;
 
                     },
@@ -77,11 +70,11 @@ var EndProductInputStockList = function () {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<td>$250.79</td>`
+                        output = `<td>` + full.quentity + `</td>`
                         return output;
 
                     },
@@ -91,11 +84,11 @@ var EndProductInputStockList = function () {
 
                     orderable: true,
                     targets: 3,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary">PDF</a>`
+                        output = `<td>` + full.warehouse.name + `</td>`
                         return output;
 
                     },
@@ -105,7 +98,21 @@ var EndProductInputStockList = function () {
 
                     orderable: true,
                     targets: 4,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<td>` + full.description + `</td>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 5,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
@@ -115,7 +122,7 @@ var EndProductInputStockList = function () {
                     },
 
                 },
-               
+
 
             ]
 
@@ -300,16 +307,14 @@ var EndProductInputStockList = function () {
             }
 
             initDatatable();
-            handleSearchDatatable();
-            handleStatusFilter();
+            //handleSearchDatatable();
+            //handleStatusFilter();
             //handleDeleteRows();
         }
 
     };
 
 }();
-
-
 
 // On document ready
 

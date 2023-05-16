@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using LBS.Shared.Entity.BaseModels;
-using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
-using MES.ViewModels.ProductViewModels;
-using MES.ViewModels.RawProductViewModel;
 using MES.ViewModels.SemiProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,14 +14,17 @@ namespace MES.Controllers
         readonly ISemiProductService _service;
         readonly IHttpClientService _httpClientService;
         readonly IMapper _mapper;
+        readonly IProductTransactionLineService _transactionLineService;
         public SemiProductController(ILogger<SemiProductController> logger,
             IHttpClientService httpClientService,
-            ISemiProductService service, IMapper mapper)
+            ISemiProductService service, IMapper mapper, IProductTransactionLineService transactionLineService)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _service = service;
             _mapper = mapper;
+            _transactionLineService = transactionLineService;
+
         }
 
 
@@ -70,6 +70,23 @@ namespace MES.Controllers
         {
             return Json(new { data = GetSemiProduct() });
         }
+        public async ValueTask<IActionResult> GetInputJsonResult(int productReferenceId)
+        {
+            //Console.WriteLine(productReferenceId.ToString());
+            return Json(new { data = GetInputSemiProduct(productReferenceId) });
+        }
+
+        public async ValueTask<IActionResult> GetOutputJsonResult(int productReferenceId)
+        {
+            //Console.WriteLine(productReferenceId.ToString());
+            return Json(new { data = GetOutputSemiProduct(productReferenceId) });
+        }
+
+        public async ValueTask<IActionResult> GetWarehouseJsonResult(int productReferenceId)
+        {
+            //Console.WriteLine(productReferenceId.ToString());
+            return Json(new { data = GetWarehouseSemiProduct(productReferenceId) });
+        }
 
 
         public async IAsyncEnumerable<SemiProductListViewModel> GetSemiProduct()
@@ -94,6 +111,41 @@ namespace MES.Controllers
                     Vat = item.Vat,
                     stockQuentity = 55
                 };
+            }
+        }
+
+        public async IAsyncEnumerable<ProductTransactionLine> GetInputSemiProduct(int productReferenceId)
+        {
+            HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+            var result = _transactionLineService.GetInputProductTransactionLineByProductRef(httpClient, productReferenceId);
+            //Console.WriteLine(productReferenceId.ToString());
+            await foreach (var item in result)
+            {
+                //Console.WriteLine(item.IOType.ToString());
+                yield return item;
+            }
+        }
+        public async IAsyncEnumerable<ProductTransactionLine> GetOutputSemiProduct(int productReferenceId)
+        {
+            HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+            var result = _transactionLineService.GetOutputProductTransactionLineByProductRef(httpClient, productReferenceId);
+            //Console.WriteLine(productReferenceId.ToString());
+            await foreach (var item in result)
+            {
+                //Console.WriteLine(item.IOType.ToString());
+                yield return item;
+            }
+        }
+
+        public async IAsyncEnumerable<ProductTransactionLine> GetWarehouseSemiProduct(int productReferenceId)
+        {
+            HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+            var result = _transactionLineService.GetInputProductTransactionLineByProductRef(httpClient, productReferenceId);
+            Console.WriteLine(productReferenceId.ToString());
+            await foreach (var item in result)
+            {
+                Console.WriteLine(item.IOType.ToString());
+                yield return item;
             }
         }
     }

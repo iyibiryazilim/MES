@@ -1,22 +1,16 @@
 ﻿
 "use strict";
 
-
-
-
-var SemiProductInputStockList = function () {
-
+var EndProductOutputStockList = function () {
     // Shared variables
     var table;
     var datatable;
-
-
     // Private functions
 
     var initDatatable = function () {
         var productId = $('#ProductId').val()
-        var postUrl = '/SemiProduct/GetInputJsonResult?productReferenceId=' + productId;
-        //console.log(postUrl)
+        var postUrl = '/EndProduct/GetOutputJsonResult?productReferenceId=' + productId;
+        console.log(postUrl)
 
 
         datatable = $(table).DataTable({
@@ -30,7 +24,7 @@ var SemiProductInputStockList = function () {
             pageLength: 10,
             ajax: {
                 url: postUrl,
-                type: 'POST',
+                type: 'POST'
             },
             columns: [
 
@@ -304,7 +298,7 @@ var SemiProductInputStockList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_semiProductStockInput_table');
+            table = document.querySelector('#mes_endProductStockOutput_table');
 
             if (!table) {
 
@@ -325,5 +319,5 @@ var SemiProductInputStockList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    SemiProductInputStockList.init();
+    EndProductOutputStockList.init();
 });

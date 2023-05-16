@@ -4,7 +4,7 @@
 
 
 
-var SemiProductInputStockList = function () {
+var SemiProductOutputStockList = function () {
 
     // Shared variables
     var table;
@@ -15,7 +15,7 @@ var SemiProductInputStockList = function () {
 
     var initDatatable = function () {
         var productId = $('#ProductId').val()
-        var postUrl = '/SemiProduct/GetInputJsonResult?productReferenceId=' + productId;
+        var postUrl = '/SemiProduct/GetOutputJsonResult?productReferenceId=' + productId;
         //console.log(postUrl)
 
 
@@ -304,7 +304,7 @@ var SemiProductInputStockList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_semiProductStockInput_table');
+            table = document.querySelector('#mes_semiProductStockOutput_table');
 
             if (!table) {
 
@@ -325,5 +325,5 @@ var SemiProductInputStockList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    SemiProductInputStockList.init();
+    SemiProductOutputStockList.init();
 });
