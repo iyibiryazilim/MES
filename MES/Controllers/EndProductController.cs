@@ -22,7 +22,7 @@ public class EndProductController : Controller
 
     public EndProductController(ILogger<EndProductController> logger,
         IHttpClientService httpClientService,
-        IEndProductService service, IMapper mapper, IProductTransactionLineService transactionLineService, IWarehouseTotalService warehouseTotalService, IProductMeasureService productMeasureService)
+        IEndProductService service, IMapper mapper, IProductTransactionLineService transactionLineService, IWarehouseTotalService warehouseTotalService, IProductMeasureService productMeasureService, IProductWarehouseParameterService warehouseParameterService)
     {
         _logger = logger;
         _httpClientService = httpClientService;
@@ -31,9 +31,8 @@ public class EndProductController : Controller
         _transactionLineService = transactionLineService;
         _warehouseTotalService = warehouseTotalService;
         _productMeasureService = productMeasureService;
-
+        _warehouseParameterService = warehouseParameterService;
     }
-
 
     public IActionResult Index()
     {
@@ -60,7 +59,7 @@ public class EndProductController : Controller
         viewModel.EndProductModel.PurchaseQuentity = 0;
         viewModel.EndProductModel.RevolutionSpeed = 0;
 
-        var warehouseParameters = _warehouseParameterService.GetObject(httpClient,referenceId);
+        var warehouseParameters = _warehouseParameterService.GetObjects(httpClient, referenceId);
         if (warehouseParameters != null)
         {
             await foreach (ProductWarehouseParameter warehouseParameter in warehouseParameters)

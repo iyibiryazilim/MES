@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddLogging();
 builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IWorkstationGroupService, WorkstationGroupDataStore>();
 builder.Services.AddTransient<IWorkstationServise, WorkStationDataStore>();
 builder.Services.AddTransient<IProductService,ProductDataStore>();
@@ -30,6 +31,8 @@ builder.Services.AddTransient<IRouteService, RoutesDataStore>();
 builder.Services.AddTransient<IStopTransactionService, StopTransactionDataStore>();
 builder.Services.AddTransient<IProductTransactionLineService, ProductTransactionLineDataStore>();
 builder.Services.AddTransient<IWarehouseTotalService, WarehouseTotalDataStore>();
+builder.Services.AddTransient<IProductMeasureService, ProductMeasureDataStore>();
+builder.Services.AddTransient<IProductWarehouseParameterService, ProductWarehouseParameterDataStore>();
 
 builder.Services.AddAutoMapper(typeof(EndProductProfile));
 builder.Services.AddAutoMapper(typeof(RawProductProfile));

@@ -251,11 +251,11 @@
                                 <!--begin::Table head-->
                                 <thead>
                                     <tr class="fs-7 fw-bold text-gray-500">
-                                        <th class="p-0 min-w-150px d-block pt-3">AMBAR</th>
-                                        <th class="text-end min-w-140px pt-3">STOK</th>
-                                        <th class="text-end min-w-140px pt-3">AZAMİ</th>
-                                        <th class="text-end min-w-140px pt-3">ASGARİ</th>
-                                        <th class="pe-0 text-end min-w-120px pt-3">GÜVENLİ</th>
+                                        <th class="text-start min-w-140px pt-3">AMBAR</th>
+                                        <th class="text-start min-w-140px pt-3">STOK</th>
+                                        <th class="text-start min-w-140px pt-3">AZAMİ</th>
+                                        <th class="text-start min-w-140px pt-3">ASGARİ</th>
+                                        <th class="pe-0 text-start min-w-120px pt-3">GÜVENLİ</th>
 
                                     </tr>
                                 </thead>
@@ -265,28 +265,32 @@
                                     @{
                                         if(Model.ProductMeasures != null)
                                         {
+                                            
                                             foreach (ProductWarehouseParameterModel item in Model.WarehouseParameters)
                                             {
+
                                                 <tr>
-                                                    <td class="text-end">
+                                                    <td class="text-start">
                                                         <span class="badge badge-light-success fs-7 fw-bold">@item.InventoryNo</span>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-start">
                                                         <span class="badge badge-light-success fs-7 fw-bold">@item.StockQuantity</span>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-start">
                                                         <span class="badge badge-light-success fs-7 fw-bold">@item.MaximumLevel</span>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-start">
                                                         <span class="badge badge-light-success fs-7 fw-bold">@item.MinimumLevel</span>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-start">
                                                         <span class="badge badge-light-success fs-7 fw-bold">@item.SafeLevel</span>
                                                     </td>
                                                 </tr>
-                                                
                                             }
+
+                                           
                                         }
+                                        
                                     }
                                 </tbody>
                                 <!--end::Table body-->
@@ -531,12 +535,7 @@
                         <!--begin::Table head-->
                         <thead>
                             <tr class="fw-bold text-muted">
-                                <th class="w-25px">
-                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-13-check" />
-                                    </div>
-                                </th>
-                                <th class="min-w-150px">Barkod</th>
+                                <th class="min-w-120px">Barkod</th>
                                 <th class="min-w-120px">En</th>
                                 <th class="min-w-120px">Boy</th>
                                 <th class="min-w-120px">Hacim</th>
@@ -555,7 +554,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <span class="text-muted fw-semibold text-muted d-block fs-7">Geçici null</span>
+                                                <span class="text-muted fw-semibold text-muted d-block fs-7">BARKOD(EKLENMEDİ)</span>
                                             </td>
                                             <td>
                                                 <span class="text-muted fw-semibold text-muted d-block fs-7">@item.Width</span>
@@ -573,8 +572,12 @@
                                                 <span class="text-muted fw-semibold text-muted d-block fs-7">@item.Weight</span>
                                             </td>
                                         </tr>
-                                        
+
                                     }
+                                }
+                                else
+                                {
+                                    <span class="text-muted fw-semibold text-muted d-block fs-7"> Herhangi bir veri yoktur</span>
                                 }
                             }           
                         </tbody>
@@ -1139,7 +1142,6 @@
 
 @section Scripts{
     <script src="~/assets/js/mes/endproduct/endProductStockInputList.js"></script>
-    <script src="~/assets/js/mes/endproduct/endproductwarehousestatue.js"></script>
     <script src="~/assets/js/mes/endproduct/endproductstockoutputlist.js"></script>
 
 }

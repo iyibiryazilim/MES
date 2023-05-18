@@ -11,8 +11,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="LBS.Shared.Entity" Version="1.0.10" />
-    <PackageReference Include="LBS.WebAPI.Service" Version="1.0.10" />
+    <PackageReference Include="LBS.Shared.Entity" Version="1.0.12" />
+    <PackageReference Include="LBS.WebAPI.Service" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>

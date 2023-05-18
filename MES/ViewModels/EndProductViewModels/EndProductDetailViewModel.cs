@@ -5,8 +5,12 @@ namespace MES.ViewModels.ProductViewModels
 {
     public class EndProductDetailViewModel
     {
+        public EndProductDetailViewModel()
+        {
+            ProductMeasures = new List<ProductMeasureModel>();
+            WarehouseParameters = new List<ProductWarehouseParameterModel>();
+        }
         public EndProductModel? EndProductModel { get; set; }
-
         public double DailyStock { get; set; } = default;
         [DisplayName("Günlük Stok Miktarı Değişimi")]
         public double DailyStockChange { get; set; } = default;
