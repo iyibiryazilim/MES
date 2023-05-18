@@ -1,6 +1,7 @@
 using LBS.WebAPI.Service.DataStores;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
+using MES.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddLogging();
 builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IWorkstationGroupService, WorkstationGroupDataStore>();
 builder.Services.AddTransient<IWorkstationServise, WorkStationDataStore>();
 builder.Services.AddTransient<IProductService,ProductDataStore>();
@@ -25,6 +27,21 @@ builder.Services.AddTransient<IPurchaseOrderLineService, PurchaseOrderLineDataSt
 builder.Services.AddTransient<IOperationService, OperationDataStore>();
 builder.Services.AddTransient<IShiftService, ShiftDataStore>();
 builder.Services.AddTransient<IDemandService, DemandDataStore>();
+builder.Services.AddTransient<IRouteService, RoutesDataStore>();
+builder.Services.AddTransient<IStopTransactionService, StopTransactionDataStore>();
+builder.Services.AddTransient<IProductTransactionLineService, ProductTransactionLineDataStore>();
+builder.Services.AddTransient<IWarehouseTotalService, WarehouseTotalDataStore>();
+builder.Services.AddTransient<IProductMeasureService, ProductMeasureDataStore>();
+builder.Services.AddTransient<IProductWarehouseParameterService, ProductWarehouseParameterDataStore>();
+
+builder.Services.AddAutoMapper(typeof(EndProductProfile));
+builder.Services.AddAutoMapper(typeof(RawProductProfile));
+builder.Services.AddAutoMapper(typeof(SemiProductProfile));
+
+
+
+
+
 
 
 

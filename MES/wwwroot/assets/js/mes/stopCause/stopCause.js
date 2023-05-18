@@ -319,7 +319,7 @@ var StopCauseList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_stop_cause_table');
+            table = document.querySelector('#mes_stopCause_table');
 
             if (!table) {
 

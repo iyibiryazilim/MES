@@ -1,22 +1,17 @@
 ﻿
 "use strict";
 
-
-// Class definition
-
-var EndProductList = function () {
-
+var EndProductInputStockList = function () {
     // Shared variables
     var table;
     var datatable;
-
-
     // Private functions
 
     var initDatatable = function () {
+        var productId = $('#ProductId').val()
+        var postUrl = '/EndProduct/GetInputJsonResult?productReferenceId=' + productId;
+        console.log(postUrl)
 
-        var postUrl = '/EndProduct/GetJsonResult';
-        var detailUrl = `/EndProduct/Detail/`
 
         datatable = $(table).DataTable({
 
@@ -26,34 +21,30 @@ var EndProductList = function () {
             destroy: true,
             info: false,
             order: [],
-            pageLength: 25,
+            pageLength: 10,
             ajax: {
                 url: postUrl,
                 type: 'POST'
             },
             columns: [
 
+                { data: 'productTransaction.transactionDate' },
+                { data: 'subUnitset.unitset.name' },
+                { data: 'quentity' },
+                { data: 'warehouse.name' },
+                { data: 'description' },
                 { data: 'referenceId' },
-                { data: 'name' },
-                { data: 'unitset' },
-                { data: 'producerCode' },
-                { data: 'speCode' },
-                { data: 'stockQuentity' },
-                { data: 'referenceId' },
-
-
             ],
             columnDefs: [
                 {
                     orderable: true,
                     targets: 0,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
 
-                        output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
-                        </div>`
+                        output = `<td>` + full.productTransaction.transactionDate + `</td>`
                         return output;
 
                     },
@@ -63,56 +54,41 @@ var EndProductList = function () {
 
                     orderable: true,
                     targets: 1,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
 
-                        
-
-                        output = `<div class="d-flex">
-							<!--begin::Thumbnail-->
-							<a href="`+ detailUrl +`?referenceId=`+ full.referenceId + ` " class="symbol symbol - 50px">
-						    	<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
-						    </a>
-							<!--end::Thumbnail-->
-							<div class="ms-5">
-								<!--begin::Title-->
-								<a href="`+ detailUrl + `?referenceId=` + full.referenceId + ` " class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.name + `</a>
-								<!--end::Title-->
-								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold">`+ full.code + `</div>
-								<!--end::Description-->
-							
-						</div>`
+                        output = `<td>` + full.subUnitset.name + `</td>`
                         return output;
 
                     },
 
                 },
-                
+
                 {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.unitset.code + `</div>`
+                        output = `<td>` + full.quentity + `</td>`
                         return output;
 
                     },
 
-                },             
+                },
                 {
 
                     orderable: true,
                     targets: 3,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.producerCode + `</div>`
+                        output = `<td>` + full.warehouse.name + `</td>`
                         return output;
 
                     },
@@ -122,58 +98,31 @@ var EndProductList = function () {
 
                     orderable: true,
                     targets: 4,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold ">` + full.speCode + `</div>`
+                        output = `<td>` + full.description + `</td>`
                         return output;
 
                     },
 
-                },
-               {
-
-                    orderable: true,
-                    targets: 5,
-                    className: 'text-end pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="fw-bold">` + full.stockQuentity + `</div>`
-                        return output;
-
-                    },
                 },
                 {
 
-                    orderable: false,
-                    targets: 6,
-                    className: 'text-end',
+                    orderable: true,
+                    targets: 5,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-                        var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">İşlemler<i class="ki-duotone ki-down fs-5 ms-1"></i>
-						</a>
-						<!--begin::Menu-->
-						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-							<!--begin::Menu item-->
-							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Düzenle</a>
-							</div>
-							<!--end::Menu item-->
-							<!--begin::Menu item-->
-							<div class="menu-item px-3">
-								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Sil</a>
-							</div>
-							<!--end::Menu item-->
-						</div>
-						<!--end::Menu-->`
 
+                        var output;
+                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary">View</a>`
                         return output;
 
                     },
 
                 },
+
 
             ]
 
@@ -206,7 +155,7 @@ var EndProductList = function () {
         });
 
     }
-    
+
 
 
     // Handle status filter dropdown
@@ -349,7 +298,7 @@ var EndProductList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_endProduct_table');
+            table = document.querySelector('#mes_endProductStockInput_table');
 
             if (!table) {
 
@@ -358,8 +307,8 @@ var EndProductList = function () {
             }
 
             initDatatable();
-            handleSearchDatatable();
-            handleStatusFilter();
+            //handleSearchDatatable();
+            //handleStatusFilter();
             //handleDeleteRows();
         }
 
@@ -367,10 +316,8 @@ var EndProductList = function () {
 
 }();
 
-
-
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    EndProductList.init();
+    EndProductInputStockList.init();
 });

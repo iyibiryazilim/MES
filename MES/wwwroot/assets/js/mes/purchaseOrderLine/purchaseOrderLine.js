@@ -32,9 +32,7 @@ var PurchaseOrderLineList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                //{ data: 'orderDate' },
-                //{ data: 'code' },
-                /*{ data: 'current' },*/
+                
                 { data: 'product' },
                 { data: 'quantity' },
                 { data: 'description' },
@@ -60,50 +58,7 @@ var PurchaseOrderLineList = function () {
                     },
 
                 },
-                //{
-
-                //    orderable: true,
-                //    targets: 1,
-                //    render: function (data, type, full, meta) {
-
-                //        console.log()
-                //        var output;
-
-                //        output = `<div class="badge badge-light fw-bold">` + full.order.orderDate + `</div>`
-                //        return output;
-
-                //    },
-
-                //},
-                //{
-
-                //    orderable: true,
-                //    targets: 2,
-                //    className: 'text-start pe-0',
-                //    render: function (data, type, full, meta) {
-
-                //        var output;
-                //        output = `<div class="badge badge-light fw-bold">` + full.order.code + `</div>`
-                //        return output;
-
-                //    },
-
-                //},
-                //{
-
-                //    orderable: true,
-                //    targets: 3,
-                //    className: 'd-flex align-items-center',
-                //    render: function (data, type, full, meta) {
-
-                //        var output;
-
-                //        output = `<div class="badge badge-light fw-bold">` + full.order.current + `</div>`
-                //        return output;
-
-                //    },
-
-                //},
+                
                 {
 
                     orderable: true,

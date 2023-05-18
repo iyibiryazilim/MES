@@ -184,7 +184,7 @@ var EmployeeList = function () {
 
     var handleSearchDatatable = () => {
 
-        const filterSearch = document.querySelector('[mes-employee-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-kt-ecommerce-category-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
 

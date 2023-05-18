@@ -4,7 +4,7 @@
 
 // Class definition
 
-var EndProductList = function () {
+var RoutesList = function () {
 
     // Shared variables
     var table;
@@ -15,8 +15,7 @@ var EndProductList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/EndProduct/GetJsonResult';
-        var detailUrl = `/EndProduct/Detail/`
+        var postUrl = '/Routes/GetJsonResult';
 
         datatable = $(table).DataTable({
 
@@ -34,11 +33,10 @@ var EndProductList = function () {
             columns: [
 
                 { data: 'referenceId' },
+                { data: 'code' },
+                { data: 'status' },
                 { data: 'name' },
-                { data: 'unitset' },
-                { data: 'producerCode' },
-                { data: 'speCode' },
-                { data: 'stockQuentity' },
+                { data: 'cardType' },
                 { data: 'referenceId' },
 
 
@@ -59,60 +57,45 @@ var EndProductList = function () {
                     },
 
                 },
+                
+
                 {
 
                     orderable: true,
                     targets: 1,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-
-                        
-
-                        output = `<div class="d-flex">
-							<!--begin::Thumbnail-->
-							<a href="`+ detailUrl +`?referenceId=`+ full.referenceId + ` " class="symbol symbol - 50px">
-						    	<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
-						    </a>
-							<!--end::Thumbnail-->
-							<div class="ms-5">
-								<!--begin::Title-->
-								<a href="`+ detailUrl + `?referenceId=` + full.referenceId + ` " class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.name + `</a>
-								<!--end::Title-->
-								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold">`+ full.code + `</div>
-								<!--end::Description-->
-							
-						</div>`
+                        output = `<div class="fw-bold">` + full.code + `</div>`
                         return output;
 
                     },
 
                 },
-                
                 {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.unitset.code + `</div>`
+                        output = `<div class="fw-bold">` + full.status + `</div>`
                         return output;
 
                     },
 
-                },             
+                },
                 {
 
                     orderable: true,
                     targets: 3,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.producerCode + `</div>`
+                        output = `<div class="fw-bold">` + full.name + `</div>`
                         return output;
 
                     },
@@ -122,33 +105,21 @@ var EndProductList = function () {
 
                     orderable: true,
                     targets: 4,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold ">` + full.speCode + `</div>`
+                        output = `<div class="fw-bold">` + full.cardType + `</div>`
                         return output;
 
                     },
 
                 },
-               {
-
-                    orderable: true,
-                    targets: 5,
-                    className: 'text-end pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="fw-bold">` + full.stockQuentity + `</div>`
-                        return output;
-
-                    },
-                },
+                
                 {
 
                     orderable: false,
-                    targets: 6,
+                    targets: 5,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -206,13 +177,13 @@ var EndProductList = function () {
         });
 
     }
-    
+
 
 
     // Handle status filter dropdown
     var handleStatusFilter = () => {
 
-        const filterStatus = document.querySelector('[data-kt-ecommerce-product-filter="status"');
+        const filterStatus = document.querySelector('[data-kt-ecommerce-product-filter="status"]');
 
         $(filterStatus).on('change', e => {
 
@@ -349,10 +320,10 @@ var EndProductList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_endProduct_table');
+            table = document.querySelector('#mes_routing_table');
 
             if (!table) {
-
+                console.log("table bulunamadı")
                 return;
 
             }
@@ -372,5 +343,5 @@ var EndProductList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    EndProductList.init();
+    RoutesList.init();
 });
