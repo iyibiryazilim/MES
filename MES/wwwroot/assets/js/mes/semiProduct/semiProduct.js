@@ -15,7 +15,7 @@ var SemiProductList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/SemiProduct/GetJsonResult';
+        var postUrl = '/SemiProduct/GetSemiProductJsonResult';
         var detailUrl = `/SemiProduct/Detail/`
 
         datatable = $(table).DataTable({
@@ -32,148 +32,199 @@ var SemiProductList = function () {
                 type: 'POST'
             },
             columns: [
-
                 { data: 'referenceId' },
-                { data: 'name' },
-                { data: 'unitset' },
+                { data: 'code' },
+                { data: 'stockQuantity' },
                 { data: 'producerCode' },
                 { data: 'speCode' },
-                { data: 'stockQuentity' },
+                { data: 'inputQuantity' },
+                { data: 'outputQuantity' },
+                { data: 'lastTransactionDate' },
+                { data: 'revolutionSpeed' },
                 { data: 'referenceId' },
-
 
             ],
             columnDefs: [
                 {
                     orderable: true,
                     targets: 0,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
-                        </div>`
+							<input class="form-check-input" type="checkbox" value="1" />
+						</div>`
+
                         return output;
-
                     },
-
                 },
                 {
-
                     orderable: true,
                     targets: 1,
+                    className: 'd-flex align-items-center',
                     render: function (data, type, full, meta) {
-
+                        var value = full.name;
                         var output;
+                        output = `<!--begin:: Avatar -->
+								<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+									<a href="../../demo1/dist/apps/user-management/users/view.html">
+										<div class="symbol-label">
+											<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
+										</div>
+									</a>
+								</div>
+								<!--end::Avatar-->
+								<!--begin::User details-->
+								<div class="d-flex flex-column">
+									<a href="EndProduct/Detail/?referenceId=`+ full.referenceId + `" class="text-gray-800 text-hover-primary mb-1">` + full.code + `</a>
+									<span>`+ full.name + `</span>
+								</div>
+								<!--begin::User details-->`
 
-
-
-                        output = `<div class="d-flex">
-							<!--begin::Thumbnail-->
-							<a href="`+ detailUrl + `?referenceId=` + full.referenceId + ` " class="symbol symbol - 50px">
-						    	<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
-						    </a>
-							<!--end::Thumbnail-->
-							<div class="ms-5">
-								<!--begin::Title-->
-								<a href="`+ detailUrl + `?referenceId=` + full.referenceId + ` " class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">` + full.name + `</a>
-								<!--end::Title-->
-								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold">`+ full.code + `</div>
-								<!--end::Description-->
-							
-						</div>`
                         return output;
-
                     },
-
                 },
-
                 {
-
                     orderable: true,
                     targets: 2,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-                        output = `<div class="fw-bold">` + full.unitset.code + `</div>`
+                        output = `<span class="fw-bold ms-3">` + full.stockQuantity + `</span> <span class="fw-bold">` + full.unitset.code + `</span> `
+
                         return output;
-
                     },
-
                 },
                 {
-
                     orderable: true,
                     targets: 3,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-                        output = `<div class="fw-bold">` + full.producerCode + `</div>`
+
+                        output = `<span class="fw-bold ms-3">` + full.producerCode + `</span>`
+
                         return output;
-
                     },
-
                 },
                 {
-
                     orderable: true,
                     targets: 4,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-                        output = `<div class="fw-bold ">` + full.speCode + `</div>`
+
+                        output = `<span class="fw-bold ms-3">` + full.speCode + `</span>`
+
                         return output;
-
                     },
-
                 },
-                {
 
+                {
                     orderable: true,
                     targets: 5,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-                        output = `<div class="fw-bold">` + full.stockQuentity + `</div>`
-                        return output;
 
+                        output = ` <div class="badge badge-light-success">` + full.inputQuantity + `</div>`
+
+                        return output;
                     },
                 },
                 {
-
-                    orderable: false,
+                    orderable: true,
                     targets: 6,
-                    className: 'text-end',
+                    className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">İşlemler<i class="ki-duotone ki-down fs-5 ms-1"></i>
-						</a>
-						<!--begin::Menu-->
-						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-							<!--begin::Menu item-->
-							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Düzenle</a>
-							</div>
-							<!--end::Menu item-->
-							<!--begin::Menu item-->
-							<div class="menu-item px-3">
-								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Sil</a>
-							</div>
-							<!--end::Menu item-->
-						</div>
-						<!--end::Menu-->`
+                        output = ` <div class="badge badge-light-danger">` + full.outputQuantity + `</div>`
+
+                        return output;
+                    },
+                },
+
+                {
+                    orderable: true,
+                    targets: 7,
+                    className: 'text-center pe-0',
+                    render: function (data, type, full, meta) {
+                        var formattedDate = new Date(full.lastTransactionDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
+
+                        var output;
+
+                        output = ` <div class="badge badge-light-primary">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</div>`
 
                         return output;
 
                     },
-
                 },
+
+                {
+                    orderable: true,
+                    targets: 8,
+                    className: 'text-center pe-0',
+                    render: function (data, type, full, meta) {
+                        var output;
+                        output = ` <div class="h-5px mx-3 w-100 bg-light mb-3">
+                    <div class="bg-success rounded h-5px" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>`
+
+                        return output;
+                    },
+                },
+
+                {
+                    orderable: true,
+                    targets: 9,
+                    className: 'text-end pe-0',
+                    render: function (data, type, full, meta) {
+                        var output;
+                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+							İşlemler
+							<i class="ki-duotone ki-down fs-5 ms-1"></i>
+                            <input id="ProductId" type="hidden" value="`+ full.referenceId + `" />
+						</a>
+						<!--begin::Menu-->
+						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-8 w-150px py-2" data-kt-menu="true">
+							<!--begin::Menu item-->
+							<div class="menu-item px-3">
+								<a href="SemiProduct/Detail/?referenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
+							</div>
+							<!--end::Menu item-->
+                            <!--begin::Menu item-->
+							<div class="menu-item px-3">
+								<a href="#" id="SemiProductList" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer" >Giriş Hareketleri</a>
+							</div>
+							<!--end::Menu item-->
+                            <!--begin::Menu item-->
+							<div class="menu-item px-3">
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Çıkış Hareketleri</a>
+							</div>
+							<!--end::Menu item--><!--begin::Menu item-->
+							<div class="menu-item px-3">
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Ambar Toplamları</a>
+							</div>
+							<!--end::Menu item--><!--begin::Menu item-->
+							<div class="menu-item px-3">
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Satış Siparişleri</a>
+							</div>
+							<!--end::Menu item--><!--begin::Menu item-->
+							<div class="menu-item px-3">
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Satınalma Siparişleri</a>
+							</div>
+							<!--end::Menu item-->
+							
+						</div>
+						<!--end::Menu-->`
+                        return output;
+                    },
+                },
+
 
             ]
 

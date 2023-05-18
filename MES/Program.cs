@@ -33,10 +33,8 @@ builder.Services.AddTransient<IProductTransactionLineService, ProductTransaction
 builder.Services.AddTransient<IWarehouseTotalService, WarehouseTotalDataStore>();
 builder.Services.AddTransient<IProductMeasureService, ProductMeasureDataStore>();
 builder.Services.AddTransient<IProductWarehouseParameterService, ProductWarehouseParameterDataStore>();
+builder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
 
-builder.Services.AddAutoMapper(typeof(EndProductProfile));
-builder.Services.AddAutoMapper(typeof(RawProductProfile));
-builder.Services.AddAutoMapper(typeof(SemiProductProfile));
 
 
 
