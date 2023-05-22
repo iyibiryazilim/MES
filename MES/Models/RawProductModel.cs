@@ -1,60 +1,23 @@
 ﻿using LBS.Shared.Entity.Models;
+using System.ComponentModel;
 
 namespace MES.Models
 {
     public class RawProductModel : RawProduct
     {
-        public int StockQuentity { get; set; } = default;
+        public double StockQuantity { get; set; } = default;
         public DateTime LastTransactionDate { get; set; } = default;
-        /// <summary>
-        /// Alım Miktarı
-        /// </summary>
-        public int PurchaseQuentity { get; set; } = default;
-        /// <summary>
-        /// Satış Miktarı
-        /// </summary>
-        public int SellQuentity { get; set; } = default;
-        /// <summary>
-        /// Dönem başı stok miktarı
-        /// </summary>
-        public int FirstQuentity { get; set; } = default;
-
-        /// <summary>
-        /// Devir hızı
-        /// </summary>
+        [DisplayName("Alım Miktarı")]
+        public double PurchaseQuantity { get; set; } = default;
+        [DisplayName("Satış Miktarı")]
+        public double SellQuentity { get; set; } = default;
+        [DisplayName("Giriş Miktarı")]
+        public double InputQuantity { get; set; } = default;
+        [DisplayName("Çıkış Miktarı")]
+        public double OutputQuantity { get; set; } = default;
+        [DisplayName("Dönem başı stok miktarı")]
+        public double FirstQuantity { get; set; } = default;
+        [DisplayName("Devir Hızı")]
         public double RevolutionSpeed { get; set; } = default;
-
-        /// <summary>
-        /// Günlük stok durmu
-        /// </summary>
-        public double DailyStock { get; set; } = default;
-        /// <summary>
-        /// Günlük stok değişim durumu
-        /// </summary>
-        public double DailyStockChange { get; set; } = default;
-        /// <summary>
-        /// Haftalık stok durumu
-        /// </summary>
-        public double WeeklyStock { get; set; } = default;
-        /// <summary>
-        /// Haftalık stok değişim durumu
-        /// </summary>
-        public double WeeklyStockChange { get; set; } = default;
-        /// <summary>
-        /// Aylık stok durumu
-        /// </summary>
-        public double MonthlyStock { get; set; } = default;
-        /// <summary>
-        /// Aylık stok değişim durumu
-        /// </summary>
-        public double MonthlyStockChange { get; set; } = default;
-        /// <summary>
-        /// Yıllık stok durumu
-        /// </summary>
-        public double YearlyStock { get; set; } = default;
-        /// <summary>
-        /// Yıllık stok değişim durumu
-        /// </summary>
-        public double YearlyStockChange { get; set; } = default;
     }
 }

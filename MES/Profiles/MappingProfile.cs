@@ -8,7 +8,10 @@ namespace MES.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<ProductWarehouseParameter, ProductWarehouseParameterModel>().ReverseMap();
+			CreateMap<EndProduct, EndProductModel>().ReverseMap();
+			CreateMap<RawProduct, RawProductModel>().ReverseMap();
+			CreateMap<SemiProduct, SemiProductModel>().ReverseMap();
+			CreateMap<ProductWarehouseParameter, ProductWarehouseParameterModel>().ReverseMap();
             CreateMap<ProductMeasure, ProductMeasureModel>().ReverseMap();
 
         }

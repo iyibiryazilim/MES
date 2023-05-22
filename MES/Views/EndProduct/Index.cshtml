@@ -36,10 +36,13 @@
 						</div>
 					</th>
 					<th class="min-w-125px">Ürün</th>
-					<th class="min-w-125px">Birim</th>
+					<th class="min-w-125px">STOK</th>
 					<th class="min-w-125px">Üretici Kodu</th>
 					<th class="min-w-125px">Özel Kod</th>
-					<th class="min-w-125px">Stok Miktari</th>
+					<th class="min-w-100px">Giriş</th>
+					<th class="min-w-100px">Çıkış</th>
+					<th class="min-w-125px">Son Hareket Tarihi</th>
+					<th class="min-w-125px">Devir Hızı</th>
 					<th class="min-w-125px">İşlemler</th>
 				</tr>
 
@@ -55,7 +58,10 @@
 	</div>
 	<!--end::Card body-->
 </div>
+
+<partial name="~/Views/EndProduct/PartialViews/_InputTransaction.cshtml" />
 <!--end::Category-->
 @section Scripts{
     <script src="~/assets/js/mes/endproduct/endproduct.js"></script>
+    <script src="~/assets/js/mes/endproduct/inputlistpopup.js"></script>
 }
