@@ -9,7 +9,7 @@ var ShowModalPageInit = function () {
 
     var initDatatable = function () {
 
-        var postUrl = 'EndProduct/GetInputJsonResult?productReferenceId=' + referenceId;
+        var postUrl = 'EndProduct/GetOutputJsonResult?productReferenceId=' + referenceId;
         console.log(postUrl);
 
         datatable = $(table).DataTable({
@@ -146,14 +146,15 @@ var ShowModalPageInit = function () {
     // Private functions
 
     var loadModalPage = function () {
-        $('#mes_endProduct_inputTransaction').on('shown.bs.modal', function () {
+        $('#mes_endProduct_outputTransaction').on('shown.bs.modal', function () {
+            console.log("Çıkış Tablosu Açıldı")
             initDatatable();
 
         });
     };
 
     var bindEventHandlers = function () {
-        $(document).on('click', 'a#EndProductInputTransactionList', function () {
+        $(document).on('click', 'a#EndProductOutputTransactionList', function () {
             referenceId = $(this).data('reference-id');
             console.log("aaaaa " + referenceId);
         });
@@ -162,9 +163,10 @@ var ShowModalPageInit = function () {
     // Public methods
     return {
         init: function () {
-            table = document.querySelector('#mes_input_transaction_table');
+            table = document.querySelector('#mes_output_transaction_table');
 
             if (!table) {
+                console.log("Çıkış hareketleri tablosu bulunamadı")
                 return;
             }
             bindEventHandlers();

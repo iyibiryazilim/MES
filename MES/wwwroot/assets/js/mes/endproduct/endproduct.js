@@ -29,6 +29,7 @@ var EndProductList = function () {
             ajax: {
                 url: postUrl,
                 type: 'POST'
+                
             },
             columns: [
                 { data: 'referenceId' },
@@ -186,7 +187,6 @@ var EndProductList = function () {
                         output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 							İşlemler
 							<i class="ki-duotone ki-down fs-5 ms-1"></i>
-                            <input id="ProductId" type="hidden" value="`+ full.referenceId + `" />
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-8 w-150px py-2" data-kt-menu="true">
@@ -197,24 +197,24 @@ var EndProductList = function () {
 							<!--end::Menu item-->
                             <!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="EndProductList" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer" >Giriş Hareketleri</a>
+								<a href="#" id="EndProductInputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction" >Giriş Hareketleri</a>
 							</div>
 							<!--end::Menu item-->
                             <!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Çıkış Hareketleri</a>
+								<a href="#" id="EndProductOutputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_outputTransaction">Çıkış Hareketleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Ambar Toplamları</a>
+								<a href="#" id="EndProductWarehouseTotalList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction" >Ambar Toplamları</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Satış Siparişleri</a>
+								<a href="#" id="EndProductSaleOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction" >Satış Siparişleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Satınalma Siparişleri</a>
+								<a href="#" id="EndProductPurchaseOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction">Satınalma Siparişleri</a>
 							</div>
 							<!--end::Menu item-->
 							
