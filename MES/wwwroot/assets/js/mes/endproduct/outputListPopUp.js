@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 // Class definition
-var ShowModalPageInit = function () {
+var OutputShowModalPageInit = function () {
 
     var table;
     var datatable;
@@ -179,5 +179,5 @@ var ShowModalPageInit = function () {
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    ShowModalPageInit.init();
+    OutputShowModalPageInit.init();
 });

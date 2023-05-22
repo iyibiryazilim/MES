@@ -32,7 +32,7 @@ var PurchaseOrderLineList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                
+
                 { data: 'product' },
                 { data: 'quantity' },
                 { data: 'description' },
@@ -58,7 +58,7 @@ var PurchaseOrderLineList = function () {
                     },
 
                 },
-                
+
                 {
 
                     orderable: true,
@@ -111,7 +111,7 @@ var PurchaseOrderLineList = function () {
                     render: function (data, type, full, meta) {
                         console.log(full)
                         if (full.warehouse != null) {
-                            var value = full.warehouse.name 
+                            var value = full.warehouse.name
                         }
                         var output;
                         output = `<div class="text-gray-800 fw-bold d-block fs-4">` + value + `</div>
@@ -124,8 +124,65 @@ var PurchaseOrderLineList = function () {
                 },
                 {
 
-                    orderable: false,
+                    orderable: true,
                     targets: 5,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+                        console.log(full)
+                        if (full.warehouse != null) {
+                            var value = full.warehouse.name
+                        }
+                        var output;
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + "-" + `</div>
+                        
+                        `
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 6,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+                        console.log(full)
+                        if (full.warehouse != null) {
+                            var value = full.warehouse.name
+                        }
+                        var output;
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + "-" + `</div>
+                        
+                        `
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 7,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+                        console.log(full)
+                        if (full.warehouse != null) {
+                            var value = full.warehouse.name
+                        }
+                        var output;
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + "-" + `</div>
+                        
+                        `
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: false,
+                    targets: 8,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

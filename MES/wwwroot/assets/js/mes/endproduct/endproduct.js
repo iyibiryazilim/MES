@@ -29,7 +29,7 @@ var EndProductList = function () {
             ajax: {
                 url: postUrl,
                 type: 'POST'
-                
+
             },
             columns: [
                 { data: 'referenceId' },
@@ -195,26 +195,25 @@ var EndProductList = function () {
 								<a href="EndProduct/Detail/?referenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
 							</div>
 							<!--end::Menu item-->
-                            <!--begin::Menu item-->
-							<div class="menu-item px-3">
-								<a href="#" id="EndProductInputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction" >Giriş Hareketleri</a>
+                            <div class="menu-item px-3">
+								<a href="#" id="EndProductInputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_endProduct_inputTransaction">Giriş Hareketleri</a>
 							</div>
 							<!--end::Menu item-->
                             <!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="EndProductOutputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_outputTransaction">Çıkış Hareketleri</a>
+								<a href="#" id="EndProductOutputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_endProduct_outputTransaction">Çıkış Hareketleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="EndProductWarehouseTotalList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction" >Ambar Toplamları</a>
+								<a href="#" id="EndProductWarehouseTotalList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_endProduct_warehouseTotal" >Ambar Toplamları</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="EndProductSaleOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction" >Satış Siparişleri</a>
+								<a href="#" id="EndProductSaleOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_endProduct_salesOrder" >Satış Siparişleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="EndProductPurchaseOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId +` data-bs-target="#mes_endProduct_inputTransaction">Satınalma Siparişleri</a>
+								<a href="#" id="EndProductPurchaseOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_endProduct_purchaseOrder">Satınalma Siparişleri</a>
 							</div>
 							<!--end::Menu item-->
 							
@@ -254,7 +253,7 @@ var EndProductList = function () {
         });
 
     }
-    
+
 
 
     // Handle status filter dropdown
