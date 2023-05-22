@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 // Class definition
-var ShowModalPageInit = function () {
+var InputShowModalPageInit = function () {
 
     var table;
     var datatable;
@@ -9,8 +9,8 @@ var ShowModalPageInit = function () {
 
     var initDatatable = function () {
 
-
-        var postUrl = 'SemiProduct/GetInputJsonResult?productReferenceId=' + referenceId; // postUrl içinde referenceId kullanılır
+        var postUrl = 'SemiProduct/GetInputJsonResult?productReferenceId=' + referenceId;
+        console.log(postUrl);
 
         datatable = $(table).DataTable({
             responsive: true,
@@ -138,39 +138,44 @@ var ShowModalPageInit = function () {
             ]
         });
 
-        
         // Re-init functions on datatable re-draws
         datatable.on('draw', function () {
-            //console.log("draw'a girdi")
             KTMenu.createInstances();
         });
-
     }
     // Private functions
 
     var loadModalPage = function () {
-
-        $('#kt_modal_add_customer').on('shown.bs.modal', function () {
-
-            referenceId = $('#ProductId').val();
-            console.log(referenceId)
+        $('#mes_semiProduct_inputTransaction').on('shown.bs.modal', function () {
+            console.log("Giriş Tablosu Açıldı")
             initDatatable();
-            console.log(referenceId)
+
         });
-    }
+    };
+
+    var bindEventHandlers = function () {
+        $(document).on('click', 'a#SemiProductInputTransactionList', function () {
+            referenceId = $(this).data('reference-id');
+        });
+    };
 
     // Public methods
     return {
         init: function () {
             table = document.querySelector('#mes_input_transaction_table');
-
+            if (!table) {
+                console.log("Girş hareketleri tablosu bulunamadı")
+                return;
+            }
+            bindEventHandlers();
             loadModalPage();
-            initDatatable();
+
+
         }
     };
 }();
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    ShowModalPageInit.init();
+    InputShowModalPageInit.init();
 });

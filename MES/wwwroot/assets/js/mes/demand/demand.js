@@ -1,5 +1,4 @@
-﻿
-"use strict";
+﻿"use strict";
 
 
 // Class definition
@@ -32,7 +31,7 @@ var DemandList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'code' },//kod
+                { data: 'referenceId' },//kod
                 { data: 'demandDate' },//tarih
                 { data: 'warehouse' },//ürün
                 { data: 'warehouse' },//ambar

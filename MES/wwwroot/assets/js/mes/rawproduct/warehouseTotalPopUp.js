@@ -9,7 +9,8 @@ var WarehouseTotalShowModalPageInit = function () {
     var referenceId;
 
     var initDatatable = function () {
-        var postUrl = '/EndProduct/GetWarehouseJsonResult?productReferenceId=' + referenceId;
+
+        var postUrl = '/RawProduct/GetWarehouseJsonResult?productReferenceId=' + referenceId;
         console.log(postUrl)
 
 
@@ -113,7 +114,7 @@ var WarehouseTotalShowModalPageInit = function () {
     // Private functions
 
     var loadModalPage = function () {
-        $('#mes_endProduct_warehouseTotal').on('shown.bs.modal', function () {
+        $('#mes_rawProduct_warehouseTotal').on('shown.bs.modal', function () {
             console.log("Ambar Toplamları tablosu")
             initDatatable();
 
@@ -121,7 +122,7 @@ var WarehouseTotalShowModalPageInit = function () {
     };
 
     var bindEventHandlers = function () {
-        $(document).on('click', 'a#EndProductWarehouseTotalList', function () {
+        $(document).on('click', 'a#RawProductWarehouseTotalList', function () {
             referenceId = $(this).data('reference-id');
         });
     };
