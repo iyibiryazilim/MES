@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 // Class definition
-var ShowModalPageInit = function () {
+var InputShowModalPageInit = function () {
 
     var table;
     var datatable;
@@ -9,12 +9,8 @@ var ShowModalPageInit = function () {
 
     var initDatatable = function () {
 
-
-        var postUrl = 'RawProduct/GetInputJsonResult?productReferenceId=' + referenceId; // postUrl içinde referenceId kullanılır
-
+        var postUrl = 'RawProduct/GetInputJsonResult?productReferenceId=' + referenceId;
         console.log(postUrl);
-
-        console.log(postUrl)
 
         datatable = $(table).DataTable({
             responsive: true,
@@ -150,31 +146,37 @@ var ShowModalPageInit = function () {
     // Private functions
 
     var loadModalPage = function () {
-
-        $('#kt_modal_add_customer').on('shown.bs.modal', function () {
-
-            referenceId = $('#ProductId').val();
-            console.log(referenceId)
+        $('#mes_rawProduct_inputTransaction').on('shown.bs.modal', function () {
+            console.log("Giriş Tablosu Açıldı")
             initDatatable();
-            referenceId = undefined;
-            console.log(referenceId)
+
         });
-    }
+    };
+
+    var bindEventHandlers = function () {
+        $(document).on('click', 'a#RawProductInputTransactionList', function () {
+            referenceId = $(this).data('reference-id');
+            console.log("aaaaa " + referenceId);
+        });
+    };
 
     // Public methods
     return {
         init: function () {
             table = document.querySelector('#mes_input_transaction_table');
-
+            if (!table) {
+                console.log("Girş hareketleri tablosu bulunamadı")
+                return;
+            }
+            bindEventHandlers();
             loadModalPage();
 
 
-            initDatatable();
         }
     };
 }();
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    ShowModalPageInit.init();
+    InputShowModalPageInit.init();
 });

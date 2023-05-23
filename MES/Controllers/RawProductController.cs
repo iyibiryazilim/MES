@@ -4,7 +4,6 @@ using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
-using MES.ViewModels.ProductViewModels;
 using MES.ViewModels.RawProductViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -192,7 +191,7 @@ namespace MES.Controllers
         public async IAsyncEnumerable<ProductTransactionLine> GetOutputRawProduct(int productReferenceId)
         {
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-            var result = _transactionLineService.GetInputProductTransactionLineByProductRef(httpClient, productReferenceId);
+            var result = _transactionLineService.GetOutputProductTransactionLineByProductRef(httpClient, productReferenceId);
             //Console.WriteLine(productReferenceId.ToString());
             await foreach (var item in result)
             {

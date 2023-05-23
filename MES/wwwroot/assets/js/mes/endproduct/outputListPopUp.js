@@ -156,7 +156,6 @@ var OutputShowModalPageInit = function () {
     var bindEventHandlers = function () {
         $(document).on('click', 'a#EndProductOutputTransactionList', function () {
             referenceId = $(this).data('reference-id');
-            console.log("aaaaa " + referenceId);
         });
     };
 
