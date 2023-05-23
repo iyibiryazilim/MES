@@ -31,6 +31,7 @@ var RawProductList = function () {
             ajax: {
                 url: postUrl,
                 type: 'POST'
+
             },
             columns: [
                 { data: 'referenceId' },
@@ -90,8 +91,12 @@ var RawProductList = function () {
                     targets: 2,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-                        var output;
-                        output = `<span class="fw-bold ms-3">` + full.stockQuantity + `</span> <span class="fw-bold">` + full.unitset.code + `</span> `
+                        var output
+                        var value = 0
+                        if (full.stockQuantity != 0) {
+                            value = full.stockQuantity.toFixed(3)
+                        }
+                        output = `<span class="fw-bold ms-3">` + value + `</span> <span class="fw-bold">` + full.unitset + `</span> `
 
                         return output;
                     },
@@ -126,9 +131,12 @@ var RawProductList = function () {
                     targets: 5,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-                        var output;
-
-                        output = ` <div class="badge badge-light-success">` + full.inputQuantity + `</div>`
+                        var output
+                        var value = 0
+                        if (full.inputQuantity != 0) {
+                            value = full.inputQuantity.toFixed(1)
+                        }
+                        output = `<span class="badge-light-success">` + value + `  ` + full.unitset + `</span> `
 
                         return output;
                     },
@@ -138,8 +146,12 @@ var RawProductList = function () {
                     targets: 6,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-                        var output;
-                        output = ` <div class="badge badge-light-danger">` + full.outputQuantity + `</div>`
+                        var output
+                        var value = 0
+                        if (full.outputQuantity != 0) {
+                            value = full.outputQuantity.toFixed(1)
+                        }
+                        output = `<span class="badge-light-danger">` + value + `  ` + full.unitset + `</span> `
 
                         return output;
                     },
@@ -158,7 +170,7 @@ var RawProductList = function () {
 
                         var output;
 
-                        output = ` <div class="badge badge-light-primary">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</div>`
+                        output = ` <div class="badge fs-5 badge-light-primary">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</div>`
 
                         return output;
 
@@ -228,7 +240,6 @@ var RawProductList = function () {
             ]
 
         });
-
 
 
         // Re-init functions on datatable re-draws

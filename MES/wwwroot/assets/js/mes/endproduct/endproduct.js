@@ -63,7 +63,7 @@ var EndProductList = function () {
                     targets: 1,
                     className: 'd-flex align-items-center',
                     render: function (data, type, full, meta) {
-                        var value = full.name;
+
                         var output;
                         output = `<!--begin:: Avatar -->
 															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
@@ -76,7 +76,7 @@ var EndProductList = function () {
 															<!--end::Avatar-->
 															<!--begin::User details-->
 															<div class="d-flex flex-column">
-																<a href="EndProduct/Detail/?referenceId=`+ full.referenceId + `" class="text-gray-800 text-hover-primary mb-1">` + full.code + `</a>
+																<a href="EndProduct/Detail/?referenceId=`+ full.referenceId + `" class="text-gray-800 fs-5 text-hover-primary mb-1">` + full.code + `</a>
 																<span>`+ full.name + `</span>
 															</div>
 															<!--begin::User details-->`
@@ -89,8 +89,12 @@ var EndProductList = function () {
                     targets: 2,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-                        var output;
-                        output = `<span class="fw-bold ms-3">` + full.stockQuantity + `</span> <span class="fw-bold">` + full.unitset.code + `</span> `
+                        var output
+                        var value = 0
+                        if (full.stockQuantity != 0) {
+                            value = full.stockQuantity.toFixed(3)
+                        }
+                        output = `<span class="fw-bold ms-3">` + value + `</span> <span class="fw-bold">` + full.unitset + `</span> `
 
                         return output;
                     },
@@ -125,9 +129,12 @@ var EndProductList = function () {
                     targets: 5,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-                        var output;
-
-                        output = ` <div class="badge badge-light-success">` + full.inputQuantity + `</div>`
+                        var output
+                        var value = 0
+                        if (full.inputQuantity != 0) {
+                            value = full.inputQuantity.toFixed(1)
+                        }
+                        output = `<span class="badge-light-success">` + value + `  ` + full.unitset + `</span> `
 
                         return output;
                     },
@@ -137,8 +144,12 @@ var EndProductList = function () {
                     targets: 6,
                     className: 'text-end pe-0',
                     render: function (data, type, full, meta) {
-                        var output;
-                        output = ` <div class="badge badge-light-danger">` + full.outputQuantity + `</div>`
+                        var output
+                        var value = 0
+                        if (full.outputQuantity != 0) {
+                            value = full.outputQuantity.toFixed(1)
+                        }
+                        output = `<span class="badge-light-danger">` + value + `  ` + full.unitset + `</span> `
 
                         return output;
                     },
@@ -157,7 +168,7 @@ var EndProductList = function () {
 
                         var output;
 
-                        output = ` <div class="badge badge-light-primary">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</div>`
+                        output = ` <div class="badge fs-5 badge-light-primary">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</div>`
 
                         return output;
 

@@ -33,12 +33,14 @@ var SalesOrderLineList = function () {
 
                 { data: 'referenceId' },
                 { data: 'orderDate' },
-                { data: 'code' },
-                { data: 'current' },
-                { data: 'product' },
+                { data: 'orderCode' },
+                { data: 'currentCode' },
+                { data: 'productName' },
+                { data: 'warehouseName' },
                 { data: 'quantity' },
+                { data: 'shippedQuantity' },
+                { data: 'waitingQuantity' },
                 { data: 'description' },
-                { data: 'warehouse' },
                 { data: 'referenceId' },
 
 
@@ -53,7 +55,7 @@ var SalesOrderLineList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
+                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
                         </div>`
                         return output;
 
@@ -64,12 +66,18 @@ var SalesOrderLineList = function () {
 
                     orderable: true,
                     targets: 1,
+                    classname: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
-                        console.log()
+                        var formattedDate = new Date(full.orderDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
+
                         var output;
 
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.order.orderDate + `</div>`
+                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</a>`
                         return output;
 
                     },
@@ -83,7 +91,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.order.code + `</div>`
+                        output = `<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bold">` + full.orderCode + `</a>`
                         return output;
 
                     },
@@ -97,8 +105,25 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.order.current.definition + `</div>`
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.currentName + `</a>
+															<span class="text-muted fw-bold">`+ full.currentCode + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
                         return output;
 
                     },
@@ -108,11 +133,29 @@ var SalesOrderLineList = function () {
 
                     orderable: true,
                     targets: 4,
-                    className: 'text-start pe-0',
+                    className: 'd-flex align-items-center',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.product.name + `</div>`
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.productName + `</a>
+															<span class="text-muted fw-bold">`+ full.productCode + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
                         return output;
 
                     },
@@ -126,8 +169,13 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.quantity + `</div>`
+                        var value = "";
+                        if (full.warehouseNo != null) {
+                            value = full.warehouseNo
+                        }
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + value + `</div>`
                         return output;
+
 
                     },
 
@@ -140,9 +188,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>
-                        
-                        `
+                        output = `<div class="text-gray-800 d-block fs-4">` + full.quantity.toFixed(1) + ` ` + full.subUnitset + `</div>`
                         return output;
 
                     },
@@ -154,11 +200,9 @@ var SalesOrderLineList = function () {
                     targets: 7,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-                        if (full.warehouse != null) {
-                            var value = full.warehouse.name
-                        }
+
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + value + `</div>
+                        output = `<div class="text-gray-800 d-block fs-4">` + full.shippedQuantity.toFixed(1) + ` ` + full.subUnitset + `</div>
                         
                         `
                         return output;
@@ -168,8 +212,40 @@ var SalesOrderLineList = function () {
                 },
                 {
 
-                    orderable: false,
+                    orderable: true,
                     targets: 8,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = `<div class="text-gray-800 d-block fs-4">` + full.waitingQuantity.toFixed(1) + ` ` + full.subUnitset + `</div>
+                        
+                        `
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 9,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        console.log()
+                        var output;
+
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: false,
+                    targets: 10,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

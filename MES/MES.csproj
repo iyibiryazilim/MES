@@ -19,12 +19,16 @@
     <None Remove="HttpClientService\" />
     <None Remove="Views\WorkOrder\" />
     <None Remove="ViewModels\WorkOrderViewModels\" />
+    <None Remove="ViewModels\PurchaseOrderLine\" />
+    <None Remove="ViewModels\SalesOrderLine\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HttpClientService\" />
     <Folder Include="Views\WorkOrder\" />
     <Folder Include="ViewModels\WorkOrderViewModels\" />
     <Folder Include="wwwroot\assets\js\mes\workOrder\" />
+    <Folder Include="ViewModels\PurchaseOrderLine\" />
+    <Folder Include="ViewModels\SalesOrderLine\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\assets\js\mes\workOrder\" />
