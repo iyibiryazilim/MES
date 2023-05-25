@@ -33,15 +33,15 @@ var WorkOrderList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'status' },
                 { data: 'referenceId' },
-                { data: 'operationBeginDate' },
-                { data: 'product.name' },
-                { data: 'workstation.name' },           
-                { data: 'operation.name' },  
-                { data: 'plannedAmount' },  
-                { data: 'actualAmount' },  
-                { data: 'operationDueDate' },
+                { data: 'workOrderStatus' },
+                { data: 'plannedBeginDate' },
+                { data: 'productName' },
+                { data: 'workstationName' },           
+                { data: 'operationName' },  
+                { data: 'plannedAmounth' },  
+                { data: 'actualAmounth' },  
+                { data: 'plannedDueDate' },
                 { data: 'realizationRate' },  
                 { data: 'referenceId' },
 
@@ -62,7 +62,6 @@ var WorkOrderList = function () {
                     },
 
                 },
-                
                 {
 
                     orderable: true,
@@ -70,10 +69,11 @@ var WorkOrderList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
+
                         var output;
-                        switch (full.status) {
+                        switch (full.workOrderStatus) {
                             case 0:
-                                output = `<div class="badge badge-light-danger fw-bold">` + "Başlamadı "  + `</div>`
+                                output = `<div class="badge badge-light-danger fw-bold">` + "Başlamadı " + `</div>`
                                 return output;
                                 break;
                             case 1:
@@ -81,24 +81,31 @@ var WorkOrderList = function () {
                                 return output;
                                 break;
                             case 2:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.status + `</div>`
+                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.workOrderStatus + `</div>`
                                 return output;
                                 break;
                             case 3:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.status + `</div>`
+                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.workOrderStatus + `</div>`
                                 return output;
                                 break;
                             case 4:
-                                output = `<div class="badge badge-light-primary fw-bold">` + "Kapanmış "  + `</div>`
+                                output = `<div class="badge badge-light-primary fw-bold">` + "Kapanmış " + `</div>`
                                 return output;
                                 break;
                             default:
+                                console.log(typeof (full.workOrderStatus))
+                                output = `<div class="badge badge-light-primary fw-bold">` + "Bilinmeyen Durum" + `</div>`
+                                return output;
+
                         }
+
                         
+
 
                     },
 
                 },
+                
                 {
 
                     orderable: true,
@@ -107,9 +114,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800 fs-7 mb-1">` + "İŞ EMRİ KODU" + `</div>`
                         return output;
-
 
                     },
 
@@ -121,10 +127,18 @@ var WorkOrderList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
-                        var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1 ">` + data + `</div>`
-                        return output;
 
+                        var formattedDate = new Date(full.plannedBeginDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
+
+                        var output;
+
+                        output = ` <a href="#" class="badge badge-light-success fs-7 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</a>`
+                        return output;
+                       
 
                     },
 
@@ -137,7 +151,25 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.productName + `</a>
+															<span class="text-muted fw-bold">`+ full.productCode + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
                         return output;
 
 
@@ -152,7 +184,25 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.workstationName + `</a>
+															<span class="text-muted fw-bold">`+ full.workstationCode + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
                         return output;
 
 
@@ -167,7 +217,8 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800  d-block fs-7">` + full.operationName + `</div>`
+
                         return output;
 
 
@@ -182,7 +233,9 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+              
+                        output = `<div class="text-gray-800 d-block fs-7">` + full.plannedAmounth + `</div>`
+
                         return output;
 
 
@@ -197,7 +250,7 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="text-gray-800 d-block fs-7">` + full.actualAmounth + `</div>`
                         return output;
 
 
@@ -211,9 +264,19 @@ var WorkOrderList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
+                        var formattedDate = new Date(full.plannedDueDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
+
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+
+                        output = ` <a href="#" class="badge badge-light-success fs-7 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</a>`
                         return output;
+
+
+                        
 
 
                     },
@@ -227,30 +290,30 @@ var WorkOrderList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
+                        var progressBarWidth = full.realizationRate
+                        if (full.realizationRate > 100)
+                            progressBarWidth = 100
                         if (full.realizationRate <= 33 && full.realizationRate >= 0) {
                             output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="h-8px mx-3 w-80 bg-light-danger rounded">
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ progressBarWidth + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
                         } else if (full.realizationRate > 33 && full.realizationRate <= 66) {
                             output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-warning rounded">
-									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="h-8px mx-3 w-80 bg-light-warning rounded">
+									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ progressBarWidth + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
 
                         }
                         else {
                             output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.realizationRate + `</div>
-                                    <div class="h-8px mx-3 w-100 bg-light-primary rounded">
-									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ full.realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="h-8px mx-3 w-80 bg-light-primary rounded">
+									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ progressBarWidth + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
                         }
-
-                        
-                        
 
                     },
 
@@ -266,7 +329,7 @@ var WorkOrderList = function () {
                         output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">İşlemler<i class="ki-duotone ki-down fs-5 ms-1"></i>
 						</a>
 						<!--begin::Menu-->
-						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-100px py-4" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
 								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Düzenle</a>

@@ -5,7 +5,8 @@ namespace MES.ViewModels.EndProductViewModels
 {
     public class EndProductViewModel
     {
-        public int ReferenceId { get; set; }
+		[DisplayName("Referans Kodu")]
+		public int ReferenceId { get; set; }
         [DisplayName("Kodu")]
         public string Code { get; set; } = string.Empty;
         [DisplayName("Adı")]

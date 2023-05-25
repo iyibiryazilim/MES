@@ -188,7 +188,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 d-block fs-4">` + full.quantity.toFixed(1) + ` ` + full.subUnitset + `</div>`
+                        output = `<div class="text-gray-800 d-block fs-4">` + full.quantity.toFixed(1) +  `</div>`
                         return output;
 
                     },
@@ -202,7 +202,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 d-block fs-4">` + full.shippedQuantity.toFixed(1) + ` ` + full.subUnitset + `</div>
+                        output = `<div class="text-gray-800 d-block fs-4">` + full.shippedQuantity.toFixed(1) + `</div>
                         
                         `
                         return output;
@@ -218,7 +218,7 @@ var SalesOrderLineList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 d-block fs-4">` + full.waitingQuantity.toFixed(1) + ` ` + full.subUnitset + `</div>
+                        output = `<div class="text-gray-800 d-block fs-4">` + full.waitingQuantity.toFixed(1) + `</div>
                         
                         `
                         return output;
