@@ -4,10 +4,8 @@ using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
-using MES.ViewModels.EndProductViewModels;
-using MES.ViewModels.ProductViewModels;
+using MES.Models.EndProductModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using System.Text.Json;
 
 namespace MES.Controllers;
@@ -60,7 +58,7 @@ public class EndProductController : Controller
 
     public async Task<IActionResult> Detail(int referenceId)
     {
-        EndProductDetailViewModel viewModel = new EndProductDetailViewModel();
+        EndProductDetailModel viewModel = new EndProductDetailModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
         var product = await _service.GetObject(httpClient, referenceId);
 
@@ -71,7 +69,7 @@ public class EndProductController : Controller
         {
             return NotFound();
         }
-        viewModel.EndProductModel = _mapper.Map<EndProductModel>(product);
+        viewModel.EndProductModel = _mapper.Map<EndProductListModel>(product);
         viewModel.EndProductModel.RevolutionSpeed = 0;
 
         var warehouseParameters = _warehouseParameterService.GetObjects(httpClient, referenceId);
@@ -123,9 +121,9 @@ public class EndProductController : Controller
         return Json(new { data = GetWarehouseEndProduct(productReferenceId) });
     }
 
-    public async IAsyncEnumerable<EndProductViewModel> GetEndProducts()
+    public async IAsyncEnumerable<EndProductListModel> GetEndProducts()
     {
-        EndProductViewModel viewModel = new EndProductViewModel();
+        EndProductListModel viewModel = new EndProductListModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
         if (viewModel != null)
         {

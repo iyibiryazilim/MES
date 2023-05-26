@@ -89,7 +89,7 @@ var WorkOrderList = function () {
                                 return output;
                                 break;
                             case 4:
-                                output = `<div class="badge badge-light-primary fw-bold">` + "Kapanmış " + `</div>`
+                                output = `<div class="badge badge-light-primary fw-bold">` + "Kapandı " + `</div>`
                                 return output;
                                 break;
                             default:

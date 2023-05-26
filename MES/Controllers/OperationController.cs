@@ -1,37 +1,37 @@
-﻿using LBS.Shared.Entity.Models;
+﻿using System.Text.Json;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
+using MES.Models.OperationModels;
 using MES.ViewModels.OperationViewModels;
-using MES.ViewModels.WorkOrderViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace MES.Controllers
 {
-	public class OperationController : Controller
+    public class OperationController : Controller
     {
-        ILogger<OperationController> _logger;
-        IHttpClientService _httpClientService;
-        IOperationService _service;
-        IWorkOrderService _workOrderService;
+        readonly ILogger<OperationController> _logger;
+        readonly IHttpClientService _httpClientService;
+        readonly IOperationService _service;
+        readonly IWorkOrderService _workOrderService;
+        readonly ICustomQueryService _customQueryService;
 
         public OperationController(ILogger<OperationController> logger,
             IHttpClientService httpClientService,
             IOperationService service,
-            IWorkOrderService workOrderService)
+            IWorkOrderService workOrderService, ICustomQueryService customQueryService)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _service = service;
             _workOrderService = workOrderService;
+            _customQueryService = customQueryService;
         }
 
         public IActionResult Index()
         {
             ViewData["Title"] = "Operasyonlar";
-            OperationListViewModel viewModel = new OperationListViewModel();
+            OperationListViewModel viewModel = new();
             return View(viewModel);
         }
 
@@ -41,38 +41,50 @@ namespace MES.Controllers
             return Json(new { data = GetOperation() });
         }
 
-        public async IAsyncEnumerable<OperationModel> GetOperation()
+        public async IAsyncEnumerable<OperationListModel> GetOperation()
         {
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-            var result = _service.GetObjects(httpClient);
-            
+            OperationListModel viewModel = new();
 
-			await foreach (var item in result)
-			{
-                OperationModel model = new OperationModel
-                {
-                    Active = item.Active,
-                    Code = item.Code,
-                    Name = item.Name,
-                    ReferenceId = item.ReferenceId,
-                };
+            if (viewModel != null)
+            {
+                const string query = @"
+                    SELECT 
+                    OPERATIONS.LOGICALREF AS [REFERENCEID],
+                    OPERATIONS.CODE AS [CODE],
+                    OPERATIONS.NAME AS [DESCRIPTION],
+                    [ActiveWorkOrder] = (SELECT COUNT(*) FROM LG_003_DISPLINE WHERE OPERATIONREF = OPERATIONS.LOGICALREF)
+                    FROM LG_003_OPERTION AS OPERATIONS ";
 
-                model.ActiveWorkOrderCount = 0;
-                var workOrderResult = _workOrderService.Getobjects(httpClient);
-                await foreach(var workOrderItem in workOrderResult)
+                JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+                if (jsonDocument != null)
                 {
-                    if(workOrderItem.Operation.ReferenceId == item.ReferenceId)
+                    var array = jsonDocument.RootElement.EnumerateArray();
+                    foreach (JsonElement element in array)
                     {
-                        model.ActiveWorkOrderCount++;
+                        #region Reference Id
+                        JsonElement referenceId = element.GetProperty("referenceid");
+                        viewModel.ReferenceId = referenceId.GetInt32();
+                        #endregion
+
+                        #region Code
+                        JsonElement code = element.GetProperty("code");
+                        viewModel.Code = code.GetString();
+                        #endregion
+
+                        #region Description
+                        JsonElement description = element.GetProperty("description");
+                        viewModel.Description = description.GetString();
+                        #endregion
+
+                        #region Activ Work Order Count
+                        JsonElement activeWorkOrderCount = element.GetProperty("activeWorkOrder");
+                        viewModel.ActiveWorkOrder = activeWorkOrderCount.GetInt32();
+                        #endregion
+                        yield return viewModel;
                     }
                 }
-
-                yield return model;
             }
-
         }
-
-        
-        
     }
 }

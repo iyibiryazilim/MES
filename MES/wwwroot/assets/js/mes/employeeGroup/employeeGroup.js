@@ -33,8 +33,7 @@ var EmployeeGroupList = function () {
 
                 { data: 'referenceId' },
                 { data: 'code' },
-                { data: 'name' },
-                { data: 'count' },
+                { data: 'employeeCount' },
                 { data: 'referenceId' },
 
             ],
@@ -68,10 +67,15 @@ var EmployeeGroupList = function () {
 								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
 							</a>
 							<!--end::Thumbnail-->
-							<div class="d-flex align-items-center">
+							<div class="ms-5">
 								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ data + `</a>								
-							</div>`
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
+								<!--end::Title-->
+								<!--begin::Description-->
+								<div class="text-muted fs-7 fw-bold">`+ full.name + `</div>
+								<!--end::Description-->
+							</div>
+						</div>`
                         return output;
 
                     },
@@ -85,21 +89,7 @@ var EmployeeGroupList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.name + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 3,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.count + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.employeeCount + `</div>`
                         return output;
 
                     },
@@ -108,7 +98,7 @@ var EmployeeGroupList = function () {
                 {
 
                     orderable: false,
-                    targets: 4,
+                    targets: 3,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

@@ -33,8 +33,7 @@ var EmployeeList = function () {
 
                 { data: 'referenceId' },
                 { data: 'name' },
-                { data: 'code' },
-                { data: 'shiftProgress' },
+                { data: 'shiftRate' },
                 { data: 'referenceId' },
 
 
@@ -64,24 +63,26 @@ var EmployeeList = function () {
 
                         var output;
 
-                        output = `<div class="d-flex align-items-center">
-																<!--begin::Thumbnail-->
-										<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
-											<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/1.gif);"></span>
-										</a>
-										<!--end::Thumbnail-->
-										<div class="ms-5">
-											<!--begin::Title-->
-											<a href="../../demo46/dist/apps/ecommerce/catalog/edit-product.html" class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">`+ data + `</a>
-											<!--end::Title-->
-																</div>
-															</div>`
+                        output = `<div class="d-flex">
+							<!--begin::Thumbnail-->
+							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
+								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
+							</a>
+							<!--end::Thumbnail-->
+							<div class="ms-5">
+								<!--begin::Title-->
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
+								<!--end::Title-->
+								<!--begin::Description-->
+								<div class="text-muted fs-7 fw-bold">`+ full.name + `</div>
+								<!--end::Description-->
+							</div>
+						</div>`
                         return output;
 
                     },
 
                 },
-               
                 {
 
                     orderable: true,
@@ -89,40 +90,29 @@ var EmployeeList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
-                        var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.code + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 3,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
 
                         var output;
-                        if (full.shiftProgress <= 33 && full.shiftProgress >= 0) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftProgress + `</div>
+                        var value = full.shiftRate
+                        if (value > 100)
+                            value = 100
+                        if (full.shiftProgress <= 33 && full.shiftRate >= 0) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftRate + `</div>
                                     <div class="h-8px mx-3 w-100 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ full.shiftProgress + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
                         } else if (full.shiftProgress > 33 && full.shiftProgress <= 66) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftProgress + `</div>
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftRate + `</div>
                                     <div class="h-8px mx-3 w-100 bg-light-warning rounded">
-									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ full.shiftProgress + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
 
                         }
                         else {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftProgress + `</div>
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.shiftRate + `</div>
                                     <div class="h-8px mx-3 w-100 bg-light-primary rounded">
-									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ full.shiftProgress + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
                         }
@@ -133,7 +123,7 @@ var EmployeeList = function () {
                 {
 
                     orderable: false,
-                    targets: 4,
+                    targets: 3,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

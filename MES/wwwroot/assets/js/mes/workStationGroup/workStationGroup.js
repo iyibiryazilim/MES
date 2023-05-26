@@ -33,7 +33,7 @@ var WorkStationGroupList = function () {
                 { data: 'referenceId' },
                 { data: 'code' },
                 { data: 'name' },
-                { data: 'count' },
+                { data: 'workstationCount' },
                 { data: 'referenceId' },
 
             ],
@@ -46,7 +46,7 @@ var WorkStationGroupList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-							<input class="form-check-input" type="checkbox" value="`+data+`" />
+							<input class="form-check-input" type="checkbox" value="`+full.referenceId+`" />
 						</div>`
                         return output;
 
@@ -90,21 +90,7 @@ var WorkStationGroupList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.name +`</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 3,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.count + `</div>`
+                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.workstationCount + `</div>`
                         return output;
 
                     },
@@ -113,7 +99,7 @@ var WorkStationGroupList = function () {
                 {
 
                     orderable: false,
-                    targets: 4,
+                    targets: 3,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

@@ -4,9 +4,7 @@ using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
-using MES.ViewModels.EndProductViewModels;
-using MES.ViewModels.ProductViewModels;
-using MES.ViewModels.SemiProductViewModels;
+using MES.Models.SemiProductModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -61,7 +59,7 @@ namespace MES.Controllers
 
         public async Task<IActionResult> Detail(int referenceId)
         {
-            SemiProductDetailViewModel viewModel = new SemiProductDetailViewModel();
+            SemiProductDetailModel viewModel = new SemiProductDetailModel();
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             var product = await _service.GetObject(httpClient, referenceId);
 
@@ -125,9 +123,9 @@ namespace MES.Controllers
         }
 
 
-        public async IAsyncEnumerable<SemiProductViewModel> GetSemiProduct()
+        public async IAsyncEnumerable<SemiProductListModel> GetSemiProduct()
         {
-            SemiProductViewModel viewModel = new SemiProductViewModel();
+            SemiProductListModel viewModel = new SemiProductListModel();
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             if (viewModel != null)
             {
