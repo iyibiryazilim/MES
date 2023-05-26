@@ -1,12 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace MES.ViewModels.EndProductViewModels
+namespace MES.Models.SemiProductModels
 {
-    public class EndProductViewModel
+    public class SemiProductListModel
     {
-		[DisplayName("Referans Kodu")]
-		public int ReferenceId { get; set; }
+        public int ReferenceId { get; set; }
         [DisplayName("Kodu")]
         public string Code { get; set; } = string.Empty;
         [DisplayName("Adı")]
@@ -32,7 +30,5 @@ namespace MES.ViewModels.EndProductViewModels
         public double FirstQuantity { get; set; } = default;
         [DisplayName("Devir Hızı")]
         public double RevolutionSpeed { get; set; } = default;
-
     }
 }
-

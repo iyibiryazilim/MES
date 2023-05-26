@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LBS.Shared.Entity.Models;
 using System.ComponentModel;
 
-namespace MES.ViewModels.SemiProductViewModels
+namespace MES.Models.EndProductModels
 {
-    public class SemiProductViewModel
+    public class EndProductListModel 
     {
+
+        [DisplayName("Referans Kodu")]
         public int ReferenceId { get; set; }
         [DisplayName("Kodu")]
         public string Code { get; set; } = string.Empty;
@@ -33,4 +35,3 @@ namespace MES.ViewModels.SemiProductViewModels
         public double RevolutionSpeed { get; set; } = default;
     }
 }
-

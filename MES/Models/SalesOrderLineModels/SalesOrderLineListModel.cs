@@ -1,7 +1,6 @@
-﻿using System;
-namespace MES.ViewModels.PurchaseOrderLine
+﻿namespace MES.Models.SalesOrderLineModels
 {
-    public class PurchaseOrderLineViewModel
+    public class SalesOrderLineListModel
     {
         public int ReferenceId { get; set; }
 
@@ -42,4 +41,3 @@ namespace MES.ViewModels.PurchaseOrderLine
         public DateTime? OrderDate { get; set; } = default;
     }
 }
-

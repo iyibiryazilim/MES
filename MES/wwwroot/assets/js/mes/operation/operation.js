@@ -33,8 +33,8 @@ var OperationList = function () {
 
                 { data: 'referenceId' },
                 { data: 'code' },
-                { data: 'name' },
-                { data: 'activeWorkOrderCount' },
+                { data: 'description' },
+                { data: 'activeWorkOrder' },
                 { data: 'referenceId' },
 
 
@@ -49,7 +49,7 @@ var OperationList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
+                            <input class="form-check-input" type="checkbox" value="`+ full.referenceid + `" />
                         </div>`
                         return output;
 
@@ -79,7 +79,7 @@ var OperationList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.name + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>`
                         return output;
 
                     },
@@ -91,9 +91,9 @@ var OperationList = function () {
                     targets: 3,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
+                        console.log(full)
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.activeWorkOrderCount + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.activeWorkOrder + `</div>`
                         return output;
 
                     },

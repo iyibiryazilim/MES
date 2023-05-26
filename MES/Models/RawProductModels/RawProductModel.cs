@@ -1,7 +1,7 @@
 ﻿using LBS.Shared.Entity.Models;
 using System.ComponentModel;
 
-namespace MES.Models
+namespace MES.Models.RawProductModels
 {
     public class RawProductModel : RawProduct
     {

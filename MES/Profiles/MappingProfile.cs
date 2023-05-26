@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using LBS.Shared.Entity.Models;
 using MES.Models;
+using MES.Models.EndProductModels;
+using MES.Models.RawProductModels;
+using MES.Models.SemiProductModels;
 
 namespace MES.Profiles
 {

@@ -1,10 +1,8 @@
-﻿using System.Text.Json;
-using LBS.Shared.Entity.Models;
-using LBS.WebAPI.Service.Services;
+﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
-using MES.ViewModels.PurchaseOrderLine;
-using MES.ViewModels.SalesOrderLine;
+using MES.Models.PurchaseOrderLineModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace MES.Controllers
 {
@@ -38,9 +36,9 @@ namespace MES.Controllers
         }
 
 
-        public async IAsyncEnumerable<PurchaseOrderLineViewModel> GetSalesOrders()
+        public async IAsyncEnumerable<PurchaseOrderLineListModel> GetSalesOrders()
         {
-            PurchaseOrderLineViewModel viewModel = new PurchaseOrderLineViewModel();
+            PurchaseOrderLineListModel viewModel = new PurchaseOrderLineListModel();
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             if (viewModel != null)
             {

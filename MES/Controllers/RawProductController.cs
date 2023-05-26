@@ -4,8 +4,7 @@ using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
-using MES.ViewModels.EndProductViewModels;
-using MES.ViewModels.RawProductViewModel;
+using MES.Models.RawProductModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -59,7 +58,7 @@ namespace MES.Controllers
         }
         public async Task<IActionResult> Detail(int referenceId)
         {
-            RawProductDetailViewModel viewModel = new RawProductDetailViewModel();
+            RawProductDetailModel viewModel = new RawProductDetailModel();
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             var product = await _service.GetObject(httpClient, referenceId);
 
@@ -125,9 +124,9 @@ namespace MES.Controllers
         }
 
 
-        public async IAsyncEnumerable<RawProductViewModel> GetRawProduct()
+        public async IAsyncEnumerable<RawProductListModel> GetRawProduct()
         {
-            RawProductViewModel viewModel = new RawProductViewModel();
+            RawProductListModel viewModel = new RawProductListModel();
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             if (viewModel != null)
             {

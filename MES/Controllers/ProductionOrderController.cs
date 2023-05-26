@@ -1,8 +1,8 @@
-﻿using LBS.Shared.Entity.Models;
-using LBS.WebAPI.Service.Services;
+﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
-using MES.ViewModels.OperationOrderViewModels;
+using MES.Models.ProductWarehouseParameterModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace MES.Controllers;
 
@@ -12,12 +12,14 @@ public class ProductionOrderController : Controller
     readonly ILogger<ProductionOrderController> _logger;
     readonly IHttpClientService _httpClientService;
     readonly IProductionService _productionService;
+    readonly ICustomQueryService _customQueryService;
     public ProductionOrderController(ILogger<ProductionOrderController> logger,
-        IHttpClientService httpClientService, IProductionService productionService)
+        IHttpClientService httpClientService, IProductionService productionService,ICustomQueryService customQueryService)
     {
         _logger = logger;
         _httpClientService = httpClientService;
         _productionService = productionService;
+        _customQueryService = customQueryService;
     }
     public IActionResult Index()
     {
@@ -31,50 +33,103 @@ public class ProductionOrderController : Controller
         return Json(new { data = GetProductions() });
     }
 
-    private async IAsyncEnumerable<ProductionOrderListViewModel> GetProductions()
+    private async IAsyncEnumerable<ProductionOrderListModel> GetProductions()
     {
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-
-        var result = _productionService.GetObjects(httpClient);
-
-        await foreach (var item in result)
+        ProductionOrderListModel viewModel = new();
+        if (viewModel != null)
         {
-            yield return new ProductionOrderListViewModel
+            const string query = @"
+        SELECT 
+              PRODORD.LOGICALREF AS [REFERENCEID], 
+              PRODORD.FICHENO AS [CODE], 
+              PRODORD.GENEXP1 AS [DESCRIPTION], 
+              PRODORD.PLNBEGDATE AS [PLANNEDBEGDATE],
+              ITEM.LOGICALREF AS [PRODUCTREFERENCEID],  
+              ITEM.CODE AS [PRODUCTCODE], 
+              ITEM.NAME AS [PRODUCTNAME], 
+              SUBUNITSET.CODE AS [SUBUNITSET], 
+              UNITSET.CODE AS [UNITSET], 
+              PRODORD.PLNAMOUNT AS [PLANNEDAMOUNTH], 
+              PRODORD.ACTAMOUNT AS [ACTUALAMOUNTH] 
+            FROM 
+              LG_003_PRODORD AS PRODORD 
+              LEFT JOIN LG_003_ITEMS AS ITEM ON PRODORD.ITEMREF = ITEM.LOGICALREF 
+              LEFT JOIN LG_003_UNITSETF AS UNITSET ON PRODORD.UOMREF = UNITSET.LOGICALREF 
+              LEFT JOIN LG_003_UNITSETL AS SUBUNITSET ON PRODORD.USETREF = SUBUNITSET.LOGICALREF";
+
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
             {
-                ActualAmount = item.ActualAmount,
-                ActualbeginDate = item.ActualbeginDate,
-                ActualDuration = item.ActualDuration,
-                ActualEndDate = item.ActualEndDate,
-                BeginDate = item.BeginDate,
-                Cancelled = item.Cancelled,
-                Code = item.Code,
-                ConversionFactor = item.ConversionFactor,
-                Current = item.Current,
-                Description = item.Description,
-                DueDate = item.DueDate,
-                EndDate = item.EndDate,
-                FicheType = item.FicheType,
-                OtherConversionFactor = item.OtherConversionFactor,
-                PlanedBeginDate = item.PlanedBeginDate,
-                PlanedDuration = item.PlanedDuration,
-                PlanedEndDate = item.PlanedEndDate,
-                PlannedAmount = item.PlannedAmount,
-                Product = item.Product,
-                ProductionDate = item.ProductionDate,
-                ReferenceId = item.ReferenceId,
-                StartDate = item.StartDate,
-                Status = item.Status,
-                StopDate = item.StopDate,
-                SubUnitset = item.SubUnitset,
-                Unitset = item.Unitset,
-                RealizationRate = Convert.ToInt32((item.ActualAmount / item.PlannedAmount) * 100),
+                var array = jsonDocument.RootElement.EnumerateArray();
+                foreach (JsonElement element in array)
+                {
+                    #region Reference Id
+                    JsonElement referenceId = element.GetProperty("referenceid");
+                    viewModel.ReferenceId = referenceId.GetInt32();
+                    #endregion
 
+                    #region Code
+                    JsonElement code = element.GetProperty("code");
+                    viewModel.Code = code.GetString();
+                    #endregion
 
+                    #region Description
+                    JsonElement description = element.GetProperty("description");
+                    viewModel.Description = description.GetString();
+                    #endregion
 
-            };
+                    #region Planned Begin Date
+                    JsonElement plannedBeginDate = element.GetProperty("plannedbegdate");
+                    if (element.TryGetProperty("date", out plannedBeginDate) && plannedBeginDate.ValueKind != JsonValueKind.Null)
+                    {
+                        viewModel.PlannedBeginDate = JsonSerializer.Deserialize<DateTime>(plannedBeginDate.GetRawText());
+                    }
+                    #endregion                  
 
+                    #region Product Reference Id
+                    JsonElement productReferenceId = element.GetProperty("productreferenceid");
+                    viewModel.ProductRefernceId = productReferenceId.GetInt32();
+                    #endregion
+
+                    #region Product Code
+                    JsonElement productCode = element.GetProperty("productcode");
+                    viewModel.ProductCode = productCode.GetString();
+                    #endregion
+
+                    #region Product Name 
+                    JsonElement productName = element.GetProperty("productname");
+                    viewModel.ProductName = productName.GetString();
+                    #endregion
+
+                    #region Unitset
+                    JsonElement unitset = element.GetProperty("unitset");
+                    viewModel.Unitset = unitset.GetString();
+                    #endregion
+
+                    #region SubUnitSet
+                    JsonElement subUnitSet = element.GetProperty("subunitset");
+                    viewModel.SubUnitset = subUnitSet.GetString();
+                    #endregion
+
+                    #region Planned Amounth
+                    JsonElement plannedAmounth = element.GetProperty("plannedamounth");
+                    viewModel.PlannedAmounth = Convert.ToDouble(plannedAmounth.GetRawText().Replace('.', ','));
+                    #endregion
+
+                    #region Planned Amounth
+                    JsonElement actualAmounth = element.GetProperty("actualamounth");
+                    viewModel.ActualAmounth = Convert.ToDouble(actualAmounth.GetRawText().Replace('.', ','));
+                    #endregion
+
+                    #region Realization Rate
+					viewModel.RealizationRate = Convert.ToInt64(100*(viewModel.ActualAmounth / viewModel.PlannedAmounth));
+                    #endregion
+
+                    yield return viewModel;
+                }
+            }
         }
-
 
 
     }

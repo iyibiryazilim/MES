@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace MES.ViewModels.RawProductViewModel
+namespace MES.Models.RawProductModels
 {
-    public class RawProductViewModel
+    public class RawProductListModel
     {
         public int ReferenceId { get; set; }
         [DisplayName("Kodu")]
@@ -33,4 +32,3 @@ namespace MES.ViewModels.RawProductViewModel
         public double RevolutionSpeed { get; set; } = default;
     }
 }
-

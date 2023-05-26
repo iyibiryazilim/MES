@@ -1,10 +1,6 @@
-﻿using System;
-using LBS.Shared.Entity.BaseModels;
-using LBS.Shared.Entity.Models;
-
-namespace MES.ViewModels.SalesOrderLine
+namespace MES.Models.PurchaseOrderLineModels
 {
-    public class SalesOrderLineViewModel
+    public class PurchaseOrderLineListModel
     {
         public int ReferenceId { get; set; }
 
@@ -45,4 +41,3 @@ namespace MES.ViewModels.SalesOrderLine
         public DateTime? OrderDate { get; set; } = default;
     }
 }
-

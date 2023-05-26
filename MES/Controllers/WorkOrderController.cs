@@ -1,14 +1,8 @@
-﻿using LBS.Shared.Entity.BaseModels;
-using LBS.Shared.Entity.Models;
-using LBS.WebAPI.Service.Services;
+﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
-using MES.ViewModels.WorkOrderViewModels;
+using MES.Models.WorkOrderModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using System;
-using System.Security.Cryptography.Xml;
 using System.Text.Json;
-using System.Xml.Linq;
 
 namespace MES.Controllers;
 
@@ -30,8 +24,7 @@ public class WorkOrderController : Controller
     public IActionResult Index()
     {
         ViewData["Title"] = "İş Emirleri";
-        WorkOrderListViewModel viewModel = new WorkOrderListViewModel();
-        return View(viewModel);
+        return View();
     }
 
     [HttpPost]
@@ -40,9 +33,9 @@ public class WorkOrderController : Controller
         return Json(new { data = GetWorkOrder() });
     }
 
-    private async IAsyncEnumerable<WorkOrderViewModel> GetWorkOrder()
+    private async IAsyncEnumerable<WorkOrderListModel> GetWorkOrder()
     {
-		WorkOrderViewModel viewModel = new WorkOrderViewModel();
+        WorkOrderListModel viewModel = new WorkOrderListModel();
 		HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
 		if (viewModel != null)
 		{

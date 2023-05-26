@@ -1,17 +1,15 @@
-﻿using LBS.Shared.Entity.Models;
-using MES.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace MES.ViewModels.RawProductViewModel
+namespace MES.Models.SemiProductModels
 {
-    public class RawProductDetailViewModel
+    public class SemiProductDetailModel
     {
-        public RawProductDetailViewModel()
+        public SemiProductDetailModel()
         {
             ProductMeasures = new List<ProductMeasureModel>();
             WarehouseParameters = new List<ProductWarehouseParameterModel>();
         }
-        public RawProductModel? RawProductModel { get; set; }
+        public SemiProductModel? SemiProductModel { get; set; }
         public double DailyStock { get; set; } = default;
         [DisplayName("Günlük Stok Miktarı Değişimi")]
         public double DailyStockChange { get; set; } = default;

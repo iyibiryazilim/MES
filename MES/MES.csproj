@@ -23,7 +23,22 @@
     <None Remove="ViewModels\SalesOrderLine\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="HttpClientService\" />
+    <Folder Include="Models\EmployeeModels\" />
+    <Folder Include="Models\WorkstationModels\" />
+    <Folder Include="Models\WorkstationGroupModels\" />
+    <Folder Include="Models\StopTransactionModels\" />
+    <Folder Include="Models\StopCauseModels\" />
+    <Folder Include="Models\ShiftModels\" />
+    <Folder Include="Models\RouteModels\" />
+    <Folder Include="Models\PurchaseOrderLineModels\" />
+    <Folder Include="Models\ProductWarehouseParameterModels\" />
+    <Folder Include="Models\ProductMeasureModels\" />
+    <Folder Include="Models\ProductionOrderModels\" />
+    <Folder Include="Models\OperationModels\" />
+    <Folder Include="ViewModels\EndProductViewModels\" />
+    <Folder Include="ViewModels\RawProductViewModel\" />
+    <Folder Include="ViewModels\SemiProductViewModels\" />
+    <Folder Include="ViewModels\WorkOrderViewModels\" />
     <Folder Include="Views\WorkOrder\" />
     <Folder Include="wwwroot\assets\js\mes\workOrder\" />
     <Folder Include="ViewModels\PurchaseOrderLine\" />
