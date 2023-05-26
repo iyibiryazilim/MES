@@ -15,7 +15,7 @@ var RoutesList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/Routes/GetJsonResult';
+        var postUrl = '/Route/GetJsonResult';
 
         datatable = $(table).DataTable({
 
@@ -35,7 +35,7 @@ var RoutesList = function () {
                 { data: 'referenceId' },
                 { data: 'code' },
                 { data: 'status' },
-                { data: 'name' },
+                { data: 'description' },
                 { data: 'cardType' },
                 { data: 'referenceId' },
 
@@ -81,7 +81,11 @@ var RoutesList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.status + `</div>`
+                        if (full.status)
+                            output = `<div class="fw-bold">` + "Kullanım Dışı" + `</div>`
+                        else
+                            output = `<div class="fw-bold">` + "Kullanımda" + `</div>`
+                        
                         return output;
 
                     },
@@ -95,7 +99,7 @@ var RoutesList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.name + `</div>`
+                        output = `<div class="fw-bold">` + full.description + `</div>`
                         return output;
 
                     },
@@ -320,7 +324,7 @@ var RoutesList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_routing_table');
+            table = document.querySelector('#mes_route_table');
 
             if (!table) {
                 console.log("table bulunamadı")
