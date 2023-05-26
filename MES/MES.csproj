@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="HttpClientService\" />
     <Folder Include="Views\WorkOrder\" />
-    <Folder Include="ViewModels\WorkOrderViewModels\" />
     <Folder Include="wwwroot\assets\js\mes\workOrder\" />
     <Folder Include="ViewModels\PurchaseOrderLine\" />
     <Folder Include="ViewModels\SalesOrderLine\" />
