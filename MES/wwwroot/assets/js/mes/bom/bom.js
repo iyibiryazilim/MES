@@ -3,7 +3,7 @@
 
 // Class definition
 
-var WorkStationList = function () {
+var BOMList = function () {
 
     // Shared variables
     var table;
@@ -14,7 +14,7 @@ var WorkStationList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/WorkStation/GetJsonResult';
+        var postUrl = '/BOM/GetJsonResult';
 
         datatable = $(table).DataTable({
 
@@ -32,9 +32,9 @@ var WorkStationList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'name' },
-                { data: 'fillRate' },
-                { data: 'estimatedMaintenanceDate' },
+                { data: 'code' },
+                { data: 'productName' },
+                { data: 'revisionDate' },
                 { data: 'referenceId' },
 
             ],
@@ -47,7 +47,7 @@ var WorkStationList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-							<input class="form-check-input" type="checkbox" value="`+ data + `" />
+							<input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
 						</div>`
                         return output;
 
@@ -70,10 +70,10 @@ var WorkStationList = function () {
 							<!--end::Thumbnail-->
 							<div class="ms-5">
 								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.name + `</a>
 								<!--end::Title-->
 								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold">`+ full.name + `</div>
+								<div class="text-muted fs-7 fw-bold">`+ full.code + `</div>
 								<!--end::Description-->
 							</div>
 						</div>`
@@ -82,40 +82,33 @@ var WorkStationList = function () {
                     },
 
                 },
-                
                 {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-                        var value = full.fillRate
-                        if (value > 100)
-                            value = 100
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.productName + `</a>
+															<span class="text-muted fw-bold">`+ full.productCode + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
 
-                        if (value <= 33 && value >= 0) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.fillRate + `</div>
-                                    <div class="h-8px mx-3 w-75 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-                        } else if (value > 33 && value <= 66) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.fillRate + `</div>
-                                    <div class="h-8px mx-3 w-75 bg-light-warning rounded">
-									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-
-                        }
-                        else {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.fillRate + `</div>
-                                    <div class="h-8px mx-3 w-75 bg-light-primary rounded">
-									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-								  </div>`
-                            return output;
-                        }
+                        return output;
 
                     },
 
@@ -123,10 +116,10 @@ var WorkStationList = function () {
                 {
 
                     orderable: true,
-                    targets:3,
-                    className: 'text-start pe-0',
+                    targets: 3,
                     render: function (data, type, full, meta) {
-                        var formattedDate = new Date(full.estimatedMaintenanceDate);
+
+                        var formattedDate = new Date(full.revisionDate);
                         var d = formattedDate.getDate();
                         var m = formattedDate.getMonth();
                         m += 1;
@@ -140,11 +133,10 @@ var WorkStationList = function () {
                     },
 
                 },
-
                 {
 
                     orderable: false,
-                    targets:4,
+                    targets: 4,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -156,12 +148,12 @@ var WorkStationList = function () {
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Edit</a>
+								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Düzenle</a>
 							</div>
 							<!--end::Menu item-->
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Delete</a>
+								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Sil</a>
 							</div>
 							<!--end::Menu item-->
 						</div>
@@ -347,7 +339,7 @@ var WorkStationList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_workStation_table');
+            table = document.querySelector('#mes_BOM_table');
 
             if (!table) {
 
@@ -370,5 +362,5 @@ var WorkStationList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    WorkStationList.init();
+    BOMList.init();
 });

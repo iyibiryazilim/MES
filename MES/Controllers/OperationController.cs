@@ -1,10 +1,9 @@
-﻿using System.Text.Json;
-using LBS.WebAPI.Service.Services;
+﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
-using MES.Models;
 using MES.Models.OperationModels;
 using MES.ViewModels.OperationViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace MES.Controllers
 {
@@ -31,8 +30,7 @@ namespace MES.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "Operasyonlar";
-            OperationListViewModel viewModel = new();
-            return View(viewModel);
+            return View();
         }
 
         [HttpPost]

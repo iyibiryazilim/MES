@@ -34,6 +34,8 @@ builder.Services.AddTransient<IWarehouseTotalService, WarehouseTotalDataStore>()
 builder.Services.AddTransient<IProductMeasureService, ProductMeasureDataStore>();
 builder.Services.AddTransient<IProductWarehouseParameterService, ProductWarehouseParameterDataStore>();
 builder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
+builder.Services.AddTransient<IBOMService, BOMDataStore>();
+
 
 
 

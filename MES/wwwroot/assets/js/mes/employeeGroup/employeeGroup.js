@@ -301,7 +301,7 @@ var EmployeeGroupList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_workStationGroup_table');
+            table = document.querySelector('#mes_employeeGroup_table');
 
             if (!table) {
 
