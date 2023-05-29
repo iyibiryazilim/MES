@@ -14,6 +14,6 @@ namespace MES.Models.EmployeeModels
         public string? Name { get; set; } = string.Empty;
 
         [DisplayName("Vardiya doluluk oranı")]
-        public int ShiftRate { get; set; } = default;
+        public int? ShiftRate { get; set; } = default;
     }
 }

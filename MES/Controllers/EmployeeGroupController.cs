@@ -1,6 +1,7 @@
 ﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models.EmployeeGroupModels;
+using MES.Models.OperationModels;
 using MES.Models.WorkstationGroupModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -8,46 +9,46 @@ using System.Text.Json;
 namespace MES.Controllers
 {
     public class EmployeeGroupController : Controller
-	{
-		ILogger<EmployeeGroupController> _logger;
-		IHttpClientService _httpClientService;
-		IEmployeeGroupService _service;
+    {
+        ILogger<EmployeeGroupController> _logger;
+        IHttpClientService _httpClientService;
+        IEmployeeGroupService _service;
         ICustomQueryService _customQueryService;
 
         public EmployeeGroupController(ILogger<EmployeeGroupController> logger,
-			IHttpClientService httpClientService,
-			IEmployeeGroupService service,ICustomQueryService customQueryService)
+            IHttpClientService httpClientService,
+            IEmployeeGroupService service, ICustomQueryService customQueryService)
         {
             _logger = logger;
-			_httpClientService = httpClientService;
-			_service = service;
+            _httpClientService = httpClientService;
+            _service = service;
             _customQueryService = customQueryService;
 
         }
 
         public IActionResult Index()
-		{
+        {
             ViewData["Title"] = "Çalışan Grupları";
             return View();
-		}
+        }
 
-		[HttpPost]
-		public async ValueTask<IActionResult> GetJsonResult()
-		{
-			return Json(new { data = GetEmployeGroups() });
-		}
+        [HttpPost]
+        public async ValueTask<IActionResult> GetJsonResult()
+        {
+            return Json(new { data = GetEmployeGroups() });
+        }
 
-		public async IAsyncEnumerable<EmployeeGroupListModel> GetEmployeGroups()
-		{
+        public async IAsyncEnumerable<EmployeeGroupListModel> GetEmployeGroups()
+        {
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             EmployeeGroupListModel viewModel = new();
 
             if (viewModel != null)
             {
                 const string query = @"SELECT 
-  EMPGROUP.LOGICALREF AS [REFERENCEID], 
-  EMPGROUP.CODE AS [CODE], 
-  EMPGROUP.NAME AS [NAME], 
+  EMPGROUP.LOGICALREF AS [ReferenceId], 
+  EMPGROUP.CODE AS [Code], 
+  EMPGROUP.NAME AS [Name], 
   [EmployeeCount] = (
     SELECT 
       COUNT(EMPGRPREF) 
@@ -64,32 +65,17 @@ FROM
                 JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
                 if (jsonDocument != null)
                 {
-                    var array = jsonDocument.RootElement.EnumerateArray();
-                    foreach (JsonElement element in array)
+                    List<EmployeeGroupListModel> result = (List<EmployeeGroupListModel>)jsonDocument.Deserialize(typeof(List<EmployeeGroupListModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                    if (result != null)
                     {
-                        #region Reference Id
-                        JsonElement referenceId = element.GetProperty("referenceid");
-                        viewModel.ReferenceId = Convert.ToInt32(referenceId.GetRawText().Replace('.', ','));
-                        #endregion
+                        foreach (EmployeeGroupListModel item in result)
+                        {
 
-                        #region Code
-                        JsonElement code = element.GetProperty("code");
-                        viewModel.Code = code.GetString();
-                        #endregion
-
-                        #region Description
-                        JsonElement name = element.GetProperty("name");
-                        viewModel.Name = name.GetString();
-                        #endregion
-
-                        #region Workstation Count
-                        JsonElement employeeCount = element.GetProperty("employeeCount");
-                        viewModel.EmployeeCount = Convert.ToInt32(employeeCount.GetRawText().Replace('.', ','));
-                        #endregion
-                        yield return viewModel;
+                            yield return item;
+                        }
                     }
                 }
             }
         }
-	}
+    }
 }

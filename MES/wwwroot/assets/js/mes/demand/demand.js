@@ -31,13 +31,13 @@ var DemandList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'referenceId' },//kod
-                { data: 'demandDate' },//tarih
-                { data: 'warehouse' },//ürün
-                { data: 'warehouse' },//ambar
-                { data: 'warehouse' },//talepMiktarı
-                { data: 'warehouse' },//KarşılananMiktarı
-                { data: 'warehouse' },//iptal
+                { data: 'ficheNo' },//kod
+                { data: 'date' },//tarih
+                { data: 'referenceId' },//ürün
+                { data: 'warehouseNo' },//ambar
+                { data: 'demandLineAmounth' },//talepMiktarı
+                { data: 'demandLineMeetAmounth' },//KarşılananMiktarı
+                { data: 'demandLineCancelAmounth' },//iptal
                 { data: 'referenceId' },
 
 
@@ -52,7 +52,7 @@ var DemandList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
+                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
                         </div>`
                         return output;
 
@@ -67,7 +67,7 @@ var DemandList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.ficheNo + `</div>`
                         return output;
 
                     },
@@ -80,8 +80,15 @@ var DemandList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
+                        var formattedDate = new Date(full.date);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
+
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+
+                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</a>`
                         return output;
 
                     },
@@ -94,8 +101,26 @@ var DemandList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
-                        var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+                        var output
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.productName + `</a>
+															<span class="text-muted fw-bold">`+ full.productCode + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
                         return output;
 
                     },
@@ -109,7 +134,7 @@ var DemandList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.warehouseNo + `</div>`
                         return output;
 
                     },
@@ -123,12 +148,13 @@ var DemandList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+                        output = `<div class="badge badge-light-warning fw-bold">` + full.demandLineAmounth + `</div>`
                         return output;
 
-                    },
+                    }
 
                 },
+
                 {
 
                     orderable: true,
@@ -137,9 +163,8 @@ var DemandList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+                        output = `<div class="badge badge-light-primary fw-bold">` + full.demandLineMeetAmounth + `</div>`
                         return output;
-
                     },
                 },
                 {
@@ -150,7 +175,7 @@ var DemandList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + data + `</div>`
+                        output = `<div class="badge badge-light-danger fw-bold">` + full.demandLineCancelAmounth + `</div>`
                         return output;
 
                     },
