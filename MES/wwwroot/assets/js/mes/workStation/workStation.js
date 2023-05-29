@@ -32,9 +32,9 @@ var WorkStationList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'code' },
-                { data: null },
-                { data: 'estimatedMaintanceDate' },
+                { data: 'name' },
+                { data: 'fillRate' },
+                { data: 'estimatedMaintenanceDate' },
                 { data: 'referenceId' },
 
             ],
@@ -91,25 +91,28 @@ var WorkStationList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        var realizationRate = 50
-                        if (realizationRate <= 33 && realizationRate >= 0) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + realizationRate + `</div>
+                        var value = full.fillRate
+                        if (value > 100)
+                            value = 100
+
+                        if (value <= 33 && value >= 0) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.fillRate + `</div>
                                     <div class="h-8px mx-3 w-75 bg-light-danger rounded">
-									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="bg-danger rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
-                        } else if (realizationRate > 33 && realizationRate <= 66) {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + realizationRate + `</div>
+                        } else if (value > 33 && value <= 66) {
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.fillRate + `</div>
                                     <div class="h-8px mx-3 w-75 bg-light-warning rounded">
-									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="bg-warning rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
 
                         }
                         else {
-                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + realizationRate + `</div>
+                            output = `<div class="text-muted fs-7 fw-bold">` + "%" + full.fillRate + `</div>
                                     <div class="h-8px mx-3 w-75 bg-light-primary rounded">
-									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ realizationRate + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="bg-primary rounded h-8px" role="progressbar" style="width: `+ value + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 								  </div>`
                             return output;
                         }
@@ -123,9 +126,15 @@ var WorkStationList = function () {
                     targets:3,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
+                        var formattedDate = new Date(full.estimatedMaintenanceDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1 ">` + full.estimatedMaintanceDate + `</div>`
+
+                        output = ` <a href="#" class="badge badge-light-success fs-7 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</a>`
                         return output;
 
                     },

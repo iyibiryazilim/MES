@@ -23,7 +23,6 @@
     <None Remove="ViewModels\SalesOrderLine\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\WorkstationModels\" />
     <Folder Include="Models\StopTransactionModels\" />
     <Folder Include="Models\ShiftModels\" />
     <Folder Include="Models\RouteModels\" />
