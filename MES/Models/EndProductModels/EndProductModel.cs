@@ -5,7 +5,6 @@ namespace MES.Models.EndProductModels;
 
 public class EndProductModel : EndProduct
 {
-
     public double StockQuantity { get; set; } = default;
     public DateTime LastTransactionDate { get; set; } = default;
     [DisplayName("Alım Miktarı")]
@@ -20,6 +19,5 @@ public class EndProductModel : EndProduct
     public double FirstQuantity { get; set; } = default;
     [DisplayName("Devir Hızı")]
     public double RevolutionSpeed { get; set; } = default;
-
 }
 

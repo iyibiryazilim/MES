@@ -33,17 +33,14 @@ var StopTransactionList = function () {
             columns: [
 
                 { data: 'referenceId' },
-                { data: 'description' },
-                { data: 'operation' },
-                { data: 'productionOrder' },
-                { data: 'workOrder' },
-                { data: 'workstation' },
-                { data: 'stopCause' },
+                { data: 'operationReferenceId' },
+                { data: 'productionOrderReferenceId' },
+                { data: 'workOrderReferenceId' },
+                { data: 'workstationReferenceId' },
+                { data: 'stopCauseName' },
                 { data: 'stopDate' },
-                { data: 'stopTime' },
                 { data: 'stopDuration' },
                 { data: 'startDate' },
-                { data: 'startTime' },
                 { data: 'referenceId' },
 
 
@@ -64,8 +61,6 @@ var StopTransactionList = function () {
                     },
 
                 },
-
-
                 {
 
                     orderable: true,
@@ -74,7 +69,7 @@ var StopTransactionList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.description + `</div>`
+                        output = `<div class="fw-bold">` + full.operationName + `</div>`
                         return output;
 
                     },
@@ -88,7 +83,7 @@ var StopTransactionList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.operation.name + `</div>`
+                        output = `<div class="fw-bold">` + full.productionOrderCode + `</div>`
                         return output;
 
                     },
@@ -102,21 +97,7 @@ var StopTransactionList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.productionOrder.product.name + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 4,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        switch (full.workOrder.status) {
+                        switch (full.workOrderStatus) {
                             case 0:
                                 output = `<div class="badge badge-light-danger fw-bold">` + "Başlamadı " + `</div>`
                                 return output;
@@ -126,11 +107,11 @@ var StopTransactionList = function () {
                                 return output;
                                 break;
                             case 2:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.workOrder.status + `</div>`
+                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.workOrderStatus + `</div>`
                                 return output;
                                 break;
                             case 3:
-                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.workOrder.status + `</div>`
+                                output = `<div class="badge badge-light fw-bold">` + "Statü " + full.workOrderStatus + `</div>`
                                 return output;
                                 break;
                             case 4:
@@ -146,12 +127,40 @@ var StopTransactionList = function () {
                 {
 
                     orderable: true,
+                    targets: 4,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+
+                        output = `<div class="d-flex">
+							<!--begin::Thumbnail-->
+							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
+								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
+							</a>
+							<!--end::Thumbnail-->
+							<div class="ms-5">
+								<!--begin::Title-->
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.workstationName + `</a>
+								<!--end::Title-->
+								<!--begin::Description-->
+								<div class="text-muted fs-7 fw-bold">`+ full.workstationCode + `</div>
+								<!--end::Description-->
+							</div>
+						</div>`
+                        return output;
+                    },
+
+                },
+                {
+
+                    orderable: true,
                     targets: 5,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.workstation.name + `</div>`
+                        output = `<div class="fw-bold">` + full.stopCauseName + `</div>`
                         return output;
 
                     },
@@ -164,10 +173,16 @@ var StopTransactionList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
-                        var output;
-                        output = `<div class="fw-bold">` + full.stopCause.name + `</div>`
-                        return output;
+                        var formattedDate = new Date(full.stopDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
 
+                        var output;
+
+                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `<br />` + full.stopTime + `</a>`
+                        return output;
                     },
 
                 },
@@ -179,7 +194,7 @@ var StopTransactionList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.stopDate + `</div>`
+                        output = `<div class="fw-bold">` + full.stopDuration + ` DK </div>`
                         return output;
 
                     },
@@ -192,61 +207,24 @@ var StopTransactionList = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
+                        var formattedDate = new Date(full.startDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
+
                         var output;
-                        output = `<div class="fw-bold">` + full.stopTime + `</div>`
+
+                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `<br />` + full.startTime + `</a>`
                         return output;
 
                     },
 
                 },
-                {
-
-                    orderable: true,
-                    targets: 9,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="fw-bold">` + full.stopDuration + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 10,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="fw-bold">` + full.startDate + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 11,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="fw-bold">` + full.startTime + `</div>`
-                        return output;
-
-                    },
-
-                },
-                
-
                 {
 
                     orderable: false,
-                    targets: 12,
+                    targets: 9,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -470,5 +448,5 @@ var StopTransactionList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-   StopTransactionList.init();
+    StopTransactionList.init();
 });

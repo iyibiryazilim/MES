@@ -21,6 +21,11 @@
     <None Remove="ViewModels\WorkOrderViewModels\" />
     <None Remove="ViewModels\PurchaseOrderLine\" />
     <None Remove="ViewModels\SalesOrderLine\" />
+    <None Remove="Models\ProductPopupModels\" />
+    <None Remove="ViewModels\ProductViewModels\" />
+    <None Remove="ViewModels\ProductViewModels\EndProductViewModels\" />
+    <None Remove="ViewModels\ProductViewModels\SemiProductviewModels\" />
+    <None Remove="ViewModels\ProductViewModels\RawProductViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\StopTransactionModels\" />
@@ -30,14 +35,16 @@
     <Folder Include="Models\ProductMeasureModels\" />
     <Folder Include="Models\ProductionOrderModels\" />
     <Folder Include="Models\OperationModels\" />
-    <Folder Include="ViewModels\EndProductViewModels\" />
-    <Folder Include="ViewModels\RawProductViewModel\" />
-    <Folder Include="ViewModels\SemiProductViewModels\" />
     <Folder Include="ViewModels\WorkOrderViewModels\" />
     <Folder Include="Views\WorkOrder\" />
     <Folder Include="wwwroot\assets\js\mes\workOrder\" />
     <Folder Include="ViewModels\PurchaseOrderLine\" />
     <Folder Include="ViewModels\SalesOrderLine\" />
+    <Folder Include="Models\ProductPopupModels\" />
+    <Folder Include="ViewModels\ProductViewModels\" />
+    <Folder Include="ViewModels\ProductViewModels\EndProductViewModels\" />
+    <Folder Include="ViewModels\ProductViewModels\SemiProductviewModels\" />
+    <Folder Include="ViewModels\ProductViewModels\RawProductViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\assets\js\mes\workOrder\" />

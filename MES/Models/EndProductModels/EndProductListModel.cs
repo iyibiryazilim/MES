@@ -19,9 +19,7 @@ namespace MES.Models.EndProductModels
         [DisplayName("Özel Kod")]
         public string SpeCode { get; set; } = string.Empty;
 
-
         public double StockQuantity { get; set; } = default;
-
 
         public DateTimeOffset? LastTransactionDate { get; set; } = DateTime.Now;
 

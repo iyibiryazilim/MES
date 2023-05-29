@@ -27,12 +27,13 @@ var OutputShowModalPageInit = function () {
 
             columns: [
                 { data: 'referenceId' },
-                { data: 'orderDate' },
-                { data: 'productTransaction.code' },
-                { data: 'productTransaction.transactionType' },
-                { data: 'warehouse' },
-                { data: 'referenceId' },
-
+                { data: 'transactionDate' },
+                { data: 'transactionCode' },
+                { data: 'transactionType' },
+                { data: 'quantity' },
+                { data: 'unitsetCode' },
+                { data: 'warehouseName' },
+                { data: 'description' },
             ],
             columnDefs: [
                 {
@@ -53,7 +54,7 @@ var OutputShowModalPageInit = function () {
                     targets: 1,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-                        var formattedDate = new Date(full.orderDate);
+                        var formattedDate = new Date(full.transactionDate);
                         var d = formattedDate.getDate();
                         var m = formattedDate.getMonth();
                         m += 1;
@@ -71,7 +72,7 @@ var OutputShowModalPageInit = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<span class="fw-bold">` + data + `</span>`
+                        output = `<span class="fw-bold">` + full.transactionCode + `</span>`
 
                         return output;
                     },
@@ -82,57 +83,67 @@ var OutputShowModalPageInit = function () {
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<span class="fw-bold">` + data + `</span>`
+                        output = `<span class="fw-bold">` + full.transactionType + `</span>`
 
                         return output;
                     },
                 },
-
                 {
                     orderable: true,
                     targets: 4,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
                         var output;
-                        if (full.warehouse != null) {
-                            var value = full.warehouse.name
-                        } else
-                            value = ""
-
-                        output = `<span class="fw-bold">` + value + `</span>`
+                        output = `<span class="fw-bold">` + full.quantity + `</span>`
 
                         return output;
                     },
                 },
-
                 {
                     orderable: true,
                     targets: 5,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
                         var output;
-                        output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-							Actions
-							<i class="ki-duotone ki-down fs-5 ms-1"></i>
-						</a>
-						<!--begin::Menu-->
-						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-							<!--begin::Menu item-->
-							<div class="menu-item px-3">
-								<a href="../../demo46/dist/apps/ecommerce/catalog/add-category.html" class="menu-link px-3">Edit</a>
-							</div>
-							<!--end::Menu item-->
-							<!--begin::Menu item-->
-							<div class="menu-item px-3">
-								<a href="#" class="menu-link px-3" data-kt-ecommerce-category-filter="delete_row">Delete</a>
-							</div>
-							<!--end::Menu item-->
-						</div>
-						<!--end::Menu-->`
+                        var value = "";
+                        if (full.unitsetCode != null)
+                            value = full.unitsetCode;
+
+                        output = `<span class="fw-bold">` + value + `</span>`
+
                         return output;
                     },
                 },
+                {
+                    orderable: true,
+                    targets: 6,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+                        var output;
+                        var value = "";
+                        if (full.warehouseName != null) {
+                            value = full.warehouseName;
+                        }
+                        output = `<span class="fw-bold">` + value + `</span>`
 
+                        return output;
+                    },
+                },
+                {
+                    orderable: true,
+                    targets: 7,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+                        var output;
+                        var value = "";
+                        if (full.description != null) {
+                            value = full.description;
+                        }
+                        output = `<span class="fw-bold">` + value + `</span>`
+
+                        return output;
+                    },
+                },
 
 
             ]
@@ -146,8 +157,8 @@ var OutputShowModalPageInit = function () {
     // Private functions
 
     var loadModalPage = function () {
-        $('#mes_endProduct_outputTransaction').on('shown.bs.modal', function () {
-            console.log("Çıkış Tablosu Açıldı")
+        $('#mes_modal_output_transaction').on('shown.bs.modal', function () {
+            console.log("Giriş Tablosu Açıldı")
             initDatatable();
 
         });
@@ -156,6 +167,7 @@ var OutputShowModalPageInit = function () {
     var bindEventHandlers = function () {
         $(document).on('click', 'a#EndProductOutputTransactionList', function () {
             referenceId = $(this).data('reference-id');
+            console.log("aaaaa " + referenceId);
         });
     };
 
@@ -163,7 +175,6 @@ var OutputShowModalPageInit = function () {
     return {
         init: function () {
             table = document.querySelector('#mes_output_transaction_table');
-
             if (!table) {
                 console.log("Çıkış hareketleri tablosu bulunamadı")
                 return;

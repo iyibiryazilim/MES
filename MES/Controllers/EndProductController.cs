@@ -5,7 +5,10 @@ using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
 using MES.Models.EndProductModels;
+using MES.Models.RawProductModels;
 using MES.Models.SemiProductModels;
+using MES.ViewModels.ProductViewModels.EndProductViewModels;
+using MES.ViewModels.ProductViewModels.RawProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -59,36 +62,30 @@ public class EndProductController : Controller
 
     public async Task<IActionResult> Detail(int referenceId)
     {
-        EndProductDetailModel viewModel = new EndProductDetailModel();
-        HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-        var product = await _service.GetObject(httpClient, referenceId);
-
+        ViewData["Header"] = "Mamul Detay";
+        EndProductDetailViewModel viewModel = new EndProductDetailViewModel();
+        var httpClient = _httpClientService.GetOrCreateHttpClient();
         if (httpClient == null)
-            BadRequest();
-
-        if (product == null)
+            return BadRequest();
+        else
         {
-            return NotFound();
-        }
-        viewModel.EndProductModel = _mapper.Map<EndProductListModel>(product);
-        viewModel.EndProductModel.RevolutionSpeed = 0;
+            var product = await _service.GetObject(httpClient, referenceId);
 
-        var warehouseParameters = _warehouseParameterService.GetObjects(httpClient, referenceId);
-        if (warehouseParameters != null)
-        {
-            await foreach (ProductWarehouseParameter warehouseParameter in warehouseParameters)
-                viewModel.WarehouseParameters.Add(_mapper.Map<ProductWarehouseParameterModel>(warehouseParameter));
-        }
+            if (product == null)
+                return NotFound();
 
-        var measures = _productMeasureService.GetObjects(httpClient, referenceId);
-        if (measures != null)
-        {
-            await foreach (ProductMeasure measure in measures)
-                viewModel.ProductMeasures.Add(_mapper.Map<ProductMeasureModel>(measure));
+
+            viewModel.EndProductModel = _mapper.Map<EndProductModel>(product);
+            viewModel.EndProductModel.OutputQuantity = 0;
+            viewModel.EndProductModel.StockQuantity = 0;
+            viewModel.EndProductModel.FirstQuantity = 0;
+            viewModel.EndProductModel.InputQuantity = 0;
+            viewModel.EndProductModel.RevolutionSpeed = 0;
+
+
+
         }
 
-
-        //ViewData["Title"] = viewModel.EndProductModel.Name;
         return View(viewModel);
     }
 
@@ -116,7 +113,7 @@ public class EndProductController : Controller
         //Console.WriteLine(productReferenceId.ToString());
         return Json(new { data = GetOutputEndProduct(productReferenceId) });
     }
-    public async ValueTask<IActionResult> GetWarehouseJsonResult(int productReferenceId)
+    public async ValueTask<IActionResult> GetWarehouseTotalJsonResult(int productReferenceId)
     {
         //Console.WriteLine(productReferenceId.ToString());
         return Json(new { data = GetWarehouseEndProduct(productReferenceId) });
@@ -208,55 +205,208 @@ WHERE
 
     }
 
-    public async IAsyncEnumerable<ProductTransactionLine> GetInputEndProduct(int productReferenceId)
+    public async IAsyncEnumerable<EndProductInputTransactionModel> GetInputEndProduct(int productReferenceId)
     {
+        EndProductInputTransactionModel viewModel = new EndProductInputTransactionModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-        var result = _transactionLineService.GetInputProductTransactionLineByProductRef(httpClient, productReferenceId);
-        //Console.WriteLine(productReferenceId.ToString());
-        await foreach (var item in result)
+        if (viewModel != null)
         {
-            yield return item;
+            string query = $@"SELECT 
+			STLINE.LOGICALREF AS [ReferenceId],
+			STLINE.DATE_ AS [TransactionDate],
+			ISNULL(STLINE.AMOUNT,0) AS [Quantity],
+			STLINE.LINEEXP AS [Description],
+			UNITSET.CODE AS [UnitsetCode],
+			STFICHE.LOGICALREF AS [ProductTransactionReferenceId],
+			STFICHE.FICHENO AS [TransactionCode],
+			STFICHE.TRCODE AS [TransactionType],
+			CAPIWHOUSE.LOGICALREF AS [WarehouseReferenceId],
+			CAPIWHOUSE.NR AS [WarehouseNumber],
+			CAPIWHOUSE.NAME AS [WarehouseName]
+			FROM LG_003_01_STLINE AS STLINE 
+			LEFT JOIN LG_003_01_STFICHE AS STFICHE ON STLINE.STFICHEREF = STFICHE.LOGICALREF
+			LEFT JOIN L_CAPIWHOUSE AS CAPIWHOUSE ON STLINE.SOURCEINDEX = CAPIWHOUSE.NR AND CAPIWHOUSE.FIRMNR = 3
+			LEFT JOIN LG_003_UNITSETF AS UNITSET ON STLINE.USREF = UNITSET.LOGICALREF
+			WHERE STLINE.IOCODE IN (1,2) AND STLINE.STOCKREF = {productReferenceId}";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductInputTransactionModel> result = (List<EndProductInputTransactionModel>)jsonDocument.Deserialize(typeof(List<EndProductInputTransactionModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductInputTransactionModel item in result)
+                    {
+
+                        yield return item;
+                    }
+                }
+            }
         }
     }
-    public async IAsyncEnumerable<ProductTransactionLine> GetOutputEndProduct(int productReferenceId)
+    public async IAsyncEnumerable<EndProductOutputTransactionModel> GetOutputEndProduct(int productReferenceId)
     {
+        EndProductOutputTransactionModel viewModel = new EndProductOutputTransactionModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-        var result = _transactionLineService.GetOutputProductTransactionLineByProductRef(httpClient, productReferenceId);
-        //Console.WriteLine(productReferenceId.ToString());
-        await foreach (var item in result)
+        if (viewModel != null)
         {
-            yield return item;
+            string query = $@"SELECT 
+			STLINE.LOGICALREF AS [ReferenceId],
+			STLINE.DATE_ AS [TransactionDate],
+			ISNULL(STLINE.AMOUNT,0) AS [Quantity],
+			STLINE.LINEEXP AS [Description],
+			UNITSET.CODE AS [UnitsetCode],
+			STFICHE.LOGICALREF AS [ProductTransactionReferenceId],
+			STFICHE.FICHENO AS [TransactionCode],
+			STFICHE.TRCODE AS [TransactionType],
+			CAPIWHOUSE.LOGICALREF AS [WarehouseReferenceId],
+			CAPIWHOUSE.NR AS [WarehouseNumber],
+			CAPIWHOUSE.NAME AS [WarehouseName]
+			FROM LG_003_01_STLINE AS STLINE 
+			LEFT JOIN LG_003_01_STFICHE AS STFICHE ON STLINE.STFICHEREF = STFICHE.LOGICALREF
+			LEFT JOIN L_CAPIWHOUSE AS CAPIWHOUSE ON STLINE.SOURCEINDEX = CAPIWHOUSE.NR AND CAPIWHOUSE.FIRMNR = 3
+			LEFT JOIN LG_003_UNITSETF AS UNITSET ON STLINE.USREF = UNITSET.LOGICALREF
+			WHERE STLINE.IOCODE IN (3,4) AND STLINE.STOCKREF = {productReferenceId}";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductOutputTransactionModel> result = (List<EndProductOutputTransactionModel>)jsonDocument.Deserialize(typeof(List<EndProductOutputTransactionModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductOutputTransactionModel item in result)
+                    {
+
+                        yield return item;
+                    }
+                }
+            }
         }
     }
 
-    public async IAsyncEnumerable<WarehouseTotal> GetWarehouseEndProduct(int productReferenceId)
+    public async IAsyncEnumerable<EndProductWarehouseTotalModel> GetWarehouseEndProduct(int productReferenceId)
     {
+        EndProductWarehouseTotalModel viewModel = new EndProductWarehouseTotalModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-        var result = _warehouseTotalService.GetObjectsAsyncByProduct(httpClient, productReferenceId);
-
-        await foreach (var item in result)
+        if (viewModel != null)
         {
-            //Console.WriteLine(item.Product.Name.ToString());
-            yield return item;
+            string query = $@"SELECT 
+			WHOUSE.LOGICALREF AS [ReferenceId],
+			[WarehouseNumber] = WHOUSE.NR,
+			[WarehouseName] = WHOUSE.NAME,
+			[LastTransactionDate] = (SELECT TOP 1 LASTTRDATE FROM LV_003_01_STINVTOT WHERE STOCKREF = {productReferenceId} AND INVENNO = WHOUSE.NR ORDER BY LASTTRDATE	DESC),
+			[StockQuantity] = ISNULL((SELECT SUM(ONHAND) FROM LV_003_01_STINVTOT WHERE STOCKREF = {productReferenceId} AND INVENNO = WHOUSE.NR),0)
+			FROM
+			L_CAPIWHOUSE AS WHOUSE
+			WHERE WHOUSE.FIRMNR = 3";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductWarehouseTotalModel> result = (List<EndProductWarehouseTotalModel>)jsonDocument.Deserialize(typeof(List<EndProductWarehouseTotalModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductWarehouseTotalModel item in result)
+                    {
+
+                        yield return item;
+                    }
+                }
+            }
         }
     }
 
-    private async IAsyncEnumerable<SalesOrderLine> GetEndProductBySalesOrderLine(int productReferenceId)
+    private async IAsyncEnumerable<EndProductWaitingSalesOrderModel> GetEndProductBySalesOrderLine(int productReferenceId)
     {
+        EndProductWaitingSalesOrderModel viewModel = new EndProductWaitingSalesOrderModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-        var result = _salesOrderLineService.GetObjectsByProductRef(httpClient, productReferenceId);
-        await foreach (var item in result)
+        if (viewModel != null)
         {
-            yield return item;
+            string query = $@"SELECT
+                                ORFLINE.DATE_ AS [OrderDate],
+                                ORFLINE.LOGICALREF AS [ReferenceId],
+                                ORFLINE.LINEEXP AS [Description],
+                                ORFICHE.FICHENO AS [OrderCode],
+                                CLCARD.LOGICALREF AS [CurrentReferenceId],
+                                CLCARD.CODE as [CurrentCode],
+                                CLCARD.DEFINITION_ AS [CurrentName],
+                                ITEM.LOGICALREF [ProductReferenceId],
+                                ITEM.CODE AS [ProductCode],
+                                ITEM.NAME AS [ProductName],
+                                CAPIWHOUSE.LOGICALREF AS [WarehouseReferenceId],
+                                ISNULL((CAPIWHOUSE.NR),0) AS [WarehouseNo],
+                                CAPIWHOUSE.NAME AS [WarehouseName],
+                                UNITSET.CODE AS [Unitset],
+                                SUBUNITSET.CODE AS [SubUnitset],
+                                [Quantity] = ORFLINE.AMOUNT,
+                                [ShippedQuantity] = ORFLINE.SHIPPEDAMOUNT,
+                                [WaitingQuantity] = ISNULL((ORFLINE.AMOUNT-ORFLINE.SHIPPEDAMOUNT),0)
+                                FROM LG_003_01_ORFLINE AS ORFLINE
+                                LEFT JOIN LG_003_01_ORFICHE AS ORFICHE ON ORFLINE.ORDFICHEREF = ORFICHE.LOGICALREF
+                                LEFT JOIN LG_003_ITEMS AS ITEM ON ORFLINE.STOCKREF = ITEM.LOGICALREF
+                                LEFT JOIN LG_003_UNITSETF AS UNITSET ON ORFLINE.UOMREF = UNITSET.LOGICALREF
+                                LEFT JOIN LG_003_UNITSETL AS SUBUNITSET ON ORFLINE.USREF = SUBUNITSET.LOGICALREF
+                                LEFT JOIN LG_003_CLCARD AS CLCARD ON ORFLINE.CLIENTREF = CLCARD.LOGICALREF
+                                LEFT JOIN L_CAPIWHOUSE AS CAPIWHOUSE ON ORFLINE.SOURCEINDEX = CAPIWHOUSE.LOGICALREF
+                                WHERE (ORFLINE.AMOUNT - ORFLINE.SHIPPEDAMOUNT) > 0 AND ORFLINE.CLOSED = 0 AND ORFLINE.TRCODE =  1 AND ORFLINE.STOCKREF = {productReferenceId}";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductWaitingSalesOrderModel> result = (List<EndProductWaitingSalesOrderModel>)jsonDocument.Deserialize(typeof(List<EndProductWaitingSalesOrderModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductWaitingSalesOrderModel item in result)
+                    {
+
+                        yield return item;
+                    }
+                }
+            }
         }
     }
-    private async IAsyncEnumerable<PurchaseOrderLine> GetEndProductByPurchaseOrderLine(int productReferenceId)
+    private async IAsyncEnumerable<EndProductWaitingPurchaseOrderModel> GetEndProductByPurchaseOrderLine(int productReferenceId)
     {
+        EndProductWaitingPurchaseOrderModel viewModel = new EndProductWaitingPurchaseOrderModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
-        var result = _purchaseOrderLineService.GetObjectsByProductRef(httpClient, productReferenceId);
-        await foreach (var item in result)
+        if (viewModel != null)
         {
-            yield return item;
+            string query = $@"SELECT
+                                ORFLINE.DATE_ AS [OrderDate],
+                                ORFLINE.LOGICALREF AS [ReferenceId],
+                                ORFLINE.LINEEXP AS [Description],
+                                ORFICHE.FICHENO AS [OrderCode],
+                                CLCARD.LOGICALREF AS [CurrentReferenceId],
+                                CLCARD.CODE as [CurrentCode],
+                                CLCARD.DEFINITION_ AS [CurrentName],
+                                ITEM.LOGICALREF [ProductReferenceId],
+                                ITEM.CODE AS [ProductCode],
+                                ITEM.NAME AS [ProductName],
+                                CAPIWHOUSE.LOGICALREF AS [WarehouseReferenceId],
+                                ISNULL((CAPIWHOUSE.NR),0) AS [WarehouseNo],
+                                CAPIWHOUSE.NAME AS [WarehouseName],
+                                UNITSET.CODE AS [Unitset],
+                                SUBUNITSET.CODE AS [SubUnitset],
+                                [Quantity] = ORFLINE.AMOUNT,
+                                [ShippedQuantity] = ORFLINE.SHIPPEDAMOUNT,
+                                [WaitingQuantity] = ISNULL((ORFLINE.AMOUNT-ORFLINE.SHIPPEDAMOUNT),0)
+                                FROM LG_003_01_ORFLINE AS ORFLINE
+                                LEFT JOIN LG_003_01_ORFICHE AS ORFICHE ON ORFLINE.ORDFICHEREF = ORFICHE.LOGICALREF
+                                LEFT JOIN LG_003_ITEMS AS ITEM ON ORFLINE.STOCKREF = ITEM.LOGICALREF
+                                LEFT JOIN LG_003_UNITSETF AS UNITSET ON ORFLINE.UOMREF = UNITSET.LOGICALREF
+                                LEFT JOIN LG_003_UNITSETL AS SUBUNITSET ON ORFLINE.USREF = SUBUNITSET.LOGICALREF
+                                LEFT JOIN LG_003_CLCARD AS CLCARD ON ORFLINE.CLIENTREF = CLCARD.LOGICALREF
+                                LEFT JOIN L_CAPIWHOUSE AS CAPIWHOUSE ON ORFLINE.SOURCEINDEX = CAPIWHOUSE.LOGICALREF
+                                WHERE (ORFLINE.AMOUNT - ORFLINE.SHIPPEDAMOUNT) > 0 AND ORFLINE.CLOSED = 0 AND ORFLINE.TRCODE =  2 AND ORFLINE.STOCKREF = {productReferenceId}";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductWaitingPurchaseOrderModel> result = (List<EndProductWaitingPurchaseOrderModel>)jsonDocument.Deserialize(typeof(List<EndProductWaitingPurchaseOrderModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductWaitingPurchaseOrderModel item in result)
+                    {
+
+                        yield return item;
+                    }
+                }
+            }
         }
     }
 }
