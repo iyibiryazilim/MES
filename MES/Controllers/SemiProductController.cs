@@ -5,6 +5,7 @@ using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models;
 using MES.Models.SemiProductModels;
+using MES.Models.WorkOrderModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -129,70 +130,79 @@ namespace MES.Controllers
             HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
             if (viewModel != null)
             {
-                string query = $@"SELECT ITEM.LOGICALREF,ITEM.CODE,ITEM.NAME,ITEM.PRODUCERCODE,ITEM.SPECODE,UNITSET.CODE AS [UNITSETCODE],
-						[StockQuantity] = ISNULL((SELECT SUM(ONHAND) FROM LV_003_01_STINVTOT WHERE STOCKREF = ITEM.LOGICALREF AND INVENNO = -1),0),
-						[InputQuantity] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE WHERE STOCKREF = ITEM.LOGICALREF AND IOCODE IN(1,2)),0),
-						[OutputQuantity] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE WHERE STOCKREF = ITEM.LOGICALREF AND IOCODE IN(3,4)),0),
-						[LastTransactionDate] =(SELECT TOP 1 DATE_ FROM LG_003_01_STLINE WHERE STOCKREF = ITEM.LOGICALREF ORDER BY DATE_ DESC)
-						FROM LG_003_ITEMS AS ITEM LEFT JOIN LG_003_UNITSETF AS UNITSET ON ITEM.UNITSETREF = UNITSET.LOGICALREF WHERE ITEM.CARDTYPE = 11";
+                string query = $@"
+SELECT 
+  ITEM.LOGICALREF AS [ReferenceId], 
+  ITEM.CODE AS [Code], 
+  ITEM.NAME AS [Name], 
+  ITEM.PRODUCERCODE AS [ProducerCode], 
+  ITEM.SPECODE AS [SpeCode], 
+  UNITSET.CODE AS [Unitset], 
+  [StockQuantity] = ISNULL(
+    (
+      SELECT 
+        SUM(ONHAND) 
+      FROM 
+        LV_003_01_STINVTOT 
+      WHERE 
+        STOCKREF = ITEM.LOGICALREF 
+        AND INVENNO = -1
+    ), 
+    0
+  ), 
+  [InputQuantity] = ISNULL(
+    (
+      SELECT 
+        SUM(AMOUNT) 
+      FROM 
+        LG_003_01_STLINE 
+      WHERE 
+        STOCKREF = ITEM.LOGICALREF 
+        AND IOCODE IN(1, 2)
+    ), 
+    0
+  ), 
+  [OutputQuantity] = ISNULL(
+    (
+      SELECT 
+        SUM(AMOUNT) 
+      FROM 
+        LG_003_01_STLINE 
+      WHERE 
+        STOCKREF = ITEM.LOGICALREF 
+        AND IOCODE IN(3, 4)
+    ), 
+    0
+  ), 
+  [LastTransactionDate] =(
+    SELECT 
+      TOP 1 DATE_ 
+    FROM 
+      LG_003_01_STLINE 
+    WHERE 
+      STOCKREF = ITEM.LOGICALREF 
+    ORDER BY 
+      DATE_ DESC
+  ) 
+FROM 
+  LG_003_ITEMS AS ITEM 
+  LEFT JOIN LG_003_UNITSETF AS UNITSET ON ITEM.UNITSETREF = UNITSET.LOGICALREF 
+WHERE 
+  ITEM.CARDTYPE = 11
+
+
+";
                 JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
                 if (jsonDocument != null)
                 {
-                    var array = jsonDocument.RootElement.EnumerateArray();
-                    foreach (JsonElement element in array)
+                    List<SemiProductListModel> result = (List<SemiProductListModel>)jsonDocument.Deserialize(typeof(List<SemiProductListModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                    if (result != null)
                     {
-                        #region Reference Id
-                        JsonElement referenceId = element.GetProperty("logicalref");
-                        viewModel.ReferenceId = Convert.ToInt32(referenceId.GetRawText().Replace('.', ','));
-                        #endregion
-                        #region Product Name
-                        JsonElement name = element.GetProperty("name");
-                        viewModel.Name = name.GetString();
-                        #endregion
-                        #region Producer Code
-                        JsonElement producerCode = element.GetProperty("producercode");
-                        viewModel.ProducerCode = producerCode.GetString();
-                        #endregion
-
-                        #region Special Code
-                        JsonElement speCode = element.GetProperty("specode");
-                        viewModel.SpeCode = speCode.GetString();
-                        #endregion
-                        #region Special Code
-                        JsonElement unitsetcode = element.GetProperty("unitsetcode");
-                        viewModel.Unitset = unitsetcode.GetString();
-                        #endregion
-
-                        #region Revolution Speed
-                        viewModel.RevolutionSpeed = 50;
-                        #endregion
-
-                        #region Stock Quantity
-                        JsonElement stockQuantity = element.GetProperty("stockQuantity");
-                        viewModel.StockQuantity = Convert.ToDouble(stockQuantity.GetRawText().Replace('.', ','));
-                        #endregion
-
-                        #region InputQuantity
-                        JsonElement inputQuantity = element.GetProperty("inputQuantity");
-                        viewModel.InputQuantity = Convert.ToDouble(inputQuantity.GetRawText().Replace('.', ','));
-                        #endregion
-
-                        #region OutputQuantity
-                        JsonElement outputQuantity = element.GetProperty("outputQuantity");
-                        viewModel.OutputQuantity = Convert.ToDouble(outputQuantity.GetRawText().Replace('.', ','));
-                        #endregion
-
-                        #region LastTransactionDate
-                        JsonElement lastTransactionDate = element.GetProperty("lastTransactionDate");
-
-                        if (element.TryGetProperty("lastTransactionDate", out lastTransactionDate) && lastTransactionDate.ValueKind != JsonValueKind.Null)
+                        foreach (SemiProductListModel item in result)
                         {
-                            viewModel.LastTransactionDate = JsonSerializer.Deserialize<DateTime>(lastTransactionDate.GetRawText());
 
+                            yield return item;
                         }
-                        #endregion
-
-                        yield return viewModel;
                     }
                 }
             }
