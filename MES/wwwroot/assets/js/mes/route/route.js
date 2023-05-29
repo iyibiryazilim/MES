@@ -57,7 +57,7 @@ var RoutesList = function () {
                     },
 
                 },
-                
+
 
                 {
 
@@ -81,11 +81,11 @@ var RoutesList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        if (full.status)
+                        if (full.status == 0)
                             output = `<div class="fw-bold">` + "Kullanım Dışı" + `</div>`
                         else
                             output = `<div class="fw-bold">` + "Kullanımda" + `</div>`
-                        
+
                         return output;
 
                     },
@@ -119,7 +119,7 @@ var RoutesList = function () {
                     },
 
                 },
-                
+
                 {
 
                     orderable: false,

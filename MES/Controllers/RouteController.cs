@@ -2,6 +2,7 @@
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models.RouteModels;
+using MES.Models.SalesOrderLineModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MES.Controllers
@@ -45,50 +46,24 @@ namespace MES.Controllers
             if (viewModel != null)
             {
                 const string query = @"SELECT 
-					  ROUTING.LOGICALREF AS [REFERENCEID], 
-					  ROUTING.CODE AS [CODE], 
-					  ROUTING.WFSTATUS AS [STATUS], 
-					  ROUTING.NAME AS [DESCRIPTION], 
-					  ROUTING.CARDTYPE AS [CARDTYPE] 
+					  ROUTING.LOGICALREF AS [ReferenceId], 
+					  ROUTING.CODE AS [Code], 
+					  ROUTING.WFSTATUS AS [Status], 
+					  ROUTING.NAME AS [Description], 
+					  ROUTING.CARDTYPE AS [CardType] 
 					FROM 
 					  LG_003_ROUTING AS ROUTING";
                 JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
                 if (jsonDocument != null)
                 {
-                    var array = jsonDocument.RootElement.EnumerateArray();
-                    foreach (JsonElement element in array)
+                    List<RouteListModel> result = (List<RouteListModel>)jsonDocument.Deserialize(typeof(List<RouteListModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                    if (result != null)
                     {
-                        #region Reference Id
-                        JsonElement referenceId = element.GetProperty("referenceid");
-                        viewModel.ReferenceId = Convert.ToInt32(referenceId.GetRawText().Replace('.', ','));
-                        #endregion
+                        foreach (RouteListModel item in result)
+                        {
 
-                        #region Code
-                        JsonElement code = element.GetProperty("code");
-                        viewModel.Code = code.GetString();
-                        #endregion
-
-                        #region Description
-                        JsonElement description = element.GetProperty("description");
-                        viewModel.Description = description.GetString();
-                        #endregion
-
-						#region CardType
-                        JsonElement cardType = element.GetProperty("cardtype");
-                        viewModel.CardType = (short)Convert.ToInt32(cardType.GetRawText().Replace('.', ','));
-                        #endregion
-
-						#region Status
-                        JsonElement status = element.GetProperty("status");
-						var value = false;
-						if(Convert.ToInt32(status.GetRawText().Replace('.', ',')) == 1)
-						{
-							value = true;
-						}
-                        viewModel.Status = value;
-                        #endregion
-
-                        yield return viewModel;
+                            yield return item;
+                        }
                     }
                 }
             }

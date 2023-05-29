@@ -17,7 +17,7 @@ namespace MES.Models.RouteModels
         public short CardType { get; set; } = default;
 
         [DisplayName("Durumu")]
-        public bool Status {get;set;} = default;
+        public short Status { get; set; } = default;
 
 
     }
