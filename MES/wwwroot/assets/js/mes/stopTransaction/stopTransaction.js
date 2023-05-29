@@ -181,7 +181,7 @@ var StopTransactionList = function () {
 
                         var output;
 
-                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `<br />` + full.stopTime + `</a>`
+                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `<br /><br />` + full.stopTime + `</a>`
                         return output;
                     },
 
@@ -215,7 +215,7 @@ var StopTransactionList = function () {
 
                         var output;
 
-                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `<br />` + full.startTime + `</a>`
+                        output = ` <a href="#" class="badge badge-light-success fs-5 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `<br /><br />` + full.startTime + `</a>`
                         return output;
 
                     },
