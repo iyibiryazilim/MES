@@ -35,7 +35,7 @@ var StopCauseList = function () {
                 { data: 'code' },
                 { data: 'description' },
                 { data: 'stopDuration' },
-                { data: 'stopCount' },
+                { data: 'stopCauseCount' },
                 { data: 'referenceId' },
 
 
@@ -107,7 +107,7 @@ var StopCauseList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.stopCount + `</div>`
+                        output = `<div class="badge badge-light fw-bold">` + full.stopCauseCount + `</div>`
                         return output;
 
                     },
