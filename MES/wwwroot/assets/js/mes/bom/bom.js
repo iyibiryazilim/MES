@@ -3,7 +3,7 @@
 
 // Class definition
 
-var EmployeeGroupList = function () {
+var BOMList = function () {
 
     // Shared variables
     var table;
@@ -14,7 +14,7 @@ var EmployeeGroupList = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/EmployeeGroup/GetJsonResult';
+        var postUrl = '/BOM/GetJsonResult';
 
         datatable = $(table).DataTable({
 
@@ -33,7 +33,8 @@ var EmployeeGroupList = function () {
 
                 { data: 'referenceId' },
                 { data: 'code' },
-                { data: 'employeeCount' },
+                { data: 'productName' },
+                { data: 'revisionDate' },
                 { data: 'referenceId' },
 
             ],
@@ -46,7 +47,7 @@ var EmployeeGroupList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-							<input class="form-check-input" type="checkbox" value="`+ data + `" />
+							<input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
 						</div>`
                         return output;
 
@@ -69,10 +70,10 @@ var EmployeeGroupList = function () {
 							<!--end::Thumbnail-->
 							<div class="ms-5">
 								<!--begin::Title-->
-								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.name + `</a>
 								<!--end::Title-->
 								<!--begin::Description-->
-								<div class="text-muted fs-7 fw-bold">`+ full.name + `</div>
+								<div class="text-muted fs-7 fw-bold">`+ full.code + `</div>
 								<!--end::Description-->
 							</div>
 						</div>`
@@ -85,11 +86,48 @@ var EmployeeGroupList = function () {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+                        var output;
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.productName + `</a>
+															<span class="text-muted fw-bold">`+ full.productCode + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
+
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 3,
                     render: function (data, type, full, meta) {
 
+                        var formattedDate = new Date(full.revisionDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
+
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + full.employeeCount + `</div>`
+
+                        output = ` <a href="#" class="badge badge-light-success fs-7 fw-bold my-2">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</a>`
                         return output;
 
                     },
@@ -98,7 +136,7 @@ var EmployeeGroupList = function () {
                 {
 
                     orderable: false,
-                    targets: 3,
+                    targets: 4,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
@@ -301,7 +339,7 @@ var EmployeeGroupList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_employeeGroup_table');
+            table = document.querySelector('#mes_BOM_table');
 
             if (!table) {
 
@@ -324,5 +362,5 @@ var EmployeeGroupList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    EmployeeGroupList.init();
+    BOMList.init();
 });
