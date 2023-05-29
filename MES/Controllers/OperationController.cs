@@ -1,6 +1,7 @@
 ﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models.OperationModels;
+using MES.Models.ProductWarehouseParameterModels;
 using MES.ViewModels.OperationViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -48,38 +49,23 @@ namespace MES.Controllers
             {
                 const string query = @"
                     SELECT 
-                    OPERATIONS.LOGICALREF AS [REFERENCEID],
-                    OPERATIONS.CODE AS [CODE],
-                    OPERATIONS.NAME AS [DESCRIPTION],
+                    OPERATIONS.LOGICALREF AS [ReferenceId],
+                    OPERATIONS.CODE AS [Code],
+                    OPERATIONS.NAME AS [Description],
                     [ActiveWorkOrder] = (SELECT COUNT(*) FROM LG_003_DISPLINE WHERE OPERATIONREF = OPERATIONS.LOGICALREF)
                     FROM LG_003_OPERTION AS OPERATIONS ";
 
                 JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
                 if (jsonDocument != null)
                 {
-                    var array = jsonDocument.RootElement.EnumerateArray();
-                    foreach (JsonElement element in array)
+                    List<OperationListModel> result = (List<OperationListModel>)jsonDocument.Deserialize(typeof(List<OperationListModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                    if (result != null)
                     {
-                        #region Reference Id
-                        JsonElement referenceId = element.GetProperty("referenceid");
-                        viewModel.ReferenceId = referenceId.GetInt32();
-                        #endregion
+                        foreach (OperationListModel item in result)
+                        {
 
-                        #region Code
-                        JsonElement code = element.GetProperty("code");
-                        viewModel.Code = code.GetString();
-                        #endregion
-
-                        #region Description
-                        JsonElement description = element.GetProperty("description");
-                        viewModel.Description = description.GetString();
-                        #endregion
-
-                        #region Activ Work Order Count
-                        JsonElement activeWorkOrderCount = element.GetProperty("activeWorkOrder");
-                        viewModel.ActiveWorkOrder = activeWorkOrderCount.GetInt32();
-                        #endregion
-                        yield return viewModel;
+                            yield return item;
+                        }
                     }
                 }
             }
