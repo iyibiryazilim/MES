@@ -24,7 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\StopTransactionModels\" />
-    <Folder Include="Models\ShiftModels\" />
     <Folder Include="Models\RouteModels\" />
     <Folder Include="Models\PurchaseOrderLineModels\" />
     <Folder Include="Models\ProductWarehouseParameterModels\" />

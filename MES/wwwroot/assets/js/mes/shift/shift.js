@@ -33,10 +33,7 @@ var ShiftList = function () {
 
                 { data: 'referenceId' },
                 { data: 'code' },
-                { data: 'name' },
                 { data: 'referenceId' },
-
-
             ],
             columnDefs: [
                 {
@@ -48,7 +45,7 @@ var ShiftList = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
+                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
                         </div>`
                         return output;
 
@@ -64,21 +61,22 @@ var ShiftList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
-                        return output;
 
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 2,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 text-hover-primary mb-1">` + data + `</div>`
+                        output = `<div class="d-flex">
+							<!--begin::Thumbnail-->
+							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
+								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
+							</a>
+							<!--end::Thumbnail-->
+							<div class="ms-5">
+								<!--begin::Title-->
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
+								<!--end::Title-->
+								<!--begin::Description-->
+								<div class="text-muted fs-7 fw-bold">`+ full.name + `</div>
+								<!--end::Description-->
+							</div>
+						</div>`
                         return output;
 
                     },
@@ -88,7 +86,7 @@ var ShiftList = function () {
                 {
 
                     orderable: false,
-                    targets: 3,
+                    targets: 2,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;
