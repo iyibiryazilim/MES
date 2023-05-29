@@ -1,6 +1,7 @@
 ﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models.PurchaseOrderLineModels;
+using MES.Models.SalesOrderLineModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -43,21 +44,21 @@ namespace MES.Controllers
             if (viewModel != null)
             {
                 string query = $@"SELECT
-                                ORFLINE.DATE_ AS [DATE],
-                                ORFLINE.LOGICALREF AS [ORDERREFERENCEID],
-                                ORFLINE.LINEEXP AS [DESCRIPTION],
-                                ORFICHE.FICHENO AS [FICHENO],
-                                CLCARD.LOGICALREF AS [CURRENTREFERENCEID],
-                                CLCARD.CODE as [CURRENTCODE],
-                                CLCARD.DEFINITION_ AS [CURRENTNAME],
-                                ITEM.LOGICALREF [PRODUCTREFERENCEID],
-                                ITEM.CODE AS [PRODUCTCODE],
-                                ITEM.NAME AS [PRODUCTNAME],
-                                CAPIWHOUSE.LOGICALREF AS [WAREHOUSEREFERENCEID],
-                                ISNULL((CAPIWHOUSE.NR),0) AS [WAREHOUSENO],
-                                CAPIWHOUSE.NAME AS [WAREHOUSENAME],
-                                UNITSET.CODE AS [UNITSET],
-                                SUBUNITSET.CODE AS [SUBUNITSET],
+                                ORFLINE.DATE_ AS [OrderDate],
+                                ORFLINE.LOGICALREF AS [ReferenceId],
+                                ORFLINE.LINEEXP AS [Description],
+                                ORFICHE.FICHENO AS [OrderCode],
+                                CLCARD.LOGICALREF AS [CurrentReferenceId],
+                                CLCARD.CODE as [CurrentCode],
+                                CLCARD.DEFINITION_ AS [CurrentName],
+                                ITEM.LOGICALREF [ProductReferenceId],
+                                ITEM.CODE AS [ProductCode],
+                                ITEM.NAME AS [ProductName],
+                                CAPIWHOUSE.LOGICALREF AS [WarehouseReferenceId],
+                                ISNULL((CAPIWHOUSE.NR),0) AS [WarehouseNo],
+                                CAPIWHOUSE.NAME AS [WarehouseName],
+                                UNITSET.CODE AS [Unitset],
+                                SUBUNITSET.CODE AS [SubUnitset],
                                 [Quantity] = ORFLINE.AMOUNT,
                                 [ShippedQuantity] = ORFLINE.SHIPPEDAMOUNT,
                                 [WaitingQuantity] = ISNULL((ORFLINE.AMOUNT-ORFLINE.SHIPPEDAMOUNT),0)
@@ -72,100 +73,14 @@ namespace MES.Controllers
                 JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
                 if (jsonDocument != null)
                 {
-                    var array = jsonDocument.RootElement.EnumerateArray();
-                    foreach (JsonElement element in array)
+                    List<PurchaseOrderLineListModel> result = (List<PurchaseOrderLineListModel>)jsonDocument.Deserialize(typeof(List<PurchaseOrderLineListModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                    if (result != null)
                     {
-                        #region Reference Id
-                        JsonElement referenceId = element.GetProperty("orderreferenceid");
-                        viewModel.ReferenceId = referenceId.GetInt32();
-                        #endregion
-
-                        #region Current Reference Id
-                        JsonElement currentReferenceId = element.GetProperty("currentreferenceid");
-                        viewModel.CurrentReferenceId = currentReferenceId.GetInt32();
-                        #endregion
-
-                        #region Current Code
-                        JsonElement currentCode = element.GetProperty("currentcode");
-                        viewModel.CurrentCode = currentCode.GetString();
-                        #endregion
-
-                        #region Current Name
-                        JsonElement currentName = element.GetProperty("currentname");
-                        viewModel.CurrentName = currentName.GetString();
-                        #endregion
-
-                        #region Product Reference Id
-                        JsonElement productReferenceId = element.GetProperty("productreferenceid");
-                        viewModel.ProductReferenceId = productReferenceId.GetInt32();
-                        #endregion
-
-                        #region Product Code
-                        JsonElement productCode = element.GetProperty("productcode");
-                        viewModel.ProductCode = productCode.GetString();
-                        #endregion
-
-                        #region Product Name 
-                        JsonElement productName = element.GetProperty("productname");
-                        viewModel.ProductName = productName.GetString();
-                        #endregion
-
-                        #region Unitset
-                        JsonElement unitset = element.GetProperty("unitset");
-                        viewModel.Unitset = unitset.GetString();
-                        #endregion
-
-                        #region SubUnitSet
-                        JsonElement subUnitSet = element.GetProperty("subunitset");
-                        viewModel.SubUnitset = subUnitSet.GetString();
-                        #endregion
-
-                        #region Quantity
-                        JsonElement quantity = element.GetProperty("quantity");
-                        viewModel.Quantity = Convert.ToDouble(quantity.GetRawText().Replace('.', ','));
-                        #endregion
-
-                        #region Shipped Quantity
-                        JsonElement shippedQuantity = element.GetProperty("shippedQuantity");
-                        viewModel.ShippedQuantity = Convert.ToDouble(shippedQuantity.GetRawText().Replace('.', ','));
-                        #endregion
-
-                        #region Waiting Quantity
-                        JsonElement waitingQuantity = element.GetProperty("waitingQuantity");
-                        viewModel.WaitingQuantity = Convert.ToDouble(waitingQuantity.GetRawText().Replace('.', ','));
-                        #endregion
-
-                        #region Warehouse No
-                        JsonElement warehouseNo = element.GetProperty("warehouseno");
-                        viewModel.WarehouseNo = warehouseNo.GetInt32();
-                        #endregion
-
-                        #region Warehouse Name
-                        JsonElement warehouseName = element.GetProperty("warehousename");
-                        viewModel.WarehouseName = warehouseName.GetString();
-                        #endregion
-
-                        #region Order Code
-                        JsonElement orderCode = element.GetProperty("ficheno");
-                        viewModel.OrderCode = orderCode.GetString();
-                        #endregion
-
-                        #region Description
-                        JsonElement description = element.GetProperty("description");
-                        viewModel.Description = description.GetString();
-                        #endregion
-
-                        #region LastTransactionDate
-                        JsonElement orderDate = element.GetProperty("date");
-
-                        if (element.TryGetProperty("date", out orderDate) && orderDate.ValueKind != JsonValueKind.Null)
+                        foreach (PurchaseOrderLineListModel item in result)
                         {
-                            viewModel.OrderDate = JsonSerializer.Deserialize<DateTime>(orderDate.GetRawText());
 
+                            yield return item;
                         }
-                        #endregion
-
-                        yield return viewModel;
                     }
                 }
             }

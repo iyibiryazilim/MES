@@ -14,7 +14,7 @@ namespace MES.Models.ProductWarehouseParameterModels
         public string? Description { get; set; } = string.Empty;
 
         [DisplayName("Planlanan Başlangıç Zamanı")]
-        public DateTime PlannedBeginDate { get; set; } = default;
+        public DateTimeOffset? PlannedBeginDate { get; set; } = default;
 
         [DisplayName("Mamul Referans Kodu")]
         public int ProductRefernceId { get; set; } = default;
