@@ -31,16 +31,12 @@
     <Folder Include="Models\StopTransactionModels\" />
     <Folder Include="Models\RouteModels\" />
     <Folder Include="Models\PurchaseOrderLineModels\" />
-    <Folder Include="Models\ProductWarehouseParameterModels\" />
-    <Folder Include="Models\ProductMeasureModels\" />
-    <Folder Include="Models\ProductionOrderModels\" />
     <Folder Include="Models\OperationModels\" />
     <Folder Include="ViewModels\WorkOrderViewModels\" />
     <Folder Include="Views\WorkOrder\" />
     <Folder Include="wwwroot\assets\js\mes\workOrder\" />
     <Folder Include="ViewModels\PurchaseOrderLine\" />
     <Folder Include="ViewModels\SalesOrderLine\" />
-    <Folder Include="Models\ProductPopupModels\" />
     <Folder Include="ViewModels\ProductViewModels\" />
     <Folder Include="ViewModels\ProductViewModels\EndProductViewModels\" />
     <Folder Include="ViewModels\ProductViewModels\SemiProductviewModels\" />

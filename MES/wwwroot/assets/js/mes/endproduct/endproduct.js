@@ -205,7 +205,7 @@ var EndProductList = function () {
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-8 w-150px py-2" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="EndProduct/Detail/?referenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
+								<a href="EndProduct/Detail/?productReferenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
 							</div>
 							<!--end::Menu item-->
                             <!--begin::Menu item-->

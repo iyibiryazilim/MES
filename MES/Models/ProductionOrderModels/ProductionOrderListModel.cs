@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace MES.Models.ProductWarehouseParameterModels
+namespace MES.Models.ProductionOrderModels
 {
     public class ProductionOrderListModel
     {

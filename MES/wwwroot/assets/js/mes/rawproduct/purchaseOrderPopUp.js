@@ -1,8 +1,7 @@
-﻿
-"use strict";
+﻿"use strict";
 
 // Class definition
-var PurchaseOrderShowModalPageInit = function () {
+var ShowModalPurchaseOrderPageInit = function () {
 
     var table;
     var datatable;
@@ -10,7 +9,8 @@ var PurchaseOrderShowModalPageInit = function () {
 
     var initDatatable = function () {
 
-        var postUrl = '/PurchaseOrderLine/GetJsonResult';
+        var postUrl = 'RawProduct/GetPurchaseOrderLineJsonResult?productReferenceId=' + referenceId;
+        console.log(postUrl);
 
         datatable = $(table).DataTable({
             responsive: true,
@@ -19,19 +19,23 @@ var PurchaseOrderShowModalPageInit = function () {
             destroy: true,
             info: false,
             order: [],
-            pageLength: 25,
+            pageLength: 10,
             ajax: {
                 url: postUrl,
                 type: 'POST'
             },
+
             columns: [
 
                 { data: 'referenceId' },
-
-                { data: 'product' },
+                { data: 'orderDate' },
+                { data: 'orderCode' },
+                { data: 'currentCode' },
+                { data: 'warehouseNo' },
                 { data: 'quantity' },
+                { data: 'shippedQuantity' },
+                { data: 'waitingQuantity' },
                 { data: 'description' },
-                { data: 'warehouse' },
                 { data: 'referenceId' },
 
 
@@ -46,37 +50,43 @@ var PurchaseOrderShowModalPageInit = function () {
                         var output;
 
                         output = `<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="`+ data + `" />
+                            <input class="form-check-input" type="checkbox" value="`+ full.referenceId + `" />
                         </div>`
                         return output;
 
                     },
 
                 },
-
                 {
-
                     orderable: true,
                     targets: 1,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
+                        var formattedDate = new Date(full.orderDate);
+                        var d = formattedDate.getDate();
+                        var m = formattedDate.getMonth();
+                        m += 1;
+                        var y = formattedDate.getFullYear();
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.product.name + `</div>`
+
+                        output = ` <div class="fw-bold fs-6">` + d.toString().padStart(2, '0') + '.' + m.toString().padStart(2, '0') + '.' + y + `</div>`
+
                         return output;
 
                     },
-
                 },
                 {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-start pe-0',
+                    classname: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.quantity + `</div>`
+                        output = ` <div class="d-flex flex-column">
+                            <a href="#" class="text-gray-800 text-hover-primary mb-1">` + full.orderCode + `</a>
+                        </div>`
                         return output;
 
                     },
@@ -86,13 +96,45 @@ var PurchaseOrderShowModalPageInit = function () {
 
                     orderable: true,
                     targets: 3,
+                    className: 'd-flex align-items-center',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+
+                        output = `<!--begin:: Avatar -->
+															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+																<a href="../../demo1/dist/apps/user-management/users/view.html">
+																	<div class="symbol-label">
+																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
+																	</div>
+																</a>
+															</div>
+															<!--end::Avatar-->
+															<!--begin::User details-->
+															<div class="d-flex flex-column">
+																<a href="#" class="text-gray-800 text-hover-primary mb-1">` + full.currentCode + `</a>
+																<span>`+ full.currentName + `</span>
+															</div>
+															<!--begin::User details-->`
+                        return output;
+
+                    },
+
+                },
+
+                {
+
+                    orderable: true,
+                    targets: 4,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>
-                        
-                        `
+                        var value = "";
+                        if (full.warehouseNo != null) {
+                            value = full.warehouseNo
+                        }
+                        output = `<span class="fw-bold ms-3">` + value + `</span>`
                         return output;
 
                     },
@@ -101,17 +143,61 @@ var PurchaseOrderShowModalPageInit = function () {
                 {
 
                     orderable: true,
-                    targets: 4,
-                    className: 'text-start pe-0',
+                    targets: 5,
+                    className: 'text-center pe-0',
                     render: function (data, type, full, meta) {
-                        console.log(full)
+
+                        var output;
+                        output = ` <div class="badge badge-light-primary fs-6">` + full.quantity + `</div>`
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 6,
+                    className: 'text-center pe-0',
+                    render: function (data, type, full, meta) {
+
+                        var output;
+                        output = ` <div class="badge badge-light-success fs-6">` + full.shippedQuantity + `</div>`
+
+
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 7,
+                    className: 'text-center pe-0',
+                    render: function (data, type, full, meta) {
                         if (full.warehouse != null) {
                             var value = full.warehouse.name
                         }
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + value + `</div>
-                        
-                        `
+                        output = ` <div class="badge badge-light-danger fs-6">` + full.waitingQuantity.toFixed(1) + `</div>`
+
+
+                        return output;
+
+                    },
+
+                },
+                {
+
+                    orderable: true,
+                    targets: 8,
+                    render: function (data, type, full, meta) {
+
+                        console.log()
+                        var output;
+
+                        output = `<span class="fw-bold ms-3">` + full.description + `</span>`
                         return output;
 
                     },
@@ -120,8 +206,8 @@ var PurchaseOrderShowModalPageInit = function () {
                 {
 
                     orderable: false,
-                    targets: 5,
-                    className: 'text-end',
+                    targets: 9,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
                         var output;
                         output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -150,33 +236,28 @@ var PurchaseOrderShowModalPageInit = function () {
                 },
 
             ]
-
         });
-
-
 
         // Re-init functions on datatable re-draws
-
         datatable.on('draw', function () {
-
             KTMenu.createInstances();
-
         });
-
     }
     // Private functions
 
     var loadModalPage = function () {
-        $('#mes_rawProduct_purchaseOrder').on('shown.bs.modal', function () {
-            console.log("Alış Siparişleri Açıldı")
-            initDatatable();
+        $('#mes_modal_purchase_order').on('shown.bs.modal', function () {
 
+            console.log("purchase order" + referenceId)
+            
+            initDatatable();
         });
     };
 
     var bindEventHandlers = function () {
         $(document).on('click', 'a#RawProductPurchaseOrderList', function () {
             referenceId = $(this).data('reference-id');
+            console.log("aaaaa " + referenceId);
         });
     };
 
@@ -186,12 +267,10 @@ var PurchaseOrderShowModalPageInit = function () {
             table = document.querySelector('#mes_purchase_order_table');
 
             if (!table) {
-                console.log("Alış Siparişler tablosu bulunamadı")
                 return;
             }
             bindEventHandlers();
             loadModalPage();
-
 
         }
     };
@@ -199,5 +278,5 @@ var PurchaseOrderShowModalPageInit = function () {
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    PurchaseOrderShowModalPageInit.init();
+    ShowModalPurchaseOrderPageInit.init();
 });

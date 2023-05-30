@@ -200,33 +200,35 @@ var RawProductList = function () {
                         output = `<a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 							İşlemler
 							<i class="ki-duotone ki-down fs-5 ms-1"></i>
+                            <input id="RawProductInputTransactionList" type="hidden" value="`+ full.referenceId + `" />
 						</a>
 						<!--begin::Menu-->
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-8 w-150px py-2" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="RawProduct/Detail/?referenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
-							</div>
-							<!--end::Menu item-->
-                            <div class="menu-item px-3">
-								<a href="#" id="RawProductInputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_rawProduct_inputTransaction">Giriş Hareketleri</a>
+								<a href="RawProduct/Detail/?productReferenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
 							</div>
 							<!--end::Menu item-->
                             <!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductOutputTransactionList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_rawProduct_outputTransaction">Çıkış Hareketleri</a>
+								<a href="#" id="RawProductInputTransactionList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_input_transaction">Giriş Hareketleri</a>
+							</div>
+							<!--end::Menu item-->
+                            <!--begin::Menu item-->
+							<div class="menu-item px-3">
+								<a href="#" id="RawProductOutputTransactionList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_output_transaction">Çıkış Hareketleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductWarehouseTotalList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_rawProduct_warehouseTotal" >Ambar Toplamları</a>
+								<a href="#" id="RawProductWarehouseTotalList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_warehouse_total" class="menu-link px-3">Ambar Toplamları</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductSaleOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_rawProduct_salesOrder" >Satış Siparişleri</a>
+								<a href="#" id="RawProductSalesOrderList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_sales_order">Satış Siparişleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductPurchaseOrderList" class="menu-link px-3" data-bs-toggle="modal" data-reference-id = `+ full.referenceId + ` data-bs-target="#mes_rawProduct_purchaseOrder">Satınalma Siparişleri</a>
+								<a href="#" id="RawProductPurchaseOrderList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_purchase_order">Satınalma Siparişleri</a>
 							</div>
 							<!--end::Menu item-->
 							

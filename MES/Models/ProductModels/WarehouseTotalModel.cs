@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace MES.Models.ProductPopupModels;
+namespace MES.Models.ProductModels;
 
 public class WarehouseTotalModel
 {

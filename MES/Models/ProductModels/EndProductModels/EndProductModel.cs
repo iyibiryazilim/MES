@@ -1,7 +1,7 @@
 ﻿using LBS.Shared.Entity.Models;
 using System.ComponentModel;
 
-namespace MES.Models.EndProductModels;
+namespace MES.Models.ProductModels.EndProductModels;
 
 public class EndProductModel : EndProduct
 {
