@@ -69,7 +69,7 @@ var RawProductList = function () {
                         var output;
                         output = `<!--begin:: Avatar -->
 															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-																<a href="../../demo1/dist/apps/user-management/users/view.html">
+																<a href="RawProduct/Detail/?productReferenceId=`+ full.referenceId + `" >
 																	<div class="symbol-label">
 																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
 																	</div>
@@ -78,7 +78,7 @@ var RawProductList = function () {
 															<!--end::Avatar-->
 															<!--begin::User details-->
 															<div class="d-flex flex-column">
-																<a href="EndProduct/Detail/?referenceId=`+ full.referenceId + `" class="text-gray-800 text-hover-primary mb-1">` + full.code + `</a>
+																<a href="RawProduct/Detail/?productReferenceId=`+ full.referenceId + `"  class="text-gray-800 text-hover-primary mb-1">` + full.code + `</a>
 																<span>`+ full.name + `</span>
 															</div>
 															<!--begin::User details-->`

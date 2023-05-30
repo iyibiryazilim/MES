@@ -68,7 +68,7 @@ var SemiProductList = function () {
                         var output;
                         output = `<!--begin:: Avatar -->
 															<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-																<a href="../../demo1/dist/apps/user-management/users/view.html">
+																<a href="SemiProduct/Detail/?productReferenceId=`+ full.referenceId + `">
 																	<div class="symbol-label">
 																		<img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
 																	</div>
@@ -77,7 +77,7 @@ var SemiProductList = function () {
 															<!--end::Avatar-->
 															<!--begin::User details-->
 															<div class="d-flex flex-column">
-																<a href="EndProduct/Detail/?referenceId=`+ full.referenceId + `" class="text-gray-800 text-hover-primary mb-1">` + full.code + `</a>
+																<a href="SemiProduct/Detail/?productReferenceId=`+ full.referenceId + `" class="text-gray-800 text-hover-primary mb-1">` + full.code + `</a>
 																<span>`+ full.name + `</span>
 															</div>
 															<!--begin::User details-->`
@@ -205,29 +205,29 @@ var SemiProductList = function () {
 						<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-8 w-150px py-2" data-kt-menu="true">
 							<!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="RawProduct/Detail/?productReferenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
+								<a href="SemiProduct/Detail/?productReferenceId=`+ full.referenceId + `" class="menu-link px-3">Özet</a>
 							</div>
 							<!--end::Menu item-->
                             <!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductInputTransactionList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_input_transaction">Giriş Hareketleri</a>
+								<a href="#" id="SemiProductInputTransactionList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_input_transaction">Giriş Hareketleri</a>
 							</div>
 							<!--end::Menu item-->
                             <!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductOutputTransactionList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_output_transaction">Çıkış Hareketleri</a>
+								<a href="#" id="SemiProductOutputTransactionList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_output_transaction">Çıkış Hareketleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductWarehouseTotalList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_warehouse_total" class="menu-link px-3">Ambar Toplamları</a>
+								<a href="#" id="SemiProductWarehouseTotalList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_warehouse_total" class="menu-link px-3">Ambar Toplamları</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductSalesOrderList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_sales_order">Satış Siparişleri</a>
+								<a href="#" id="SemiProductSalesOrderList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_sales_order">Satış Siparişleri</a>
 							</div>
 							<!--end::Menu item--><!--begin::Menu item-->
 							<div class="menu-item px-3">
-								<a href="#" id="RawProductPurchaseOrderList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_purchase_order">Satınalma Siparişleri</a>
+								<a href="#" id="SemiProductPurchaseOrderList" data-reference-id="`+ full.referenceId + `" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#mes_modal_purchase_order">Satınalma Siparişleri</a>
 							</div>
 							<!--end::Menu item-->
 							

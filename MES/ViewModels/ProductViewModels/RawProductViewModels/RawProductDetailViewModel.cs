@@ -14,21 +14,37 @@ namespace MES.ViewModels.ProductViewModels.RawProductViewModels
         public RawProductModel? RawProductModel { get; set; }
 
         public IList<RawProductMeasureModel>? RawProductMeasureModel { get; set; }
-        public float DailyStock { get; set; } = default;
+        public float DailyInputStock { get; set; } = default;
 
-		public float DailyStockChange { get; set; } = default;
+        public float DailyInputStockChange { get; set; } = default;
 
-		public float WeeklyStock { get; set; } = default;
+        public float WeeklyInputStock { get; set; } = default;
 
-		public float WeeklyStockChange { get; set; } = default;
+        public float WeeklyInputStockChange { get; set; } = default;
 
-		public float MonthlyStock { get; set; } = default;
+        public float MonthlyInputStock { get; set; } = default;
 
-		public float MonthlyStockChange { get; set; } = default;
+        public float MonthlyInputStockChange { get; set; } = default;
 
-		public float YearlyStock { get; set; } = default;
+        public float YearlyInputStock { get; set; } = default;
 
-		public float YearlyStockChange { get; set; } = default;
-	}
+        public float YearlyInputStockChange { get; set; } = default;
+
+        public float DailyOutputStock { get; set; } = default;
+
+        public float DailyOutputStockChange { get; set; } = default;
+
+        public float WeeklyOutputStock { get; set; } = default;
+
+        public float WeeklyOutputStockChange { get; set; } = default;
+
+        public float MonthlyOutputStock { get; set; } = default;
+
+        public float MonthlyOutputStockChange { get; set; } = default;
+
+        public float YearlyOutputStock { get; set; } = default;
+
+        public float YearlyOutputStockChange { get; set; } = default;
+    }
 }
 
