@@ -33,7 +33,6 @@ var OperationList = function () {
 
                 { data: 'referenceId' },
                 { data: 'code' },
-                { data: 'description' },
                 { data: 'activeWorkOrder' },
                 { data: 'referenceId' },
 
@@ -65,7 +64,22 @@ var OperationList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.code + `</div>`
+
+                        output = `<div class="d-flex">
+							<!--begin::Thumbnail-->
+							<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
+								<span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
+							</a>
+							<!--end::Thumbnail-->
+							<div class="ms-5">
+								<!--begin::Title-->
+								<a href="../../demo46/dist/apps/ecommerce/catalog/edit-category.html" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-category-filter="category_name">`+ full.code + `</a>
+								<!--end::Title-->
+								<!--begin::Description-->
+								<div class="text-muted fs-7 fw-bold">`+ full.description + `</div>
+								<!--end::Description-->
+							</div>
+						</div>`
                         return output;
 
                     },
@@ -75,20 +89,6 @@ var OperationList = function () {
 
                     orderable: true,
                     targets: 2,
-                    className: 'text-start pe-0',
-                    render: function (data, type, full, meta) {
-
-                        var output;
-                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>`
-                        return output;
-
-                    },
-
-                },
-                {
-
-                    orderable: true,
-                    targets: 3,
                     className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
                         console.log(full)
@@ -103,7 +103,7 @@ var OperationList = function () {
                 {
 
                     orderable: false,
-                    targets: 4,
+                    targets: 3,
                     className: 'text-end',
                     render: function (data, type, full, meta) {
                         var output;

@@ -67,7 +67,7 @@ var RoutesList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.code + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.code + `</div>`
                         return output;
 
                     },
@@ -82,9 +82,9 @@ var RoutesList = function () {
 
                         var output;
                         if (full.status == 0)
-                            output = `<div class="fw-bold">` + "Kullanım Dışı" + `</div>`
+                            output = `<div class="badge badge-light-danger fw-bold">` + "Kullanım Dışı" + `</div>`
                         else
-                            output = `<div class="fw-bold">` + "Kullanımda" + `</div>`
+                            output = `<div class="badge badge-light-primary fw-bold">` + "Kullanımda" + `</div>`
 
                         return output;
 
@@ -99,7 +99,7 @@ var RoutesList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.description + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>`
                         return output;
 
                     },
@@ -113,7 +113,7 @@ var RoutesList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="fw-bold">` + full.cardType + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.cardType + `</div>`
                         return output;
 
                     },

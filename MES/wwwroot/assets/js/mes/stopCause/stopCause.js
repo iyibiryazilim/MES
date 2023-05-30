@@ -65,7 +65,7 @@ var StopCauseList = function () {
 
                         var output;
 
-                        output = `<div class="badge badge-light fw-bold">` + full.code + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.code + `</div>`
                         return output;
 
                     },
@@ -79,7 +79,7 @@ var StopCauseList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.description + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.description + `</div>`
                         return output;
 
                     },
@@ -93,7 +93,7 @@ var StopCauseList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.stopDuration + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.stopDuration + `</div>`
                         return output;
 
                     },
@@ -107,7 +107,7 @@ var StopCauseList = function () {
                     render: function (data, type, full, meta) {
 
                         var output;
-                        output = `<div class="badge badge-light fw-bold">` + full.stopCauseCount + `</div>`
+                        output = `<div class="text-gray-800 fw-bold d-block fs-4">` + full.stopCauseCount + `</div>`
                         return output;
 
                     },
