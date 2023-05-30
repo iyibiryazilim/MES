@@ -1,8 +1,6 @@
 ﻿using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
 using MES.Models.OperationModels;
-using MES.Models.ProductWarehouseParameterModels;
-using MES.ViewModels.OperationViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MES.Models.RawProductModels
+namespace MES.Models.ProductModels.RawProductModels
 {
     public class RawProductListModel
     {

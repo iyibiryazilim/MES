@@ -1,8 +1,12 @@
-﻿<div class="modal fade" id="mes_semiProduct_inputTransaction" tabindex="-1" aria-hidden="true">
+﻿
+
+<div class="modal fade" id="mes_modal_input_transaction" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1200px;">
         <!--begin::Modal content-->
         <div class="modal-content">
+
+
             <!--begin::Products-->
             <div class="card card-flush">
                 <!--begin::Card header-->
@@ -12,17 +16,19 @@
                         <!--begin::Search-->
                         <div class="d-flex align-items-center position-relative my-1">
                             <i class="ki-outline ki-magnifier fs-3 position-absolute ms-4"></i>
-                            <input type="text" mes-input-product-transaction-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Giriş Hareketi Ara" />
+                            <input type="text" wms-input-product-transaction-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Giriş Hareketi Ara" />
                         </div>
+
                         <!--end::Search-->
                     </div>
                     <!--end::Card title-->
                     <!--begin::Card toolbar-->
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 
-                        <div class="w-100 mw-150px">
-                        </div>
 
+                        <div>
+                            <button type="button" class="btn-close btn-close-danger btn-close-icon-lg" data-bs-dismiss="modal" aria-label="Close" style="font-size: 36px;"></button>
+                        </div>
                     </div>
                     <!--end::Card toolbar-->
                 </div>
@@ -40,9 +46,11 @@
                                 </th>
                                 <th class="min-w-125px">TARİH </th>
                                 <th class="min-w-125px">FİŞ NUMARASI</th>
-                                <th class="min-w-125px">FİŞ TÜRÜ</th>
+                                <th class="min-w-125px">Fiş Türü</th>
+                                <th class="min-w-125px">Toplam Miktar</th>
+                                <th class="min-w-125px">Birim</th>
                                 <th class="min-w-125px">Ambar</th>
-                                <th class="min-w-125px">İşlemler</th>
+                                <th class="min-w-125px">Açıklama</th>
                             </tr>
                         </thead>
                         <tbody class="fw-semibold text-gray-600">

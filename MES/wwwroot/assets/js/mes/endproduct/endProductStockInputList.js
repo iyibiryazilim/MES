@@ -1,26 +1,15 @@
 ﻿"use strict";
 
-
-
-
 // Class definition
-var MESProductInputProductTransactionList = function () {
-    // Shared variables
+var InputShowModalPageInit = function () {
+
     var table;
     var datatable;
+    var referenceId;
 
-    // Private functions
     var initDatatable = function () {
-
-        var referenceId;
-
-        $(table).on('click', 'a#EndProductList', function (event) {
-            referenceId = $(this).data('id');
-            //console.log('Giriş Hareketleri asadsadsa için tıklandı. referenceId:', referenceId);
-        });
-
+        var referenceId = $('#ProductId').val()
         var postUrl = '../../EndProduct/GetInputJsonResult?productReferenceId=' + referenceId;
-
         console.log(postUrl);
 
         datatable = $(table).DataTable({
@@ -45,7 +34,6 @@ var MESProductInputProductTransactionList = function () {
                 { data: 'unitsetCode' },
                 { data: 'warehouseName' },
                 { data: 'description' },
-
             ],
             columnDefs: [
                 {
@@ -157,6 +145,7 @@ var MESProductInputProductTransactionList = function () {
                     },
                 },
 
+
             ]
         });
 
@@ -166,103 +155,22 @@ var MESProductInputProductTransactionList = function () {
         });
     }
 
-    // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
-    var handleSearchDatatable = () => {
-        const filterSearch = document.querySelector('[wms-input-product-transaction-table-filter="search"]');
-        filterSearch.addEventListener('keyup', function (e) {
-            datatable.search(e.target.value).draw();
-        });
-    }
-
-    // Handle status filter dropdown
-    var handleStatusFilter = () => {
-        const filterStatus = document.querySelector('[data-kt-ecommerce-product-filter="status"]');
-        $(filterStatus).on('change', e => {
-            let value = e.target.value;
-            if (value === 'all') {
-                value = '';
-            }
-            datatable.column(1).search(value).draw();
-        });
-    }
-
-    // Delete cateogry
-    var handleDeleteRows = () => {
-        // Select all delete buttons
-        const deleteButtons = table.querySelectorAll('[data-kt-ecommerce-product-filter="delete_row"]');
-
-        deleteButtons.forEach(d => {
-            // Delete button on click
-            d.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                // Select parent row
-                const parent = e.target.closest('tr');
-
-                // Get category name
-                const productName = parent.querySelector('[data-kt-ecommerce-product-filter="product_name"]').innerText;
-
-                // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-                Swal.fire({
-                    text: "Are you sure you want to delete " + productName + "?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, delete!",
-                    cancelButtonText: "No, cancel",
-                    customClass: {
-                        confirmButton: "btn fw-bold btn-danger",
-                        cancelButton: "btn fw-bold btn-active-light-primary"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        Swal.fire({
-                            text: "You have deleted " + productName + "!.",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        }).then(function () {
-                            // Remove current row
-                            datatable.row($(parent)).remove().draw();
-                        });
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: productName + " was not deleted.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        });
-                    }
-                });
-            })
-        });
-    }
-
-
     // Public methods
     return {
         init: function () {
             table = document.querySelector('#mes_input_transaction_table');
-
             if (!table) {
+                console.log("Girş hareketleri tablosu bulunamadı")
                 return;
             }
-
             initDatatable();
-            handleSearchDatatable();
-            //handleStatusFilter();
-            //handleDeleteRows();
+
+
         }
     };
 }();
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    MESProductInputProductTransactionList.init();
+    InputShowModalPageInit.init();
 });

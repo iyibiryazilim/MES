@@ -2,8 +2,7 @@
 "use strict";
 
 
-
-var RawProductWarehouseList = function () {
+var EndProductWarehouseList = function () {
 
     // Shared variables
     var table;
@@ -13,13 +12,13 @@ var RawProductWarehouseList = function () {
     // Private functions
 
     var initDatatable = function () {
-        var productId = $('#ProductId').val()
-        var postUrl = '/EndProduct/GetWarehouseJsonResult?productReferenceId=' + productId;
+
+        var referenceId = $('#ProductId').val()
+        var postUrl = '../../SemiProduct/GetWarehouseParameterJsonResult?productReferenceId=' + referenceId;
         console.log(postUrl)
 
 
         datatable = $(table).DataTable({
-
             responsive: true,
             autoWidth: false,
             searchDelay: 500,
@@ -32,75 +31,87 @@ var RawProductWarehouseList = function () {
                 type: 'POST'
             },
             columns: [
+                { data: 'warehouseName' },
+                { data: 'stockQuantity' },
+                { data: 'maximumLevel' },
+                { data: 'minimumLevel' },
+                { data: 'safeLevel' },
 
-                { data: 'warehouse.name' },
-                { data: 'onhand' },
-                { data: 'onhand' },
-                { data: 'onhand' },
-                { data: 'onhand' },
             ],
             columnDefs: [
                 {
                     orderable: true,
                     targets: 0,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
-                        console.log(full)
                         var output;
-
-                        output = `<td>` + full.warehouse.name + `</td>`
+                        output = `<div class="d-flex align-items-center mb-7">
+														<!--begin::Symbol-->
+														<div class="symbol symbol-50px me-5">
+															<span class="symbol-label bg-light-success">
+																<i class="ki-duotone ki-abstract-26 fs-2x text-success">
+																	<span class="path1"></span>
+																	<span class="path2"></span>
+																</i>
+															</span>
+														</div>
+														<!--end::Symbol-->
+														<!--begin::Text-->
+														<div class="d-flex flex-column">
+															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">`+ full.warehouseName + `</a>
+															<span class="text-muted fw-bold">`+ `AMBAR ` + full.inventoryNo + `</span>
+														</div>
+														<!--end::Text-->
+													</div>
+													<!--end::Item-->`
                         return output;
-
                     },
-
                 },
                 {
-
                     orderable: true,
                     targets: 1,
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
+                        output = `<div class="badge badge-light-success fw-bold">` + full.stockQuantity + `</div>`
 
-
-
-                        output = `<td>` + full.onhand + `</td>`
                         return output;
-
                     },
-
                 },
-
                 {
-
                     orderable: true,
                     targets: 2,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-                        output = `<td>` + full.onhand + `</td>`
+                        output = `<div class="badge badge-light-primary fw-bold">` + full.maximumLevel + `</div>`
+
                         return output;
-
                     },
-
                 },
                 {
-
                     orderable: true,
                     targets: 3,
-                    className: 'text-end pe-0',
+                    className: 'text-start pe-0',
                     render: function (data, type, full, meta) {
-
                         var output;
-                        output = `<td>` + full.onhand + `</td>`
+                        output = `<div class="badge badge-light-danger fw-bold">` + full.minimumLevel + `</div>`
+
                         return output;
-
                     },
+                },
+                {
+                    orderable: true,
+                    targets: 4,
+                    className: 'text-start pe-0',
+                    render: function (data, type, full, meta) {
+                        var output;
+                        output = `<div class="badge badge-light-warning fw-bold">` + full.safeLevel + `</div>`
 
+                        return output;
+                    },
                 },
             ]
-
         });
 
 
@@ -273,10 +284,10 @@ var RawProductWarehouseList = function () {
     return {
 
         init: function () {
-            table = document.querySelector('#mes_rawProductWarehouseList_table');
+            table = document.querySelector('#mes_productWarehouseList_table');
 
             if (!table) {
-                console.log("mes_rawProductWarehouseList_table bulunamadı")
+                console.log("mes_productWarehouseList_table bulunamadı")
                 return;
 
             }
@@ -294,5 +305,5 @@ var RawProductWarehouseList = function () {
 // On document ready
 
 KTUtil.onDOMContentLoaded(function () {
-    RawProductWarehouseList.init();
+    EndProductWarehouseList.init();
 });

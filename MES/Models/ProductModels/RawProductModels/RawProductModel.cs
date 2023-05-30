@@ -1,9 +1,9 @@
 ﻿using LBS.Shared.Entity.Models;
 using System.ComponentModel;
 
-namespace MES.Models.SemiProductModels
+namespace MES.Models.ProductModels.RawProductModels
 {
-    public class SemiProductModel : SemiProduct
+    public class RawProductModel : RawProduct
     {
         public double StockQuantity { get; set; } = default;
         public DateTime LastTransactionDate { get; set; } = default;

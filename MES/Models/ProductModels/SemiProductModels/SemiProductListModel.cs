@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MES.Models.SemiProductModels
+namespace MES.Models.ProductModels.SemiProductModels
 {
     public class SemiProductListModel
     {

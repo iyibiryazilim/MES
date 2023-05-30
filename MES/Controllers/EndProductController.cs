@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
-using LBS.Shared.Entity.BaseModels;
-using LBS.Shared.Entity.Models;
 using LBS.WebAPI.Service.Services;
 using MES.HttpClientService;
-using MES.Models;
-using MES.Models.EndProductModels;
-using MES.Models.RawProductModels;
-using MES.Models.SemiProductModels;
+using MES.Models.ProductModels.EndProductModels;
 using MES.ViewModels.ProductViewModels.EndProductViewModels;
-using MES.ViewModels.ProductViewModels.RawProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -60,16 +54,16 @@ public class EndProductController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Detail(int referenceId)
+    public async Task<IActionResult> Detail(int productReferenceId)
     {
-        ViewData["Header"] = "Mamul Detay";
+        
         EndProductDetailViewModel viewModel = new EndProductDetailViewModel();
         var httpClient = _httpClientService.GetOrCreateHttpClient();
         if (httpClient == null)
             return BadRequest();
         else
         {
-            var product = await _service.GetObject(httpClient, referenceId);
+            var product = await _service.GetObject(httpClient, productReferenceId);
 
             if (product == null)
                 return NotFound();
@@ -83,10 +77,12 @@ public class EndProductController : Controller
             viewModel.EndProductModel.RevolutionSpeed = 0;
 
 
+            await foreach (EndProductMeasureModel model in GetProductMesaure(productReferenceId))
+                viewModel.EndProductMeasureModel.Add(model);
 
         }
-
-        return View(viewModel);
+		ViewData["Header"] = "Mamul Detay";
+		return View(viewModel);
     }
 
     public async ValueTask<IActionResult> GetEndProductJsonResult()
@@ -119,7 +115,21 @@ public class EndProductController : Controller
         return Json(new { data = GetWarehouseEndProduct(productReferenceId) });
     }
 
-    public async IAsyncEnumerable<EndProductListModel> GetEndProducts()
+    public async ValueTask<IActionResult> GetWarehouseParameterJsonResult(int productReferenceId)
+    {
+        //Console.WriteLine(productReferenceId.ToString());
+        return Json(new { data = GetWarehouseParameterEndProduct(productReferenceId) });
+    }
+
+    public async ValueTask<IActionResult> GetProductMesaureJsonResult(int productReferenceId)
+    {
+        //Console.WriteLine(productReferenceId.ToString());
+        return Json(new { data = GetProductMesaure(productReferenceId) });
+    }
+
+
+
+    private async IAsyncEnumerable<EndProductListModel> GetEndProducts()
     {
         EndProductListModel viewModel = new EndProductListModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
@@ -205,7 +215,7 @@ WHERE
 
     }
 
-    public async IAsyncEnumerable<EndProductInputTransactionModel> GetInputEndProduct(int productReferenceId)
+    private async IAsyncEnumerable<EndProductInputTransactionModel> GetInputEndProduct(int productReferenceId)
     {
         EndProductInputTransactionModel viewModel = new EndProductInputTransactionModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
@@ -243,7 +253,7 @@ WHERE
             }
         }
     }
-    public async IAsyncEnumerable<EndProductOutputTransactionModel> GetOutputEndProduct(int productReferenceId)
+    private async IAsyncEnumerable<EndProductOutputTransactionModel> GetOutputEndProduct(int productReferenceId)
     {
         EndProductOutputTransactionModel viewModel = new EndProductOutputTransactionModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
@@ -282,7 +292,7 @@ WHERE
         }
     }
 
-    public async IAsyncEnumerable<EndProductWarehouseTotalModel> GetWarehouseEndProduct(int productReferenceId)
+    private async IAsyncEnumerable<EndProductWarehouseTotalModel> GetWarehouseEndProduct(int productReferenceId)
     {
         EndProductWarehouseTotalModel viewModel = new EndProductWarehouseTotalModel();
         HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
@@ -401,6 +411,72 @@ WHERE
                 if (result != null)
                 {
                     foreach (EndProductWaitingPurchaseOrderModel item in result)
+                    {
+
+                        yield return item;
+                    }
+                }
+            }
+        }
+    }
+
+    private async IAsyncEnumerable<EndProductWarehouseParameterModel> GetWarehouseParameterEndProduct(int productReferenceId)
+    {
+        EndProductWarehouseParameterModel viewModel = new EndProductWarehouseParameterModel();
+        HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+        if (viewModel != null)
+        {
+            string query = $@"SELECT 
+        INVDEF.LOGICALREF AS [ReferenceId],
+        WAREHOUSE.NR AS [InventoryNo],
+        WAREHOUSE.NAME AS [WarehouseName],
+        INVDEF.MINLEVEL AS [MinimumLevel],
+        INVDEF.MAXLEVEL AS [MaximumLevel],
+        INVDEF.SAFELEVEL AS [SafeLevel],
+        [StockQuantity] = ISNULL((SELECT SUM(DISTINCT ONHAND) FROM LV_003_01_STINVTOT AS STINVTOT WHERE STINVTOT.STOCKREF = {productReferenceId} AND STINVTOT.INVENNO = WAREHOUSE.NR),0)
+        FROM LG_003_INVDEF AS INVDEF
+        LEFT JOIN L_CAPIWHOUSE AS WAREHOUSE ON INVDEF.INVENNO = WAREHOUSE.NR AND WAREHOUSE.FIRMNR = 3
+        WHERE ITEMREF = {productReferenceId}";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductWarehouseParameterModel> result = (List<EndProductWarehouseParameterModel>)jsonDocument.Deserialize(typeof(List<EndProductWarehouseParameterModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductWarehouseParameterModel item in result)
+                    {
+
+                        yield return item;
+                    }
+                }
+            }
+        }
+    }
+
+    private async IAsyncEnumerable<EndProductMeasureModel> GetProductMesaure(int productReferenceId)
+    {
+        EndProductMeasureModel viewModel = new EndProductMeasureModel();
+        HttpClient httpClient = _httpClientService.GetOrCreateHttpClient();
+        if (viewModel != null)
+        {
+            string query = $@"SELECT 
+            [Barcode] = (SELECT BARCODE FROM LG_003_UNITBARCODE	
+            			WHERE ITEMREF = ITMUNITA.ITEMREF AND ITMUNITAREF = ITMUNITA.LOGICALREF AND UNITLINEREF = ITMUNITA.UNITLINEREF),
+            ITMUNITA.WIDTH AS [Width],
+            ITMUNITA.HEIGHT AS [Height],
+            ITMUNITA.VOLUME_ AS [Volume],
+            ITMUNITA.WEIGHT AS [Weight],
+            UNITSETL.CODE AS [SubunitsetCode]
+            FROM LG_001_ITMUNITA AS ITMUNITA
+            LEFT JOIN LG_003_UNITSETL AS UNITSETL ON ITMUNITA.UNITLINEREF = UNITSETL.LOGICALREF
+            WHERE ITEMREF = {productReferenceId}";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductMeasureModel> result = (List<EndProductMeasureModel>)jsonDocument.Deserialize(typeof(List<EndProductMeasureModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductMeasureModel item in result)
                     {
 
                         yield return item;
