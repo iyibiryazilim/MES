@@ -135,7 +135,7 @@ namespace MES.Controllers
                 foreach (JsonElement element in inputResult)
                 {
                     JsonElement totalInput = element.GetProperty("totalInput");
-                    viewModel.TotalInput = Convert.ToDouble(totalInput.GetRawText());
+                    viewModel.TotalInput = Convert.ToDouble(totalInput.GetRawText().Replace('.', ','));
                 }
                 #endregion
 
@@ -145,8 +145,8 @@ namespace MES.Controllers
                 var outputResult = totalOutputResult.RootElement.EnumerateArray();
                 foreach (JsonElement element in outputResult)
                 {
-                    JsonElement totalInput = element.GetProperty("totalOutput");
-                    viewModel.TotalOutput = Convert.ToDouble(totalInput.GetRawText());
+                    JsonElement totalOutput = element.GetProperty("totalOutput");
+                    viewModel.TotalOutput = Convert.ToDouble(totalOutput.GetRawText().Replace('.', ','));
                 }
                 #endregion
 
@@ -686,8 +686,8 @@ WHERE
             foreach (JsonElement element in outputResultMonthly)
             {
 
-                JsonElement inputMonth = element.GetProperty("monthNumber");
-                var month = Convert.ToInt16(inputMonth.GetRawText());
+                JsonElement outputMonth = element.GetProperty("monthNumber");
+                var month = Convert.ToInt16(outputMonth.GetRawText());
 
                 JsonElement outputTotalAmount = element.GetProperty("totalAmount");
                 var totalAmount = Convert.ToDouble(outputTotalAmount.GetRawText().Replace('.', ','));
