@@ -17,7 +17,7 @@ namespace MES.Models.ProductionOrderModels
         public DateTimeOffset? PlannedBeginDate { get; set; } = default;
 
         [DisplayName("Mamul Referans Kodu")]
-        public int ProductRefernceId { get; set; } = default;
+        public int ProductReferenceId { get; set; } = default;
 
         [DisplayName("Mamul Kodu")]
         public string? ProductCode { get; set; } = string.Empty;

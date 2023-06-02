@@ -44,5 +44,12 @@ public class SemiProductDetailViewModel
     public float YearlyOutputStock { get; set; } = default;
 
     public float YearlyOutputStockChange { get; set; } = default;
+
+    public double TotalInput { get; set; } = default;
+
+    public double TotalOutput { get; set; } = default;
+
+    public double InputOutputRate { get; set; } = default;
+
 }
 

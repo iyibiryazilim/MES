@@ -45,7 +45,7 @@ public class WorkOrderController : Controller
                              , WORKORDER.WSREF AS[WorkstationId]
                              , ITEMS.NAME AS [ProductName]
 							 , ITEMS.CODE AS [ProductCode]
-                             , WORKORDER.ITEMREF AS [ProductId]
+                             , WORKORDER.ITEMREF AS [ProductReferenceId]
                              , WORKORDER.LINESTATUS AS[WORKORDERSTATUS]
                              , WORKORDER.LOGICALREF AS[ReferenceId]
                              , WORKORDER.OPBEGDATE AS[PlannedBeginDate]

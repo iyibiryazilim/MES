@@ -18,6 +18,6 @@ namespace MES.Models.ProductModels.SemiProductModels
         [DisplayName("Dönem başı stok miktarı")]
         public double FirstQuantity { get; set; } = default;
         [DisplayName("Devir Hızı")]
-        public double RevolutionSpeed { get; set; } = default;
+        public ValueTask<double> RevolutionSpeed { get; set; } = default;
     }
 }
