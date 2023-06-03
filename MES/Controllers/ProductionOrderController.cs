@@ -46,7 +46,7 @@ public class ProductionOrderController : Controller
               PRODORD.FICHENO AS [Code], 
               PRODORD.GENEXP1 AS [Description], 
               PRODORD.PLNBEGDATE AS [PlannedBeginDate],
-              ITEM.LOGICALREF AS [ProductRefernceId],  
+              ITEM.LOGICALREF AS [ProductReferenceId],  
               ITEM.CODE AS [ProductCode], 
               ITEM.NAME AS [ProductName], 
               SUBUNITSET.CODE AS [SubUnitset], 

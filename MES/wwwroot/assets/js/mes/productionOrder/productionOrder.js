@@ -109,7 +109,7 @@ var ProductionOrderList = (function () {
 														<!--end::Symbol-->
 														<!--begin::Text-->
 														<div class="d-flex flex-column">
-															<a href="#" class="text-dark text-hover-primary fs-6 fw-bold">` +
+															<a  href="EndProduct/Detail/?productReferenceId=`+ full.productReferenceId + `" class="text-dark text-hover-primary fs-6 fw-bold">` +
               full.productName +
               `</a>
 															<span class="text-muted fw-bold">` +
