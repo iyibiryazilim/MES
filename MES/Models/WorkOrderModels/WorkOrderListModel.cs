@@ -20,7 +20,7 @@ namespace MES.Models.WorkOrderModels
         public string? ProductName { get; set; } = string.Empty;
 
         [DisplayName("Mamul Referans Kodu")]
-        public int ProductId { get; set; } = default;
+        public int ProductReferenceId { get; set; } = default;
 
         [DisplayName("Mamul Kodu")]
         public string ProductCode { get; set; } = string.Empty;

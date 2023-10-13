@@ -9,7 +9,7 @@ var ShowModalPurchaseOrderPageInit = function () {
 
     var initDatatable = function () {
 
-        var postUrl = 'SEmiProduct/GetPurchaseOrderLineJsonResult?productReferenceId=' + referenceId;
+        var postUrl = 'SemiProduct/GetPurchaseOrderLineJsonResult?productReferenceId=' + referenceId;
         console.log(postUrl);
 
         datatable = $(table).DataTable({

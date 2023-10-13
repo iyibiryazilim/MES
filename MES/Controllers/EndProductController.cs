@@ -4,6 +4,7 @@ using MES.HttpClientService;
 using MES.Models.ProductModels.EndProductModels;
 using MES.ViewModels.ProductViewModels.EndProductViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.Xml;
 using System.Text.Json;
 
 namespace MES.Controllers;
@@ -69,16 +70,111 @@ public class EndProductController : Controller
                 return NotFound();
 
 
+
+            string query = $@" 
+                                SELECT 
+ [DailyInputStock] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+ 			WHERE IOCODE IN(1,2) AND STOCKREF = {productReferenceId} AND
+ 			DAY(DATE_) = DAY(GETDATE()) AND
+ 			MONTH(DATE_) = MONTH(GETDATE()) AND 
+ 			YEAR(DATE_) = YEAR(GETDATE())),0),
+ 
+ [WeeklyInputStock]= ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+ 			WHERE IOCODE IN(1,2) AND STOCKREF = {productReferenceId} AND
+ 			DATEPART(WEEK, DATE_) = DATEPART(WEEK, GETDATE())  AND 
+ 			YEAR(DATE_) = YEAR(GETDATE())),0),
+ 
+ [MonthlyInputStock] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+ 			WHERE IOCODE IN(1,2) AND STOCKREF = {productReferenceId} AND
+ 			MONTH(DATE_) = MONTH(GETDATE()) AND 
+ 			YEAR(DATE_) = YEAR(GETDATE())),0),
+ 
+ [YearlyInputStock] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+    WHERE IOCODE IN(1,2) AND STOCKREF = {productReferenceId} AND
+    YEAR(DATE_) = YEAR(GETDATE())),0),
+
+ [DailyOutputStock] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+ 			WHERE IOCODE IN(3,4) AND STOCKREF = {productReferenceId} AND
+ 			DAY(DATE_) = DAY(GETDATE()) AND
+ 			MONTH(DATE_) = MONTH(GETDATE()) AND 
+ 			YEAR(DATE_) = YEAR(GETDATE())),0),
+ 
+ [WeeklyOutputStock]= ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+ 			WHERE IOCODE IN(3,4) AND STOCKREF = {productReferenceId} AND
+ 			DATEPART(WEEK, DATE_) = DATEPART(WEEK, GETDATE()) AND 
+ 			YEAR(DATE_) = YEAR(GETDATE())),0),
+ 
+ [MonthlyOutputStock] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+ 			WHERE IOCODE IN(3,4) AND STOCKREF = {productReferenceId} AND
+ 			MONTH(DATE_) = MONTH(GETDATE()) AND 
+ 			YEAR(DATE_) = YEAR(GETDATE())),0),
+ 
+ [YearlyOutputStock] = ISNULL((SELECT SUM(AMOUNT) FROM LG_003_01_STLINE 
+    WHERE IOCODE IN(3,4) AND STOCKREF = {productReferenceId} AND
+    YEAR(DATE_) = YEAR(GETDATE())),0)
+
+                            ";
+            JsonDocument? jsonDocument = await _customQueryService.GetObjects(httpClient, query);
+            if (jsonDocument != null)
+            {
+                List<EndProductDetailViewModel> result = (List<EndProductDetailViewModel>)jsonDocument.Deserialize(typeof(List<EndProductDetailViewModel>), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                if (result != null)
+                {
+                    foreach (EndProductDetailViewModel item in result)
+                    {
+
+                        viewModel = item;
+                    }
+                }
+            }
+
+            #region Total Input
+            var totalInputResult = await _customQueryService.GetObjects(httpClient, $@"SELECT ISNULL(SUM(DISTINCT AMOUNT),0) AS [TotalInput] FROM LG_003_01_STLINE WHERE IOCODE IN(1,2) AND STOCKREF = {productReferenceId}");
+
+            var inputResult = totalInputResult.RootElement.EnumerateArray();
+            foreach (JsonElement element in inputResult)
+            {
+                JsonElement totalInput = element.GetProperty("totalInput");
+                viewModel.TotalInput = Convert.ToDouble(totalInput.GetRawText());
+            }
+            #endregion
+
+            #region Total Output
+            var totalOutputResult = await _customQueryService.GetObjects(httpClient, $@"SELECT ISNULL(SUM(DISTINCT AMOUNT),0) AS [TotalOutput] FROM LG_003_01_STLINE WHERE IOCODE IN(3,4) AND STOCKREF = {productReferenceId}");
+
+            var outputResult = totalOutputResult.RootElement.EnumerateArray();
+            foreach (JsonElement element in outputResult)
+            {
+                JsonElement totalInput = element.GetProperty("totalOutput");
+                viewModel.TotalOutput = Convert.ToDouble(totalInput.GetRawText());
+            }
+            #endregion
+
+
+
+            if (viewModel.TotalInput == 0 || viewModel.TotalOutput == 0)
+            {
+                viewModel.InputOutputRate = 0;
+            }
+            else
+            {
+                viewModel.InputOutputRate = Math.Round((viewModel.TotalInput / viewModel.TotalOutput) * 100, 2);
+            }
+
+
+
             viewModel.EndProductModel = _mapper.Map<EndProductModel>(product);
             viewModel.EndProductModel.OutputQuantity = 0;
             viewModel.EndProductModel.StockQuantity = 0;
             viewModel.EndProductModel.FirstQuantity = 0;
             viewModel.EndProductModel.InputQuantity = 0;
-            viewModel.EndProductModel.RevolutionSpeed = 0;
+            viewModel.EndProductModel.RevolutionSpeed = RevolutionSpeed(productReferenceId);
 
 
             await foreach (EndProductMeasureModel model in GetProductMesaure(productReferenceId))
                 viewModel.EndProductMeasureModel.Add(model);
+
+
 
         }
 		ViewData["Header"] = "Mamul Detay";
@@ -126,6 +222,17 @@ public class EndProductController : Controller
         //Console.WriteLine(productReferenceId.ToString());
         return Json(new { data = GetProductMesaure(productReferenceId) });
     }
+    public async ValueTask<IActionResult> GetMonthlyInputJsonResult(int productReferenceId)
+    {
+        //Console.WriteLine(productReferenceId.ToString());
+        return Json(new { data = GetMonthlyInputModels(productReferenceId) });
+    }
+
+    public async ValueTask<IActionResult> GetMonthlyOutputJsonResult(int productReferenceId)
+    {
+        //Console.WriteLine(productReferenceId.ToString());
+        return Json(new { data = GetMonthlyOutputModels(productReferenceId) });
+    }
 
 
 
@@ -142,7 +249,7 @@ SELECT
   ITEM.NAME AS [Name], 
   ITEM.PRODUCERCODE AS [ProducerCode], 
   ITEM.SPECODE AS [SpeCode], 
-  UNITSET.CODE AS [Unitset], 
+  [Unitset] = (SELECT CODE FROM LG_003_UNITSETL WHERE UNITSETREF = ITEM.UNITSETREF AND MAINUNIT = 1) , 
   [StockQuantity] = ISNULL(
     (
       SELECT 
@@ -485,5 +592,121 @@ WHERE
             }
         }
     }
+
+    private async ValueTask<double> RevolutionSpeed(int productReferenceId)
+    {
+        //Stok Devir Hızı = (Satılan Malların Maliyeti / (Başlangıç Stok Değeri + Dönem Sonu Stok Değeri) / 2)
+
+        double _revolutionSpeed = 5;
+
+        return _revolutionSpeed;
+    }
+
+    private async IAsyncEnumerable<EndProductMonthlyInputModel> GetMonthlyInputModels(int productReferenceId)
+    {
+        var httpClient = _httpClientService.GetOrCreateHttpClient();
+
+        EndProductMonthlyInputModel model = new EndProductMonthlyInputModel();
+
+        #region MonthlyInputChart
+        var monthlyInputChart = await _customQueryService.GetObjects(httpClient, $@"WITH AllMonths AS (
+                            SELECT 1 AS MonthNumber UNION ALL
+                            SELECT 2 UNION ALL
+                            SELECT 3 UNION ALL
+                            SELECT 4 UNION ALL
+                            SELECT 5 UNION ALL
+                            SELECT 6 UNION ALL
+                            SELECT 7 UNION ALL
+                            SELECT 8 UNION ALL
+                            SELECT 9 UNION ALL
+                            SELECT 10 UNION ALL
+                            SELECT 11 UNION ALL
+                            SELECT 12
+                        ),
+                        AggregatedData AS (
+                            SELECT MONTH(STLINE.DATE_) AS [Month], ISNULL(SUM(STLINE.AMOUNT), 0) AS [TotalAmount]
+                            FROM LG_003_01_STLINE AS STLINE
+                            WHERE MONTH(STLINE.DATE_) <= MONTH(GETDATE()) AND YEAR(STLINE.DATE_) = YEAR(GETDATE()) AND STOCKREF = {productReferenceId} AND IOCODE IN(1,2)
+                            GROUP BY MONTH(STLINE.DATE_)
+                        )
+                        SELECT TOP 5
+                            AllMonths.MonthNumber,
+                            COALESCE(AggregatedData.[TotalAmount], 0) AS [TotalAmount]
+                        FROM AllMonths
+                        LEFT JOIN AggregatedData ON AllMonths.MonthNumber = AggregatedData.[Month]
+                        WHERE AllMonths.MonthNumber <= MONTH(GETDATE())
+                        ORDER BY AllMonths.MonthNumber DESC
+                        
+                        ");
+
+        var inputResultMonthly = monthlyInputChart.RootElement.EnumerateArray();
+        foreach (JsonElement element in inputResultMonthly)
+        {
+
+            JsonElement inputMonth = element.GetProperty("monthNumber");
+            var month = Convert.ToInt16(inputMonth.GetRawText());
+
+            JsonElement inputTotalAmount = element.GetProperty("totalAmount");
+            var totalAmount = Convert.ToDouble(inputTotalAmount.GetRawText().Replace('.', ','));
+            model.MonthlyInputValues.Add(month, totalAmount);
+
+            yield return model;
+        }
+        #endregion
+    }
+
+    private async IAsyncEnumerable<EndProductMonthlyOutputModel> GetMonthlyOutputModels(int productReferenceId)
+    {
+        var httpClient = _httpClientService.GetOrCreateHttpClient();
+
+        EndProductMonthlyOutputModel model = new EndProductMonthlyOutputModel();
+
+        #region MonthlyOutputChart
+        var monthlyOutputChart = await _customQueryService.GetObjects(httpClient, $@"WITH AllMonths AS (
+                            SELECT 1 AS MonthNumber UNION ALL
+                            SELECT 2 UNION ALL
+                            SELECT 3 UNION ALL
+                            SELECT 4 UNION ALL
+                            SELECT 5 UNION ALL
+                            SELECT 6 UNION ALL
+                            SELECT 7 UNION ALL
+                            SELECT 8 UNION ALL
+                            SELECT 9 UNION ALL
+                            SELECT 10 UNION ALL
+                            SELECT 11 UNION ALL
+                            SELECT 12
+                        ),
+                        AggregatedData AS (
+                            SELECT MONTH(STLINE.DATE_) AS [Month], ISNULL(SUM(STLINE.AMOUNT), 0) AS [TotalAmount]
+                            FROM LG_003_01_STLINE AS STLINE
+                            WHERE MONTH(STLINE.DATE_) <= MONTH(GETDATE()) AND YEAR(STLINE.DATE_) = YEAR(GETDATE()) AND STOCKREF = {productReferenceId} AND IOCODE IN(3,4)
+                            GROUP BY MONTH(STLINE.DATE_)
+                        )
+                        SELECT TOP 5
+                            AllMonths.MonthNumber,
+                            COALESCE(AggregatedData.[TotalAmount], 0) AS [TotalAmount]
+                        FROM AllMonths
+                        LEFT JOIN AggregatedData ON AllMonths.MonthNumber = AggregatedData.[Month]
+                        WHERE AllMonths.MonthNumber <= MONTH(GETDATE())
+                        ORDER BY AllMonths.MonthNumber DESC
+                        
+                        ");
+
+        var outputResultMonthly = monthlyOutputChart.RootElement.EnumerateArray();
+        foreach (JsonElement element in outputResultMonthly)
+        {
+
+            JsonElement outputMonth = element.GetProperty("monthNumber");
+            var month = Convert.ToInt16(outputMonth.GetRawText());
+
+            JsonElement outputTotalAmount = element.GetProperty("totalAmount");
+            var totalAmount = Convert.ToDouble(outputTotalAmount.GetRawText().Replace('.', ','));
+            model.MonthlyOutputValues.Add(month, totalAmount);
+
+            yield return model;
+        }
+        #endregion
+    }
+
 }
 
