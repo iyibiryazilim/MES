@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
+             x:Class="MES.Client.Views.LoginViews.LoginView"
+             xmlns:viewModel="clr-namespace:MES.Client.ViewModels.LoginViewModels"
+             x:DataType="viewModel:LoginViewModel"
+             Title="{Binding Title}">
+
+
+    <Grid ColumnDefinitions=".50*,.50*" Padding="20">
+
+       <VerticalStackLayout Grid.Column="0" BackgroundColor="{StaticResource BlackSolid}">
+
+
+       </VerticalStackLayout>
+
+
+        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="20" Padding="75">
+
+            <Label Text="Hoşgeldiniz, lütfen giriş yapınız.." FontSize="25" TextColor="{StaticResource Gray200}" HorizontalOptions="Start"/>
+            <Entry Placeholder="Kullanıcı Kodu.." FontSize="35" />
+            <Button Text="Oturum Aç" FontSize="35" Command="{Binding GoToWorkOrderListCommand}"/>
+
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

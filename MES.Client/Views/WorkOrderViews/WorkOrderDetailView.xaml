@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             x:Class="MES.Client.Views.WorkOrderViews.WorkOrderDetailView"
+             xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
+             x:DataType="viewModel:WorkOrderDetailViewModel"
+             Shell.PresentationMode="ModalAnimated"
+             Title="{Binding Title}">
+
+
+    <Grid ColumnDefinitions=".20*,.80*" Padding="10">
+        <Frame Padding="10" Grid.Column="0">
+
+            <VerticalStackLayout>
+
+                <Grid RowDefinitions="Auto,*,Auto">
+
+                    <VerticalStackLayout Grid.Row="0" Spacing="10" Padding="10">
+
+                        <toolkit:AvatarView Text="VAS"
+                                        HeightRequest="125"
+                                        WidthRequest="125"/>
+
+                        <Label Text="Volkan Sunuk" FontSize="Title" HorizontalOptions="Center"/>
+                        <BoxView Color="{StaticResource Primary}" HeightRequest="2"/>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="10">
+
+                       
+                        <Button Text="Genel Bakış" FontSize="Subtitle" Command="{Binding StartWorkOrderCommand}"/>
+                        <Button Text="İşlem 1" FontSize="Subtitle"/>
+                        <Button Text="İşlem 2" FontSize="Subtitle"/>
+                        <Button Text="İşlem 3" FontSize="Subtitle"/>
+                        <Button Text="İşlem 4" FontSize="Subtitle"/>
+                        <Button Text="Durdur" FontSize="Subtitle" BackgroundColor="{StaticResource Danger}" Command="{Binding GoToBackCommand}"/>
+
+                    </VerticalStackLayout>
+
+                </Grid>
+
+                <VerticalStackLayout Grid.Row="2" Padding="10" Spacing="2" VerticalOptions="End">
+                    <Label Text="00:00:00" FontSize="Title" HorizontalOptions="Center" VerticalOptions="End"/>
+                    <Label Text="v1.0.1" FontSize="Small" HorizontalOptions="Center" VerticalOptions="End"/>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+
+
+
+        </Frame>
+
+        <Frame Padding="2"
+               Grid.Column="1">
+
+            <VerticalStackLayout>
+
+                <Grid RowDefinitions="*,*,*,*">
+
+                    <Border Grid.Row="0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 20,20,20,20"
+                            Padding="20"
+                            Background="{StaticResource Success}">
+
+                        <Grid ColumnDefinitions="*,*">
+                            <Label Grid.Column="0" Text="Çalışıyor.." FontAttributes="Bold" FontSize="35" HorizontalOptions="Start" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="{Binding Quantity,StringFormat='1000 / {0:N0}'}" FontSize="40" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </Grid>
+
+
+                    </Border>
+
+
+                    <Grid Grid.Row="1" ColumnDefinitions="*,*" Padding="20" ColumnSpacing="5">
+
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label Text="İş Emri Bilgileri" FontSize="Title" TextColor="{StaticResource Gray400}"/>
+
+                            <Frame>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Operasyon Kodu : " FontSize="Subtitle"/>
+                                            <Span Text="OPR-01" FontSize="Title" FontAttributes="Bold"/>
+
+                                        </FormattedString>
+
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </Frame>
+
+                            <Frame>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Operasyon Adı : " FontSize="Subtitle"/>
+                                            <Span Text="VULKANİZASYON" FontSize="Title" FontAttributes="Bold"/>
+
+                                        </FormattedString>
+
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </Frame>
+
+                            <Frame>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Ana Birim : " FontSize="Subtitle"/>
+                                            <Span Text="ADET" FontSize="Title" FontAttributes="Bold"/>
+
+                                        </FormattedString>
+
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </Frame>
+
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label Text="Ürün Bilgileri" FontSize="Title" TextColor="{StaticResource Gray400}"/>
+                            <Frame>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Ürün Kodu : " FontSize="Subtitle"/>
+                                            <Span Text="Y1449" FontSize="Title" FontAttributes="Bold"/>
+
+                                        </FormattedString>
+
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </Frame>
+
+                            <Frame>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Ürün Adı : " FontSize="Subtitle"/>
+                                            <Span Text="AKS KÖRÜĞÜ" FontSize="Title" FontAttributes="Bold"/>
+
+                                        </FormattedString>
+
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </Frame>
+
+                            <Frame>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Ana Birim : " FontSize="Subtitle"/>
+                                            <Span Text="ADET" FontSize="Title" FontAttributes="Bold"/>
+
+                                        </FormattedString>
+
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </Frame>
+
+                        </VerticalStackLayout>
+
+                    </Grid>
+
+                    <VerticalStackLayout Grid.Row="2" Padding="20" Spacing="10">
+
+                        <Label Text="OEE Bilgileri" FontSize="Title" TextColor="{StaticResource Gray300}"/>
+
+                        <Grid  ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+
+                            <Frame Grid.Column="0" BorderColor="WhiteSmoke">
+
+                                <VerticalStackLayout>
+                                    <Label Text="%46" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                    <Label Text="OEE" FontSize="Small" TextColor="{StaticResource Gray300}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+
+                            </Frame>
+
+                            <Frame Grid.Column="1" BorderColor="WhiteSmoke">
+
+                                <VerticalStackLayout>
+                                    <Label Text="%57" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                    <Label Text="Probability" FontSize="Small" TextColor="{StaticResource Gray300}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+
+                            </Frame>
+
+                            <Frame Grid.Column="2" BorderColor="WhiteSmoke">
+
+                                <VerticalStackLayout>
+                                    <Label Text="%68" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                    <Label Text="Avaibility" FontSize="Small" TextColor="{StaticResource Gray300}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+
+                            </Frame>
+
+                            <Frame Grid.Column="3" BorderColor="WhiteSmoke">
+
+                                <VerticalStackLayout>
+                                    <Label Text="%51"
+                                       FontSize="Title"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"/>
+
+                                    <Label Text="Quality"
+                                       FontSize="Small"
+                                       TextColor="{StaticResource Gray300}"
+                                       HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+
+                            </Frame>
+
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="3" Padding="10" Spacing="10">
+
+                        <Label Text="Devir Bilgileri" FontSize="Title" TextColor="{StaticResource Gray300}"/>
+
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" RowSpacing="10">
+
+                            <ProgressBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ProgressColor="{StaticResource Warning}" ScaleY="5" Progress="0.64"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="%63" FontSize="Title" HorizontalOptions="Start"/>
+                            <Label Grid.Row="1" Grid.Column="1" Text="RPM 72" FontSize="Title" HorizontalOptions="End"/>
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                </Grid>
+            </VerticalStackLayout>
+
+
+        </Frame>
+
+    </Grid>
+
+</ContentPage>

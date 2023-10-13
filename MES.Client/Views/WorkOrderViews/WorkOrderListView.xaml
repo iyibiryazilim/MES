@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
+             x:Class="MES.Client.Views.WorkOrderViews.WorkOrderListView"
+             xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
+             xmlns:listModel="clr-namespace:MES.Client.ListModels"
+             x:DataType="viewModel:WorkOrderListViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="{Binding Title}">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded"
+                                        Command="{Binding GetItemsCommand}"/>
+
+    </ContentPage.Behaviors>
+
+    <Grid ColumnDefinitions=".45*,.55*" RowDefinitions="Auto,*" Padding="20" RowSpacing="20" ColumnSpacing="10">
+
+        <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Border >
+                <SearchBar Placeholder="İş Emri Arama.."/>
+
+            </Border>
+
+        </StackLayout>
+
+        <CollectionView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="listModel:WorkOrderList">
+                    <StackLayout Margin="4">
+                        <Border Stroke="{StaticResource Primary}"
+                                StrokeThickness="0.6"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="16,8">
+
+
+                            <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        CommandParameter="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:WorkOrderListViewModel}},Path=GetSelectedItemCommand}" />
+
+                                </Border.GestureRecognizers>
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border"
+                                                     Binding="{Binding IsSelected}"
+                                                     Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                    Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                            <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="10">
+
+                                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Start">
+                                    <Label Text="{Binding PlanningStartDate,StringFormat='{0:dd}'}" HorizontalOptions="Center" FontSize="Title"/>
+                                    <Label Text="{Binding PlanningStartDate,StringFormat='{0:MM/yyyy}'}" HorizontalOptions="Center" FontSize="Subtitle"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center">
+                                    <Label  Text="İş Emri Numarası" />
+                                    <Label  Text="{Binding Code}"/>
+                                </VerticalStackLayout>
+                                
+
+                                <Image Grid.Column="2"
+                                       Aspect="AspectFit"
+                                       HeightRequest="20"
+                                       WidthRequest="20"
+                                       HorizontalOptions="End">
+
+                                   <Image.Source>
+                                                <FontImageSource FontFamily="FAS"
+                                            Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowRight}"/>
+
+                                            </Image.Source>
+
+                                </Image>
+
+                            </Grid>
+
+                        </Border>
+
+                    </StackLayout>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <Grid Grid.Column="1" Grid.Row="1" RowDefinitions="Auto,Auto,Auto,*" RowSpacing="10" Padding="10">
+            <VerticalStackLayout Grid.Row="0" Spacing="5">
+                <Label Text="İş Emri Bilgileri" FontSize="25"/>
+                <BoxView HeightRequest="2" Color="{StaticResource Primary}"/>
+
+            </VerticalStackLayout>
+            <Border Grid.Row="1"
+                    Stroke="{StaticResource WhiteBrush}"
+                                StrokeThickness="0.1"
+                                StrokeShape="RoundRectangle 5"
+                                Padding="16,8">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Üretim Emri Numarası : " TextColor="{StaticResource Gray300}"/>
+                            <Span Text="{Binding SelectedItem.Code}" FontAttributes="Bold"/>
+
+                        </FormattedString>
+
+                    </Label.FormattedText>
+
+                </Label>
+
+            </Border>
+
+             <Border Grid.Row="2"
+                    Stroke="{StaticResource WhiteBrush}"
+                                StrokeThickness="0.1"
+                                StrokeShape="RoundRectangle 5"
+                                Padding="16,8">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Ürün Kodu : " TextColor="{StaticResource Gray300}"/>
+                            <Span Text="{Binding SelectedItem.ProductCode}" FontAttributes="Bold"/>
+
+                        </FormattedString>
+
+                    </Label.FormattedText>
+
+                </Label>
+
+            </Border>
+
+            <VerticalStackLayout Grid.Row="3" VerticalOptions="End">
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Button Grid.Column="0" Text="Yenile" IsEnabled="{Binding ButtonStatus}"/>
+                    <Button BackgroundColor="{StaticResource Success}" Grid.Column="1" Text="Başlat" Command="{Binding GoToDetailCommand}" CommandParameter="{Binding SelectedItem}" IsEnabled="{Binding ButtonStatus}"/>
+                    <Button BackgroundColor="{StaticResource Danger}" Grid.Column="2" Text="Durdur" IsEnabled="{Binding ButtonStatus}"/>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+    </Grid>
+
+
+</ContentPage>

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MES", "MES\MES.csproj", "{CBC6E856-596B-442A-8E93-FD4656395847}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MES.Client", "MES.Client\MES.Client.csproj", "{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CBC6E856-596B-442A-8E93-FD4656395847}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC6E856-596B-442A-8E93-FD4656395847}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBC6E856-596B-442A-8E93-FD4656395847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
