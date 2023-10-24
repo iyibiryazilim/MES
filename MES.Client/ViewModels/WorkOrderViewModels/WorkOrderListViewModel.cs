@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using IntelliJ.Lang.Annotations;
+
 using LBS.Shared.Entity.Models;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.Mappers;
@@ -31,6 +32,20 @@ public partial class WorkOrderListViewModel : BaseViewModel
 
     [ObservableProperty]
     WorkOrderList selectedItem;
+
+
+    private bool isSelectedItem;
+
+    public bool IsSelectedItem
+    {
+        get { return SelectedItem != null ? true : false; }
+        set
+        {
+            IsSelectedItem = value;
+            OnPropertyChanged(nameof(IsSelectedItem));
+        }
+    }
+
 
     public bool ButtonStatus => SelectedItem == null ? false : true;
 

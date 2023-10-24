@@ -14,6 +14,9 @@ public partial class LoginViewModel : BaseViewModel
     {
     }
 
+    [ObservableProperty]
+    string userCode;
+
 
     [RelayCommand]
     async Task GoToWorkOrderListAsync()
@@ -28,6 +31,13 @@ public partial class LoginViewModel : BaseViewModel
             Debug.WriteLine(ex.Message);
             await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
         }
+    }
+
+    [RelayCommand]
+    async Task TextChangedAsync()
+    {
+        await Task.Delay(500);
+        Application.Current.MainPage = new AppShell();
     }
 }
 

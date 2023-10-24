@@ -4,6 +4,7 @@ namespace MES.Client.ListModels;
 
 public partial class WorkOrderList : ObservableObject
 {
+
     [ObservableProperty]
     int referenceId;
 
@@ -106,9 +107,28 @@ public partial class WorkOrderList : ObservableObject
     [ObservableProperty]
     bool isSelected;
 
+    private double actualRate;
+
+    private double actualRateValue;
+
+    public double ActualRateValue
+    {
+        get { return ActualRate * 100; }
+        set { actualRateValue = value; }
+    }
+
+
+    public double ActualRate
+    {
+        get { return  actualRate = 2.0 / 3.0; }
+        set {  actualRate = value;
+            OnPropertyChanged(nameof(ActualRate));
+        }
+    }
 
     WorkOrderList()
     {
+
     }
 }
 

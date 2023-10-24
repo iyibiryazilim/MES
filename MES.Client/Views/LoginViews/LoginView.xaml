@@ -1,29 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
-             x:Class="MES.Client.Views.LoginViews.LoginView"
-             xmlns:viewModel="clr-namespace:MES.Client.ViewModels.LoginViewModels"
-             x:DataType="viewModel:LoginViewModel"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="MES.Client.Views.LoginViews.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModel="clr-namespace:MES.Client.ViewModels.LoginViewModels"
+    Title="{Binding Title}"
+    x:DataType="viewModel:LoginViewModel">
 
 
-    <Grid ColumnDefinitions=".50*,.50*" Padding="20">
+    <Grid Padding="0" ColumnDefinitions=".50*,.50*">
+        <Image
+            Grid.ColumnSpan="2"
+            Aspect="AspectFill"
+            Opacity="0.2"
+            Source="cover.png" />
 
-       <VerticalStackLayout Grid.Column="0" BackgroundColor="{StaticResource BlackSolid}">
+        <Border
+            Grid.Column="1"
+            Margin="150,50,60,50"
+            BackgroundColor="{StaticResource Gray100}"
+            StrokeShape="RoundRectangle 20">
+            <Grid Padding="20" RowDefinitions="Auto, *, Auto">
+                <VerticalStackLayout Margin="0,20,0,0" VerticalOptions="Start">
+                    <Image HeightRequest="100" Source="iyibiricon.png" />
+                    <Label
+                        FontSize="28"
+                        HorizontalOptions="Center"
+                        Text="Hoşgeldiniz"
+                        TextColor="{AppThemeBinding Dark={StaticResource Gray900},
+                                                    Light={StaticResource Gray900}}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="1" VerticalOptions="Center">
+                    <Entry
+                        x:Name="txtUsername"
+                        FontSize="Subtitle"
+                        TextColor="{StaticResource Black}">
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior
+                                Command="{Binding TextChangedCommand}"
+                                CommandParameter="{Binding UserCode, Mode=OneWay}"
+                                EventName="TextChanged" />
+                        </Entry.Behaviors>
+                    </Entry>
+                </VerticalStackLayout>
+                <VerticalStackLayout
+                    Grid.Row="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End">
+                    <Label
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="Copyright 2023 İyibir Yazılım ve Teknoloji"
+                        TextColor="{StaticResource Black}" />
+                    <Label
+                        FontSize="11"
+                        HorizontalTextAlignment="Center"
+                        Text="All right reserved"
+                        TextColor="{StaticResource Black}" />
+
+                </VerticalStackLayout>
 
 
-       </VerticalStackLayout>
+            </Grid>
+        </Border>
 
-
-        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="20" Padding="75">
-
-            <Label Text="Hoşgeldiniz, lütfen giriş yapınız.." FontSize="25" TextColor="{StaticResource Gray200}" HorizontalOptions="Start"/>
-            <Entry Placeholder="Kullanıcı Kodu.." FontSize="35" />
-            <Button Text="Oturum Aç" FontSize="35" Command="{Binding GoToWorkOrderListCommand}"/>
-
-        </VerticalStackLayout>
 
     </Grid>
 

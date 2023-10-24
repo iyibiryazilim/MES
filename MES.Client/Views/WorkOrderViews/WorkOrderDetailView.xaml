@@ -1,50 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
-             x:Class="MES.Client.Views.WorkOrderViews.WorkOrderDetailView"
-             xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
-             x:DataType="viewModel:WorkOrderDetailViewModel"
-             Shell.PresentationMode="ModalAnimated"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="MES.Client.Views.WorkOrderViews.WorkOrderDetailView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
+    Title="{Binding Title}"
+    x:DataType="viewModel:WorkOrderDetailViewModel"
+    Shell.PresentationMode="ModalAnimated">
 
 
-    <Grid ColumnDefinitions=".20*,.80*" Padding="10">
-        <Frame Padding="10" Grid.Column="0">
+    <Grid Padding="10" ColumnDefinitions=".20*,.80*">
+        <Frame Grid.Column="0" Padding="10">
 
             <VerticalStackLayout>
 
                 <Grid RowDefinitions="Auto,*,Auto">
 
-                    <VerticalStackLayout Grid.Row="0" Spacing="10" Padding="10">
+                    <VerticalStackLayout
+                        Grid.Row="0"
+                        Padding="10"
+                        Spacing="10">
 
-                        <toolkit:AvatarView Text="VAS"
-                                        HeightRequest="125"
-                                        WidthRequest="125"/>
+                        <toolkit:AvatarView
+                            HeightRequest="125"
+                            Text="VAS"
+                            WidthRequest="125" />
 
-                        <Label Text="Volkan Sunuk" FontSize="Title" HorizontalOptions="Center"/>
-                        <BoxView Color="{StaticResource Primary}" HeightRequest="2"/>
+                        <Label
+                            FontSize="Title"
+                            HorizontalOptions="Center"
+                            Text="Volkan Sunuk" />
+                        <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
 
                     </VerticalStackLayout>
 
-                    <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="10">
+                    <VerticalStackLayout
+                        Grid.Row="1"
+                        Padding="10"
+                        Spacing="10">
 
-                       
-                        <Button Text="Genel Bakış" FontSize="Subtitle" Command="{Binding StartWorkOrderCommand}"/>
-                        <Button Text="İşlem 1" FontSize="Subtitle"/>
-                        <Button Text="İşlem 2" FontSize="Subtitle"/>
-                        <Button Text="İşlem 3" FontSize="Subtitle"/>
-                        <Button Text="İşlem 4" FontSize="Subtitle"/>
-                        <Button Text="Durdur" FontSize="Subtitle" BackgroundColor="{StaticResource Danger}" Command="{Binding GoToBackCommand}"/>
+
+                        <Button
+                            Command="{Binding StartWorkOrderCommand}"
+                            FontSize="Subtitle"
+                            Text="Genel Bakış" />
+                        <Button FontSize="Subtitle" Text="İşlem 1" />
+                        <Button FontSize="Subtitle" Text="İşlem 2" />
+                        <Button FontSize="Subtitle" Text="İşlem 3" />
+                        <Button FontSize="Subtitle" Text="İşlem 4" />
+                        <Button
+                            BackgroundColor="{StaticResource Danger}"
+                            Command="{Binding GoToBackCommand}"
+                            FontSize="Subtitle"
+                            Text="Durdur" />
 
                     </VerticalStackLayout>
 
                 </Grid>
 
-                <VerticalStackLayout Grid.Row="2" Padding="10" Spacing="2" VerticalOptions="End">
-                    <Label Text="00:00:00" FontSize="Title" HorizontalOptions="Center" VerticalOptions="End"/>
-                    <Label Text="v1.0.1" FontSize="Small" HorizontalOptions="Center" VerticalOptions="End"/>
+                <VerticalStackLayout
+                    Grid.Row="2"
+                    Padding="10"
+                    Spacing="2"
+                    VerticalOptions="End">
+                    <Label
+                        FontSize="Title"
+                        HorizontalOptions="Center"
+                        Text="00:00:00"
+                        VerticalOptions="End" />
+                    <Label
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="v1.0.1"
+                        VerticalOptions="End" />
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
@@ -54,39 +84,61 @@
 
         </Frame>
 
-        <Frame Padding="2"
-               Grid.Column="1">
+        <Frame Grid.Column="1" Padding="2">
 
             <VerticalStackLayout>
 
                 <Grid RowDefinitions="*,*,*,*">
 
-                    <Border Grid.Row="0"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 20,20,20,20"
-                            Padding="20"
-                            Background="{StaticResource Success}">
+                    <Border
+                        Grid.Row="0"
+                        Padding="20"
+                        Background="{StaticResource Success}"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        StrokeThickness="1">
 
                         <Grid ColumnDefinitions="*,*">
-                            <Label Grid.Column="0" Text="Çalışıyor.." FontAttributes="Bold" FontSize="35" HorizontalOptions="Start" VerticalOptions="Center"/>
-                            <Label Grid.Column="1" Text="{Binding Quantity,StringFormat='1000 / {0:N0}'}" FontSize="40" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label
+                                Grid.Column="0"
+                                FontAttributes="Bold"
+                                FontSize="35"
+                                HorizontalOptions="Start"
+                                Text="Çalışıyor.."
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontSize="40"
+                                HorizontalOptions="End"
+                                Text="{Binding Quantity, StringFormat='1000 / {0:N0}'}"
+                                VerticalOptions="Center" />
                         </Grid>
 
 
                     </Border>
 
 
-                    <Grid Grid.Row="1" ColumnDefinitions="*,*" Padding="20" ColumnSpacing="5">
+                    <Grid
+                        Grid.Row="1"
+                        Padding="20"
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="5">
 
                         <VerticalStackLayout Grid.Column="0" Spacing="5">
-                            <Label Text="İş Emri Bilgileri" FontSize="Title" TextColor="{StaticResource Gray400}"/>
+                            <Label
+                                FontSize="Title"
+                                Text="İş Emri Bilgileri"
+                                TextColor="{StaticResource Gray400}" />
 
                             <Frame>
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Operasyon Kodu : " FontSize="Subtitle"/>
-                                            <Span Text="OPR-01" FontSize="Title" FontAttributes="Bold"/>
+                                            <Span FontSize="Subtitle" Text="Operasyon Kodu : " />
+                                            <Span
+                                                FontAttributes="Bold"
+                                                FontSize="Title"
+                                                Text="{Binding WorkOrderList.OperationCode}" />
 
                                         </FormattedString>
 
@@ -100,8 +152,11 @@
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Operasyon Adı : " FontSize="Subtitle"/>
-                                            <Span Text="VULKANİZASYON" FontSize="Title" FontAttributes="Bold"/>
+                                            <Span FontSize="Subtitle" Text="Operasyon Adı : " />
+                                            <Span
+                                                FontAttributes="Bold"
+                                                FontSize="Title"
+                                                Text="{Binding WorkOrderList.OperationName}" />
 
                                         </FormattedString>
 
@@ -115,8 +170,11 @@
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Ana Birim : " FontSize="Subtitle"/>
-                                            <Span Text="ADET" FontSize="Title" FontAttributes="Bold"/>
+                                            <Span FontSize="Subtitle" Text="Ana Birim : " />
+                                            <Span
+                                                FontAttributes="Bold"
+                                                FontSize="Title"
+                                                Text="ADET" />
 
                                         </FormattedString>
 
@@ -129,13 +187,19 @@
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Grid.Column="1" Spacing="5">
-                            <Label Text="Ürün Bilgileri" FontSize="Title" TextColor="{StaticResource Gray400}"/>
+                            <Label
+                                FontSize="Title"
+                                Text="Ürün Bilgileri"
+                                TextColor="{StaticResource Gray400}" />
                             <Frame>
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Ürün Kodu : " FontSize="Subtitle"/>
-                                            <Span Text="Y1449" FontSize="Title" FontAttributes="Bold"/>
+                                            <Span FontSize="Subtitle" Text="Ürün Kodu : " />
+                                            <Span
+                                                FontAttributes="Bold"
+                                                FontSize="Title"
+                                                Text="{Binding WorkOrderList.ProductCode}" />
 
                                         </FormattedString>
 
@@ -149,8 +213,11 @@
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Ürün Adı : " FontSize="Subtitle"/>
-                                            <Span Text="AKS KÖRÜĞÜ" FontSize="Title" FontAttributes="Bold"/>
+                                            <Span FontSize="Subtitle" Text="Ürün Adı : " />
+                                            <Span
+                                                FontAttributes="Bold"
+                                                FontSize="Title"
+                                                Text="{Binding WorkOrderList.ProductName}" />
 
                                         </FormattedString>
 
@@ -164,8 +231,11 @@
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Ana Birim : " FontSize="Subtitle"/>
-                                            <Span Text="ADET" FontSize="Title" FontAttributes="Bold"/>
+                                            <Span FontSize="Subtitle" Text="Ana Birim : " />
+                                            <Span
+                                                FontAttributes="Bold"
+                                                FontSize="Title"
+                                                Text="ADET" />
 
                                         </FormattedString>
 
@@ -179,17 +249,32 @@
 
                     </Grid>
 
-                    <VerticalStackLayout Grid.Row="2" Padding="20" Spacing="10">
+                    <VerticalStackLayout
+                        Grid.Row="2"
+                        Margin="0,-16,0,0"
+                        Padding="20"
+                        Spacing="10">
 
-                        <Label Text="OEE Bilgileri" FontSize="Title" TextColor="{StaticResource Gray300}"/>
+                        <Label
+                            FontSize="Title"
+                            Text="OEE Bilgileri"
+                            TextColor="{StaticResource Gray300}" />
 
-                        <Grid  ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+                        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
 
                             <Frame Grid.Column="0" BorderColor="WhiteSmoke">
 
                                 <VerticalStackLayout>
-                                    <Label Text="%46" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                    <Label Text="OEE" FontSize="Small" TextColor="{StaticResource Gray300}" HorizontalOptions="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Title"
+                                        HorizontalOptions="Center"
+                                        Text="%46" />
+                                    <Label
+                                        FontSize="Small"
+                                        HorizontalOptions="Center"
+                                        Text="OEE"
+                                        TextColor="{StaticResource Gray300}" />
                                 </VerticalStackLayout>
 
                             </Frame>
@@ -197,8 +282,16 @@
                             <Frame Grid.Column="1" BorderColor="WhiteSmoke">
 
                                 <VerticalStackLayout>
-                                    <Label Text="%57" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                    <Label Text="Probability" FontSize="Small" TextColor="{StaticResource Gray300}" HorizontalOptions="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Title"
+                                        HorizontalOptions="Center"
+                                        Text="%57" />
+                                    <Label
+                                        FontSize="Small"
+                                        HorizontalOptions="Center"
+                                        Text="Probability"
+                                        TextColor="{StaticResource Gray300}" />
                                 </VerticalStackLayout>
 
                             </Frame>
@@ -206,8 +299,16 @@
                             <Frame Grid.Column="2" BorderColor="WhiteSmoke">
 
                                 <VerticalStackLayout>
-                                    <Label Text="%68" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                    <Label Text="Avaibility" FontSize="Small" TextColor="{StaticResource Gray300}" HorizontalOptions="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Title"
+                                        HorizontalOptions="Center"
+                                        Text="%68" />
+                                    <Label
+                                        FontSize="Small"
+                                        HorizontalOptions="Center"
+                                        Text="Avaibility"
+                                        TextColor="{StaticResource Gray300}" />
                                 </VerticalStackLayout>
 
                             </Frame>
@@ -215,15 +316,17 @@
                             <Frame Grid.Column="3" BorderColor="WhiteSmoke">
 
                                 <VerticalStackLayout>
-                                    <Label Text="%51"
-                                       FontSize="Title"
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Title"
+                                        HorizontalOptions="Center"
+                                        Text="%51" />
 
-                                    <Label Text="Quality"
-                                       FontSize="Small"
-                                       TextColor="{StaticResource Gray300}"
-                                       HorizontalOptions="Center"/>
+                                    <Label
+                                        FontSize="Small"
+                                        HorizontalOptions="Center"
+                                        Text="Quality"
+                                        TextColor="{StaticResource Gray300}" />
                                 </VerticalStackLayout>
 
                             </Frame>
@@ -231,16 +334,48 @@
                         </Grid>
                     </VerticalStackLayout>
 
-                    <VerticalStackLayout Grid.Row="3" Padding="10" Spacing="10">
+                    <VerticalStackLayout
+                        Grid.Row="3"
+                        Padding="10"
+                        Spacing="10">
 
-                        <Label Text="Devir Bilgileri" FontSize="Title" TextColor="{StaticResource Gray300}"/>
+                        <Label
+                            FontSize="Title"
+                            Text="Devir Bilgileri"
+                            TextColor="{StaticResource Gray300}" />
 
-                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" RowSpacing="10">
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="10">
 
-                            <ProgressBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ProgressColor="{StaticResource Warning}" ScaleY="5" Progress="0.64"/>
+                            <ProgressBar
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Progress="{Binding WorkOrderList.ActualRate}"
+                                ProgressColor="{StaticResource Warning}"
+                                ScaleY="5" />
 
-                            <Label Grid.Row="1" Grid.Column="0" Text="%63" FontSize="Title" HorizontalOptions="Start"/>
-                            <Label Grid.Row="1" Grid.Column="1" Text="RPM 72" FontSize="Title" HorizontalOptions="End"/>
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                FontSize="Title"
+                                HorizontalOptions="Start">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="%" />
+                                        <Span Text="{Binding WorkOrderList.ActualRateValue, StringFormat='{0:F2}'}" />
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="Title"
+                                HorizontalOptions="End"
+                                Text="RPM 72" />
                         </Grid>
 
                     </VerticalStackLayout>

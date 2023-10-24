@@ -10,7 +10,7 @@ using MES.Client.ListModels;
 using Microcharts;
 using Newtonsoft.Json;
 using SkiaSharp;
-using static Android.Content.ClipData;
+
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
@@ -211,7 +211,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
         {
 
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://192.168.1.23:32000");
+            httpClient.BaseAddress = new Uri("http://192.168.1.18:32000");
 
             var body = "{\"cmd\": \"getDeviceState\"}";
             StringContent stringContent = new StringContent(body);
@@ -223,14 +223,17 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
             if (response.IsSuccessStatusCode)
             {
                 json = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(json);
+                //Console.WriteLine(json);
                 //Debug.WriteLine(json);
-                //DeviceStateResult deviceStateResult = JsonConvert.DeserializeObject<DeviceStateResult>(json);
-                //if (deviceStateResult != null)
-                //{
-                //    var firstArray = deviceStateResult.encoder[0];
-                //    Quantity = firstArray[0];
-                //}
+                DeviceStateResult deviceStateResult = JsonConvert.DeserializeObject<DeviceStateResult>(json);
+                if (deviceStateResult != null)
+                {
+                    if (deviceStateResult.encoder.Count > 0)
+                    {
+                        var firstArray = deviceStateResult.encoder[0];
+                        Quantity = firstArray[0]; 
+                    }
+                }
 
             }
         }
