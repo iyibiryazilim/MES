@@ -134,8 +134,6 @@
                                     </Label.FormattedText>
                                 </Label>
 
-
-
                             </Grid>
 
                         </Border>
@@ -149,61 +147,10 @@
         </CollectionView>
 
         <Border Grid.RowSpan="2" Grid.Column="1">
-
-            <!--  Hide border when any item not selected (start)  -->
-
-            <!--  Hide border when any item not selected (end)  -->
-
             <Grid
                 Padding="10"
                 RowDefinitions="*, Auto"
                 RowSpacing="10">
-                <!--<VerticalStackLayout Grid.Row="0" Spacing="5">
-                <Label FontSize="25" Text="İş Emri Bilgileri" />
-                <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
-
-            </VerticalStackLayout>
-            <Border
-                Grid.Row="1"
-                Padding="16,8"
-                Stroke="{StaticResource WhiteBrush}"
-                StrokeShape="RoundRectangle 5"
-                StrokeThickness="0.1">
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Üretim Emri Numarası : " TextColor="{StaticResource Gray300}" />
-                            <Span FontAttributes="Bold" Text="{Binding SelectedItem.Code}" />
-
-                        </FormattedString>
-
-                    </Label.FormattedText>
-
-                </Label>
-
-            </Border>
-
-            <Border
-                Grid.Row="2"
-                Padding="16,8"
-                Stroke="{StaticResource WhiteBrush}"
-                StrokeShape="RoundRectangle 5"
-                StrokeThickness="0.1">
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Ürün Kodu : " TextColor="{StaticResource Gray300}" />
-                            <Span FontAttributes="Bold" Text="{Binding SelectedItem.ProductCode}" />
-
-                        </FormattedString>
-
-                    </Label.FormattedText>
-
-                </Label>
-
-            </Border>-->
-
-
                 <Grid
                     Grid.Row="0"
                     RowDefinitions="Auto, Auto, Auto, *, Auto"
@@ -234,13 +181,13 @@
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 HorizontalOptions="Center"
-                                Text="{Binding SelectedItem.ActualStartDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                Text="{Binding SelectedItem.ActualEndDate, StringFormat='{0:dd/MM/yyyy}'}"
                                 TextColor="{StaticResource Secondary}" />
                             <BoxView HeightRequest="1" />
                             <Label
                                 FontSize="14"
                                 HorizontalOptions="Center"
-                                Text="Gerçek Başlangıç Tarihi"
+                                Text="Gerçek Bitiş Tarihi"
                                 TextColor="{StaticResource Gray400}" />
                         </VerticalStackLayout>
 
@@ -292,53 +239,114 @@
                         <Border
                             Grid.Row="1"
                             Grid.Column="0"
-                            Padding="10"
-                            Stroke="{StaticResource Gray200}"
+                            Padding="2"
                             StrokeShape="RoundRectangle 10">
 
                             <ScrollView VerticalScrollBarVisibility="Never">
                                 <VerticalStackLayout Spacing="5">
-                                    <Label>
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="İş İstasyonu Kodu"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationCode}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="İş İstasyonu Kodu : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationCode}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
-                                    <Label>
+                                    </Label>-->
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="İş İstasyonu Adı"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationName}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="İş İstasyonu Adı : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationName}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
+                                    </Label>-->
 
-                                    <Label>
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="Gerçek Süre"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualDuration}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Gerçek Süre : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualDuration}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
-                                    <Label>
+                                    </Label>-->
+
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="Gerçek Başlangıç Süresi"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualStartDate, StringFormat='{0:d} {0:c}'}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Gerçek Başlangıç Süresi : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualStartTime}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
-                                    <Label>
+                                    </Label>-->
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="Gerçek Bitiş Süresi"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualEndTime}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Gerçek Bitiş Süresi : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualEndTime}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
+                                    </Label>-->
                                 </VerticalStackLayout>
                             </ScrollView>
                         </Border>
@@ -352,45 +360,90 @@
                         <Border
                             Grid.Row="1"
                             Grid.Column="1"
-                            Padding="10"
-                            Stroke="{StaticResource Gray200}"
+                            Padding="2"
                             StrokeShape="RoundRectangle 10">
                             <ScrollView VerticalScrollBarVisibility="Never">
                                 <VerticalStackLayout Spacing="5">
-                                    <Label>
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="Ürün Kodu"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductCode}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Ürün Kodu : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.ProductCode}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
-                                    <Label>
+                                    </Label>-->
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="Ürün Adı"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductName}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Ürün Adı : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.ProductName}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
-
-                                    <Label>
+                                    </Label>-->
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="Planlanan Miktar"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.PlanningQuantity}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Planlanan Miktar : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.PlanningQuantity}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
-
-                                    <Label>
+                                    </Label>-->
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource DarkGray}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontSize="13"
+                                                Text="Gerçek Miktar"
+                                                TextColor="{StaticResource Gray300}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualQuantity}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <!--<Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Gerçek Miktar : " TextColor="{StaticResource Gray300}" />
                                                 <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualQuantity}" />
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>
+                                    </Label>-->
                                 </VerticalStackLayout>
                             </ScrollView>
                         </Border>
