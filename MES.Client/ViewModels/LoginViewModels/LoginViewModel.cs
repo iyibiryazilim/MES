@@ -34,10 +34,26 @@ public partial class LoginViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task TextChangedAsync()
+    public async Task TextChangedAsync(string text)
     {
-        await Task.Delay(500);
-        Application.Current.MainPage = new AppShell();
+        try
+        {
+            IsBusy = true;
+
+            if(!string.IsNullOrEmpty(text))
+            {
+                UserCode = text;
+                await Task.Delay(500);
+                Application.Current.MainPage = new AppShell();
+            }
+
+        } catch(Exception ex)
+        {
+            Debug.WriteLine(ex);
+        } finally
+        {
+            IsBusy = false;
+        }        
     }
 }
 

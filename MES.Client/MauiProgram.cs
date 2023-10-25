@@ -6,6 +6,7 @@ using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Services;
 using MES.Client.ViewModels.LoginViewModels;
 using MES.Client.ViewModels.WorkOrderViewModels;
+using MES.Client.Views.LoginViews;
 using MES.Client.Views.WorkOrderViews;
 using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
@@ -72,6 +73,7 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddSingleton<WorkOrderListView>();
         mauiAppBuilder.Services.AddSingleton<WorkOrderDetailView>();
+        mauiAppBuilder.Services.AddSingleton<LoginView>();
 
         return mauiAppBuilder;
     }

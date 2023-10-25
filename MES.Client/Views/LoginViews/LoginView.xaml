@@ -32,18 +32,35 @@
                         TextColor="{AppThemeBinding Dark={StaticResource Gray900},
                                                     Light={StaticResource Gray900}}" />
                 </VerticalStackLayout>
-                <VerticalStackLayout Grid.Row="1" VerticalOptions="Center">
-                    <Entry
-                        x:Name="txtUsername"
-                        FontSize="Subtitle"
-                        TextColor="{StaticResource Black}">
-                        <Entry.Behaviors>
-                            <toolkit:EventToCommandBehavior
-                                Command="{Binding TextChangedCommand}"
-                                CommandParameter="{Binding UserCode, Mode=OneWay}"
-                                EventName="TextChanged" />
-                        </Entry.Behaviors>
-                    </Entry>
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Padding="10"
+                    Spacing="10"
+                    VerticalOptions="Center">
+                    <Border
+                        Padding="2"
+                        Stroke="{StaticResource Black}"
+                        StrokeShape="RoundRectangle 3">
+                        <Entry
+                            x:Name="txtUsername"
+                            FontSize="Subtitle"
+                            PlaceholderColor="{StaticResource Black}"
+                            Text="{Binding UserCode}"
+                            TextColor="{StaticResource Black}">
+                            <Entry.Behaviors>
+                                <toolkit:EventToCommandBehavior
+                                    Command="{Binding TextChangedCommand}"
+                                    CommandParameter="{Binding Text, Source={x:Reference txtUsername}}"
+                                    EventName="Completed" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+                    <Label
+                        FontSize="14"
+                        HorizontalTextAlignment="End"
+                        Text="Şifremi unuttum"
+                        TextColor="{StaticResource Black}" />
+
                 </VerticalStackLayout>
                 <VerticalStackLayout
                     Grid.Row="2"
@@ -61,8 +78,6 @@
                         TextColor="{StaticResource Black}" />
 
                 </VerticalStackLayout>
-
-
             </Grid>
         </Border>
 
