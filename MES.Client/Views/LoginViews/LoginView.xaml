@@ -51,7 +51,7 @@
                                 <toolkit:EventToCommandBehavior
                                     Command="{Binding TextChangedCommand}"
                                     CommandParameter="{Binding Text, Source={x:Reference txtUsername}}"
-                                    EventName="Completed" />
+                                    EventName="TextChanged" />
                             </Entry.Behaviors>
                         </Entry>
                     </Border>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MES.Client.Views.StopCauseViews.StopCauseListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:YTT.Gateway.Model.Models.StopCauseModels;assembly=YTT.Gateway.Model"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:MES.Client.ViewModels.StopCauseViewModels"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Modal">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding GetStopCauseListItemsCommand}" EventName="Loaded" />
+    </ContentPage.Behaviors>
+
+    <Grid Padding="50" RowDefinitions="Auto, *, Auto">
+        <Label
+            Grid.Row="0"
+            FontSize="Title"
+            Text="Duruş Nedenleri" />
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center">
+            <CollectionView ItemsSource="{Binding StopCauseListItems}" VerticalOptions="Center">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="10"
+                        Orientation="Horizontal"
+                        Span="2"
+                        VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:StopCauseList">
+                        <VerticalStackLayout>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="Red"
+                                HeightRequest="250"
+                                StrokeShape="RoundRectangle 20"
+                                WidthRequest="250">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:StopCauseListViewModel}}, Path=SetSelectedItemCommand}" CommandParameter="{Binding .}" />
+
+                                </Border.GestureRecognizers>
+                                <Border.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding IsSelected}"
+                                        TargetType="Border"
+                                        Value="True">
+                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource Success}}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Code}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Title"
+                                        Text="{Binding Name}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+
+        <VerticalStackLayout Grid.Row="2" VerticalOptions="End">
+            <Button
+                Grid.Row="2"
+                Command="{Binding StopButtonCommand}"
+                FontSize="Title"
+                Text="Durdur"
+                VerticalOptions="End" />
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

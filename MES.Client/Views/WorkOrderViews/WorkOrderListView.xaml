@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
-    xmlns:listModel="clr-namespace:MES.Client.ListModels"
+    xmlns:model="clr-namespace:YTT.Gateway.Model.Models.WorkOrderModels;assembly=YTT.Gateway.Model"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
     Title="{Binding Title}"
@@ -39,7 +39,7 @@
             Grid.Column="0"
             ItemsSource="{Binding Items}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="listModel:WorkOrderList">
+                <DataTemplate x:DataType="model:ProductionWorkOrderList">
                     <StackLayout Margin="0,10">
                         <Border
                             Padding="16,8"
@@ -48,7 +48,7 @@
                             StrokeThickness="0.2">
 
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:WorkOrderListViewModel}}, Path=GetSelectedItemCommand}" CommandParameter="{Binding .}" />
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:WorkOrderListViewModel}}, Path=SetSelectedItemCommand}" CommandParameter="{Binding .}" />
 
                             </Border.GestureRecognizers>
                             <Border.Triggers>
@@ -70,7 +70,7 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="İş Emri No: " />
-                                                    <Span Text="{Binding Code}" />
+                                                    <Span Text="{Binding WorkOrderNumber}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -102,7 +102,7 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="Ürünün Kodu: " />
-                                                    <Span FontAttributes="Bold" Text="{Binding Code}" />
+                                                    <Span FontAttributes="Bold" Text="{Binding MainProductCode}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -110,7 +110,7 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="Ürünün Adı: " />
-                                                    <Span FontAttributes="Bold" Text="{Binding ProductName}" />
+                                                    <Span FontAttributes="Bold" Text="{Binding MainProductName}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -128,7 +128,7 @@
                                     <Label.FormattedText>
                                         <FormattedString>
 
-                                            <Span FontAttributes="Bold" Text="{Binding PlanningQuantity}" />
+                                            <Span FontAttributes="Bold" Text="{Binding Quantity}" />
                                             <Span FontAttributes="Bold" Text=" Adet" />
                                         </FormattedString>
                                     </Label.FormattedText>
@@ -155,19 +155,24 @@
                     Grid.Row="0"
                     RowDefinitions="Auto, Auto, Auto, *, Auto"
                     RowSpacing="18">
-                    <Image
+                    <Border
                         Grid.Row="0"
-                        Aspect="AspectFit"
-                        Source="avatar.jpg"
-                        WidthRequest="150" />
+                        StrokeShape="RoundRectangle 20"
+                        WidthRequest="150">
+                        <Image
+                            Aspect="AspectFit"
+                            Source="avatar.jpg"
+                            WidthRequest="150" />
+                    </Border>
+
                     <VerticalStackLayout
                         Grid.Row="1"
                         HorizontalOptions="Center"
                         Spacing="5">
 
-                        <Label FontAttributes="Bold" Text="{Binding SelectedItem.Code}" />
+                        <Label FontAttributes="Bold" Text="{Binding SelectedItem.MainProductName}" />
 
-                        <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductCode}" />
+                        <Label FontAttributes="Bold" Text="{Binding SelectedItem.MainProductCode}" />
 
                     </VerticalStackLayout>
                     <Grid
@@ -181,7 +186,7 @@
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 HorizontalOptions="Center"
-                                Text="{Binding SelectedItem.ActualEndDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                Text="{Binding SelectedItem.ProductionDate, StringFormat='{0:dd/MM/yyyy}'}"
                                 TextColor="{StaticResource Secondary}" />
                             <BoxView HeightRequest="1" />
                             <Label
@@ -294,7 +299,7 @@
                                                 FontSize="13"
                                                 Text="Gerçek Süre"
                                                 TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualDuration}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductionDate}" />
                                         </VerticalStackLayout>
                                     </Border>
 
@@ -316,17 +321,10 @@
                                                 FontSize="13"
                                                 Text="Gerçek Başlangıç Süresi"
                                                 TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualStartDate, StringFormat='{0:d} {0:c}'}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.PlanningStartDate, StringFormat='{0:d} {0:c}'}" />
                                         </VerticalStackLayout>
                                     </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Gerçek Başlangıç Süresi : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualStartTime}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
+
                                     <Border
                                         Padding="10"
                                         BackgroundColor="{StaticResource DarkGray}"
@@ -336,17 +334,10 @@
                                                 FontSize="13"
                                                 Text="Gerçek Bitiş Süresi"
                                                 TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualEndTime}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductionDate}" />
                                         </VerticalStackLayout>
                                     </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Gerçek Bitiş Süresi : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualEndTime}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
+
                                 </VerticalStackLayout>
                             </ScrollView>
                         </Border>
@@ -373,7 +364,7 @@
                                                 FontSize="13"
                                                 Text="Ürün Kodu"
                                                 TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductCode}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.MainProductCode}" />
                                         </VerticalStackLayout>
                                     </Border>
                                     <!--<Label>
@@ -393,7 +384,7 @@
                                                 FontSize="13"
                                                 Text="Ürün Adı"
                                                 TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductName}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.OperationName}" />
                                         </VerticalStackLayout>
                                     </Border>
                                     <!--<Label>
@@ -413,7 +404,7 @@
                                                 FontSize="13"
                                                 Text="Planlanan Miktar"
                                                 TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.PlanningQuantity}" />
+                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.Quantity}" />
                                         </VerticalStackLayout>
                                     </Border>
                                     <!--<Label>
@@ -464,7 +455,7 @@
                                     <Span
                                         FontAttributes="Bold"
                                         FontSize="18"
-                                        Text="{Binding SelectedItem.ActualRateValue, StringFormat='{0:F2}'}"
+                                        Text="67"
                                         TextColor="{StaticResource White}" />
                                 </FormattedString>
                             </Label.FormattedText>
@@ -474,7 +465,7 @@
 
                         <ProgressBar
                             Grid.Column="1"
-                            Progress="{Binding SelectedItem.ActualRate}"
+                            Progress="0.67"
                             ProgressColor="{AppThemeBinding Dark={StaticResource Warning},
                                                             Light={StaticResource Warning}}"
                             ScaleY="3"
@@ -489,7 +480,6 @@
                         BackgroundColor="{StaticResource Primary}"
                         Command="{Binding GoToDetailCommand}"
                         CommandParameter="{Binding SelectedItem}"
-                        IsEnabled="{Binding ButtonStatus}"
                         Text="Başlat" />
 
                 </VerticalStackLayout>

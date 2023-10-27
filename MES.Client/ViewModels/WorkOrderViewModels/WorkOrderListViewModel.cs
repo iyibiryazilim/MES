@@ -4,104 +4,78 @@ using System.ComponentModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-
 using LBS.Shared.Entity.Models;
+using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.Mappers;
-using MES.Client.ListModels;
 using MES.Client.Services;
 using MES.Client.Views;
 using MES.Client.Views.WorkOrderViews;
 using MvvmHelpers;
+using YTT.Gateway.Middleware.Services;
+using YTT.Gateway.Model.Models.ResultModels;
+using YTT.Gateway.Model.Models.WorkOrderModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
 public partial class WorkOrderListViewModel : BaseViewModel
 {
     IHttpClientService _httpClientService;
-    ICustomQueryDTO _customQueryDTO;
+    IProductionWorkOrderService _productionWorkOrderService;
 
-    public ObservableCollection<WorkOrderList> Items { get; } = new();
+    DeviceCommandHelper deviceCommandHelper = new DeviceCommandHelper(new HttpClient());
+
+    public ObservableCollection<ProductionWorkOrderList> Items { get; } = new();
     public ObservableRangeCollection<dynamic> DisplayItems { get; } = new();
 
     public Command GetItemsCommand { get; }
-    public Command LoadMoreCommand { get; }
-
-    static int pageSize = 20;
-    static int currentIndex = 0;
 
     [ObservableProperty]
-    WorkOrderList selectedItem;
+    ProductionWorkOrderList selectedItem;
 
-
-    private bool isSelectedItem;
-
-    public bool IsSelectedItem
-    {
-        get { return SelectedItem != null ? true : false; }
-        set
-        {
-            IsSelectedItem = value;
-            OnPropertyChanged(nameof(IsSelectedItem));
-        }
-    }
-
-
-    public bool ButtonStatus => SelectedItem == null ? false : true;
-
-    string query = @$"SELECT 
-[ReferenceId] = LGMAIN.LOGICALREF,
-[ProductionReferenceId] = LGMAIN.PRODORDREF,
-[Status] = LGMAIN.LINESTATUS,
-[StatusName] = '',
-[Code] = LGMAIN.LINENO_,
-[BOMasterReferenceId] = BOMASTER.LOGICALREF,
-[BOMCode] = BOMASTER.CODE,
-[BOMName] = BOMASTER.NAME,
-[ProductReferenceId] = ITEMS.LOGICALREF,
-[ProductCode] = ITEMS.CODE,
-[ProductName] = ITEMS.NAME,
-[PlanningStartDate] = LGMAIN.OPBEGDATE,
-[PlanningStartTime] = LGMAIN.OPBEGTIME,
-[PlanningEndDate] = LGMAIN.OPDUEDATE,
-[PlanningEndTime] = LGMAIN.OPDUETIME,
-[PlanningDuration] = LGMAIN.PLNDURATION,
-[PlanningQuantity] = 0,
-[ActualStartDate] = LGMAIN.ACTBEGDATE,
-[ActualStartTime] = LGMAIN.ACTBEGTIME,
-[ActualEndDate] = LGMAIN.ACTDUEDATE,
-[ActualEndTime] = LGMAIN.ACTDUETIME,
-[ActualDuration] = LGMAIN.ACTDURATION,
-[OperationReferenceId] = OPERTION.LOGICALREF,
-[OperationCode] = OPERTION.CODE,
-[OperationName] = OPERTION.NAME,
-[WorkstationReferenceId] = WORKSTAT.LOGICALREF,
-[WorkstationCode] = WORKSTAT.CODE,
-[WorkstationName] = WORKSTAT.NAME,
-[RouteReferenceId] =0,
-[RouteCode] = '',
-[RouteName] = '',
-[StopDuration] = LGMAIN.STPDURATION
-
-
-FROM LG_003_DISPLINE AS LGMAIN
-LEFT JOIN LG_003_PRODORD AS PRODORD ON LGMAIN.PRODORDREF = PRODORD.LOGICALREF
-LEFT JOIN LG_003_BOMASTER AS BOMASTER ON LGMAIN.BOMMASTERREF = BOMASTER.LOGICALREF AND LGMAIN.REVREF = BOMASTER.VALIDREVREF
-LEFT JOIN LG_003_ITEMS AS ITEMS ON LGMAIN.ITEMREF = ITEMS.LOGICALREF
-LEFT JOIN LG_003_OPERTION AS OPERTION ON LGMAIN.OPERATIONREF = OPERTION.LOGICALREF
-LEFT JOIN LG_003_WORKSTAT AS WORKSTAT ON LGMAIN.WSREF = WORKSTAT.LOGICALREF
-ORDER BY LGMAIN.LOGICALREF ASC
-OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
-";
-
-    public WorkOrderListViewModel(IHttpClientService httpClientService, ICustomQueryDTO customQueryDTO)
+    public WorkOrderListViewModel(IHttpClientService httpClientService, IProductionWorkOrderService productionWorkOrderService)
     {
         Title = "İş Listesi";
         _httpClientService = httpClientService;
-        _customQueryDTO = customQueryDTO;
+        _productionWorkOrderService = productionWorkOrderService;
+
 
         GetItemsCommand = new Command(async () => await GetItemsAsync());
-        LoadMoreCommand = new Command(LoadMoreAsync);
+        //LoadMoreCommand = new Command(LoadMoreAsync);
+    }
+
+
+    [RelayCommand]
+    async Task SetSelectedItemAsync(ProductionWorkOrderList item)
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            IsRefreshing = true;
+
+            if (item == null)
+                return;
+
+            foreach(var workOrder in Items)
+            {
+                workOrder.IsSelected = false;
+
+            }
+            Items.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
+            SelectedItem = item;
+
+        } catch(Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+        } finally
+        {
+            IsBusy = false;
+            IsRefreshing = false;
+        }
     }
 
     async Task GetItemsAsync()
@@ -115,18 +89,19 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
 
             if (Items.Count > 0)
                 Items.Clear();
-
-
-
-
-            await foreach (var item in _customQueryDTO.GetObjectsAsync(_httpClientService, query))
+            var httpClient = _httpClientService.GetOrCreateHttpClient();
+            DataResult<IEnumerable<ProductionWorkOrderList>> result  = await _productionWorkOrderService.GetObjectsAsync(httpClient);
+            
+            if(result.IsSuccess)
             {
-                await Task.Delay(100);
-                var obj = Mapping.Mapper.Map<WorkOrderList>(item);
-                Items.Add(obj);
+                if(result.Data.Any())
+                {
+                    foreach (var item in result.Data)
+                    {
+                        Items.Add(item);
+                    }
+                }
             }
-
-            //DisplayItems.AddRange(Items);
 
         }
         catch (Exception ex)
@@ -141,7 +116,8 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
         }
     }
 
-    async void LoadMoreAsync()
+    [RelayCommand]
+    async Task GoToDetailAsync(ProductionWorkOrderList productionWorkOrderList)
     {
         if (IsBusy)
             return;
@@ -149,42 +125,23 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
         try
         {
             IsBusy = true;
-            currentIndex = Items.Count;
+            //await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.7:32000");
+            //await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.7:32000");
+            //await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.7:32000");
 
-            await foreach (var item in _customQueryDTO.GetObjectsAsync(_httpClientService, query))
-            {
-                await Task.Delay(100);
-                var obj = Mapping.Mapper.Map<WorkOrderList>(item);
-                Items.Add(obj);
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-            await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
-        }
-        finally
-        {
-            IsBusy = false;
-
-        }
-    }
-
-    [RelayCommand]
-    async Task GoToDetailAsync(WorkOrderList workOrderList)
-    {
-        try
-        {
             await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
             {
-                ["WorkOrderList"] = workOrderList
+                [nameof(ProductionWorkOrderList)] = productionWorkOrderList
             });
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
             await Shell.Current.DisplayAlert("Error :", ex.Message, "Tamam");
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 
@@ -196,38 +153,7 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
         bottomSheetPage.HandleColor = Color.FromArgb("#009ef7");
         bottomSheetPage.HasBackdrop = true;
 
-
         await bottomSheetPage.ShowAsync(true);
-    }
-
-    [RelayCommand]
-    async Task GetSelectedItemAsync(WorkOrderList item)
-    {
-        if (IsBusy)
-            return;
-
-        try
-        {
-
-            IsBusy = true;
-
-            foreach (var workOrder in Items)
-                workOrder.IsSelected = false;
-
-            Items.First(x => x.Code == item.Code).IsSelected = true;
-            SelectedItem = Items.First(x => x.Code == item.Code);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-            await Shell.Current.DisplayAlert("Error : ", "SelectedItem False", "Tamam");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-
-        await Task.FromResult(() => SelectedItem = item);
     }
 }
 

@@ -33,26 +33,23 @@
                             HorizontalOptions="Center"
                             Text="Volkan Sunuk" />
                         <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
-
                     </VerticalStackLayout>
 
                     <VerticalStackLayout
                         Grid.Row="1"
                         Padding="10"
                         Spacing="10">
-
-
                         <Button
                             Command="{Binding StartWorkOrderCommand}"
                             FontSize="Subtitle"
-                            Text="Genel Bakış" />
+                            Text="Başlat" />
                         <Button FontSize="Subtitle" Text="İşlem 1" />
                         <Button FontSize="Subtitle" Text="İşlem 2" />
                         <Button FontSize="Subtitle" Text="İşlem 3" />
                         <Button FontSize="Subtitle" Text="İşlem 4" />
                         <Button
                             BackgroundColor="{StaticResource Danger}"
-                            Command="{Binding GoToBackCommand}"
+                            Command="{Binding GoToStopCauseListCommand}"
                             FontSize="Subtitle"
                             Text="Durdur" />
 
@@ -78,21 +75,14 @@
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
-
-
-
-
         </Frame>
 
         <Frame Grid.Column="1" Padding="2">
-
             <VerticalStackLayout>
-
                 <Grid RowDefinitions="*,*,*,*">
-
                     <Border
                         Grid.Row="0"
-                        Padding="20"
+                        Padding="20,10,20,10"
                         Background="{StaticResource Success}"
                         StrokeShape="RoundRectangle 20,20,20,20"
                         StrokeThickness="1">
@@ -113,10 +103,7 @@
                                 Text="{Binding Quantity, StringFormat='1000 / {0:N0}'}"
                                 VerticalOptions="Center" />
                         </Grid>
-
-
                     </Border>
-
 
                     <Grid
                         Grid.Row="1"
@@ -126,127 +113,144 @@
 
                         <VerticalStackLayout Grid.Column="0" Spacing="5">
                             <Label
-                                FontSize="Title"
+                                FontSize="20"
                                 Text="İş Emri Bilgileri"
                                 TextColor="{StaticResource Gray400}" />
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                MaximumHeightRequest="66"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="Operasyon Kodu"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding ProductionWorkOrderList.OperationCode}" />
+                                </VerticalStackLayout>
+                            </Border>
 
-                            <Frame>
-                                <Label>
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span FontSize="Subtitle" Text="Operasyon Kodu : " />
-                                            <Span
-                                                FontAttributes="Bold"
-                                                FontSize="Title"
-                                                Text="{Binding WorkOrderList.OperationCode}" />
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                MaximumHeightRequest="66"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="Operasyon Adı"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding ProductionWorkOrderList.OperationName}" />
+                                </VerticalStackLayout>
+                            </Border>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="İş İstasyonu Kodu"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding ProductionWorkOrderList.WorkstationCode}" />
+                                </VerticalStackLayout>
+                            </Border>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="İş İstasyonu Adı"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding ProductionWorkOrderList.WorkstationName}" />
+                                </VerticalStackLayout>
+                            </Border>
 
-                                        </FormattedString>
 
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </Frame>
-
-                            <Frame>
-                                <Label>
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span FontSize="Subtitle" Text="Operasyon Adı : " />
-                                            <Span
-                                                FontAttributes="Bold"
-                                                FontSize="Title"
-                                                Text="{Binding WorkOrderList.OperationName}" />
-
-                                        </FormattedString>
-
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </Frame>
-
-                            <Frame>
-                                <Label>
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span FontSize="Subtitle" Text="Ana Birim : " />
-                                            <Span
-                                                FontAttributes="Bold"
-                                                FontSize="Title"
-                                                Text="ADET" />
-
-                                        </FormattedString>
-
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </Frame>
 
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Grid.Column="1" Spacing="5">
                             <Label
-                                FontSize="Title"
+                                FontSize="20"
                                 Text="Ürün Bilgileri"
                                 TextColor="{StaticResource Gray400}" />
-                            <Frame>
-                                <Label>
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span FontSize="Subtitle" Text="Ürün Kodu : " />
-                                            <Span
-                                                FontAttributes="Bold"
-                                                FontSize="Title"
-                                                Text="{Binding WorkOrderList.ProductCode}" />
-
-                                        </FormattedString>
-
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </Frame>
-
-                            <Frame>
-                                <Label>
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span FontSize="Subtitle" Text="Ürün Adı : " />
-                                            <Span
-                                                FontAttributes="Bold"
-                                                FontSize="Title"
-                                                Text="{Binding WorkOrderList.ProductName}" />
-
-                                        </FormattedString>
-
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </Frame>
-
-                            <Frame>
-                                <Label>
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span FontSize="Subtitle" Text="Ana Birim : " />
-                                            <Span
-                                                FontAttributes="Bold"
-                                                FontSize="Title"
-                                                Text="ADET" />
-
-                                        </FormattedString>
-
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </Frame>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="Ürün Kodu"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding ProductionWorkOrderList.MainProductCode}" />
+                                </VerticalStackLayout>
+                            </Border>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="Ürün Adı"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{Binding ProductionWorkOrderList.MainProductName}" />
+                                </VerticalStackLayout>
+                            </Border>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="Ana Birim (unit)"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding ProductionWorkOrderList.UnitsetCode}" />
+                                </VerticalStackLayout>
+                            </Border>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource DarkGray}"
+                                StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontSize="15"
+                                        Text="Ana Birim (sub unit)"
+                                        TextColor="{StaticResource Gray300}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding ProductionWorkOrderList.SubUnitsetCode}" />
+                                </VerticalStackLayout>
+                            </Border>
 
                         </VerticalStackLayout>
-
                     </Grid>
 
                     <VerticalStackLayout
@@ -353,7 +357,7 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
-                                Progress="{Binding WorkOrderList.ActualRate}"
+                                Progress="0.75"
                                 ProgressColor="{StaticResource Warning}"
                                 ScaleY="5" />
 
@@ -365,8 +369,7 @@
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="%" />
-                                        <Span Text="{Binding WorkOrderList.ActualRateValue, StringFormat='{0:F2}'}" />
-
+                                        <Span Text="67" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -377,15 +380,10 @@
                                 HorizontalOptions="End"
                                 Text="RPM 72" />
                         </Grid>
-
                     </VerticalStackLayout>
-
                 </Grid>
             </VerticalStackLayout>
-
-
         </Frame>
-
     </Grid>
 
 </ContentPage>

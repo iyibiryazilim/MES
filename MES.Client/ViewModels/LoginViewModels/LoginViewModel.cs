@@ -3,7 +3,7 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.HttpClientHelpers;
-using MES.Client.ListModels;
+
 using MES.Client.Views.WorkOrderViews;
 
 namespace MES.Client.ViewModels.LoginViewModels;
@@ -36,6 +36,8 @@ public partial class LoginViewModel : BaseViewModel
     [RelayCommand]
     public async Task TextChangedAsync(string text)
     {
+        if (IsBusy)
+            return;
         try
         {
             IsBusy = true;
@@ -43,9 +45,10 @@ public partial class LoginViewModel : BaseViewModel
             if(!string.IsNullOrEmpty(text))
             {
                 UserCode = text;
-                await Task.Delay(500);
+                await Task.Delay(1000);
                 Application.Current.MainPage = new AppShell();
             }
+           
 
         } catch(Exception ex)
         {

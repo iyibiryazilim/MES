@@ -5,20 +5,21 @@ using System.Text;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.MESAPIHelper;
-using MES.Client.ListModels;
+using MES.Client.Views.StopCauseViews;
 using Microcharts;
 using Newtonsoft.Json;
 using SkiaSharp;
-
+using YTT.Gateway.Model.Models.WorkOrderModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
-[QueryProperty(name: nameof(WorkOrderList), queryId: nameof(WorkOrderList))]
+[QueryProperty(name: nameof(ProductionWorkOrderList), queryId: nameof(ProductionWorkOrderList))]
 public partial class WorkOrderDetailViewModel : BaseViewModel
 {
     [ObservableProperty]
-    WorkOrderList workOrderList;
+    ProductionWorkOrderList productionWorkOrderList;
 
     [ObservableProperty]
     double quantity;
@@ -27,6 +28,20 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
     {
         Title = "İş Emri Detay Sayfası";
     }
+
+    double quantityChanged;
+
+    public double QuantityChanged
+    {
+        get {return quantityChanged; }
+        set
+        {
+            quantityChanged = value;
+            OnPropertyChanged(nameof(Quantity));
+        }
+    }
+
+   
 
     public Chart OEE => GetOEE();
     public Chart Availability => GetAvailability();
@@ -178,9 +193,9 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task GoToBackAsync()
+    async Task GoToStopCauseListAsync()
     {
-        await Shell.Current.GoToAsync("../");
+        await Shell.Current.GoToAsync($"{nameof(StopCauseListView)}");
     }
 
     [RelayCommand]
@@ -193,15 +208,15 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
             timer.Tick += (s, e) => DoSomething();
             timer.Start();
         });
-
-
     }
 
     void DoSomething()
     {
-        MainThread.BeginInvokeOnMainThread(async () =>
+        MainThread.BeginInvokeOnMainThread( () =>
         {
-            await GetDeviceStateAsync();
+            //await GetDeviceStateAsync();
+             Quantity += 1;
+
         });
     }
     string json = string.Empty;
@@ -211,7 +226,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
         {
 
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://192.168.1.18:32000");
+            httpClient.BaseAddress = new Uri("http://192.168.1.7:32000");
 
             var body = "{\"cmd\": \"getDeviceState\"}";
             StringContent stringContent = new StringContent(body);
