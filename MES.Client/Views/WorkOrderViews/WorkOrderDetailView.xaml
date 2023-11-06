@@ -25,13 +25,13 @@
 
                         <toolkit:AvatarView
                             HeightRequest="125"
-                            Text="VAS"
+                            ImageSource="takoz.png"
                             WidthRequest="125" />
 
                         <Label
-                            FontSize="Title"
+                            FontSize="15"
                             HorizontalOptions="Center"
-                            Text="Volkan Sunuk" />
+                            Text="{Binding ProductionWorkOrderList.MainProductCode}" />
                         <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
                     </VerticalStackLayout>
 
@@ -42,6 +42,7 @@
                         <Button
                             Command="{Binding StartWorkOrderCommand}"
                             FontSize="Subtitle"
+                            IsEnabled="{Binding StartButtonEnable}"
                             Text="Başlat" />
                         <Button FontSize="Subtitle" Text="İşlem 1" />
                         <Button FontSize="Subtitle" Text="İşlem 2" />
@@ -118,8 +119,9 @@
                                 TextColor="{StaticResource Gray400}" />
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
-                                MaximumHeightRequest="66"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
+                                MaximumHeightRequest="72"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
@@ -135,8 +137,9 @@
 
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
-                                MaximumHeightRequest="66"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
+                                MaximumHeightRequest="72"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
@@ -151,7 +154,8 @@
                             </Border>
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
@@ -166,7 +170,8 @@
                             </Border>
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
@@ -191,7 +196,8 @@
                                 TextColor="{StaticResource Gray400}" />
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
@@ -206,7 +212,8 @@
                             </Border>
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
@@ -221,7 +228,8 @@
                             </Border>
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
@@ -236,12 +244,13 @@
                             </Border>
                             <Border
                                 Padding="10"
-                                BackgroundColor="{StaticResource DarkGray}"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
+                                                                  Light={StaticResource White}}"
                                 StrokeShape="RoundRectangle 10">
                                 <VerticalStackLayout>
                                     <Label
                                         FontSize="15"
-                                        Text="Ana Birim (sub unit)"
+                                        Text="Ana Birim (subunit)"
                                         TextColor="{StaticResource Gray300}" />
                                     <Label
                                         FontAttributes="Bold"
@@ -255,9 +264,9 @@
 
                     <VerticalStackLayout
                         Grid.Row="2"
-                        Margin="0,-16,0,0"
+                        Margin="0,-30,0,0"
                         Padding="20"
-                        Spacing="10">
+                        Spacing="8">
 
                         <Label
                             FontSize="Title"
@@ -266,7 +275,7 @@
 
                         <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
 
-                            <Frame Grid.Column="0" BorderColor="WhiteSmoke">
+                            <Frame Grid.Column="0" BorderColor="{AppThemeBinding Dark={StaticResource WhiteSmoke}, Light={StaticResource Black}}">
 
                                 <VerticalStackLayout>
                                     <Label
@@ -283,7 +292,7 @@
 
                             </Frame>
 
-                            <Frame Grid.Column="1" BorderColor="WhiteSmoke">
+                            <Frame Grid.Column="1" BorderColor="{AppThemeBinding Dark={StaticResource WhiteSmoke}, Light={StaticResource Black}}">
 
                                 <VerticalStackLayout>
                                     <Label
@@ -300,7 +309,7 @@
 
                             </Frame>
 
-                            <Frame Grid.Column="2" BorderColor="WhiteSmoke">
+                            <Frame Grid.Column="2" BorderColor="{AppThemeBinding Dark={StaticResource WhiteSmoke}, Light={StaticResource Black}}">
 
                                 <VerticalStackLayout>
                                     <Label
@@ -317,7 +326,7 @@
 
                             </Frame>
 
-                            <Frame Grid.Column="3" BorderColor="WhiteSmoke">
+                            <Frame Grid.Column="3" BorderColor="{AppThemeBinding Dark={StaticResource WhiteSmoke}, Light={StaticResource Black}}">
 
                                 <VerticalStackLayout>
                                     <Label
@@ -340,6 +349,7 @@
 
                     <VerticalStackLayout
                         Grid.Row="3"
+                        Margin="0,-15,0,0"
                         Padding="10"
                         Spacing="10">
 
@@ -351,7 +361,7 @@
                         <Grid
                             ColumnDefinitions="*,*"
                             RowDefinitions="Auto,Auto"
-                            RowSpacing="10">
+                            RowSpacing="5">
 
                             <ProgressBar
                                 Grid.Row="0"

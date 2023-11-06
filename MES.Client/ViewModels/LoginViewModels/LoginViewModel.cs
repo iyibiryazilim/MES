@@ -41,6 +41,7 @@ public partial class LoginViewModel : BaseViewModel
         try
         {
             IsBusy = true;
+            IsRefreshing = true;
 
             if(!string.IsNullOrEmpty(text))
             {
@@ -56,6 +57,7 @@ public partial class LoginViewModel : BaseViewModel
         } finally
         {
             IsBusy = false;
+            IsRefreshing = false;
         }        
     }
 }

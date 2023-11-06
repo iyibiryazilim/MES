@@ -24,24 +24,23 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
     [ObservableProperty]
     double quantity;
 
+    [ObservableProperty]
+    bool startButtonEnable = true;
+
     public WorkOrderDetailViewModel()
     {
         Title = "İş Emri Detay Sayfası";
     }
 
-    double quantityChanged;
-
     public double QuantityChanged
     {
-        get {return quantityChanged; }
+        get {return Quantity; }
         set
         {
-            quantityChanged = value;
+            Quantity = value;
             OnPropertyChanged(nameof(Quantity));
         }
     }
-
-   
 
     public Chart OEE => GetOEE();
     public Chart Availability => GetAvailability();
@@ -67,8 +66,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
             BackgroundColor = SKColors.Transparent,
         };
-
-
     }
     public Chart GetProductivity()
     {
@@ -80,8 +77,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
             BackgroundColor = SKColors.Transparent,
         };
-
-
     }
     public Chart GetQuality()
     {
@@ -91,8 +86,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
             BackgroundColor = SKColors.Transparent,
         };
-
-
     }
 
     private List<ChartEntry> GetOEEEntries()
@@ -109,6 +102,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
         return entries;
     }
+
     private List<ChartEntry> GetAvaibilityEntries()
     {
         List<ChartEntry> entries = new List<ChartEntry>();
@@ -131,6 +125,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
         return entries;
     }
+
     private List<ChartEntry> GetProductivityEntries()
     {
         List<ChartEntry> entries = new List<ChartEntry>();
@@ -169,6 +164,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
         return entries;
     }
+
     private List<ChartEntry> GetQualityEntries()
     {
         List<ChartEntry> entries = new List<ChartEntry>();
@@ -201,8 +197,8 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
     [RelayCommand]
     async Task StartWorkOrderAsync()
     {
-        await Task.Run(() =>
-        {
+         await Task.Run(() =>
+        {   
             var timer = Application.Current.Dispatcher.CreateTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) => DoSomething();
@@ -212,13 +208,15 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
     void DoSomething()
     {
+        StartButtonEnable = false;
         MainThread.BeginInvokeOnMainThread( () =>
         {
             //await GetDeviceStateAsync();
-             Quantity += 1;
+            Quantity += 1;
 
         });
     }
+
     string json = string.Empty;
     async Task GetDeviceStateAsync()
     {
@@ -226,7 +224,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
         {
 
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://192.168.1.7:32000");
+            httpClient.BaseAddress = new Uri("http://192.168.1.10:32000");
 
             var body = "{\"cmd\": \"getDeviceState\"}";
             StringContent stringContent = new StringContent(body);

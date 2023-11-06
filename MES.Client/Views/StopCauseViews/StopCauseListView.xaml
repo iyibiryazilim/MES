@@ -12,10 +12,14 @@
         <toolkit:EventToCommandBehavior Command="{Binding GetStopCauseListItemsCommand}" EventName="Loaded" />
     </ContentPage.Behaviors>
 
-    <Grid Padding="50" RowDefinitions="Auto, *, Auto">
+    <Grid
+        Padding="50,30,50,50"
+        RowDefinitions="Auto, *, Auto"
+        RowSpacing="15">
         <Label
             Grid.Row="0"
             FontSize="Title"
+            HorizontalOptions="Center"
             Text="Duruş Nedenleri" />
         <VerticalStackLayout Grid.Row="1" VerticalOptions="Center">
             <CollectionView ItemsSource="{Binding StopCauseListItems}" VerticalOptions="Center">
@@ -27,13 +31,12 @@
                         VerticalItemSpacing="10" />
                 </CollectionView.ItemsLayout>
 
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:StopCauseList">
                         <VerticalStackLayout>
                             <Border
                                 Padding="10"
-                                BackgroundColor="Red"
+                                BackgroundColor="{StaticResource Primary}"
                                 HeightRequest="250"
                                 StrokeShape="RoundRectangle 20"
                                 WidthRequest="250">
@@ -49,7 +52,7 @@
                                         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource Success}}" />
                                     </DataTrigger>
                                 </Border.Triggers>
-                                <VerticalStackLayout>
+                                <VerticalStackLayout Spacing="10">
                                     <Label Text="{Binding Code}" />
                                     <Label
                                         FontAttributes="Bold"
@@ -68,6 +71,7 @@
         <VerticalStackLayout Grid.Row="2" VerticalOptions="End">
             <Button
                 Grid.Row="2"
+                BackgroundColor="{StaticResource Danger}"
                 Command="{Binding StopButtonCommand}"
                 FontSize="Title"
                 Text="Durdur"

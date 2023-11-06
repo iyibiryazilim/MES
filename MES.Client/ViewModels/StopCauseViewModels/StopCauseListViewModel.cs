@@ -107,6 +107,4 @@ public partial class StopCauseListViewModel : BaseViewModel
     {
         await Shell.Current.GoToAsync("../..");
     }
-
-
 }   

@@ -22,6 +22,7 @@ Global
 		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{525BF2D3-72BB-4E69-B7C0-F250A7A54C64}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

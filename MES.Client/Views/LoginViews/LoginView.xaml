@@ -14,7 +14,8 @@
         <Image
             Grid.ColumnSpan="2"
             Aspect="AspectFill"
-            Opacity="0.2"
+            Opacity="{AppThemeBinding Dark='0.2',
+                                      Light='0.7'}"
             Source="cover.png" />
 
         <Border

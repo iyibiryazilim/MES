@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using LBS.WebAPI.Service.DataStores;
 using LBS.WebAPI.Service.Services;
+using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.DataStores;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Services;
@@ -33,6 +34,7 @@ public static class MauiProgram
             .RegisterAppDataServices()
             .RegisterViewModels()
             .RegisterAppDTO()
+            .RegisterAppDB()
             .RegisterViews()
             .ConfigureFonts(fonts =>
             {
@@ -64,6 +66,13 @@ public static class MauiProgram
     public static MauiAppBuilder RegisterAppDTO(this MauiAppBuilder mauiAppBuilder)
     {
         mauiAppBuilder.Services.AddTransient<ICustomQueryDTO, CustomQueryDTO>();
+
+        return mauiAppBuilder;
+    }
+
+    public static MauiAppBuilder RegisterAppDB(this MauiAppBuilder mauiAppBuilder)
+    {
+        mauiAppBuilder.Services.AddSingleton<MESDatabase>();
 
         return mauiAppBuilder;
     }

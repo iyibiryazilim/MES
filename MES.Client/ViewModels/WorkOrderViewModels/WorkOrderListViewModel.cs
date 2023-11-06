@@ -33,6 +33,19 @@ public partial class WorkOrderListViewModel : BaseViewModel
     [ObservableProperty]
     ProductionWorkOrderList selectedItem;
 
+    // SearchBar genişliğini ekrana göre ayarlamak için
+    public double ScreenWidth
+    {
+        get
+        {
+            double screenWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+            double padding = 20; // Sağdan ve soldan çıkarmak istediğiniz padding miktarı
+
+            double screenWidthWithPadding = screenWidth - (2 * padding) - padding;
+            return screenWidthWithPadding;
+        }
+    }
+
     public WorkOrderListViewModel(IHttpClientService httpClientService, IProductionWorkOrderService productionWorkOrderService)
     {
         Title = "İş Listesi";
@@ -125,9 +138,9 @@ public partial class WorkOrderListViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            //await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.7:32000");
-            //await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.7:32000");
-            //await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.7:32000");
+            //await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.25:32000");
+            //await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.25:32000");
+            //await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.25:32000");
 
             await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
             {

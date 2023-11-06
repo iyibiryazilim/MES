@@ -32,6 +32,10 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -57,6 +61,8 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
 		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
 		<PackageReference Include="Microcharts.Maui" Version="1.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -90,6 +96,7 @@
 	  <None Remove="Helpers\MESAPIHelper\" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Databases\SQLiteDatabase\Models\" />
 	  <Folder Include="Models\" />
 	  <Folder Include="Helpers\HttpClientHelpers\" />
 	  <Folder Include="Helpers\Mappers\" />

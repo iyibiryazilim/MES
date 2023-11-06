@@ -17,477 +17,397 @@
     </ContentPage.Behaviors>
 
     <Grid
-        Padding="20"
-        ColumnDefinitions=".45*,.55*"
-        ColumnSpacing="10"
-        RowDefinitions="Auto,*"
-        RowSpacing="20">
-
-        <StackLayout
-            Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="1">
-            <Border>
-                <SearchBar Placeholder="İş Emri Arama.." />
-
-            </Border>
-
-        </StackLayout>
-
-        <CollectionView
-            Grid.Row="1"
-            Grid.Column="0"
-            ItemsSource="{Binding Items}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:ProductionWorkOrderList">
-                    <StackLayout Margin="0,10">
-                        <Border
-                            Padding="16,8"
-                            Stroke="{StaticResource WhiteSmoke}"
-                            StrokeShape="RoundRectangle 10"
-                            StrokeThickness="0.2">
-
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:WorkOrderListViewModel}}, Path=SetSelectedItemCommand}" CommandParameter="{Binding .}" />
-
-                            </Border.GestureRecognizers>
-                            <Border.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding IsSelected}"
-                                    TargetType="Border"
-                                    Value="True">
-                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
-                                </DataTrigger>
-                            </Border.Triggers>
-
-                            <Grid
-                                ColumnSpacing="10"
-                                RowDefinitions="Auto, *, Auto"
-                                RowSpacing="8">
-                                <VerticalStackLayout Grid.Row="0" Spacing="5">
-                                    <Grid ColumnDefinitions="*, Auto">
-                                        <Label Grid.Column="0">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="İş Emri No: " />
-                                                    <Span Text="{Binding WorkOrderNumber}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label Grid.Column="1" Text="{Binding PlanningStartDate, StringFormat='{0:d}'}" />
-
-                                    </Grid>
-                                    <BoxView HeightRequest="1" />
-
-                                </VerticalStackLayout>
-                                <Grid
-                                    Grid.Row="1"
-                                    ColumnDefinitions="Auto, *,Auto"
-                                    ColumnSpacing="10">
-                                    <Border
-                                        Grid.Column="0"
-                                        Stroke="Transparent"
-                                        StrokeShape="RoundRectangle 10">
-                                        <Image
-                                            Grid.Column="0"
-                                            HeightRequest="60"
-                                            Source="avatar.jpg" />
-                                    </Border>
-
-                                    <VerticalStackLayout
-                                        Grid.Column="1"
-                                        Spacing="8"
-                                        VerticalOptions="Center">
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Ürünün Kodu: " />
-                                                    <Span FontAttributes="Bold" Text="{Binding MainProductCode}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Ürünün Adı: " />
-                                                    <Span FontAttributes="Bold" Text="{Binding MainProductName}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </VerticalStackLayout>
-                                    <Image Grid.Column="2" HeightRequest="20">
-                                        <Image.Source>
-                                            <FontImageSource
-                                                FontFamily="FAS"
-                                                Glyph="{x:Static fontAwesome:FontAwesomeIcons.ChevronRight}"
-                                                Color="{StaticResource Primary}" />
-                                        </Image.Source>
-                                    </Image>
-                                </Grid>
-                                <Label Grid.Row="2" HorizontalOptions="End">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-
-                                            <Span FontAttributes="Bold" Text="{Binding Quantity}" />
-                                            <Span FontAttributes="Bold" Text=" Adet" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-
-                            </Grid>
-
-                        </Border>
-
-                    </StackLayout>
-
-                </DataTemplate>
-
-            </CollectionView.ItemTemplate>
-
-        </CollectionView>
-
-        <Border Grid.RowSpan="2" Grid.Column="1">
-            <Grid
-                Padding="10"
-                RowDefinitions="*, Auto"
-                RowSpacing="10">
-                <Grid
-                    Grid.Row="0"
-                    RowDefinitions="Auto, Auto, Auto, *, Auto"
-                    RowSpacing="18">
-                    <Border
-                        Grid.Row="0"
-                        StrokeShape="RoundRectangle 20"
-                        WidthRequest="150">
-                        <Image
-                            Aspect="AspectFit"
-                            Source="avatar.jpg"
-                            WidthRequest="150" />
-                    </Border>
-
-                    <VerticalStackLayout
-                        Grid.Row="1"
-                        HorizontalOptions="Center"
-                        Spacing="5">
-
-                        <Label FontAttributes="Bold" Text="{Binding SelectedItem.MainProductName}" />
-
-                        <Label FontAttributes="Bold" Text="{Binding SelectedItem.MainProductCode}" />
-
-                    </VerticalStackLayout>
-                    <Grid
-                        Grid.Row="2"
-                        ColumnDefinitions="Auto, Auto, Auto"
-                        ColumnSpacing="30"
-                        HorizontalOptions="CenterAndExpand">
-
-                        <VerticalStackLayout Grid.Column="1">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="18"
-                                HorizontalOptions="Center"
-                                Text="{Binding SelectedItem.ProductionDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                TextColor="{StaticResource Secondary}" />
-                            <BoxView HeightRequest="1" />
-                            <Label
-                                FontSize="14"
-                                HorizontalOptions="Center"
-                                Text="Gerçek Bitiş Tarihi"
-                                TextColor="{StaticResource Gray400}" />
-                        </VerticalStackLayout>
-
-
-                        <VerticalStackLayout Grid.Column="0">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="18"
-                                HorizontalOptions="Center"
-                                Text="{Binding SelectedItem.PlanningEndDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                TextColor="{StaticResource Secondary}" />
-                            <BoxView HeightRequest="1" />
-                            <Label
-                                FontSize="14"
-                                HorizontalOptions="Center"
-                                Text="Planlanan Bitiş Tarihi"
-                                TextColor="{StaticResource Gray400}" />
-                        </VerticalStackLayout>
-
-
-                        <VerticalStackLayout Grid.Column="2">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="18"
-                                HorizontalOptions="Center"
-                                Text="XX/XX/XXXX"
-                                TextColor="{StaticResource Secondary}" />
-                            <BoxView HeightRequest="1" />
-                            <Label
-                                FontSize="14"
-                                HorizontalOptions="Center"
-                                Text="Kesinleşmiş Bitiş Tarihi"
-                                TextColor="{StaticResource Gray400}" />
-                        </VerticalStackLayout>
-
-                    </Grid>
-                    <Grid
-                        Grid.Row="3"
-                        ColumnDefinitions="*, *"
-                        ColumnSpacing="5"
-                        RowDefinitions="Auto, *"
-                        RowSpacing="7">
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            FontSize="16"
-                            HorizontalOptions="Center"
-                            Text="Üretim Bilgileri" />
-                        <Border
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Padding="2"
-                            StrokeShape="RoundRectangle 10">
-
-                            <ScrollView VerticalScrollBarVisibility="Never">
-                                <VerticalStackLayout Spacing="5">
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="İş İstasyonu Kodu"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationCode}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="İş İstasyonu Kodu : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationCode}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="İş İstasyonu Adı"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationName}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="İş İstasyonu Adı : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.WorkstationName}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
-
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="Gerçek Süre"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductionDate}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Gerçek Süre : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualDuration}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
-
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="Gerçek Başlangıç Süresi"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.PlanningStartDate, StringFormat='{0:d} {0:c}'}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="Gerçek Bitiş Süresi"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ProductionDate}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-
-                                </VerticalStackLayout>
-                            </ScrollView>
-                        </Border>
-
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            FontSize="16"
-                            HorizontalOptions="Center"
-                            Text="Ürün Bilgileri" />
-                        <Border
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Padding="2"
-                            StrokeShape="RoundRectangle 10">
-                            <ScrollView VerticalScrollBarVisibility="Never">
-                                <VerticalStackLayout Spacing="5">
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="Ürün Kodu"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.MainProductCode}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Ürün Kodu : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.ProductCode}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="Ürün Adı"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.OperationName}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Ürün Adı : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.ProductName}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="Planlanan Miktar"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.Quantity}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Planlanan Miktar : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.PlanningQuantity}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
-                                    <Border
-                                        Padding="10"
-                                        BackgroundColor="{StaticResource DarkGray}"
-                                        StrokeShape="RoundRectangle 10">
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontSize="13"
-                                                Text="Gerçek Miktar"
-                                                TextColor="{StaticResource Gray300}" />
-                                            <Label FontAttributes="Bold" Text="{Binding SelectedItem.ActualQuantity}" />
-                                        </VerticalStackLayout>
-                                    </Border>
-                                    <!--<Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Gerçek Miktar : " TextColor="{StaticResource Gray300}" />
-                                                <Span FontAttributes="Bold" Text="{Binding SelectedItem.ActualQuantity}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>-->
-                                </VerticalStackLayout>
-                            </ScrollView>
-                        </Border>
-                    </Grid>
-                    <Grid
-                        Grid.Row="4"
-                        ColumnDefinitions="Auto, *"
-                        ColumnSpacing="10"
-                        VerticalOptions="Center">
-
-                        <Label VerticalOptions="Center">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span
-                                        FontSize="18"
-                                        Text="%"
-                                        TextColor="{StaticResource White}" />
-                                    <Span
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="67"
-                                        TextColor="{StaticResource White}" />
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-
-
-
-                        <ProgressBar
-                            Grid.Column="1"
-                            Progress="0.67"
-                            ProgressColor="{AppThemeBinding Dark={StaticResource Warning},
-                                                            Light={StaticResource Warning}}"
-                            ScaleY="3"
-                            VerticalOptions="Center" />
-                    </Grid>
-
-                </Grid>
-
-                <VerticalStackLayout Grid.Row="1" VerticalOptions="End">
-                    <Button
-                        Grid.Column="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        Command="{Binding GoToDetailCommand}"
-                        CommandParameter="{Binding SelectedItem}"
-                        Text="Başlat" />
-
-                </VerticalStackLayout>
-
-            </Grid>
+        Padding="25"
+        RowDefinitions="Auto, *, Auto"
+        RowSpacing="10">
+        <Border Grid.Row="0" StrokeShape="RoundRectangle 20">
+            <SearchBar HorizontalOptions="Fill" WidthRequest="{Binding ScreenWidth}" />
         </Border>
 
-    </Grid>
+        <CarouselView
+            x:Name="carouselList"
+            Grid.Row="1"
+            IndicatorView="workOrderIndicatorView"
+            ItemsSource="{Binding Items}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="model:ProductionWorkOrderList">
 
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlackSolid}}" StrokeShape="RoundRectangle 10">
+
+                        <Grid
+                            ColumnDefinitions=".60*,.40*"
+                            ColumnSpacing="10"
+                            RowDefinitions="Auto, *, Auto">
+                            <Grid
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                ClassId="gridProductImage"
+                                RowDefinitions="Auto, *">
+                                <Image
+                                    x:Name="productImage"
+                                    Grid.Row="0"
+                                    Aspect="AspectFill"
+                                    ClassId="productImage"
+                                    HeightRequest="600"
+                                    Source="takoz.jpg"
+                                    VerticalOptions="Start" />
+
+                            </Grid>
+                            <Grid
+                                Grid.Column="0"
+                                Padding="20,10,0,10"
+                                ColumnDefinitions=".60*,.40*"
+                                ColumnSpacing="20">
+                                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Title"
+                                        Text="{Binding MainProductCode}"
+                                        VerticalTextAlignment="Start" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        Text="{Binding MainProductName}"
+                                        VerticalTextAlignment="Start" />
+                                    <Border
+                                        Padding="5"
+                                        HorizontalOptions="Start"
+                                        MinimumWidthRequest="100"
+                                        Stroke="{StaticResource Danger}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Border
+                                                BackgroundColor="{StaticResource Danger}"
+                                                HeightRequest="10"
+                                                StrokeShape="RoundRectangle 50"
+                                                StrokeThickness="0"
+                                                WidthRequest="10" />
+                                            <Label Text="Durduruldu" />
+                                        </HorizontalStackLayout>
+                                    </Border>
+
+
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Border
+                                        Padding="3"
+                                        Stroke="{AppThemeBinding Dark={StaticResource White},
+                                                                 Light={StaticResource Black}}"
+                                        StrokeShape="RoundRectangle 10">
+                                        <Label
+                                            FontSize="Title"
+                                            HorizontalOptions="Center"
+                                            Text="1000 / 10" />
+                                    </Border>
+                                    <ProgressBar
+                                        Progress="0.67"
+                                        ProgressColor="{AppThemeBinding Dark={StaticResource Success},
+                                                                        Light={StaticResource Success}}"
+                                        ScaleY="4" />
+
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <Grid
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0">
+                                <TableView HasUnevenRows="True" Intent="Data">
+                                    <TableRoot>
+                                        <TableSection Title="Ürün Bilgileri" TextColor="{StaticResource Primary}">
+                                            <TextCell
+                                                Detail="{Binding MainProductCode}"
+                                                Text="Ürün Kodu:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+
+                                            <!--<ViewCell>
+                                                <Grid
+                                                    Padding="20,5,0,5"
+                                                    ColumnDefinitions="Auto, *"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="Ürün Kodu: " />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding MainProductCode}" />
+                                                </Grid>
+                                            </ViewCell>-->
+
+                                            <TextCell
+                                                Detail="{Binding MainProductName}"
+                                                Text="Ürün Adı:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <!--<ViewCell>
+                                                <Grid
+                                                    Padding="20,5,0,5"
+                                                    ColumnDefinitions="Auto, *"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="Ürün Adı: " />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding MainProductName}"
+                                                        VerticalOptions="Start" />
+                                                </Grid>
+                                            </ViewCell>-->
+                                        </TableSection>
+                                        <TableSection Title="İş Emri Bilgileri" TextColor="{StaticResource Primary}">
+                                            <TextCell
+                                                Detail="{Binding WorkOrderNumber}"
+                                                Text="İş Emri Numarası:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding PlanningStartDate}"
+                                                Text="Planlanan Başlangıç Tarihi:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding ProductionNumber}"
+                                                Text="Üretim Numarası:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <ViewCell>
+                                                <Grid
+                                                    Padding="20,5,20,5"
+                                                    ColumnDefinitions="*, *, *"
+                                                    ColumnSpacing="30"
+                                                    HorizontalOptions="StartAndExpand">
+                                                    <!--<Border
+                                                        Grid.Column="0"
+                                                        Padding="5"
+                                                        HeightRequest="60"
+                                                        HorizontalOptions="Start"
+                                                        StrokeShape="RoundRectangle 10">
+                                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="14"
+                                                                HorizontalOptions="Center"
+                                                                Text="{Binding PlanningEndDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                                TextColor="{StaticResource Black}" />
+
+                                                            <Label
+                                                                FontSize="12"
+                                                                HorizontalOptions="Center"
+                                                                Text="Planlanan Bitiş Tarihi"
+                                                                TextColor="{StaticResource Gray500}" />
+                                                        </VerticalStackLayout>
+                                                    </Border>-->
+                                                    <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="14"
+                                                            HorizontalOptions="Center"
+                                                            Text="{Binding PlanningEndDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                                                        Dark={StaticResource Gray200}}" />
+                                                        <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}">
+                                                            <BoxView HeightRequest="1" />
+                                                        </HorizontalStackLayout>
+
+                                                        <Label
+                                                            FontSize="12"
+                                                            HorizontalOptions="Center"
+                                                            Text="Planlanan Bitiş Tarihi"
+                                                            TextColor="{StaticResource Gray500}" />
+                                                    </VerticalStackLayout>
+
+
+                                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="14"
+                                                            HorizontalOptions="Center"
+                                                            Text="{Binding ProductionDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                                                        Dark={StaticResource Gray200}}" />
+                                                        <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}">
+                                                            <BoxView HeightRequest="1" />
+                                                        </HorizontalStackLayout>
+                                                        <Label
+                                                            FontSize="12"
+                                                            HorizontalOptions="Center"
+                                                            Text="Gerçek Bitiş Tarihi"
+                                                            TextColor="{StaticResource Gray500}" />
+                                                    </VerticalStackLayout>
+
+
+                                                    <VerticalStackLayout
+                                                        Grid.Column="2"
+                                                        HorizontalOptions="End"
+                                                        VerticalOptions="Center">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="14"
+                                                            HorizontalOptions="Center"
+                                                            Text="XX/XX/XXXX"
+                                                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                                                        Dark={StaticResource Gray200}}" />
+                                                        <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}">
+                                                            <BoxView HeightRequest="1" />
+                                                        </HorizontalStackLayout>
+                                                        <Label
+                                                            FontSize="12"
+                                                            HorizontalOptions="Center"
+                                                            Text="Kesinleşmiş Bitiş Tarihi"
+                                                            TextColor="{StaticResource Gray500}" />
+                                                    </VerticalStackLayout>
+
+                                                </Grid>
+                                            </ViewCell>
+                                        </TableSection>
+                                        <TableSection Title="Operasyon Bilgileri" TextColor="{StaticResource Primary}">
+                                            <TextCell
+                                                Detail="{Binding OperationCode}"
+                                                Text="Operasyon Kodu:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding OperationName}"
+                                                Text="Operasyon Adı:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                        </TableSection>
+                                        <TableSection Title="Miktar Bilgileri" TextColor="{StaticResource Primary}">
+                                            <ViewCell>
+                                                <Grid
+                                                    Padding="20,20,0,20"
+                                                    ColumnDefinitions="Auto, *"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="Ana miktar(Quantity): " />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding Quantity}" />
+                                                </Grid>
+                                            </ViewCell>
+                                            <ViewCell>
+                                                <Grid
+                                                    Padding="20,20,0,20"
+                                                    ColumnDefinitions="Auto, *"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="Gerçek Miktar: " />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding ActualQuantity}" />
+                                                </Grid>
+                                            </ViewCell>
+                                            <ViewCell>
+                                                <Grid
+                                                    Padding="20,20,0,20"
+                                                    ColumnDefinitions="Auto, *"
+                                                    ColumnSpacing="5"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="Unitset Adı:" />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding UnitsetName}" />
+                                                </Grid>
+                                            </ViewCell>
+                                            <ViewCell>
+                                                <Grid
+                                                    Padding="20,20,0,20"
+                                                    ColumnDefinitions="Auto, *"
+                                                    ColumnSpacing="5"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="SubUnitset Kodu:" />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding SubUnitsetCode}" />
+                                                </Grid>
+                                            </ViewCell>
+                                            <ViewCell>
+                                                <Grid
+                                                    Padding="20,20,0,20"
+                                                    ColumnDefinitions="Auto, *"
+                                                    ColumnSpacing="5"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="SubUnitset Adı:" />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding SubUnitsetName}" />
+                                                </Grid>
+                                            </ViewCell>
+                                        </TableSection>
+                                        <TableSection Title="İş İstasyonu Bilgileri" TextColor="{StaticResource Primary}">
+                                            <TextCell
+                                                Detail="{Binding WorkstationCode}"
+                                                Text="İş İstasyonu Kodu:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <!--<ViewCell>
+                                                <Grid
+                                                    Padding="20,5,0,5"
+                                                    ColumnDefinitions="Auto, *"
+                                                    VerticalOptions="Center">
+                                                    <Label Grid.Column="0" Text="İş istasyonu kodu: " />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        Text="{Binding WorkstationCode}" />
+                                                </Grid>
+                                            </ViewCell>-->
+                                            <TextCell
+                                                Detail="{Binding WorkstationName}"
+                                                Text="İş İstasyonu Adı:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding WorkstationGroupCode}"
+                                                Text="İş İstasyonu Grup Kodu:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding WorkstationGroupName}"
+                                                Text="İş İstasyonu Grup Adı:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                        </TableSection>
+                                        <TableSection Title="BOM Master" TextColor="{StaticResource Primary}">
+                                            <TextCell
+                                                Detail="{Binding BOMMasterCode}"
+                                                Text="BOM Master Kodu:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding BOMMasterName}"
+                                                Text="BOM Master Adı:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                        </TableSection>
+                                    </TableRoot>
+                                </TableView>
+                            </Grid>
+                            <Grid
+                                Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                Padding="10">
+                                <Button
+                                    BackgroundColor="{StaticResource Primary}"
+                                    FontSize="16"
+                                    Text="Başlat">
+                                    <Button.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:WorkOrderListViewModel}}, Path=GoToDetailCommand}" CommandParameter="{Binding .}" />
+                                    </Button.GestureRecognizers>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <IndicatorView
+            x:Name="workOrderIndicatorView"
+            Grid.Row="2"
+            Margin="0,10,0,0"
+            HorizontalOptions="Center"
+            IndicatorColor="{StaticResource Gray400}"
+            SelectedIndicatorColor="{StaticResource Primary}" />
+
+
+
+    </Grid>
 
 </ContentPage>
