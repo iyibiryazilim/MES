@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:simpleCore="clr-namespace:SimpleToolkit.Core;assembly=SimpleToolkit.Core"
+             xmlns:c="clr-namespace:MES.Administration.Views.Controls"
+             xmlns:fontAwesome="clr-namespace:MES.Administration.Helpers.FontawesomeHelper"
+             InputTransparent="False"
+             x:Class="MES.Administration.Views.Controls.TabBarView">
+    <ContentView.Resources>
+        <x:Double x:Key="ViewHeight">80</x:Double>
+        <Style TargetType="{x:Type c:TabBarIconView}">
+            <Setter Property="HeightRequest" Value="20"/>
+            <Setter Property="WidthRequest" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalOptions" Value="Start"/>
+        </Style>
+        <Style TargetType="{x:Type simpleCore:ContentButton}">
+            <Setter Property="VerticalOptions" Value="Fill"/>
+            <Setter Property="HorizontalOptions" Value="Fill"/>
+            <Setter Property="HeightRequest" Value="{StaticResource ViewHeight}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </ContentView.Resources>
+
+    <Grid
+        VerticalOptions="Center"
+        HeightRequest="{StaticResource ViewHeight}"
+        CompressedLayout.IsHeadless="True">
+        <GraphicsView
+            x:Name="backGraphicsView"
+            HeightRequest="{StaticResource ViewHeight}"
+            InputTransparent="True"
+            Background="Transparent"/>
+        <Grid
+            x:Name="buttonsGrid"
+            CompressedLayout.IsHeadless="True"
+            HeightRequest="{StaticResource ViewHeight}"
+            VerticalOptions="End" HorizontalOptions="Fill"
+            ColumnDefinitions="*, *, *, *, *">
+            <simpleCore:ContentButton
+                Grid.Column="0" Clicked="ButtonTapped"
+                SemanticProperties.Description="Genel Bakış">
+                <c:TabBarIconView Page="PanelView">
+                    <c:TabBarIconView.Source>
+                        <FontImageSource FontFamily="FAS"
+                                            Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.House}"/>
+
+                    </c:TabBarIconView.Source>
+
+                </c:TabBarIconView>
+            </simpleCore:ContentButton>
+            <simpleCore:ContentButton
+                Grid.Column="1" Clicked="ButtonTapped"
+                SemanticProperties.Description="Üretim Genel Bakış">
+                <c:TabBarIconView Page="ProductionPanel">
+                     <c:TabBarIconView.Source>
+                        <FontImageSource FontFamily="FAS"
+                                            Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.Building}"/>
+
+                    </c:TabBarIconView.Source>
+
+                </c:TabBarIconView>
+            </simpleCore:ContentButton>
+            <simpleCore:ContentButton
+                Grid.Column="2" Clicked="ButtonTapped"
+                SemanticProperties.Description="İş İstasyonu Genel Bakış">
+                <c:TabBarIconView Page="WorkstationPanel">
+                     <c:TabBarIconView.Source>
+                        <FontImageSource FontFamily="FAS"
+                                            Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.ChargingStation}"/>
+
+                    </c:TabBarIconView.Source>
+
+                </c:TabBarIconView>
+            </simpleCore:ContentButton>
+            <simpleCore:ContentButton
+                Grid.Column="3" Clicked="ButtonTapped"
+                SemanticProperties.Description="Ürün Genel Bakış">
+                <c:TabBarIconView Page="ProductPanel">
+                     <c:TabBarIconView.Source>
+                        <FontImageSource FontFamily="FAS"
+                                            Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.House}"/>
+
+                    </c:TabBarIconView.Source>
+
+                </c:TabBarIconView>
+            </simpleCore:ContentButton>
+            <simpleCore:ContentButton
+                Grid.Column="4" Clicked="ButtonTapped"
+                SemanticProperties.Description="Bakım Genel Bakış">
+                <c:TabBarIconView Page="MaintenancePanel">
+                     <c:TabBarIconView.Source>
+                        <FontImageSource FontFamily="FAS"
+                                            Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.House}"/>
+
+                    </c:TabBarIconView.Source>
+
+                </c:TabBarIconView>
+            </simpleCore:ContentButton>
+        </Grid>
+    </Grid>
+</ContentView>
+

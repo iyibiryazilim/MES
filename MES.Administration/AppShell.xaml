@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<simpleShell:SimpleShell
+    x:Class="MES.Administration.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MES.Administration"
+    xmlns:controls="clr-namespace:MES.Administration.Views.Controls"
+    xmlns:simpleShell="clr-namespace:SimpleToolkit.SimpleShell;assembly=SimpleToolkit.SimpleShell"
+
+    Background="{AppThemeBinding Default=White, Dark=Black}">
+
+    <TabBar x:Name="tabBar">
+    </TabBar>
+
+    <simpleShell:SimpleShell.RootPageContainer>
+        <Grid IgnoreSafeArea="True">
+            <simpleShell:SimpleNavigationHost
+                x:Name="pageContainer"/>
+            <controls:TabBarView
+                x:Name="tabBarView"
+                VerticalOptions="End" HorizontalOptions="Fill"
+                CurrentPageSelectionChanged="TabBarViewCurrentPageChanged"/>
+            <Rectangle
+                x:Name="bottomBackgroundRectangle"
+                Background="{StaticResource Primary}"
+                VerticalOptions="End"/>
+        </Grid>
+    </simpleShell:SimpleShell.RootPageContainer>
+    
+</simpleShell:SimpleShell>
