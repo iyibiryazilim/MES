@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
     xmlns:model="clr-namespace:YTT.Gateway.Model.Models.WorkOrderModels;assembly=YTT.Gateway.Model"
+    xmlns:shared="clr-namespace:MES.Client.Views.SharedViews"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
     Title="{Binding Title}"
@@ -18,17 +19,82 @@
 
     <Grid
         Padding="25"
-        RowDefinitions="Auto, *, Auto"
+        RowDefinitions="Auto,Auto, *, Auto"
         RowSpacing="10">
-        <Border Grid.Row="0" StrokeShape="RoundRectangle 20">
-            <SearchBar HorizontalOptions="Fill" WidthRequest="{Binding ScreenWidth}" />
-        </Border>
+        <Grid
+            Grid.Row="0"
+            ColumnDefinitions="Auto, *, Auto"
+            ColumnSpacing="20">
+            <!--<toolkit:AvatarView
+                BorderColor="Transparent"
+                BorderWidth="-1"
+                HeightRequest="50"
+                ImageSource="avatar.jpg"
+                WidthRequest="50" />-->
+            <Border
+                Grid.Column="0"
+                StrokeShape="RoundRectangle 50"
+                VerticalOptions="Center">
+                <Image
+                    HeightRequest="50"
+                    Source="avatar.jpg"
+                    WidthRequest="50" />
+            </Border>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" Text="Berkan" />
+                            <Span Text=" " />
+                            <Span FontAttributes="Bold" Text="Serbes" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Text="Kaynakçı" />
+            </VerticalStackLayout>
+            <!--<shared:LoadingIndicatorView />-->
+            <Image
+                Grid.Column="3"
+                HeightRequest="30"
+                WidthRequest="30">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogoutHandlerCommand}" />
+                </Image.GestureRecognizers>
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="FAS"
+                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.PowerOff}"
+                        Color="{AppThemeBinding Light={StaticResource Black},
+                                                Dark={StaticResource Black}}" />
+                </Image.Source>
+            </Image>
 
+        </Grid>
+        <Border Grid.Row="1" StrokeShape="RoundRectangle 20">
+            <SearchBar
+                x:Name="searchBar"
+                HorizontalOptions="Fill"
+                WidthRequest="{Binding ScreenWidth}">
+                <SearchBar.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        Command="{Binding PerformSearchCommand}"
+                        CommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                        EventName="TextChanged" />
+                </SearchBar.Behaviors>
+            </SearchBar>
+        </Border>
+        <ActivityIndicator
+            Grid.Row="2"
+            HeightRequest="50"
+            IsRunning="{Binding IsBusy}"
+            WidthRequest="50"
+            Color="{StaticResource Primary}" />
         <CarouselView
             x:Name="carouselList"
-            Grid.Row="1"
+            Grid.Row="2"
             IndicatorView="workOrderIndicatorView"
-            ItemsSource="{Binding Items}">
+            IsVisible="{Binding IsNotBusy}"
+            ItemsSource="{Binding Results}">
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="model:ProductionWorkOrderList">
 
@@ -44,11 +110,33 @@
                                 ClassId="gridProductImage"
                                 RowDefinitions="Auto, *">
                                 <Image
-                                    x:Name="productImage"
                                     Grid.Row="0"
+                                    Margin="10,10,10,0"
+                                    HeightRequest="25"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center"
+                                    WidthRequest="25">
+                                    <!--  start::Daha fazla Modal  -->
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:WorkOrderListViewModel}}, Path=OpenWorkOrderListModelCommand}" />
+                                    </Image.GestureRecognizers>
+
+                                    <!--  end::Daha fazla Modal  -->
+
+                                    <Image.Source>
+                                        <FontImageSource
+                                            FontFamily="FAS"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.Ellipsis}"
+                                            Color="{AppThemeBinding Light={StaticResource Black},
+                                                                    Dark={StaticResource White}}" />
+                                    </Image.Source>
+                                </Image>
+                                <Image
+                                    x:Name="productImage"
+                                    Grid.Row="1"
                                     Aspect="AspectFill"
                                     ClassId="productImage"
-                                    HeightRequest="600"
+                                    HeightRequest="500"
                                     Source="takoz.jpg"
                                     VerticalOptions="Start" />
 
@@ -267,74 +355,26 @@
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>
                                         <TableSection Title="Miktar Bilgileri" TextColor="{StaticResource Primary}">
-                                            <ViewCell>
-                                                <Grid
-                                                    Padding="20,20,0,20"
-                                                    ColumnDefinitions="Auto, *"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="Ana miktar(Quantity): " />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding Quantity}" />
-                                                </Grid>
-                                            </ViewCell>
-                                            <ViewCell>
-                                                <Grid
-                                                    Padding="20,20,0,20"
-                                                    ColumnDefinitions="Auto, *"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="Gerçek Miktar: " />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding ActualQuantity}" />
-                                                </Grid>
-                                            </ViewCell>
-                                            <ViewCell>
-                                                <Grid
-                                                    Padding="20,20,0,20"
-                                                    ColumnDefinitions="Auto, *"
-                                                    ColumnSpacing="5"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="Unitset Adı:" />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding UnitsetName}" />
-                                                </Grid>
-                                            </ViewCell>
-                                            <ViewCell>
-                                                <Grid
-                                                    Padding="20,20,0,20"
-                                                    ColumnDefinitions="Auto, *"
-                                                    ColumnSpacing="5"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="SubUnitset Kodu:" />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding SubUnitsetCode}" />
-                                                </Grid>
-                                            </ViewCell>
-                                            <ViewCell>
-                                                <Grid
-                                                    Padding="20,20,0,20"
-                                                    ColumnDefinitions="Auto, *"
-                                                    ColumnSpacing="5"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="SubUnitset Adı:" />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding SubUnitsetName}" />
-                                                </Grid>
-                                            </ViewCell>
+                                            <TextCell
+                                                Detail="{Binding Quantity}"
+                                                Text="Ana miktar(Quantity)"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding ActualQuantity}"
+                                                Text="Gerçek Miktar"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding UnitsetName}"
+                                                Text="Unitset Adı:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding SubUnitsetCode}"
+                                                Text="SubUnitset Kodu:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                            <TextCell
+                                                Detail="{Binding SubUnitsetName}"
+                                                Text="SubUnitset Adı:"
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>
                                         <TableSection Title="İş İstasyonu Bilgileri" TextColor="{StaticResource Primary}">
                                             <TextCell
@@ -400,14 +440,12 @@
         </CarouselView>
         <IndicatorView
             x:Name="workOrderIndicatorView"
-            Grid.Row="2"
+            Grid.Row="3"
             Margin="0,10,0,0"
             HorizontalOptions="Center"
             IndicatorColor="{StaticResource Gray400}"
+            IsVisible="{Binding IsNotBusy}"
             SelectedIndicatorColor="{StaticResource Primary}" />
-
-
-
     </Grid>
 
 </ContentPage>

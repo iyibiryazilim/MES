@@ -41,7 +41,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\iyibiricon.png" Color="#fff" BaseSize="256, 208" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -100,9 +100,8 @@
 	  <Folder Include="Models\" />
 	  <Folder Include="Helpers\HttpClientHelpers\" />
 	  <Folder Include="Helpers\Mappers\" />
-	  <Folder Include="ViewModels\WorkOrderViewModels\" />
 	  <Folder Include="ViewModels\LoginViewModels\" />
-	  <Folder Include="Views\WorkOrderViews\" />
+	  <Folder Include="Views\SharedViews\" />
 	  <Folder Include="Views\LoginViews\" />
 	  <Folder Include="DataStores\" />
 	  <Folder Include="Services\" />
@@ -119,7 +118,13 @@
 	  <BundleResource Include="Resources\Images\avatar.jpg" />
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="Views\PopupViews\StartWorkOrderPopupView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\StopCauseViews\StopCauseListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\WorkOrderViews\WorkOrderListModalView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

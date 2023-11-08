@@ -5,10 +5,12 @@ using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.DataStores;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Services;
+using MES.Client.ViewModels;
 using MES.Client.ViewModels.LoginViewModels;
 using MES.Client.ViewModels.StopCauseViewModels;
 using MES.Client.ViewModels.WorkOrderViewModels;
 using MES.Client.Views.LoginViews;
+using MES.Client.Views.PopupViews;
 using MES.Client.Views.StopCauseViews;
 using MES.Client.Views.WorkOrderViews;
 using Microcharts.Maui;
@@ -44,6 +46,12 @@ public static class MauiProgram
                 fonts.AddFont("fa-regular.otf", "FAR");
                 fonts.AddFont("fa-brands.otf", "FAB");
             });
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#endif
+        });
 
 #if DEBUG
         builder.Logging.AddDebug();
@@ -83,6 +91,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<WorkOrderListViewModel>();
         mauiAppBuilder.Services.AddSingleton<WorkOrderDetailViewModel>();
         mauiAppBuilder.Services.AddSingleton<StopCauseListViewModel>();
+        mauiAppBuilder.Services.AddSingleton<WorkOrderListModalViewModel>();
 
         return mauiAppBuilder;
     }
@@ -93,6 +102,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<WorkOrderDetailView>();
         mauiAppBuilder.Services.AddSingleton<LoginView>();
         mauiAppBuilder.Services.AddSingleton<StopCauseListView>();
+        mauiAppBuilder.Services.AddSingleton<WorkOrderListModalView>();
 
         return mauiAppBuilder;
     }

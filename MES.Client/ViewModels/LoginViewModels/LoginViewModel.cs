@@ -58,6 +58,7 @@ public partial class LoginViewModel : BaseViewModel
         {
             IsBusy = false;
             IsRefreshing = false;
+            UserCode = "";
         }        
     }
 }

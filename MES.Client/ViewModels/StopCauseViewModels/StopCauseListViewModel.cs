@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.HttpClientHelpers;
+using MES.Client.ViewModels.WorkOrderViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +24,7 @@ public partial class StopCauseListViewModel : BaseViewModel
     {
         _httpClientService = httpClientService;
         _stopCauseService = stopCauseService;
-
+        
         GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
     }
     public Command GetStopCauseListItemsCommand { get; }
@@ -44,7 +45,6 @@ public partial class StopCauseListViewModel : BaseViewModel
             IsRefreshing = true;
 
             var httpClient = _httpClientService.GetOrCreateHttpClient();
-            //var query = "SELECT * FROM StopCauseList";
             DataResult<IEnumerable<StopCauseList>> result = await _stopCauseService.GetObjectsAsync(httpClient);
 
             if(result.IsSuccess)
@@ -105,6 +105,12 @@ public partial class StopCauseListViewModel : BaseViewModel
     [RelayCommand]
     async Task StopButtonAsync()
     {
-        await Shell.Current.GoToAsync("../..");
+        await Shell.Current.GoToAsync("../.."); 
+    }
+
+    [RelayCommand]
+    async Task GoToBackAsync()
+    {
+        await Shell.Current.GoToAsync("..");  
     }
 }   

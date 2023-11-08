@@ -3,6 +3,7 @@
     x:Class="MES.Client.Views.StopCauseViews.StopCauseListView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
     xmlns:model="clr-namespace:YTT.Gateway.Model.Models.StopCauseModels;assembly=YTT.Gateway.Model"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:MES.Client.ViewModels.StopCauseViewModels"
@@ -16,19 +17,49 @@
         Padding="50,30,50,50"
         RowDefinitions="Auto, *, Auto"
         RowSpacing="15">
-        <Label
+        <Grid
             Grid.Row="0"
-            FontSize="Title"
-            HorizontalOptions="Center"
-            Text="Duruş Nedenleri" />
-        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center">
+            ColumnDefinitions="Auto, *"
+            IsVisible="{Binding IsNotBusy}">
+            <!--  start::BackButton  -->
+            <Image
+                Grid.Column="0"
+                HeightRequest="25"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                WidthRequest="25">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToBackCommand}" />
+                </Image.GestureRecognizers>
+
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="FAS"
+                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowLeftLong}"
+                        Color="{AppThemeBinding Light={StaticResource Black},
+                                                Dark={StaticResource White}}" />
+                </Image.Source>
+            </Image>
+            <!--  end::BackButton  -->
+            <Label
+                Grid.Column="1"
+                FontSize="Title"
+                HorizontalOptions="Center"
+                Text="Duruş Nedenleri"
+                VerticalOptions="Center" />
+
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Margin="0,50,0,0"
+            VerticalOptions="Center">
             <CollectionView ItemsSource="{Binding StopCauseListItems}" VerticalOptions="Center">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout
-                        HorizontalItemSpacing="10"
+                        HorizontalItemSpacing="30"
                         Orientation="Horizontal"
                         Span="2"
-                        VerticalItemSpacing="10" />
+                        VerticalItemSpacing="20" />
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
@@ -37,9 +68,9 @@
                             <Border
                                 Padding="10"
                                 BackgroundColor="{StaticResource Primary}"
-                                HeightRequest="250"
+                                HeightRequest="200"
                                 StrokeShape="RoundRectangle 20"
-                                WidthRequest="250">
+                                WidthRequest="200">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:StopCauseListViewModel}}, Path=SetSelectedItemCommand}" CommandParameter="{Binding .}" />
 
@@ -53,11 +84,13 @@
                                     </DataTrigger>
                                 </Border.Triggers>
                                 <VerticalStackLayout Spacing="10">
-                                    <Label Text="{Binding Code}" />
+                                    <Label Text="{Binding Code}" TextColor="{AppThemeBinding Light={StaticResource White}}" />
                                     <Label
                                         FontAttributes="Bold"
                                         FontSize="Title"
-                                        Text="{Binding Name}" />
+                                        Text="{Binding Name}"
+                                        TextColor="{AppThemeBinding Light={StaticResource White},
+                                                                    Dark={StaticResource White}}" />
                                 </VerticalStackLayout>
                             </Border>
                         </VerticalStackLayout>
@@ -65,10 +98,13 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </VerticalStackLayout>
+        </Grid>
 
 
-        <VerticalStackLayout Grid.Row="2" VerticalOptions="End">
+        <Grid
+            Grid.Row="2"
+            IsVisible="{Binding IsNotBusy}"
+            VerticalOptions="End">
             <Button
                 Grid.Row="2"
                 BackgroundColor="{StaticResource Danger}"
@@ -76,7 +112,13 @@
                 FontSize="Title"
                 Text="Durdur"
                 VerticalOptions="End" />
-        </VerticalStackLayout>
-
+        </Grid>
+        <ActivityIndicator
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            HeightRequest="50"
+            IsRunning="{Binding IsBusy}"
+            WidthRequest="50"
+            Color="{StaticResource Primary}" />
     </Grid>
 </ContentPage>

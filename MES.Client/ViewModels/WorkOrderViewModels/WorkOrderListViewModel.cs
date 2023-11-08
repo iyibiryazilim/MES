@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LBS.Shared.Entity.Models;
@@ -10,11 +11,17 @@ using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.Mappers;
 using MES.Client.Services;
 using MES.Client.Views;
+using MES.Client.Views.LoginViews;
 using MES.Client.Views.WorkOrderViews;
 using MvvmHelpers;
 using YTT.Gateway.Middleware.Services;
 using YTT.Gateway.Model.Models.ResultModels;
 using YTT.Gateway.Model.Models.WorkOrderModels;
+using MES.Client.Views.PopupViews;
+using CommunityToolkit.Maui.Core.Extensions;
+using GoogleGson;
+using Microsoft.Maui.Storage;
+using YTT.Gateway.Model.Models.WarehouseModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
@@ -26,12 +33,19 @@ public partial class WorkOrderListViewModel : BaseViewModel
     DeviceCommandHelper deviceCommandHelper = new DeviceCommandHelper(new HttpClient());
 
     public ObservableCollection<ProductionWorkOrderList> Items { get; } = new();
+    public ObservableCollection<ProductionWorkOrderList> Results { get; } = new();
     public ObservableRangeCollection<dynamic> DisplayItems { get; } = new();
 
     public Command GetItemsCommand { get; }
 
     [ObservableProperty]
     ProductionWorkOrderList selectedItem;
+
+    [ObservableProperty]
+    ObservableCollection<ProductionWorkOrderList> filterResult;
+
+    [ObservableProperty]
+    string searchText = string.Empty;
 
     // SearchBar genişliğini ekrana göre ayarlamak için
     public double ScreenWidth
@@ -54,6 +68,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 
 
         GetItemsCommand = new Command(async () => await GetItemsAsync());
+        
         //LoadMoreCommand = new Command(LoadMoreAsync);
     }
 
@@ -102,6 +117,8 @@ public partial class WorkOrderListViewModel : BaseViewModel
 
             if (Items.Count > 0)
                 Items.Clear();
+            if (Results.Count > 0)
+                Results.Clear();
             var httpClient = _httpClientService.GetOrCreateHttpClient();
             DataResult<IEnumerable<ProductionWorkOrderList>> result  = await _productionWorkOrderService.GetObjectsAsync(httpClient);
             
@@ -112,6 +129,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
                     foreach (var item in result.Data)
                     {
                         Items.Add(item);
+                        Results.Add(item);
                     }
                 }
             }
@@ -156,6 +174,98 @@ public partial class WorkOrderListViewModel : BaseViewModel
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    async Task OpenWorkOrderListModelAsync()
+    {
+        await Shell.Current.GoToAsync($"{nameof(WorkOrderListModalView)}");
+    }
+
+    [RelayCommand]
+    async Task ShowStartWorkOrderPopup()
+    {
+       var popup = new StartWorkOrderPopupView();
+       var result = await Shell.Current.ShowPopupAsync(popup);
+    }
+
+    [RelayCommand]
+    async Task LogoutHandlerAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(LoginView));
+    }
+
+    //[RelayCommand]
+    //async Task PerformSearchAsync(string text)
+    //{
+    //    if (IsBusy) return;
+    //    try
+    //    {
+    //        IsBusy = true;
+
+    //        SearchText = text.ToLower();
+    //        if (string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text))
+    //        {
+    //            SearchText = "";
+    //            FilterResult = Items;
+    //        }  else
+    //        {
+    //            FilterResult = Items.Where(x => x.MainProductCode.ToLower().Contains(text.ToLower())).ToObservableCollection(); ;
+    //            if (FilterResult.Any())
+    //            {
+    //                Items.Clear();
+    //                foreach (var item in FilterResult)
+    //                {
+    //                    Items.Add(item);
+    //                }
+    //            }
+    //        }
+    //    }
+    //    catch(Exception ex)
+    //    {
+    //        Debug.WriteLine(ex);
+    //        await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+    //    } 
+    //    finally
+    //    {
+    //        IsBusy = false;
+    //    }
+
+    //}
+
+    [RelayCommand]
+    async Task PerformSearchAsync(object text)
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            if (!string.IsNullOrEmpty(text.ToString()))
+            {
+                Results.Clear();
+                foreach (ProductionWorkOrderList item in Items.Where(x => x.MainProductCode.Contains(text.ToString())))
+                    Results.Add(item);
+            }
+            else
+            {
+                foreach (ProductionWorkOrderList item in Items)
+                    Results.Add(item);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+
     }
 
     [RelayCommand]
