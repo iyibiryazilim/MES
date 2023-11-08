@@ -3,29 +3,50 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.MESAPIHelper;
-using MES.Client.ListModels;
+using MES.Client.ViewModels.StopCauseViewModels;
+using MES.Client.Views.PopupViews;
+using MES.Client.Views.StopCauseViews;
+using MES.Client.Views.WorkOrderViews;
 using Microcharts;
 using Newtonsoft.Json;
 using SkiaSharp;
-using static Android.Content.ClipData;
+using YTT.Gateway.Model.Models.WorkOrderModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
-[QueryProperty(name: nameof(WorkOrderList), queryId: nameof(WorkOrderList))]
+[QueryProperty(name: nameof(ProductionWorkOrderList), queryId: nameof(ProductionWorkOrderList))]
 public partial class WorkOrderDetailViewModel : BaseViewModel
 {
+    StopCauseListViewModel _stopCauseListViewModel;
+
     [ObservableProperty]
-    WorkOrderList workOrderList;
+    ProductionWorkOrderList productionWorkOrderList;
 
     [ObservableProperty]
     double quantity;
 
-    public WorkOrderDetailViewModel()
+    [ObservableProperty]
+    bool startButtonEnable = true;
+
+    public WorkOrderDetailViewModel(StopCauseListViewModel stopCauseListViewModel)
     {
         Title = "İş Emri Detay Sayfası";
+        _stopCauseListViewModel = stopCauseListViewModel;
+    }
+
+    public double QuantityChanged
+    {
+        get {return Quantity; }
+        set
+        {
+            Quantity = value;
+            OnPropertyChanged(nameof(Quantity));
+        }
     }
 
     public Chart OEE => GetOEE();
@@ -52,8 +73,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
             BackgroundColor = SKColors.Transparent,
         };
-
-
     }
     public Chart GetProductivity()
     {
@@ -65,8 +84,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
             BackgroundColor = SKColors.Transparent,
         };
-
-
     }
     public Chart GetQuality()
     {
@@ -76,8 +93,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
             BackgroundColor = SKColors.Transparent,
         };
-
-
     }
 
     private List<ChartEntry> GetOEEEntries()
@@ -94,6 +109,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
         return entries;
     }
+
     private List<ChartEntry> GetAvaibilityEntries()
     {
         List<ChartEntry> entries = new List<ChartEntry>();
@@ -116,6 +132,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
         return entries;
     }
+
     private List<ChartEntry> GetProductivityEntries()
     {
         List<ChartEntry> entries = new List<ChartEntry>();
@@ -154,6 +171,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
         return entries;
     }
+
     private List<ChartEntry> GetQualityEntries()
     {
         List<ChartEntry> entries = new List<ChartEntry>();
@@ -178,32 +196,50 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task GoToBackAsync()
+    async Task GoToStopCauseListAsync()
     {
-        await Shell.Current.GoToAsync("../");
+        await Shell.Current.GoToAsync($"{nameof(StopCauseListView)}");
     }
 
     [RelayCommand]
-    async Task StartWorkOrderAsync()
+    async Task ShowStartWorkOrderPopupAsync()
     {
+        var popup = new StartWorkOrderPopupView(this);
+        var result = await Shell.Current.ShowPopupAsync(popup);
+        if(result is bool boolResult) {
+            if(boolResult)
+            {
+                await StartWorkOrderAsync();
+            } else
+            {
+                return;
+            }
+        }
+    }
+
+    [RelayCommand]
+    public async Task StartWorkOrderAsync()
+    {   
         await Task.Run(() =>
-        {
+        {   
             var timer = Application.Current.Dispatcher.CreateTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) => DoSomething();
-            timer.Start();
+            timer.Start();            
         });
-
-
     }
 
     void DoSomething()
     {
-        MainThread.BeginInvokeOnMainThread(async () =>
+        StartButtonEnable = false;
+        MainThread.BeginInvokeOnMainThread( () =>
         {
-            await GetDeviceStateAsync();
+            //await GetDeviceStateAsync();
+            Quantity += 1;
+
         });
     }
+
     string json = string.Empty;
     async Task GetDeviceStateAsync()
     {
@@ -211,7 +247,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
         {
 
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://192.168.1.23:32000");
+            httpClient.BaseAddress = new Uri("http://192.168.1.10:32000");
 
             var body = "{\"cmd\": \"getDeviceState\"}";
             StringContent stringContent = new StringContent(body);
@@ -223,14 +259,17 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
             if (response.IsSuccessStatusCode)
             {
                 json = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(json);
+                //Console.WriteLine(json);
                 //Debug.WriteLine(json);
-                //DeviceStateResult deviceStateResult = JsonConvert.DeserializeObject<DeviceStateResult>(json);
-                //if (deviceStateResult != null)
-                //{
-                //    var firstArray = deviceStateResult.encoder[0];
-                //    Quantity = firstArray[0];
-                //}
+                DeviceStateResult deviceStateResult = JsonConvert.DeserializeObject<DeviceStateResult>(json);
+                if (deviceStateResult != null)
+                {
+                    if (deviceStateResult.encoder.Count > 0)
+                    {
+                        var firstArray = deviceStateResult.encoder[0];
+                        Quantity = firstArray[0]; 
+                    }
+                }
 
             }
         }

@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net7.0-android33.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
@@ -24,7 +23,7 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">33.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
@@ -33,12 +32,16 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\iyibiricon.png" Color="#fff" BaseSize="256, 208" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -52,17 +55,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="LBS.WebAPI.Service" Version="1.0.43" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
-		<PackageReference Include="LBS.WebAPI.Service" Version="1.0.38" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
-		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.3" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
+		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
 		<PackageReference Include="Microcharts.Maui" Version="1.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Flurl" Version="3.0.7" />
 		<PackageReference Include="Flurl.Http" Version="3.2.4" />
+		<PackageReference Include="YTT.Gateway.Middleware" Version="1.0.5" />
+		<PackageReference Include="YTT.Gateway.Model" Version="1.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -89,22 +96,19 @@
 	  <None Remove="Helpers\MESAPIHelper\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Helpers\" />
-	  <Folder Include="ViewModels\" />
-	  <Folder Include="Views\" />
+	  <Folder Include="Databases\SQLiteDatabase\Models\" />
 	  <Folder Include="Models\" />
-	  <Folder Include="ListModels\" />
 	  <Folder Include="Helpers\HttpClientHelpers\" />
 	  <Folder Include="Helpers\Mappers\" />
-	  <Folder Include="ViewModels\WorkOrderViewModels\" />
 	  <Folder Include="ViewModels\LoginViewModels\" />
-	  <Folder Include="Views\WorkOrderViews\" />
+	  <Folder Include="Views\SharedViews\" />
 	  <Folder Include="Views\LoginViews\" />
 	  <Folder Include="DataStores\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="Helpers\FontAwesomeHelper\" />
 	  <Folder Include="Platforms\Android\Resources\xml\" />
 	  <Folder Include="Helpers\MESAPIHelper\" />
+	  <Folder Include="Helpers\DeviceHelper\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\fa-solid.otf" />
@@ -112,5 +116,16 @@
 	  <BundleResource Include="Resources\Fonts\fa-brands.otf" />
 	  <BundleResource Include="Resources\Images\iyibiricon.png" />
 	  <BundleResource Include="Resources\Images\avatar.jpg" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Views\PopupViews\StartWorkOrderPopupView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\StopCauseViews\StopCauseListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\WorkOrderViews\WorkOrderListModalView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 </Project>

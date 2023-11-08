@@ -7,7 +7,7 @@ public class HttpClientService : IHttpClientService
 () =>
 {
     var httpClient = new HttpClient();
-    httpClient.BaseAddress = new Uri("http://195.142.192.18:1087");
+    httpClient.BaseAddress = new Uri("http://78.189.217.83:1453");
     httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
     return httpClient;

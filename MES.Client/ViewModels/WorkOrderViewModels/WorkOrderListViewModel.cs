@@ -1,92 +1,109 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using IntelliJ.Lang.Annotations;
 using LBS.Shared.Entity.Models;
+using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.Mappers;
-using MES.Client.ListModels;
 using MES.Client.Services;
 using MES.Client.Views;
+using MES.Client.Views.LoginViews;
 using MES.Client.Views.WorkOrderViews;
 using MvvmHelpers;
+using YTT.Gateway.Middleware.Services;
+using YTT.Gateway.Model.Models.ResultModels;
+using YTT.Gateway.Model.Models.WorkOrderModels;
+using MES.Client.Views.PopupViews;
+using CommunityToolkit.Maui.Core.Extensions;
+using GoogleGson;
+using Microsoft.Maui.Storage;
+using YTT.Gateway.Model.Models.WarehouseModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
 public partial class WorkOrderListViewModel : BaseViewModel
 {
     IHttpClientService _httpClientService;
-    ICustomQueryDTO _customQueryDTO;
+    IProductionWorkOrderService _productionWorkOrderService;
 
-    public ObservableCollection<WorkOrderList> Items { get; } = new();
+    DeviceCommandHelper deviceCommandHelper = new DeviceCommandHelper(new HttpClient());
+
+    public ObservableCollection<ProductionWorkOrderList> Items { get; } = new();
+    public ObservableCollection<ProductionWorkOrderList> Results { get; } = new();
     public ObservableRangeCollection<dynamic> DisplayItems { get; } = new();
 
     public Command GetItemsCommand { get; }
-    public Command LoadMoreCommand { get; }
-
-    static int pageSize = 20;
-    static int currentIndex = 0;
 
     [ObservableProperty]
-    WorkOrderList selectedItem;
+    ProductionWorkOrderList selectedItem;
 
-    public bool ButtonStatus => SelectedItem == null ? false : true;
+    [ObservableProperty]
+    ObservableCollection<ProductionWorkOrderList> filterResult;
 
-    string query = @$"SELECT 
-[ReferenceId] = LGMAIN.LOGICALREF,
-[ProductionReferenceId] = LGMAIN.PRODORDREF,
-[Status] = LGMAIN.LINESTATUS,
-[StatusName] = '',
-[Code] = LGMAIN.LINENO_,
-[BOMasterReferenceId] = BOMASTER.LOGICALREF,
-[BOMCode] = BOMASTER.CODE,
-[BOMName] = BOMASTER.NAME,
-[ProductReferenceId] = ITEMS.LOGICALREF,
-[ProductCode] = ITEMS.CODE,
-[ProductName] = ITEMS.NAME,
-[PlanningStartDate] = LGMAIN.OPBEGDATE,
-[PlanningStartTime] = LGMAIN.OPBEGTIME,
-[PlanningEndDate] = LGMAIN.OPDUEDATE,
-[PlanningEndTime] = LGMAIN.OPDUETIME,
-[PlanningDuration] = LGMAIN.PLNDURATION,
-[PlanningQuantity] = 0,
-[ActualStartDate] = LGMAIN.ACTBEGDATE,
-[ActualStartTime] = LGMAIN.ACTBEGTIME,
-[ActualEndDate] = LGMAIN.ACTDUEDATE,
-[ActualEndTime] = LGMAIN.ACTDUETIME,
-[ActualDuration] = LGMAIN.ACTDURATION,
-[OperationReferenceId] = OPERTION.LOGICALREF,
-[OperationCode] = OPERTION.CODE,
-[OperationName] = OPERTION.NAME,
-[WorkstationReferenceId] = WORKSTAT.LOGICALREF,
-[WorkstationCode] = WORKSTAT.CODE,
-[WorkstationName] = WORKSTAT.NAME,
-[RouteReferenceId] =0,
-[RouteCode] = '',
-[RouteName] = '',
-[StopDuration] = LGMAIN.STPDURATION
+    [ObservableProperty]
+    string searchText = string.Empty;
 
+    // SearchBar genişliğini ekrana göre ayarlamak için
+    public double ScreenWidth
+    {
+        get
+        {
+            double screenWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+            double padding = 20; // Sağdan ve soldan çıkarmak istediğiniz padding miktarı
 
-FROM LG_003_DISPLINE AS LGMAIN
-LEFT JOIN LG_003_PRODORD AS PRODORD ON LGMAIN.PRODORDREF = PRODORD.LOGICALREF
-LEFT JOIN LG_003_BOMASTER AS BOMASTER ON LGMAIN.BOMMASTERREF = BOMASTER.LOGICALREF AND LGMAIN.REVREF = BOMASTER.VALIDREVREF
-LEFT JOIN LG_003_ITEMS AS ITEMS ON LGMAIN.ITEMREF = ITEMS.LOGICALREF
-LEFT JOIN LG_003_OPERTION AS OPERTION ON LGMAIN.OPERATIONREF = OPERTION.LOGICALREF
-LEFT JOIN LG_003_WORKSTAT AS WORKSTAT ON LGMAIN.WSREF = WORKSTAT.LOGICALREF
-ORDER BY LGMAIN.LOGICALREF ASC
-OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
-";
+            double screenWidthWithPadding = screenWidth - (2 * padding) - padding;
+            return screenWidthWithPadding;
+        }
+    }
 
-    public WorkOrderListViewModel(IHttpClientService httpClientService, ICustomQueryDTO customQueryDTO)
+    public WorkOrderListViewModel(IHttpClientService httpClientService, IProductionWorkOrderService productionWorkOrderService)
     {
         Title = "İş Listesi";
         _httpClientService = httpClientService;
-        _customQueryDTO = customQueryDTO;
+        _productionWorkOrderService = productionWorkOrderService;
+
 
         GetItemsCommand = new Command(async () => await GetItemsAsync());
-        LoadMoreCommand = new Command(LoadMoreAsync);
+        
+        //LoadMoreCommand = new Command(LoadMoreAsync);
+    }
+
+
+    [RelayCommand]
+    async Task SetSelectedItemAsync(ProductionWorkOrderList item)
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            IsRefreshing = true;
+
+            if (item == null)
+                return;
+
+            foreach(var workOrder in Items)
+            {
+                workOrder.IsSelected = false;
+
+            }
+            Items.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
+            SelectedItem = item;
+
+        } catch(Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+        } finally
+        {
+            IsBusy = false;
+            IsRefreshing = false;
+        }
     }
 
     async Task GetItemsAsync()
@@ -100,18 +117,22 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
 
             if (Items.Count > 0)
                 Items.Clear();
-
-
-
-
-            await foreach (var item in _customQueryDTO.GetObjectsAsync(_httpClientService, query))
+            if (Results.Count > 0)
+                Results.Clear();
+            var httpClient = _httpClientService.GetOrCreateHttpClient();
+            DataResult<IEnumerable<ProductionWorkOrderList>> result  = await _productionWorkOrderService.GetObjectsAsync(httpClient);
+            
+            if(result.IsSuccess)
             {
-                await Task.Delay(100);
-                var obj = Mapping.Mapper.Map<WorkOrderList>(item);
-                Items.Add(obj);
+                if(result.Data.Any())
+                {
+                    foreach (var item in result.Data)
+                    {
+                        Items.Add(item);
+                        Results.Add(item);
+                    }
+                }
             }
-
-            //DisplayItems.AddRange(Items);
 
         }
         catch (Exception ex)
@@ -126,7 +147,8 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
         }
     }
 
-    async void LoadMoreAsync()
+    [RelayCommand]
+    async Task GoToDetailAsync(ProductionWorkOrderList productionWorkOrderList)
     {
         if (IsBusy)
             return;
@@ -134,36 +156,13 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
         try
         {
             IsBusy = true;
-            currentIndex = Items.Count;
+            //await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.25:32000");
+            //await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.25:32000");
+            //await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.25:32000");
 
-            await foreach (var item in _customQueryDTO.GetObjectsAsync(_httpClientService, query))
-            {
-                await Task.Delay(100);
-                var obj = Mapping.Mapper.Map<WorkOrderList>(item);
-                Items.Add(obj);
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-            await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
-        }
-        finally
-        {
-            IsBusy = false;
-
-        }
-    }
-
-    [RelayCommand]
-    async Task GoToDetailAsync(WorkOrderList workOrderList)
-    {
-        try
-        {
             await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
             {
-                ["WorkOrderList"] = workOrderList
+                [nameof(ProductionWorkOrderList)] = productionWorkOrderList
             });
         }
         catch (Exception ex)
@@ -171,6 +170,102 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
             Debug.WriteLine(ex);
             await Shell.Current.DisplayAlert("Error :", ex.Message, "Tamam");
         }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    async Task OpenWorkOrderListModelAsync()
+    {
+        await Shell.Current.GoToAsync($"{nameof(WorkOrderListModalView)}");
+    }
+
+    [RelayCommand]
+    async Task ShowStartWorkOrderPopup()
+    {
+       var popup = new StartWorkOrderPopupView();
+       var result = await Shell.Current.ShowPopupAsync(popup);
+    }
+
+    [RelayCommand]
+    async Task LogoutHandlerAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(LoginView));
+    }
+
+    //[RelayCommand]
+    //async Task PerformSearchAsync(string text)
+    //{
+    //    if (IsBusy) return;
+    //    try
+    //    {
+    //        IsBusy = true;
+
+    //        SearchText = text.ToLower();
+    //        if (string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text))
+    //        {
+    //            SearchText = "";
+    //            FilterResult = Items;
+    //        }  else
+    //        {
+    //            FilterResult = Items.Where(x => x.MainProductCode.ToLower().Contains(text.ToLower())).ToObservableCollection(); ;
+    //            if (FilterResult.Any())
+    //            {
+    //                Items.Clear();
+    //                foreach (var item in FilterResult)
+    //                {
+    //                    Items.Add(item);
+    //                }
+    //            }
+    //        }
+    //    }
+    //    catch(Exception ex)
+    //    {
+    //        Debug.WriteLine(ex);
+    //        await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+    //    } 
+    //    finally
+    //    {
+    //        IsBusy = false;
+    //    }
+
+    //}
+
+    [RelayCommand]
+    async Task PerformSearchAsync(object text)
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            if (!string.IsNullOrEmpty(text.ToString()))
+            {
+                Results.Clear();
+                foreach (ProductionWorkOrderList item in Items.Where(x => x.MainProductCode.Contains(text.ToString())))
+                    Results.Add(item);
+            }
+            else
+            {
+                foreach (ProductionWorkOrderList item in Items)
+                    Results.Add(item);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+
     }
 
     [RelayCommand]
@@ -181,38 +276,7 @@ OFFSET {currentIndex} ROWS FETCH NEXT {pageSize} ROWS ONLY
         bottomSheetPage.HandleColor = Color.FromArgb("#009ef7");
         bottomSheetPage.HasBackdrop = true;
 
-
         await bottomSheetPage.ShowAsync(true);
-    }
-
-    [RelayCommand]
-    async Task GetSelectedItemAsync(WorkOrderList item)
-    {
-        if (IsBusy)
-            return;
-
-        try
-        {
-
-            IsBusy = true;
-
-            foreach (var workOrder in Items)
-                workOrder.IsSelected = false;
-
-            Items.First(x => x.Code == item.Code).IsSelected = true;
-            SelectedItem = Items.First(x => x.Code == item.Code);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-            await Shell.Current.DisplayAlert("Error : ", "SelectedItem False", "Tamam");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-
-        await Task.FromResult(() => SelectedItem = item);
     }
 }
 
