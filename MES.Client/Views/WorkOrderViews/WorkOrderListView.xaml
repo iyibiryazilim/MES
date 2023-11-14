@@ -25,12 +25,6 @@
             Grid.Row="0"
             ColumnDefinitions="Auto, *, Auto"
             ColumnSpacing="20">
-            <!--<toolkit:AvatarView
-                BorderColor="Transparent"
-                BorderWidth="-1"
-                HeightRequest="50"
-                ImageSource="avatar.jpg"
-                WidthRequest="50" />-->
             <Border
                 Grid.Column="0"
                 StrokeShape="RoundRectangle 50"
@@ -94,7 +88,14 @@
             Grid.Row="2"
             IndicatorView="workOrderIndicatorView"
             IsVisible="{Binding IsNotBusy}"
-            ItemsSource="{Binding Results}">
+            ItemsSource="{Binding Results}"
+            ItemsUpdatingScrollMode="KeepScrollOffset">
+            <CarouselView.ItemsLayout>
+                <LinearItemsLayout
+                    Orientation="Horizontal"
+                    SnapPointsAlignment="Center"
+                    SnapPointsType="MandatorySingle" />
+            </CarouselView.ItemsLayout>
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="model:ProductionWorkOrderList">
 

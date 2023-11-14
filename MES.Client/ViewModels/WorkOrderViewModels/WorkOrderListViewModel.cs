@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LBS.Shared.Entity.Models;
 using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
-using MES.Client.Helpers.Mappers;
-using MES.Client.Services;
 using MES.Client.Views;
 using MES.Client.Views.LoginViews;
+using MES.Client.Views.PopupViews;
 using MES.Client.Views.WorkOrderViews;
 using MvvmHelpers;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using YTT.Gateway.Middleware.Services;
 using YTT.Gateway.Model.Models.ResultModels;
 using YTT.Gateway.Model.Models.WorkOrderModels;
-using MES.Client.Views.PopupViews;
-using CommunityToolkit.Maui.Core.Extensions;
-using GoogleGson;
-using Microsoft.Maui.Storage;
-using YTT.Gateway.Model.Models.WarehouseModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
@@ -41,13 +32,13 @@ public partial class WorkOrderListViewModel : BaseViewModel
     [ObservableProperty]
     ProductionWorkOrderList selectedItem;
 
-    [ObservableProperty]
-    ObservableCollection<ProductionWorkOrderList> filterResult;
+    //[ObservableProperty]
+    //ObservableCollection<ProductionWorkOrderList> filterResult;
 
     [ObservableProperty]
     string searchText = string.Empty;
 
-    // SearchBar genişliğini ekrana göre ayarlamak için
+    // SearchBar genişliğini ekrana göre ayarlama fonksiyonu
     public double ScreenWidth
     {
         get
@@ -66,9 +57,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
         _httpClientService = httpClientService;
         _productionWorkOrderService = productionWorkOrderService;
 
-
-        GetItemsCommand = new Command(async () => await GetItemsAsync());
-        
+        GetItemsCommand = new Command(async () => await GetItemsAsync());        
         //LoadMoreCommand = new Command(LoadMoreAsync);
     }
 
@@ -156,14 +145,17 @@ public partial class WorkOrderListViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            //await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.25:32000");
-            //await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.25:32000");
-            //await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.25:32000");
+            IsRefreshing = true;
+			//await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.25:32000");
+			//await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.25:32000");
+			//await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.25:32000");
 
-            await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
-            {
-                [nameof(ProductionWorkOrderList)] = productionWorkOrderList
-            });
+			//await SetSelectedItemAsync(productionWorkOrderList);
+			
+		    await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
+		    {
+			    [nameof(ProductionWorkOrderList)] = productionWorkOrderList
+		    });
         }
         catch (Exception ex)
         {
@@ -173,20 +165,14 @@ public partial class WorkOrderListViewModel : BaseViewModel
         finally
         {
             IsBusy = false;
+            IsRefreshing = false;
         }
     }
 
-    [RelayCommand]
+	[RelayCommand]
     async Task OpenWorkOrderListModelAsync()
     {
         await Shell.Current.GoToAsync($"{nameof(WorkOrderListModalView)}");
-    }
-
-    [RelayCommand]
-    async Task ShowStartWorkOrderPopup()
-    {
-       var popup = new StartWorkOrderPopupView();
-       var result = await Shell.Current.ShowPopupAsync(popup);
     }
 
     [RelayCommand]
@@ -245,7 +231,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
             if (!string.IsNullOrEmpty(text.ToString()))
             {
                 Results.Clear();
-                foreach (ProductionWorkOrderList item in Items.Where(x => x.MainProductCode.Contains(text.ToString())))
+                foreach (ProductionWorkOrderList item in Items.Where(x => x.MainProductCode.ToLower().Contains(text.ToString().ToLower())))
                     Results.Add(item);
             }
             else

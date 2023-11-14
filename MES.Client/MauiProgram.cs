@@ -5,12 +5,10 @@ using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.DataStores;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Services;
-using MES.Client.ViewModels;
 using MES.Client.ViewModels.LoginViewModels;
 using MES.Client.ViewModels.StopCauseViewModels;
 using MES.Client.ViewModels.WorkOrderViewModels;
 using MES.Client.Views.LoginViews;
-using MES.Client.Views.PopupViews;
 using MES.Client.Views.StopCauseViews;
 using MES.Client.Views.WorkOrderViews;
 using Microcharts.Maui;
@@ -20,6 +18,11 @@ using YTT.Gateway.Middleware.DataStores;
 using YTT.Gateway.Middleware.Services;
 using IStopCauseService = YTT.Gateway.Middleware.Services.IStopCauseService;
 using StopCauseDataStore = YTT.Gateway.Middleware.DataStores.StopCauseDataStore;
+//using Shared.Middleware;
+//using Shared.Middleware.Services;
+//using Shared.Middleware.DataStores;
+//using IEmployeeService = Shared.Middleware.Services.IEmployeeService;
+//using EmployeeDataStore = Shared.Middleware.DataStores.EmployeeDataStore;
 
 namespace MES.Client;
 
@@ -67,6 +70,9 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
         mauiAppBuilder.Services.AddTransient<IProductionWorkOrderService, ProductionWorkOrderDataStore>();
         mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
+        //mauiAppBuilder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
+        
+
 
         return mauiAppBuilder;
     }

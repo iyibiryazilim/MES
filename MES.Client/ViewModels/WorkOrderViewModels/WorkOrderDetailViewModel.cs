@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -22,7 +23,7 @@ namespace MES.Client.ViewModels.WorkOrderViewModels;
 [QueryProperty(name: nameof(ProductionWorkOrderList), queryId: nameof(ProductionWorkOrderList))]
 public partial class WorkOrderDetailViewModel : BaseViewModel
 {
-    StopCauseListViewModel _stopCauseListViewModel;
+    //StopCauseListViewModel _stopCauseListViewModel;
 
     [ObservableProperty]
     ProductionWorkOrderList productionWorkOrderList;
@@ -31,12 +32,17 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
     double quantity;
 
     [ObservableProperty]
-    bool startButtonEnable = true;
+    double actualRateChange;
 
-    public WorkOrderDetailViewModel(StopCauseListViewModel stopCauseListViewModel)
+	[ObservableProperty]
+    bool startButtonEnabled = true;
+
+    [ObservableProperty]
+    DateTime time;
+
+    public WorkOrderDetailViewModel()
     {
         Title = "İş Emri Detay Sayfası";
-        _stopCauseListViewModel = stopCauseListViewModel;
     }
 
     public double QuantityChanged
@@ -45,7 +51,33 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
         set
         {
             Quantity = value;
-            OnPropertyChanged(nameof(Quantity));
+            OnPropertyChanged();
+        }
+    }
+
+    public double ActualRate
+    {
+   //     get
+   //     {
+   //         if(ProductionWorkOrderList is null)
+   //         {
+			//	return 0;
+			//} else
+   //         {
+   //             if(ProductionWorkOrderList.ActualQuantity == 0)
+   //             {
+   //                 return 0;
+   //             } else
+   //             {
+   //                 return ((double)ProductionWorkOrderList.ActualQuantity/(double)ProductionWorkOrderList.Quantity) * 100;
+   //             }
+   //         }
+   //     }
+		get { return 60; }
+        set
+        {
+            ActualRateChange = value;
+            OnPropertyChanged();
         }
     }
 
@@ -216,26 +248,29 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
             }
         }
     }
+     
+    //public IDispatcherTimer timer;
 
     [RelayCommand]
     public async Task StartWorkOrderAsync()
-    {   
+    {
         await Task.Run(() =>
-        {   
+        {
             var timer = Application.Current.Dispatcher.CreateTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) => DoSomething();
-            timer.Start();            
-        });
+            timer.Start();
+		});
     }
 
-    void DoSomething()
+    public void DoSomething()
     {
-        StartButtonEnable = false;
+        StartButtonEnabled = false;
         MainThread.BeginInvokeOnMainThread( () =>
         {
             //await GetDeviceStateAsync();
             Quantity += 1;
+            Time += TimeSpan.FromSeconds(1);
 
         });
     }
@@ -279,5 +314,10 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
             await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "tamam");
         }
     }
-}
 
+	[RelayCommand]
+	async Task GoToBackAsync()
+	{
+		await Shell.Current.GoToAsync("..");
+	}
+}

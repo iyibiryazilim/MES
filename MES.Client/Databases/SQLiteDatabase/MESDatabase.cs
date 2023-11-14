@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using MES.Client.Databases.SQLiteDatabase.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,12 @@ public class MESDatabase
             return;
         Database = new SQLiteAsyncConnection(Constants.DbConfiguration.DatabasePath, Constants.DbConfiguration.Flags);
 
-        var result = await Database.CreateTableAsync<YTT.Gateway.Model.Models.WorkOrderModels.ProductionWorkOrderList>();
+        var result = await Database.CreateTableAsync<WorkOrder>();
+    }
+
+    public async Task InsertWorkOrderAsync(WorkOrder workOrder)
+    {
+        await Init();
+        await Database.InsertAsync(workOrder);
     }
 }

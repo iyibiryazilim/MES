@@ -19,6 +19,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 {
     IHttpClientService _httpClientService;
     IStopCauseService _stopCauseService;
+    WorkOrderDetailViewModel workOrderDetailViewModel = new();
 
     public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService)
     {
@@ -105,7 +106,7 @@ public partial class StopCauseListViewModel : BaseViewModel
     [RelayCommand]
     async Task StopButtonAsync()
     {
-        await Shell.Current.GoToAsync("../.."); 
+        await Shell.Current.GoToAsync("../..");
     }
 
     [RelayCommand]
