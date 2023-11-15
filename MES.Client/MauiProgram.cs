@@ -68,6 +68,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<IProductionWorkOrderService, ProductionWorkOrderDataStore>();
         mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
         mauiAppBuilder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
+        mauiAppBuilder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
+
 
         return mauiAppBuilder;
     }
