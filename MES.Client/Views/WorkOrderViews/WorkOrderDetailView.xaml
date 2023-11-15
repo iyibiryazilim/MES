@@ -39,7 +39,7 @@
                         Padding="10"
                         Spacing="10">
                         <Button
-                            Command="{Binding ShowStartWorkOrderPopupCommand}"
+                            Command="{Binding StartWorkOrderCommand}"
                             FontSize="Subtitle"
                             IsEnabled="{Binding StartButtonEnabled}"
                             Text="Başlat">

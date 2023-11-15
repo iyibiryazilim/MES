@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Maui;
-using LBS.WebAPI.Service.DataStores;
-using LBS.WebAPI.Service.Services;
 using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.DataStores;
 using MES.Client.Helpers.HttpClientHelpers;
@@ -13,16 +11,15 @@ using MES.Client.Views.StopCauseViews;
 using MES.Client.Views.WorkOrderViews;
 using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
+using Shared.Middleware.DataStores;
+using Shared.Middleware.Services;
 using The49.Maui.BottomSheet;
 using YTT.Gateway.Middleware.DataStores;
 using YTT.Gateway.Middleware.Services;
+using EmployeeDataStore = Shared.Middleware.DataStores.EmployeeDataStore;
+using IEmployeeService = Shared.Middleware.Services.IEmployeeService;
 using IStopCauseService = YTT.Gateway.Middleware.Services.IStopCauseService;
 using StopCauseDataStore = YTT.Gateway.Middleware.DataStores.StopCauseDataStore;
-//using Shared.Middleware;
-//using Shared.Middleware.Services;
-//using Shared.Middleware.DataStores;
-//using IEmployeeService = Shared.Middleware.Services.IEmployeeService;
-//using EmployeeDataStore = Shared.Middleware.DataStores.EmployeeDataStore;
 
 namespace MES.Client;
 
@@ -67,12 +64,10 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddSingleton<IHttpClientService, HttpClientService>();
         mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
-        mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
+        //mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
         mauiAppBuilder.Services.AddTransient<IProductionWorkOrderService, ProductionWorkOrderDataStore>();
         mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
-        //mauiAppBuilder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
-        
-
+        mauiAppBuilder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
 
         return mauiAppBuilder;
     }

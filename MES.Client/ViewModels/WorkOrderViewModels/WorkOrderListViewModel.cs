@@ -149,13 +149,24 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			//await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.25:32000");
 			//await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.25:32000");
 			//await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.25:32000");
+			var popup = new StartWorkOrderPopupView(this);
+			var result = await Shell.Current.ShowPopupAsync(popup);
+			if (result is bool boolResult)
+			{
+				if (boolResult)
+				{
+					await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
+					{
+						[nameof(ProductionWorkOrderList)] = productionWorkOrderList
+					});
+				}
+				else
+				{
+					return;
+				}
+			}
 
-			//await SetSelectedItemAsync(productionWorkOrderList);
 			
-		    await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
-		    {
-			    [nameof(ProductionWorkOrderList)] = productionWorkOrderList
-		    });
         }
         catch (Exception ex)
         {
@@ -169,8 +180,28 @@ public partial class WorkOrderListViewModel : BaseViewModel
         }
     }
 
+
+    //[RelayCommand]
+    //async Task OpenStartWorkOrderPopupAsync()
+    //{
+    //    var popup = new StartWorkOrderPopupView(this);
+    //    var result = await Shell.Current.ShowPopupAsync(popup);
+    //    if (result is bool boolResult)
+    //    {
+    //        if (boolResult)
+    //        {
+
+    //        }
+    //        else
+    //        {
+    //            return;
+    //        }
+    //    }
+    //}
+
+
 	[RelayCommand]
-    async Task OpenWorkOrderListModelAsync()
+    async Task OpenWorkOrderListModalAsync()
     {
         await Shell.Current.GoToAsync($"{nameof(WorkOrderListModalView)}");
     }
@@ -250,8 +281,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
         {
             IsBusy = false;
         }
-
-
     }
 
     [RelayCommand]

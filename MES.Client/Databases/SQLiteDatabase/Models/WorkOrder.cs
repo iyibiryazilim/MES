@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MES.Client.Databases.SQLiteDatabase.Models;
 
-public class WorkOrder : INotifyPropertyChanged
+public class WorkOrder
 {
 	#region Fields
 	int referenceId;
@@ -18,14 +18,4 @@ public class WorkOrder : INotifyPropertyChanged
 	string workStationCode;
 	bool isIntegrated;
 	#endregion
-
-	
-
-	private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-	}
-
-
-	public event PropertyChangedEventHandler? PropertyChanged;
 }
