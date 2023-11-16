@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MES.Client.Databases.SQLiteDatabase;
+using MES.Client.Databases.SQLiteDatabase.Models;
 using MES.Client.Helpers.MESAPIHelper;
 using MES.Client.Views.StopCauseViews;
 using Microcharts;
@@ -8,6 +10,7 @@ using Shared.Entity.BaseModels;
 using Shared.Entity.Models;
 using SkiaSharp;
 using System.Diagnostics;
+using WorkOrder = Shared.Entity.Models.WorkOrder;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
@@ -250,22 +253,24 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[RelayCommand]
 	public async Task StartWorkOrderAsync()
 	{
-		//await Task.Run(() =>
-		//{
-		//	var timer = Application.Current.Dispatcher.CreateTimer();
-		//	timer.Interval = TimeSpan.FromSeconds(1);
-		//	timer.Tick += (s, e) => DoSomething();
-		//	timer.Start();
-		//});
-		await GetDeviceStateAsync();
+		await Task.Run(() =>
+		{
+			var timer = Application.Current.Dispatcher.CreateTimer();
+			timer.Interval = TimeSpan.FromSeconds(1);
+			timer.Tick += (s, e) => DoSomething();
+			timer.Start();
+		});
+		//await GetDeviceStateAsync();
 	}
 
 	public void DoSomething()
 	{
+		MESDatabase mesDatabase = new MESDatabase();
 		StartButtonEnabled = false;
-		MainThread.BeginInvokeOnMainThread(() =>
+		MainThread.BeginInvokeOnMainThread(async () =>
 		{
 			//await GetDeviceStateAsync();
+			await mesDatabase.InsertWorkOrderAsync(WorkOrder);
 			Quantity += 1;
 			Time += TimeSpan.FromSeconds(1);
 
@@ -318,13 +323,13 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		await Shell.Current.GoToAsync("..");
 	}
 
-	//async Task InsertWorkOrderToDatabase(Databases.SQLiteDatabase.Models.WorkOrder workOrder)
+	//async Task InsertWorkOrderToDatabase(Shared.Entity.Models.WorkOrder workOrder)
 	//{
-
-	//	workOrder.Date =
-	//	workOrder.WorkOrderCode = ;
-	//	workOrder.WorkStationCode= ;
-	//	workOrder.IsIntegrated = true;
+	//	//workOrder.Date =
+	//	//workOrder.WorkOrderCode = ;
+	//	//workOrder.WorkStationCode = ;
+	//	//workOrder.IsIntegrated = true;
+		
 	//}
 
 }
