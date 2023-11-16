@@ -14,7 +14,6 @@
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}" EventName="Loaded" />
-
     </ContentPage.Behaviors>
 
     <Grid
@@ -38,9 +37,7 @@
                 <Label>
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span FontAttributes="Bold" Text="Berkan" />
-                            <Span Text=" " />
-                            <Span FontAttributes="Bold" Text="Serbes" />
+                            <Span FontAttributes="Bold" Text="{Binding CurrentEmployee}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -68,7 +65,14 @@
             <SearchBar
                 x:Name="searchBar"
                 HorizontalOptions="Fill"
-                WidthRequest="{Binding ScreenWidth}" />
+                WidthRequest="{Binding ScreenWidth}">
+                <SearchBar.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        Command="{Binding PerformSearchCommand}"
+                        CommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                        EventName="TextChanged" />
+                </SearchBar.Behaviors>
+            </SearchBar>
         </Border>
         <ActivityIndicator
             Grid.Row="2"

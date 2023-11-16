@@ -22,8 +22,6 @@ public partial class LoginViewModel : BaseViewModel
 	[ObservableProperty]
 	string userCode;
 
-	[ObservableProperty]
-	string userName;
 
 	[RelayCommand]
 	async Task AuthenticateAsync(string usercode)
@@ -47,7 +45,7 @@ public partial class LoginViewModel : BaseViewModel
 						if(currentEmployee != null)
 						{
 							UserCode = currentEmployee.Code;
-							UserName = currentEmployee.Name;
+							await SecureStorage.Default.SetAsync("CurrentUserName", currentEmployee.Name);
 							Application.Current.MainPage = new AppShell();
 						} else
 						{
