@@ -3,34 +3,36 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
+using MES.Client.ViewModels.LoginViewModels;
 using MES.Client.Views;
 using MES.Client.Views.LoginViews;
 using MES.Client.Views.PopupViews;
 using MES.Client.Views.WorkOrderViews;
 using MvvmHelpers;
+using Shared.Entity.BaseModels;
+using Shared.Entity.Models;
+using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using YTT.Gateway.Middleware.Services;
-using YTT.Gateway.Model.Models.ResultModels;
-using YTT.Gateway.Model.Models.WorkOrderModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
 public partial class WorkOrderListViewModel : BaseViewModel
 {
     IHttpClientService _httpClientService;
-    IProductionWorkOrderService _productionWorkOrderService;
+    IWorkOrderService _workOrderService;
+    //IBaseWorkOrderService _baseWorkOrderService;
 
-    DeviceCommandHelper deviceCommandHelper = new DeviceCommandHelper(new HttpClient());
+	DeviceCommandHelper deviceCommandHelper = new DeviceCommandHelper(new HttpClient());
 
-    public ObservableCollection<ProductionWorkOrderList> Items { get; } = new();
-    public ObservableCollection<ProductionWorkOrderList> Results { get; } = new();
+	public ObservableCollection<WorkOrder> Items { get; } = new();
+    public ObservableCollection<WorkOrder> Results { get; } = new();
     public ObservableRangeCollection<dynamic> DisplayItems { get; } = new();
 
     public Command GetItemsCommand { get; }
 
-    [ObservableProperty]
-    ProductionWorkOrderList selectedItem;
+    //[ObservableProperty]
+    //ProductionWorkOrderList selectedItem;
 
     //[ObservableProperty]
     //ObservableCollection<ProductionWorkOrderList> filterResult;
@@ -51,49 +53,50 @@ public partial class WorkOrderListViewModel : BaseViewModel
         }
     }
 
-    public WorkOrderListViewModel(IHttpClientService httpClientService, IProductionWorkOrderService productionWorkOrderService)
+    public WorkOrderListViewModel(IHttpClientService httpClientService, IWorkOrderService workOrderService)
     {
         Title = "İş Listesi";
         _httpClientService = httpClientService;
-        _productionWorkOrderService = productionWorkOrderService;
+        _workOrderService = workOrderService;
+        //_baseWorkOrderService = baseWorkOrderService;
 
-        GetItemsCommand = new Command(async () => await GetItemsAsync());        
+		GetItemsCommand = new Command(async () => await GetItemsAsync());        
         //LoadMoreCommand = new Command(LoadMoreAsync);
     }
 
 
-    [RelayCommand]
-    async Task SetSelectedItemAsync(ProductionWorkOrderList item)
-    {
-        if (IsBusy)
-            return;
+    //[RelayCommand]
+    //async Task SetSelectedItemAsync(ProductionWorkOrderList item)
+    //{
+    //    if (IsBusy)
+    //        return;
 
-        try
-        {
-            IsBusy = true;
-            IsRefreshing = true;
+    //    try
+    //    {
+    //        IsBusy = true;
+    //        IsRefreshing = true;
 
-            if (item == null)
-                return;
+    //        if (item == null)
+    //            return;
 
-            foreach(var workOrder in Items)
-            {
-                workOrder.IsSelected = false;
+    //        foreach(var workOrder in Items)
+    //        {
+    //            workOrder.IsSelected = false;
 
-            }
-            Items.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
-            SelectedItem = item;
+    //        }
+    //        Items.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
+    //        SelectedItem = item;
 
-        } catch(Exception ex)
-        {
-            Debug.WriteLine(ex);
-            await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
-        } finally
-        {
-            IsBusy = false;
-            IsRefreshing = false;
-        }
-    }
+    //    } catch(Exception ex)
+    //    {
+    //        Debug.WriteLine(ex);
+    //        await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+    //    } finally
+    //    {
+    //        IsBusy = false;
+    //        IsRefreshing = false;
+    //    }
+    //}
 
     async Task GetItemsAsync()
     {
@@ -109,13 +112,14 @@ public partial class WorkOrderListViewModel : BaseViewModel
             if (Results.Count > 0)
                 Results.Clear();
             var httpClient = _httpClientService.GetOrCreateHttpClient();
-            DataResult<IEnumerable<ProductionWorkOrderList>> result  = await _productionWorkOrderService.GetObjectsAsync(httpClient);
-            
-            if(result.IsSuccess)
+			//DataResult<IEnumerable<BaseWorkOrder>> result = await _baseWorkOrderService.GetObjects(httpClient);
+			var result = await _workOrderService.GetObjects(httpClient);
+
+			if (result.IsSuccess)
             {
                 if(result.Data.Any())
                 {
-                    foreach (var item in result.Data)
+                    foreach (var item in result.Data.Where(x => x.WorkstationCode == "E-02" ))
                     {
                         Items.Add(item);
                         Results.Add(item);
@@ -137,7 +141,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task GoToDetailAsync(ProductionWorkOrderList productionWorkOrderList)
+    async Task GoToDetailAsync(WorkOrder workOrder)
     {
         if (IsBusy)
             return;
@@ -146,9 +150,9 @@ public partial class WorkOrderListViewModel : BaseViewModel
         {
             IsBusy = true;
             IsRefreshing = true;
-			//await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.25:32000");
-			//await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.25:32000");
-			//await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.25:32000");
+			deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.18:32000").Wait();
+			deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.18:32000").Wait();
+			deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.18:32000").Wait();
 			var popup = new StartWorkOrderPopupView(this);
 			var result = await Shell.Current.ShowPopupAsync(popup);
 			if (result is bool boolResult)
@@ -157,7 +161,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 				{
 					await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
 					{
-						[nameof(ProductionWorkOrderList)] = productionWorkOrderList
+						[nameof(WorkOrder)] = workOrder
 					});
 				}
 				else
@@ -250,38 +254,38 @@ public partial class WorkOrderListViewModel : BaseViewModel
 
     //}
 
-    [RelayCommand]
-    async Task PerformSearchAsync(object text)
-    {
-        if (IsBusy)
-            return;
+    //[RelayCommand]
+    //async Task PerformSearchAsync(object text)
+    //{
+    //    if (IsBusy)
+    //        return;
 
-        try
-        {
-            IsBusy = true;
-            if (!string.IsNullOrEmpty(text.ToString()))
-            {
-                Results.Clear();
-                foreach (ProductionWorkOrderList item in Items.Where(x => x.MainProductCode.ToLower().Contains(text.ToString().ToLower())))
-                    Results.Add(item);
-            }
-            else
-            {
-                foreach (ProductionWorkOrderList item in Items)
-                    Results.Add(item);
-            }
+    //    try
+    //    {
+    //        IsBusy = true;
+    //        if (!string.IsNullOrEmpty(text.ToString()))
+    //        {
+    //            Results.Clear();
+    //            foreach (ProductionWorkOrderList item in Items.Where(x => x.MainProductCode.ToLower().Contains(text.ToString().ToLower())))
+    //                Results.Add(item);
+    //        }
+    //        else
+    //        {
+    //            foreach (ProductionWorkOrderList item in Items)
+    //                Results.Add(item);
+    //        }
 
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-            await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Debug.WriteLine(ex);
+    //        await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
+    //    }
+    //    finally
+    //    {
+    //        IsBusy = false;
+    //    }
+    //}
 
     [RelayCommand]
     async Task ShowBottomSheetAsync()

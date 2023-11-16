@@ -12,10 +12,12 @@ namespace MES.Client.Databases.SQLiteDatabase.Models;
 public class WorkOrder
 {
 	#region Fields
-	int referenceId;
-	DateTime date;
-	string workOrderCode;
-	string workStationCode;
-	bool isIntegrated;
+
+	[PrimaryKey]
+	public int ReferenceId { get; set; }
+	public DateTime Date { get; set; }
+	public string WorkOrderCode { get; set; }
+	public string WorkStationCode { get; set; }
+	public bool IsIntegrated { get; set; }
 	#endregion
 }

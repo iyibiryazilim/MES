@@ -17,8 +17,13 @@ public partial class LoginViewModel : BaseViewModel
 		_employeeService = employeeService;
 	}
 
+	public LoginViewModel() { }
+
 	[ObservableProperty]
 	string userCode;
+
+	[ObservableProperty]
+	string userName;
 
 	[RelayCommand]
 	async Task AuthenticateAsync(string usercode)
@@ -39,8 +44,16 @@ public partial class LoginViewModel : BaseViewModel
 					if(employeeResult.Data.Any())
 					{
 						var currentEmployee = employeeResult.Data.FirstOrDefault(x => x.Code == usercode);
-						UserCode = currentEmployee.Code;
-						Application.Current.MainPage = new AppShell();
+						if(currentEmployee != null)
+						{
+							UserCode = currentEmployee.Code;
+							UserName = currentEmployee.Name;
+							Application.Current.MainPage = new AppShell();
+						} else
+						{
+							await new Helpers.ToastMessageHelper.ToastMessageHelper().ShowToastMessageAsync($"{usercode} kodunda kullanıcı bulunamadı", CommunityToolkit.Maui.Core.ToastDuration.Short);
+						}
+						
 					}
 				}
 			}

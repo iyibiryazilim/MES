@@ -150,10 +150,10 @@
                     <TableView Grid.Column="0" Intent="Data">
                         <TableRoot>
                             <TableSection Title="İş Emri Bilgileri">
-                                <TextCell Detail="{Binding ProductionWorkOrderList.OperationCode}" Text="Operasyon Kodu" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.OperationName}" Text="Operasyon Adı" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.WorkstationCode}" Text="İş İstasyonu Kodu" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.WorkstationName}" Text="İş İstasyonu Adı" />
+                                <TextCell Detail="{Binding WorkOrder.OperationCode}" Text="Operasyon Kodu" />
+                                <TextCell Detail="{Binding WorkOrder.OperationName}" Text="Operasyon Adı" />
+                                <TextCell Detail="{Binding WorkOrder.WorkstationCode}" Text="İş İstasyonu Kodu" />
+                                <TextCell Detail="{Binding WorkOrder.WorkstationName}" Text="İş İstasyonu Adı" />
                             </TableSection>
                         </TableRoot>
                     </TableView>
@@ -163,12 +163,12 @@
                     <TableView Grid.Column="1" Intent="Data">
                         <TableRoot>
                             <TableSection Title="Ürün Bilgileri">
-                                <TextCell Detail="{Binding ProductionWorkOrderList.MainProductCode}" Text="Ürün Kodu" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.MainProductName}" Text="Ürün Adı" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.ProductionDate}" Text="Gerçek Bitiş Tarihi" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.PlanningEndDate}" Text="Planlanan Bitiş Tarihi" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.UnitsetCode}" Text="Ana Birim (unit)" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.SubUnitsetCode}" Text="Ana Birim (subunit)" />
+                                <TextCell Detail="{Binding WorkOrder.ProductCode}" Text="Ürün Kodu" />
+                                <TextCell Detail="{Binding WorkOrder.ProductName}" Text="Ürün Adı" />
+                                <TextCell Detail="{Binding WorkOrder.OperationActualDueDate}" Text="Gerçek Bitiş Tarihi" />
+                                <TextCell Detail="{Binding WorkOrder.OperationDueDate}" Text="Planlanan Bitiş Tarihi" />
+                                <TextCell Detail="{Binding WorkOrder.UnitsetCode}" Text="Ana Birim (unit)" />
+                                <TextCell Detail="{Binding WorkOrder.SubUnitsetCode}" Text="Ana Birim (subunit)" />
                             </TableSection>
                         </TableRoot>
                     </TableView>

@@ -1,24 +1,23 @@
-﻿using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.MESAPIHelper;
-using MES.Client.Views.PopupViews;
 using MES.Client.Views.StopCauseViews;
 using Microcharts;
 using Newtonsoft.Json;
+using Shared.Entity.BaseModels;
+using Shared.Entity.Models;
 using SkiaSharp;
 using System.Diagnostics;
-using YTT.Gateway.Model.Models.WorkOrderModels;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
-[QueryProperty(name: nameof(ProductionWorkOrderList), queryId: nameof(ProductionWorkOrderList))]
+[QueryProperty(name: nameof(WorkOrder), queryId: nameof(WorkOrder))]
 public partial class WorkOrderDetailViewModel : BaseViewModel
 {
 	//StopCauseListViewModel _stopCauseListViewModel;
 
 	[ObservableProperty]
-	ProductionWorkOrderList productionWorkOrderList;
+	WorkOrder workOrder;
 
 	[ObservableProperty]
 	double quantity;
@@ -32,9 +31,12 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[ObservableProperty]
 	DateTime time;
 
+	//public Command GetDeviceStateCommand { get; }
+
 	public WorkOrderDetailViewModel()
 	{
 		Title = "İş Emri Detay Sayfası";
+		//GetDeviceStateCommand = new Command(async () => await GetDeviceStateAsync());
 	}
 
 	public double QuantityChanged
@@ -248,13 +250,14 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[RelayCommand]
 	public async Task StartWorkOrderAsync()
 	{
-		await Task.Run(() =>
-		{
-			var timer = Application.Current.Dispatcher.CreateTimer();
-			timer.Interval = TimeSpan.FromSeconds(1);
-			timer.Tick += (s, e) => DoSomething();
-			timer.Start();
-		});
+		//await Task.Run(() =>
+		//{
+		//	var timer = Application.Current.Dispatcher.CreateTimer();
+		//	timer.Interval = TimeSpan.FromSeconds(1);
+		//	timer.Tick += (s, e) => DoSomething();
+		//	timer.Start();
+		//});
+		await GetDeviceStateAsync();
 	}
 
 	public void DoSomething()
@@ -314,4 +317,14 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	{
 		await Shell.Current.GoToAsync("..");
 	}
+
+	//async Task InsertWorkOrderToDatabase(Databases.SQLiteDatabase.Models.WorkOrder workOrder)
+	//{
+
+	//	workOrder.Date =
+	//	workOrder.WorkOrderCode = ;
+	//	workOrder.WorkStationCode= ;
+	//	workOrder.IsIntegrated = true;
+	//}
+
 }

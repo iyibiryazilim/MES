@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
-    xmlns:model="clr-namespace:YTT.Gateway.Model.Models.WorkOrderModels;assembly=YTT.Gateway.Model"
+    xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
     xmlns:shared="clr-namespace:MES.Client.Views.SharedViews"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
@@ -68,14 +68,7 @@
             <SearchBar
                 x:Name="searchBar"
                 HorizontalOptions="Fill"
-                WidthRequest="{Binding ScreenWidth}">
-                <SearchBar.Behaviors>
-                    <toolkit:EventToCommandBehavior
-                        Command="{Binding PerformSearchCommand}"
-                        CommandParameter="{Binding Text, Source={x:Reference searchBar}}"
-                        EventName="TextChanged" />
-                </SearchBar.Behaviors>
-            </SearchBar>
+                WidthRequest="{Binding ScreenWidth}" />
         </Border>
         <ActivityIndicator
             Grid.Row="2"
@@ -97,7 +90,7 @@
                     SnapPointsType="MandatorySingle" />
             </CarouselView.ItemsLayout>
             <CarouselView.ItemTemplate>
-                <DataTemplate x:DataType="model:ProductionWorkOrderList">
+                <DataTemplate x:DataType="model:WorkOrder">
 
                     <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlackSolid}}" StrokeShape="RoundRectangle 10">
 
@@ -151,12 +144,12 @@
                                     <Label
                                         FontAttributes="Bold"
                                         FontSize="Title"
-                                        Text="{Binding MainProductCode}"
+                                        Text="{Binding ProductCode}"
                                         VerticalTextAlignment="Start" />
                                     <Label
                                         FontAttributes="Bold"
                                         FontSize="15"
-                                        Text="{Binding MainProductName}"
+                                        Text="{Binding ProductName}"
                                         VerticalTextAlignment="Start" />
                                     <Border
                                         Padding="5"
@@ -205,7 +198,7 @@
                                     <TableRoot>
                                         <TableSection Title="Ürün Bilgileri" TextColor="{StaticResource Primary}">
                                             <TextCell
-                                                Detail="{Binding MainProductCode}"
+                                                Detail="{Binding ProductCode}"
                                                 Text="Ürün Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
 
@@ -224,7 +217,7 @@
                                             </ViewCell>-->
 
                                             <TextCell
-                                                Detail="{Binding MainProductName}"
+                                                Detail="{Binding ProductName}"
                                                 Text="Ürün Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <!--<ViewCell>
@@ -244,15 +237,15 @@
                                         </TableSection>
                                         <TableSection Title="İş Emri Bilgileri" TextColor="{StaticResource Primary}">
                                             <TextCell
-                                                Detail="{Binding WorkOrderNumber}"
+                                                Detail="?"
                                                 Text="İş Emri Numarası:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding PlanningStartDate}"
+                                                Detail="{Binding OperationBeginDate}"
                                                 Text="Planlanan Başlangıç Tarihi:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding ProductionNumber}"
+                                                Detail="{Binding ProductionCode}"
                                                 Text="Üretim Numarası:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <ViewCell>
@@ -283,11 +276,12 @@
                                                         </VerticalStackLayout>
                                                     </Border>-->
                                                     <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                                        <!--  Planning End Date  -->
                                                         <Label
                                                             FontAttributes="Bold"
                                                             FontSize="14"
                                                             HorizontalOptions="Center"
-                                                            Text="{Binding PlanningEndDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                            Text="{Binding OperationDueDate, StringFormat='{0:dd/MM/yyyy}'}"
                                                             TextColor="{AppThemeBinding Light={StaticResource Black},
                                                                                         Dark={StaticResource Gray200}}" />
                                                         <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}">
@@ -303,11 +297,12 @@
 
 
                                                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                                        <!--  Gerçek Bitiş Tarihi  -->
                                                         <Label
                                                             FontAttributes="Bold"
                                                             FontSize="14"
                                                             HorizontalOptions="Center"
-                                                            Text="{Binding ProductionDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                            Text="{Binding OperationActualBeginDate, StringFormat='{0:dd/MM/yyyy}'}"
                                                             TextColor="{AppThemeBinding Light={StaticResource Black},
                                                                                         Dark={StaticResource Gray200}}" />
                                                         <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}">
@@ -329,7 +324,7 @@
                                                             FontAttributes="Bold"
                                                             FontSize="14"
                                                             HorizontalOptions="Center"
-                                                            Text="XX/XX/XXXX"
+                                                            Text="{Binding OperationActualDueDate}"
                                                             TextColor="{AppThemeBinding Light={StaticResource Black},
                                                                                         Dark={StaticResource Gray200}}" />
                                                         <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}">
@@ -357,15 +352,15 @@
                                         </TableSection>
                                         <TableSection Title="Miktar Bilgileri" TextColor="{StaticResource Primary}">
                                             <TextCell
-                                                Detail="{Binding Quantity}"
+                                                Detail="?"
                                                 Text="Ana miktar(Quantity)"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding ActualQuantity}"
+                                                Detail="?"
                                                 Text="Gerçek Miktar"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding UnitsetName}"
+                                                Detail="?"
                                                 Text="Unitset Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
@@ -373,7 +368,7 @@
                                                 Text="SubUnitset Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding SubUnitsetName}"
+                                                Detail="?"
                                                 Text="SubUnitset Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>
@@ -400,21 +395,21 @@
                                                 Text="İş İstasyonu Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding WorkstationGroupCode}"
+                                                Detail="?"
                                                 Text="İş İstasyonu Grup Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding WorkstationGroupName}"
+                                                Detail="?"
                                                 Text="İş İstasyonu Grup Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>
                                         <TableSection Title="BOM Master" TextColor="{StaticResource Primary}">
                                             <TextCell
-                                                Detail="{Binding BOMMasterCode}"
+                                                Detail="?"
                                                 Text="BOM Master Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="{Binding BOMMasterName}"
+                                                Detail="?"
                                                 Text="BOM Master Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>

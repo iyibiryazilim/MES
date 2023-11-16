@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui;
 using MES.Client.Databases.SQLiteDatabase;
-using MES.Client.DataStores;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Services;
 using MES.Client.ViewModels.LoginViewModels;
@@ -18,6 +17,8 @@ using YTT.Gateway.Middleware.DataStores;
 using YTT.Gateway.Middleware.Services;
 using EmployeeDataStore = Shared.Middleware.DataStores.EmployeeDataStore;
 using IEmployeeService = Shared.Middleware.Services.IEmployeeService;
+using WorkOrderDataStore = Shared.Middleware.DataStores.WorkOrderDataStore;
+using IWorkOrderService = Shared.Middleware.Services.IWorkOrderService;
 using IStopCauseService = YTT.Gateway.Middleware.Services.IStopCauseService;
 using StopCauseDataStore = YTT.Gateway.Middleware.DataStores.StopCauseDataStore;
 
@@ -35,7 +36,6 @@ public static class MauiProgram
             .UseMicrocharts()
             .RegisterAppDataServices()
             .RegisterViewModels()
-            .RegisterAppDTO()
             .RegisterAppDB()
             .RegisterViews()
             .ConfigureFonts(fonts =>
@@ -65,21 +65,22 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<IHttpClientService, HttpClientService>();
         mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
         //mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
-        mauiAppBuilder.Services.AddTransient<IProductionWorkOrderService, ProductionWorkOrderDataStore>();
+        //mauiAppBuilder.Services.AddTransient<IProductionWorkOrderService, ProductionWorkOrderDataStore>();
         mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
         mauiAppBuilder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
         mauiAppBuilder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
+        //mauiAppBuilder.Services.AddTransient<IBaseWorkOrderService, BaseWorkOrderDataStore>();
 
 
         return mauiAppBuilder;
     }
 
-    public static MauiAppBuilder RegisterAppDTO(this MauiAppBuilder mauiAppBuilder)
-    {
-        mauiAppBuilder.Services.AddTransient<ICustomQueryDTO, CustomQueryDTO>();
+    //public static MauiAppBuilder RegisterAppDTO(this MauiAppBuilder mauiAppBuilder)
+    //{
+    //    mauiAppBuilder.Services.AddTransient<ICustomQueryDTO, CustomQueryDTO>();
 
-        return mauiAppBuilder;
-    }
+    //    return mauiAppBuilder;
+    //}
 
     public static MauiAppBuilder RegisterAppDB(this MauiAppBuilder mauiAppBuilder)
     {
