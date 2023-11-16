@@ -6,6 +6,7 @@
 		<domain includeSubdomains="true">192.168.1.24</domain>
 		<domain includeSubdomains="true">192.168.1.25</domain>
 		<domain includeSubdomains="true">192.168.1.13</domain>
+		<domain includeSubdomains="true">192.168.1.18</domain>
 		<domain includeSubdomains="true">192.168.1.8</domain>
 		<domain includeSubdomains="true">192.168.1.10</domain>
 		<domain includeSubdomains="true">192.168.1.43</domain>

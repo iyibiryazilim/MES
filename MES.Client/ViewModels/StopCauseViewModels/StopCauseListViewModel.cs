@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.HttpClientHelpers;
-using MES.Client.ViewModels.WorkOrderViewModels;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -14,8 +13,6 @@ public partial class StopCauseListViewModel : BaseViewModel
 {
 	IHttpClientService _httpClientService;
 	IStopCauseService _stopCauseService;
-	
-	WorkOrderDetailViewModel workOrderDetailViewModel = new();
 
 	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService)
 	{
@@ -67,39 +64,39 @@ public partial class StopCauseListViewModel : BaseViewModel
 		}
 	}
 
-	//[RelayCommand]
-	//async Task SetSelectedItemAsync(StopCause item)
-	//{
-	//	if (IsBusy)
-	//		return;
+	[RelayCommand]
+	async Task SetSelectedItemAsync(StopCause item)
+	{
+		if (IsBusy)
+			return;
 
-	//	try
-	//	{
-	//		IsBusy = true;
-	//		IsRefreshing = true;
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
 
-	//		if (item == null)
-	//			return;
+			if (item == null)
+				return;
 
-	//		foreach (var stopCause in StopCauseListItems)
-	//		{
-	//			stopCause.IsSelected = false;
-	//		}
-	//		StopCauseListItems.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
-	//		SelectedItem = item;
+			foreach (var stopCause in StopCauseListItems)
+			{
+				stopCause.IsSelected = false;
+			}
+			StopCauseListItems.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
+			SelectedItem = item;
 
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		Debug.WriteLine(ex);
-	//		await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
-	//	}
-	//	finally
-	//	{
-	//		IsBusy = false;
-	//		IsRefreshing = false;
-	//	}
-	//}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
+	}
 
 	[RelayCommand]
 	async Task StopButtonAsync()

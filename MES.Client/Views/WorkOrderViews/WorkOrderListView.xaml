@@ -12,9 +12,9 @@
     x:DataType="viewModel:WorkOrderListViewModel"
     Shell.NavBarIsVisible="False">
 
-    <ContentPage.Behaviors>
+    <!--<ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}" EventName="Loaded" />
-    </ContentPage.Behaviors>
+    </ContentPage.Behaviors>-->
 
     <Grid
         Padding="25"
@@ -158,19 +158,35 @@
                                         Text="{Binding ProductName}"
                                         VerticalTextAlignment="Start" />
                                     <Border
-                                        Padding="5"
+                                        Padding="10,8"
                                         HorizontalOptions="Start"
-                                        MinimumWidthRequest="100"
-                                        Stroke="{StaticResource Danger}"
+                                        Stroke="{StaticResource Success}"
                                         StrokeShape="RoundRectangle 10">
+                                        <Border.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding StatusName}"
+                                                TargetType="Border"
+                                                Value="Kapandı">
+                                                <Setter Property="Stroke" Value="{StaticResource Danger}" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
                                         <HorizontalStackLayout Spacing="5">
                                             <Border
-                                                BackgroundColor="{StaticResource Danger}"
+                                                BackgroundColor="{StaticResource Success}"
                                                 HeightRequest="10"
                                                 StrokeShape="RoundRectangle 50"
                                                 StrokeThickness="0"
-                                                WidthRequest="10" />
-                                            <Label Text="Durduruldu" />
+                                                WidthRequest="10">
+                                                <Border.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding StatusName}"
+                                                        TargetType="Border"
+                                                        Value="Kapandı">
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource Danger}" />
+                                                    </DataTrigger>
+                                                </Border.Triggers>
+                                            </Border>
+                                            <Label Text="{Binding StatusName}" />
                                         </HorizontalStackLayout>
                                     </Border>
 

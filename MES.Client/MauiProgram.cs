@@ -60,10 +60,10 @@ public static class MauiProgram
 		mauiAppBuilder.Services.AddSingleton<IHttpClientService, HttpClientService>();
 		mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 		//mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
-		//mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
+		mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
 		mauiAppBuilder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
 		mauiAppBuilder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
-		
+
 		return mauiAppBuilder;
 	}
 
@@ -86,7 +86,7 @@ public static class MauiProgram
 		mauiAppBuilder.Services.AddSingleton<LoginViewModel>();
 		mauiAppBuilder.Services.AddSingleton<WorkOrderListViewModel>();
 		mauiAppBuilder.Services.AddSingleton<WorkOrderDetailViewModel>();
-		//mauiAppBuilder.Services.AddSingleton<StopCauseListViewModel>();
+		mauiAppBuilder.Services.AddSingleton<StopCauseListViewModel>();
 		mauiAppBuilder.Services.AddSingleton<WorkOrderListModalViewModel>();
 
 		return mauiAppBuilder;
@@ -97,7 +97,7 @@ public static class MauiProgram
 		mauiAppBuilder.Services.AddSingleton<WorkOrderListView>();
 		mauiAppBuilder.Services.AddSingleton<WorkOrderDetailView>();
 		mauiAppBuilder.Services.AddSingleton<LoginView>();
-		//mauiAppBuilder.Services.AddSingleton<StopCauseListView>();
+		mauiAppBuilder.Services.AddSingleton<StopCauseListView>();
 		mauiAppBuilder.Services.AddSingleton<WorkOrderListModalView>();
 
 		return mauiAppBuilder;

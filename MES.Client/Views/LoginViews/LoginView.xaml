@@ -16,7 +16,7 @@
             Grid.ColumnSpan="2"
             Aspect="AspectFill"
             Opacity="{AppThemeBinding Dark='0.2',
-                                      Light='0.7'}"
+                                      Light='0.5'}"
             Source="cover.png" />
 
         <Border

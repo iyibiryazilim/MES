@@ -20,8 +20,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 	IHttpClientService _httpClientService;
 	IWorkOrderService _workOrderService;
 
-	DeviceCommandHelper deviceCommandHelper = new DeviceCommandHelper(new HttpClient());
-
 	[ObservableProperty]
 	string currentEmployee;
 
@@ -58,14 +56,14 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		_httpClientService = httpClientService;
 		_workOrderService = workOrderService;
 
-		GetItemsCommand = new Command(async () => await GetItemsAsync());
+		//GetItemsCommand = new Command(async () => await GetItemsAsync());
 		//LoadMoreCommand = new Command(LoadMoreAsync);
 
-		//MainThread.BeginInvokeOnMainThread(async () =>
-		//{
-
-		//	await GetCurrentEmployeeAsync();
-		//});
+		MainThread.BeginInvokeOnMainThread(async () =>
+		{
+			await GetCurrentEmployeeAsync();
+			await GetItemsAsync();
+		});
 	}
 
 
@@ -181,9 +179,10 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		{
 			IsBusy = true;
 			IsRefreshing = true;
-			//deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.18:32000").Wait();
-			//deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.18:32000").Wait();
-			//deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.18:32000").Wait();
+			DeviceCommandHelper deviceCommandHelper = new();
+			//await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.18:32000");
+			//await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.18:32000");
+			//await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.18:32000");
 			var popup = new StartWorkOrderPopupView(this);
 			var result = await Shell.Current.ShowPopupAsync(popup);
 			if (result is bool boolResult)
