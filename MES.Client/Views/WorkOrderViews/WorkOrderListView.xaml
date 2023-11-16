@@ -76,15 +76,17 @@
         </Border>
         <ActivityIndicator
             Grid.Row="2"
+            AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
             HeightRequest="50"
             IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
             WidthRequest="50"
             Color="{StaticResource Primary}" />
         <CarouselView
             x:Name="carouselList"
             Grid.Row="2"
             IndicatorView="workOrderIndicatorView"
-            IsVisible="{Binding IsNotBusy}"
             ItemsSource="{Binding Results}"
             ItemsUpdatingScrollMode="KeepScrollOffset">
             <CarouselView.ItemsLayout>
@@ -444,7 +446,6 @@
             Margin="0,10,0,0"
             HorizontalOptions="Center"
             IndicatorColor="{StaticResource Gray400}"
-            IsVisible="{Binding IsNotBusy}"
             SelectedIndicatorColor="{StaticResource Primary}" />
     </Grid>
 

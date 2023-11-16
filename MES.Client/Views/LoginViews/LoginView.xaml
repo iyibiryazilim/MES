@@ -81,6 +81,18 @@
                         TextColor="{StaticResource Black}" />
 
                 </VerticalStackLayout>
+                <!--  begin::Loading  -->
+                <StackLayout
+                    AbsoluteLayout.LayoutBounds="0.5, 1, -1 ,-1"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    IsVisible="{Binding IsBusy}"
+                    VerticalOptions="End">
+                    <ActivityIndicator
+                        HeightRequest="50"
+                        IsRunning="{Binding IsBusy}"
+                        Color="{StaticResource Primary}" />
+                </StackLayout>
+                <!--  end::Loading  -->
             </Grid>
         </Border>
 
