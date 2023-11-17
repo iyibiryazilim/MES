@@ -12,18 +12,19 @@ namespace MES.Client.Helpers.DeviceHelper;
 
 public class DeviceCommandHelper
 {
-    private readonly HttpClient _httpClient;
+    //private readonly HttpClient _httpClient;
     
-    public DeviceCommandHelper(HttpClient httpClient)
+    public DeviceCommandHelper()
     {
-        _httpClient = httpClient;
+
     }
 
     public async Task SendCommandAsync(string command, string baseUrl)
     {
         try
         {
-            _httpClient.BaseAddress = new Uri(baseUrl);
+            var _httpClient = new HttpClient();
+			_httpClient.BaseAddress = new Uri(baseUrl);
             
             var body = $"{{\"cmd\": \"{command}\"}}";
             StringContent stringContent = new StringContent(body);

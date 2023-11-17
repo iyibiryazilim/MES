@@ -3,6 +3,7 @@
     x:Class="MES.Client.Views.WorkOrderViews.WorkOrderDetailView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
     xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewModel="clr-namespace:MES.Client.ViewModels.WorkOrderViewModels"
@@ -12,6 +13,7 @@
 
 
     <Grid Padding="10" ColumnDefinitions=".20*,.80*">
+
         <Frame Grid.Column="0" Padding="10">
 
             <VerticalStackLayout>
@@ -23,10 +25,6 @@
                         Padding="10"
                         Spacing="10">
 
-                        <!--<toolkit:AvatarView
-                            HeightRequest="125"
-                            ImageSource="takoz.png"
-                            WidthRequest="125" />-->
                         <Image
                             Aspect="AspectFit"
                             HeightRequest="125"
@@ -41,10 +39,16 @@
                         Padding="10"
                         Spacing="10">
                         <Button
-                            Command="{Binding ShowStartWorkOrderPopupCommand}"
+                            Command="{Binding StartWorkOrderCommand}"
                             FontSize="Subtitle"
-                            IsEnabled="{Binding StartButtonEnable}"
-                            Text="Başlat" />
+                            IsEnabled="{Binding StartButtonEnabled}"
+                            Text="Başlat">
+                            <Button.Triggers>
+                                <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Secondary}}" />
+                                </Trigger>
+                            </Button.Triggers>
+                        </Button>
                         <Button FontSize="Subtitle" Text="Malzeme Hareketleri" />
                         <Button FontSize="Subtitle" Text="Setup" />
                         <Button FontSize="Subtitle" Text="Duruş Hareketleri" />
@@ -72,7 +76,7 @@
                     <Label
                         FontSize="Title"
                         HorizontalOptions="Center"
-                        Text="00:00:00"
+                        Text="{Binding Time, StringFormat='{0:HH:mm:ss}'}"
                         VerticalOptions="End" />
                     <Label
                         FontSize="Small"
@@ -146,10 +150,10 @@
                     <TableView Grid.Column="0" Intent="Data">
                         <TableRoot>
                             <TableSection Title="İş Emri Bilgileri">
-                                <TextCell Detail="{Binding ProductionWorkOrderList.OperationCode}" Text="Operasyon Kodu" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.OperationName}" Text="Operasyon Adı" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.WorkstationCode}" Text="İş İstasyonu Kodu" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.WorkstationName}" Text="İş İstasyonu Adı" />
+                                <TextCell Detail="{Binding WorkOrder.OperationCode}" Text="Operasyon Kodu" />
+                                <TextCell Detail="{Binding WorkOrder.OperationName}" Text="Operasyon Adı" />
+                                <TextCell Detail="{Binding WorkOrder.WorkstationCode}" Text="İş İstasyonu Kodu" />
+                                <TextCell Detail="{Binding WorkOrder.WorkstationName}" Text="İş İstasyonu Adı" />
                             </TableSection>
                         </TableRoot>
                     </TableView>
@@ -159,12 +163,12 @@
                     <TableView Grid.Column="1" Intent="Data">
                         <TableRoot>
                             <TableSection Title="Ürün Bilgileri">
-                                <TextCell Detail="{Binding ProductionWorkOrderList.MainProductCode}" Text="Ürün Kodu" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.MainProductName}" Text="Ürün Adı" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.ProductionDate}" Text="Gerçek Bitiş Tarihi" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.PlanningEndDate}" Text="Planlanan Bitiş Tarihi" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.UnitsetCode}" Text="Ana Birim (unit)" />
-                                <TextCell Detail="{Binding ProductionWorkOrderList.SubUnitsetCode}" Text="Ana Birim (subunit)" />
+                                <TextCell Detail="{Binding WorkOrder.ProductCode}" Text="Ürün Kodu" />
+                                <TextCell Detail="{Binding WorkOrder.ProductName}" Text="Ürün Adı" />
+                                <TextCell Detail="{Binding WorkOrder.OperationActualDueDate}" Text="Gerçek Bitiş Tarihi" />
+                                <TextCell Detail="{Binding WorkOrder.OperationDueDate}" Text="Planlanan Bitiş Tarihi" />
+                                <TextCell Detail="{Binding WorkOrder.UnitsetCode}" Text="Ana Birim (unit)" />
+                                <TextCell Detail="{Binding WorkOrder.SubUnitsetCode}" Text="Ana Birim (subunit)" />
                             </TableSection>
                         </TableRoot>
                     </TableView>
@@ -369,7 +373,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Progress="0.75"
+                            Progress="0.67"
                             ProgressColor="{StaticResource Warning}"
                             ScaleY="5" />
 
@@ -381,7 +385,7 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="%" />
-                                    <Span Text="67" />
+                                    <Span Text="{Binding ActualRate}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

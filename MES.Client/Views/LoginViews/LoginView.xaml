@@ -16,7 +16,7 @@
             Grid.ColumnSpan="2"
             Aspect="AspectFill"
             Opacity="{AppThemeBinding Dark='0.2',
-                                      Light='0.7'}"
+                                      Light='0.5'}"
             Source="cover.png" />
 
         <Border
@@ -52,9 +52,9 @@
                             TextColor="{StaticResource Black}">
                             <Entry.Behaviors>
                                 <toolkit:EventToCommandBehavior
-                                    Command="{Binding TextChangedCommand}"
+                                    Command="{Binding AuthenticateCommand}"
                                     CommandParameter="{Binding Text, Source={x:Reference txtUsername}}"
-                                    EventName="TextChanged" />
+                                    EventName="Completed" />
                             </Entry.Behaviors>
                         </Entry>
                     </Border>
@@ -81,6 +81,18 @@
                         TextColor="{StaticResource Black}" />
 
                 </VerticalStackLayout>
+                <!--  begin::Loading  -->
+                <StackLayout
+                    AbsoluteLayout.LayoutBounds="0.5, 1, -1 ,-1"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    IsVisible="{Binding IsBusy}"
+                    VerticalOptions="End">
+                    <ActivityIndicator
+                        HeightRequest="50"
+                        IsRunning="{Binding IsBusy}"
+                        Color="{StaticResource Primary}" />
+                </StackLayout>
+                <!--  end::Loading  -->
             </Grid>
         </Border>
 

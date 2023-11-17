@@ -1,116 +1,112 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.HttpClientHelpers;
-using MES.Client.ViewModels.WorkOrderViewModels;
-using System;
-using System.Collections.Generic;
+using Shared.Entity.Models;
+using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YTT.Gateway.Middleware.Services;
-using YTT.Gateway.Model.Models.ResultModels;
-using YTT.Gateway.Model.Models.StopCauseModels;
+
 
 namespace MES.Client.ViewModels.StopCauseViewModels;
 
 public partial class StopCauseListViewModel : BaseViewModel
 {
-    IHttpClientService _httpClientService;
-    IStopCauseService _stopCauseService;
+	IHttpClientService _httpClientService;
+	IStopCauseService _stopCauseService;
 
-    public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService)
-    {
-        _httpClientService = httpClientService;
-        _stopCauseService = stopCauseService;
-        
-        GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
-    }
-    public Command GetStopCauseListItemsCommand { get; }
+	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService)
+	{
+		_httpClientService = httpClientService;
+		_stopCauseService = stopCauseService;
 
-    public ObservableCollection<StopCauseList> StopCauseListItems { get; } = new();
+		GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
+	}
+	public Command GetStopCauseListItemsCommand { get; }
 
-    [ObservableProperty]
-    StopCauseList selectedItem;
+	public ObservableCollection<StopCause> StopCauseListItems { get; } = new();
 
-   async Task GetStopCauseListItemsAsync()
-    {
-        if (IsBusy)
-            return;
+	[ObservableProperty]
+	StopCause selectedItem;
 
-        try
-        {
-            IsBusy = true;
-            IsRefreshing = true;
+	async Task GetStopCauseListItemsAsync()
+	{
+		if (IsBusy)
+			return;
 
-            var httpClient = _httpClientService.GetOrCreateHttpClient();
-            DataResult<IEnumerable<StopCauseList>> result = await _stopCauseService.GetObjectsAsync(httpClient);
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
 
-            if(result.IsSuccess)
-            {
-                if(result.Data.Any())
-                {
-                    foreach(var item in result.Data)
-                    {
-                        StopCauseListItems.Add(item);
-                    }
-                }
-            }
-        }
+			var httpClient = _httpClientService.GetOrCreateHttpClient();
+			var result = await _stopCauseService.GetObjects(httpClient);
 
-        catch(Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-        finally
-        {
-            IsBusy = false;
-            IsRefreshing = false;
-        }
-    }
+			if (result.IsSuccess)
+			{
+				if (result.Data.Any())
+				{
+					foreach (var item in result.Data)
+					{
+						StopCauseListItems.Add(item);
+					}
+				}
+			}
+		}
 
-    [RelayCommand]
-   async Task SetSelectedItemAsync(StopCauseList item)
-    {
-        if (IsBusy)
-            return;
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
+	}
 
-        try
-        {
-            IsBusy = true;
-            IsRefreshing = true;
+	[RelayCommand]
+	async Task SetSelectedItemAsync(StopCause item)
+	{
+		if (IsBusy)
+			return;
 
-            if (item == null)
-                return;
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
 
-            foreach(var stopCause in StopCauseListItems)
-            {
-                stopCause.IsSelected = false;
-            }
-            StopCauseListItems.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
-            SelectedItem = item;
+			if (item == null)
+				return;
 
-        } catch(Exception ex)
-        {
-            Debug.WriteLine(ex);
-            await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
-        } finally
-        {
-            IsBusy = false;
-            IsRefreshing = false;
-        }
-    }
+			foreach (var stopCause in StopCauseListItems)
+			{
+				stopCause.IsSelected = false;
+			}
+			StopCauseListItems.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
+			SelectedItem = item;
 
-    [RelayCommand]
-    async Task StopButtonAsync()
-    {
-        await Shell.Current.GoToAsync("../.."); 
-    }
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
+	}
 
-    [RelayCommand]
-    async Task GoToBackAsync()
-    {
-        await Shell.Current.GoToAsync("..");  
-    }
-}   
+	[RelayCommand]
+	async Task StopButtonAsync()
+	{
+		await Shell.Current.GoToAsync("../..");
+	}
+
+	[RelayCommand]
+	async Task GoToBackAsync()
+	{
+		await Shell.Current.GoToAsync("..");
+	}
+}

@@ -35,10 +35,18 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\iyibiricon.png" Color="#FFF" BaseSize="256,208" Resize="true" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\iyibiricon.png" Color="#fff" BaseSize="256, 208" />
@@ -55,7 +63,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="LBS.WebAPI.Service" Version="1.0.43" />
+		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.7" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
@@ -74,6 +82,7 @@
 
 	<ItemGroup>
 	  <None Remove="Helpers\" />
+	  <None Remove="Resources\AppIcon\iyibiricon.png" />
 	  <None Remove="ViewModels\" />
 	  <None Remove="Views\" />
 	  <None Remove="Models\" />
@@ -96,7 +105,6 @@
 	  <None Remove="Helpers\MESAPIHelper\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Databases\SQLiteDatabase\Models\" />
 	  <Folder Include="Models\" />
 	  <Folder Include="Helpers\HttpClientHelpers\" />
 	  <Folder Include="Helpers\Mappers\" />
@@ -116,6 +124,9 @@
 	  <BundleResource Include="Resources\Fonts\fa-brands.otf" />
 	  <BundleResource Include="Resources\Images\iyibiricon.png" />
 	  <BundleResource Include="Resources\Images\avatar.jpg" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiIcon Include="Resources\AppIcon\iyibiricon.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Update="Views\PopupViews\StartWorkOrderPopupView.xaml">

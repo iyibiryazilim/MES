@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
-    xmlns:model="clr-namespace:YTT.Gateway.Model.Models.StopCauseModels;assembly=YTT.Gateway.Model"
+    xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:MES.Client.ViewModels.StopCauseViewModels"
     Shell.NavBarIsVisible="False"
@@ -63,7 +63,7 @@
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:StopCauseList">
+                    <DataTemplate x:DataType="model:StopCause">
                         <VerticalStackLayout>
                             <Border
                                 Padding="10"
