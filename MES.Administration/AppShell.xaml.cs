@@ -1,5 +1,7 @@
 ﻿using MES.Administration.Views.PanelViews;
 using MES.Administration.Views.ProductViews;
+using MES.Administration.Views.WorkOrderViews;
+using MES.Administration.Views.WorkstationViews;
 using SimpleToolkit.Core;
 
 namespace MES.Administration;
@@ -12,8 +14,8 @@ public partial class AppShell : SimpleToolkit.SimpleShell.SimpleShell
 
         AddTab(typeof(PanelView), PageType.PanelView);
         AddTab(typeof(ProductionPanelView), PageType.ProductionPanel);
-        AddTab(typeof(WorkstationPanelView), PageType.WorkstationPanel);
-        AddTab(typeof(ProductPanelView), PageType.ProductPanel);
+        AddTab(typeof(WorkstationListView), PageType.WorkstationPanel);
+        AddTab(typeof(WorkOrderListView), PageType.ProductPanel);
         AddTab(typeof(MaintenancePanelView), PageType.MaintenancePanel);
 
         Loaded += AppShellLoaded;
