@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui;
-using LBS.WebAPI.Service.DataStores;
-using LBS.WebAPI.Service.Services;
+//using LBS.WebAPI.Service.DataStores;
+//using LBS.WebAPI.Service.Services;
 using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
 using MES.Administration.ViewModels.BOMViewModels;
 using MES.Administration.ViewModels.PanelViewModels;
@@ -15,8 +15,12 @@ using MES.Administration.Views.ProductViews;
 using MES.Administration.Views.WorkOrderViews;
 using MES.Administration.Views.WorkstationViews;
 using Microsoft.Extensions.Logging;
+using Shared.Middleware.DataStores;
+using Shared.Middleware.Services;
 using SimpleToolkit.Core;
 using SimpleToolkit.SimpleShell;
+using IWorkOrderService = Shared.Middleware.Services.IWorkOrderService;
+using WorkOrderDataStore = Shared.Middleware.DataStores.WorkOrderDataStore;
 
 namespace MES.Administration;
 
@@ -56,8 +60,10 @@ public static class MauiProgram
     public static MauiAppBuilder RegisterAppDataServices(this MauiAppBuilder mauiAppBuilder)
     {
         mauiAppBuilder.Services.AddSingleton<IHttpClientLBSService, HttpClientLBSService>();
-        mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
-        mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
+        //mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
+        //mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
+        mauiAppBuilder.Services.AddTransient<IWorkstationService, WorkstationDataStore>();
+        mauiAppBuilder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
 
         return mauiAppBuilder;
     }

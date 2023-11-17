@@ -4,7 +4,7 @@ namespace MES.Administration.Views.WorkOrderViews;
 
 public partial class WorkOrderListView : ContentPage
 {
-    private readonly WorkOrderListViewModel _viewModel;
+    WorkOrderListViewModel _viewModel;
     public WorkOrderListView(WorkOrderListViewModel viewModel)
     {
         InitializeComponent();
