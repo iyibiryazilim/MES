@@ -64,6 +64,7 @@ public static class MauiProgram
         //mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
         mauiAppBuilder.Services.AddTransient<IWorkstationService, WorkstationDataStore>();
         mauiAppBuilder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
+        mauiAppBuilder.Services.AddTransient<IEndProductService, EndProductDataStore>();
 
         return mauiAppBuilder;
     }

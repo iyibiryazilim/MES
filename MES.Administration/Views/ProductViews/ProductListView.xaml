@@ -1,14 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MES.Administration.Views.ProductViews.ProductListView"
              xmlns:viewModel="clr-namespace:MES.Administration.ViewModels.ProductViewModels"
              x:DataType="viewModel:ProductListViewModel"
+             xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
              Title="{Binding Title}">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}"
+                                        EventName="Loaded" />
+    </ContentPage.Behaviors>
+
+    <Grid RowSpacing="5" RowDefinitions="Auto,*" Padding="50">
+        <Label Grid.Row="0" Text=" Ürünler" FontSize="Title" />
+        <CollectionView ItemsSource="{Binding Result}"
+                        Grid.Row="1"
+                        VerticalOptions="End">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"
+                                   ItemSpacing="30" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:EndProduct">
+                    <Border 
+                            StrokeShape="RoundRectangle 20"
+                            HeightRequest="350"
+                            WidthRequest="700">
+                        <Grid ColumnDefinitions=".6*,.40*">
+                            <Grid  Grid.Column="0"
+                                   BackgroundColor="White">
+                                <Image  Source="takoz.jpg"
+                                        BackgroundColor="Transparent"></Image>
+                            </Grid>
+                            <Grid  Grid.Column="1"
+                                   RowDefinitions=".20*,*,.20*"
+                                   Padding="25"
+                                   RowSpacing="50">
+                                <Grid Grid.Row="0">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="{Binding Code,StringFormat='Kod: {0}'}"
+                                               FontSize="20" />
+                                        <Label Text="{Binding Name,StringFormat='Adı: {0}'}"
+                                               FontSize="20" />
+                                        
+                                        <BoxView HeightRequest="3"
+                                                 Color="DarkGray">
+                                        </BoxView>
+                                    </VerticalStackLayout>
+                                </Grid>
+                                <Grid Grid.Row="1"
+                                      VerticalOptions="Center" HorizontalOptions="Start">
+                                    <VerticalStackLayout Spacing="20"
+                                                        Padding="0,15,0,0">
+                                        <Label Text="Stok Miktarı: 1000"
+                                               FontSize="15" />
+                                        <Label Text="Planlanan Miktar: 1268"
+                                               FontSize="15" />
+                                        <Label Text="Gerçekleşen Miktar: 1013"
+                                               FontSize="15" />
+
+                                    </VerticalStackLayout>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Button WidthRequest="200"
+                                            Padding="0"
+                                            Text="Daha Fazla"
+                                            FontSize="Subtitle"
+                                            CornerRadius="20"></Button>
+                                </Grid>
+
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        
+        
+    </Grid>
+  
 </ContentPage>

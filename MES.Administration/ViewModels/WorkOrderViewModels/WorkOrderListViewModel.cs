@@ -49,7 +49,9 @@ public partial class WorkOrderListViewModel : BaseViewModel
             
 
         }
-        catch (Exception ex) { }
+        catch (Exception ex) {
+            throw ex;
+        }
 
         finally
         {
