@@ -20,7 +20,7 @@ public partial class WorkstationListViewModel : BaseViewModel
         GetItemsCommand = new Command(async () => await GetItemsAsync());
     }
 
-    ObservableCollection<Workstation> Result { get; } = new();
+    public ObservableCollection<Workstation> Result { get; } = new();
 
     public Command GetItemsCommand { get; }
 
@@ -36,10 +36,18 @@ public partial class WorkstationListViewModel : BaseViewModel
             IsBusy = true;
             var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
             var result= await _workStationservice.GetObjects(httpClient);
-            foreach(var item in result.Data)
+
+            if(result.IsSuccess)
             {
-                Result.Add(item);
+                if(result.Data.Any())
+                {
+                    foreach (var item in result.Data)
+                    {
+                        Result.Add(item);
+                    }
+                }
             }
+           
 
         }
         catch(Exception ex) { }

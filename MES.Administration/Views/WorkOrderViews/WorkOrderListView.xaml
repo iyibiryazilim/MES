@@ -5,14 +5,92 @@
              x:Class="MES.Administration.Views.WorkOrderViews.WorkOrderListView"
              xmlns:viewModel="clr-namespace:MES.Administration.ViewModels.WorkOrderViewModels"
              x:DataType="viewModel:WorkOrderListViewModel"
+             xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
              Title="{Binding Title}">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}" EventName="Loaded" />
+        <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}"
+                                        EventName="Loaded" />
     </ContentPage.Behaviors>
-    <VerticalStackLayout>
-        <Label 
-            Text="WorkOrder"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto" Padding="20" RowSpacing="20" >
+        <Grid>
+            <Label Text="{Binding Title}"  HorizontalOptions="Center" FontSize="16" />
+        </Grid>
+        <Border StrokeShape="RoundRectangle 20" Grid.Row="1">
+            <SearchBar Placeholder="Arama"/>
+        </Border>
+        <CarouselView ItemsSource="{Binding Result}"
+                      Grid.Row="2"
+                      
+                      IndicatorView="indicatorView">
+            <!--<CarouselView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"
+                                   ItemSpacing="50" />
+            </CarouselView.ItemsLayout>-->
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="model:WorkOrder">
+                    <Grid ColumnDefinitions="*,*"
+                          Margin="0,0,0,0" ColumnSpacing="20">
+                        <Grid ColumnDefinitions="*,*"
+                              RowDefinitions="*,Auto"
+                              Grid.Column="0" BackgroundColor="{StaticResource White}"
+                              >
+                            <Image  Source="takoz.jpg"
+                                    BackgroundColor="{StaticResource White}"
+                                    HeightRequest="300"
+                                    Aspect="AspectFit"
+                                    Grid.ColumnSpan="2" />
+                            <Border Grid.Column="0"
+                                    Grid.Row="1"
+                                    Padding="10">
+                                <Label Text="1000"
+                                       HorizontalOptions="Center"
+                                       TextColor="Black"
+                                       FontSize="18" />
+                            </Border>
+                            <Border Grid.Column="1"
+                                    Padding="10"
+                                    Grid.Row="1">
+                                <Label Text="10"
+                                       HorizontalOptions="Center"
+                                       TextColor="Black"
+                                       FontSize="18" />
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto" >
+                            <!--<Label Text=" Üretim Detayları"  HorizontalOptions="Center"/>-->
+                            <TableView Intent="Menu">
+                                <TableRoot>
+                                    <TableSection Title="Üretim Detayları">
+                                        <TextCell Text="Ürün Kodu"
+                                                  Detail="{Binding ProductCode}" />
+                                        <TextCell Text="Ürün Adı"
+                                                  Detail="{Binding ProductName}" />
+                                        <TextCell Text="Operasyon Başlama Tarihi"
+                                                  Detail="{ Binding OperationBeginDate, StringFormat='{0:c}'}" />
+                                        <TextCell Text="Operasyon Başlama Zamanı"
+                                                  Detail="{Binding OperationBeginTime}" />
+                                        <TextCell Text="Operasyon Bitiş Tarihi"
+                                                  Detail="{Binding OperationDueDate, StringFormat='{0:c}'}" />
+                                        <TextCell Text="Operasyon Bitiiş Zamanı"
+                                                  Detail="{Binding OperationDueTime}"/>
+                                        <TextCell Text="5. XAML vs code"
+                                                  Detail="Learn more about creating your UI in XAML." />
+                                        <TextCell Text="5. XAML vs code"
+                                                  Detail="Learn more about creating your UI in XAML." />
+                                        
+                                    </TableSection>
+                                </TableRoot>
+                            </TableView>
+
+
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <IndicatorView x:Name="indicatorView" Grid.Row="3"
+                       IndicatorColor="LightGray"
+                       SelectedIndicatorColor="{StaticResource Primary}" />
+    </Grid>
+    
 </ContentPage>

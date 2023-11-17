@@ -16,7 +16,7 @@ public partial class AppShell : SimpleToolkit.SimpleShell.SimpleShell
         AddTab(typeof(ProductionPanelView), PageType.ProductionPanel);
         AddTab(typeof(WorkstationListView), PageType.WorkstationPanel);
         AddTab(typeof(WorkOrderListView), PageType.ProductPanel);
-        AddTab(typeof(MaintenancePanelView), PageType.MaintenancePanel);
+        AddTab(typeof(ProductListView), PageType.MaintenancePanel);
 
         Loaded += AppShellLoaded;
     }
