@@ -58,6 +58,7 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterAppDataServices(this MauiAppBuilder mauiAppBuilder)
 	{
 		mauiAppBuilder.Services.AddSingleton<IHttpClientService, HttpClientService>();
+		mauiAppBuilder.Services.AddSingleton<MESDatabase>();
 		mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 		//mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
 		mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
@@ -85,8 +86,8 @@ public static class MauiProgram
 	{
 		mauiAppBuilder.Services.AddSingleton<LoginViewModel>();
 		mauiAppBuilder.Services.AddSingleton<WorkOrderListViewModel>();
-		mauiAppBuilder.Services.AddSingleton<WorkOrderDetailViewModel>();
-		mauiAppBuilder.Services.AddSingleton<StopCauseListViewModel>();
+		mauiAppBuilder.Services.AddScoped<WorkOrderDetailViewModel>();
+		mauiAppBuilder.Services.AddScoped<StopCauseListViewModel>();
 		mauiAppBuilder.Services.AddSingleton<WorkOrderListModalViewModel>();
 
 		return mauiAppBuilder;

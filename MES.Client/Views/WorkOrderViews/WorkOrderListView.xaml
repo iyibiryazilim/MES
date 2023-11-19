@@ -34,6 +34,7 @@
                     WidthRequest="50" />
             </Border>
             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                <Label Text="Hoşgeldin" />
                 <Label>
                     <Label.FormattedText>
                         <FormattedString>
@@ -41,9 +42,8 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Label Text="Kaynakçı" />
+
             </VerticalStackLayout>
-            <!--<shared:LoadingIndicatorView />-->
             <Image
                 Grid.Column="3"
                 HeightRequest="30"
@@ -160,7 +160,7 @@
                                     <Border
                                         Padding="10,8"
                                         HorizontalOptions="Start"
-                                        Stroke="{StaticResource Success}"
+                                        Stroke="#50cd89"
                                         StrokeShape="RoundRectangle 10">
                                         <Border.Triggers>
                                             <DataTrigger
@@ -224,38 +224,11 @@
                                                 Text="Ürün Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
 
-                                            <!--<ViewCell>
-                                                <Grid
-                                                    Padding="20,5,0,5"
-                                                    ColumnDefinitions="Auto, *"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="Ürün Kodu: " />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding MainProductCode}" />
-                                                </Grid>
-                                            </ViewCell>-->
-
                                             <TextCell
                                                 Detail="{Binding ProductName}"
                                                 Text="Ürün Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
-                                            <!--<ViewCell>
-                                                <Grid
-                                                    Padding="20,5,0,5"
-                                                    ColumnDefinitions="Auto, *"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="Ürün Adı: " />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding MainProductName}"
-                                                        VerticalOptions="Start" />
-                                                </Grid>
-                                            </ViewCell>-->
+
                                         </TableSection>
                                         <TableSection Title="İş Emri Bilgileri" TextColor="{StaticResource Primary}">
                                             <TextCell
@@ -399,19 +372,6 @@
                                                 Detail="{Binding WorkstationCode}"
                                                 Text="İş İstasyonu Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
-                                            <!--<ViewCell>
-                                                <Grid
-                                                    Padding="20,5,0,5"
-                                                    ColumnDefinitions="Auto, *"
-                                                    VerticalOptions="Center">
-                                                    <Label Grid.Column="0" Text="İş istasyonu kodu: " />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        FontAttributes="Bold"
-                                                        FontSize="16"
-                                                        Text="{Binding WorkstationCode}" />
-                                                </Grid>
-                                            </ViewCell>-->
                                             <TextCell
                                                 Detail="{Binding WorkstationName}"
                                                 Text="İş İstasyonu Adı:"

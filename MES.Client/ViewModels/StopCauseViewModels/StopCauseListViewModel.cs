@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.HttpClientHelpers;
+using MES.Client.ViewModels.WorkOrderViewModels;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -101,6 +102,12 @@ public partial class StopCauseListViewModel : BaseViewModel
 	[RelayCommand]
 	async Task StopButtonAsync()
 	{
+		var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
+		if(workOrderDetailService is not null)
+		{
+			workOrderDetailService.timer.Stop();
+			//workOrderDetailService.StartButtonEnabled = true;
+		}
 		await Shell.Current.GoToAsync("../..");
 	}
 

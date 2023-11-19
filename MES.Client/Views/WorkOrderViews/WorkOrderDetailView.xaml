@@ -49,7 +49,10 @@
                                 </Trigger>
                             </Button.Triggers>
                         </Button>
-                        <Button FontSize="Subtitle" Text="Malzeme Hareketleri" />
+                        <Button
+                            Command="{Binding GetDBCountCommand}"
+                            FontSize="Subtitle"
+                            Text="Malzeme Hareketleri" />
                         <Button FontSize="Subtitle" Text="Setup" />
                         <Button FontSize="Subtitle" Text="Duruş Hareketleri" />
                         <Button FontSize="Subtitle" Text="Kalıp Bilgileri" />
@@ -384,8 +387,8 @@
                             HorizontalOptions="Start">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="%" />
-                                    <Span Text="{Binding ActualRate}" />
+                                    <!--<Span Text="%" />-->
+                                    <Span Text="{Binding ObjCount}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

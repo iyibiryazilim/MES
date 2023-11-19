@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Java.Nio.Channels;
 using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.Databases.SQLiteDatabase.Models;
 using MES.Client.Helpers.MESAPIHelper;
@@ -18,12 +19,18 @@ namespace MES.Client.ViewModels.WorkOrderViewModels;
 public partial class WorkOrderDetailViewModel : BaseViewModel
 {
 	//StopCauseListViewModel _stopCauseListViewModel;
+	public IDispatcherTimer timer;
+
+	private readonly MESDatabase mesDatabase;
 
 	[ObservableProperty]
 	WorkOrder workOrder;
 
 	[ObservableProperty]
 	double quantity;
+
+	[ObservableProperty]
+	double objCount;
 
 	[ObservableProperty]
 	double actualRateChange;
@@ -36,10 +43,12 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
 	//public Command GetDeviceStateCommand { get; }
 
-	public WorkOrderDetailViewModel()
+
+	public WorkOrderDetailViewModel(MESDatabase mesDB)
 	{
 		Title = "İş Emri Detay Sayfası";
 		//GetDeviceStateCommand = new Command(async () => await GetDeviceStateAsync());
+		mesDatabase = mesDB;
 	}
 
 	public double QuantityChanged
@@ -54,29 +63,37 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
 	public double ActualRate
 	{
-		//     get
-		//     {
-		//         if(ProductionWorkOrderList is null)
-		//         {
-		//	return 0;
-		//} else
-		//         {
-		//             if(ProductionWorkOrderList.ActualQuantity == 0)
-		//             {
-		//                 return 0;
-		//             } else
-		//             {
-		//                 return ((double)ProductionWorkOrderList.ActualQuantity/(double)ProductionWorkOrderList.Quantity) * 100;
-		//             }
-		//         }
-		//     }
-		get { return 60; }
+		//get
+		//{
+		//	if (WorkOrder is null)
+		//	{
+		//		return 0;
+		//	}
+		//	else
+		//	{
+		//		if (WorkOrder. == 0)
+		//		{
+		//			return 0;
+		//		}
+		//		else
+		//		{
+		//			return ((double)WorkOrder.ActualQuantity / (double)WorkOrder.Quantity) * 100;
+		//		}
+		//	}
+		//}
+		get { return 0; }
 		set
 		{
 			ActualRateChange = value;
 			OnPropertyChanged();
 		}
 	}
+
+	//[RelayCommand]
+	//public async Task StopTimer()
+	//{
+	//	await Task.Run(() =>  { timer.Stop(); })
+	//}
 
 	public Chart OEE => GetOEE();
 	public Chart Availability => GetAvailability();
@@ -225,37 +242,24 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	}
 
 	[RelayCommand]
+	async Task GetDBCountAsync()
+	{
+		var count = await mesDatabase.GetItemsAsync();
+		ObjCount = count.Count;
+	}
+
+	[RelayCommand]
 	async Task GoToStopCauseListAsync()
 	{
 		await Shell.Current.GoToAsync($"{nameof(StopCauseListView)}");
 	}
-
-	//[RelayCommand]
-	//async Task ShowStartWorkOrderPopupAsync()
-	//{
-	//	var popup = new StartWorkOrderPopupView(this);
-	//	var result = await Shell.Current.ShowPopupAsync(popup);
-	//	if (result is bool boolResult)
-	//	{
-	//		if (boolResult)
-	//		{
-	//			await StartWorkOrderAsync();
-	//		}
-	//		else
-	//		{
-	//			return;
-	//		}
-	//	}
-	//}
-
-	//public IDispatcherTimer timer;
 
 	[RelayCommand]
 	public async Task StartWorkOrderAsync()
 	{
 		await Task.Run(() =>
 		{
-			var timer = Application.Current.Dispatcher.CreateTimer();
+			timer = Application.Current.Dispatcher.CreateTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += (s, e) => DoSomething();
 			timer.Start();
@@ -263,17 +267,37 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		//await GetDeviceStateAsync();
 	}
 
+	public async Task InsertWorkOrderTableAsync()
+	{
+		WorkOrderTable workOrderTable = new()
+		{
+			ReferenceId = WorkOrder.ReferenceId,
+			Date = DateTime.Now,
+			Quantity = Quantity,
+			IsIntegrated = false
+		};
+		await mesDatabase.InsertWorkOrderAsync(workOrderTable);
+	}
+
+	public async Task DeleteAllItemsAsync()
+	{
+		await mesDatabase.DeleteAllItemAsync();
+	}
+
+
 	public void DoSomething()
 	{
-		MESDatabase mesDatabase = new MESDatabase();
+		
 		StartButtonEnabled = false;
 		MainThread.BeginInvokeOnMainThread(async () =>
 		{
 			//await GetDeviceStateAsync();
-			await mesDatabase.InsertWorkOrderAsync(WorkOrder);
+			
 			Quantity += 1;
 			Time += TimeSpan.FromSeconds(1);
-
+			//await DeleteAllItemsAsync();
+			await InsertWorkOrderTableAsync();
+			
 		});
 	}
 
@@ -322,14 +346,4 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	{
 		await Shell.Current.GoToAsync("..");
 	}
-
-	//async Task InsertWorkOrderToDatabase(Shared.Entity.Models.WorkOrder workOrder)
-	//{
-	//	//workOrder.Date =
-	//	//workOrder.WorkOrderCode = ;
-	//	//workOrder.WorkStationCode = ;
-	//	//workOrder.IsIntegrated = true;
-		
-	//}
-
 }
