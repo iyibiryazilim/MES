@@ -201,7 +201,7 @@
                                         <Label
                                             FontSize="Title"
                                             HorizontalOptions="Center"
-                                            Text="1000 / 10" />
+                                            Text="{Binding ItemQuantity, StringFormat='1000 / {0:N0}', Source={RelativeSource AncestorType={x:Type viewModel:WorkOrderListViewModel}}}" />
                                     </Border>
                                     <ProgressBar
                                         Progress="0.67"

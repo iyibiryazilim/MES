@@ -27,7 +27,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	WorkOrder workOrder;
 
 	[ObservableProperty]
-	double quantity;
+	public double quantity;
 
 	[ObservableProperty]
 	double objCount;
@@ -257,6 +257,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[RelayCommand]
 	public async Task StartWorkOrderAsync()
 	{
+		//await GetDeviceStateAsync();
 		await Task.Run(() =>
 		{
 			timer = Application.Current.Dispatcher.CreateTimer();
@@ -264,7 +265,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			timer.Tick += (s, e) => DoSomething();
 			timer.Start();
 		});
-		//await GetDeviceStateAsync();
 	}
 
 	public async Task InsertWorkOrderTableAsync()
@@ -291,9 +291,9 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		StartButtonEnabled = false;
 		MainThread.BeginInvokeOnMainThread(async () =>
 		{
-			//await GetDeviceStateAsync();
+			await GetDeviceStateAsync();
 			
-			Quantity += 1;
+			//Quantity += 1;
 			Time += TimeSpan.FromSeconds(1);
 			//await DeleteAllItemsAsync();
 			await InsertWorkOrderTableAsync();
@@ -308,7 +308,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		{
 
 			var httpClient = new HttpClient();
-			httpClient.BaseAddress = new Uri("http://192.168.1.10:32000");
+			httpClient.BaseAddress = new Uri("http://192.168.1.7:32000");
 
 			var body = "{\"cmd\": \"getDeviceState\"}";
 			StringContent stringContent = new StringContent(body);

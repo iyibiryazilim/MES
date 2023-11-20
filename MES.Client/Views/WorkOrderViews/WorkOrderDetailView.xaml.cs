@@ -3,6 +3,7 @@ using MES.Client.ViewModels.StopCauseViewModels;
 using MES.Client.ViewModels.WorkOrderViewModels;
 using MES.Client.Views.PopupViews;
 using MES.Client.Views.StopCauseViews;
+using Xamarin.KotlinX.Coroutines;
 
 namespace MES.Client.Views.WorkOrderViews;
 
@@ -13,5 +14,5 @@ public partial class WorkOrderDetailView : ContentPage
     {
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
-    }
+	}
 }

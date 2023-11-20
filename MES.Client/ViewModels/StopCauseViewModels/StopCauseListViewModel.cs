@@ -106,7 +106,9 @@ public partial class StopCauseListViewModel : BaseViewModel
 		if(workOrderDetailService is not null)
 		{
 			workOrderDetailService.timer.Stop();
-			//workOrderDetailService.StartButtonEnabled = true;
+			//workOrderDetailService.Quantity = 0;
+			workOrderDetailService.StartButtonEnabled = true;
+			
 		}
 		await Shell.Current.GoToAsync("../..");
 	}
