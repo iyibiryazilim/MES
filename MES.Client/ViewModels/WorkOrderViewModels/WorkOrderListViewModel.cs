@@ -148,7 +148,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			{
 				if (result.Data.Any())
 				{
-					foreach (var item in result.Data.Where(x => x.WorkstationCode == "E-02"))
+					foreach (var item in result.Data.Where(x => x.WorkstationCode == "E-02").Take(10))
 					{
 						Items.Add(item);
 						Results.Add(item);
@@ -213,25 +213,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			IsRefreshing = false;
 		}
 	}
-
-
-	//[RelayCommand]
-	//async Task OpenStartWorkOrderPopupAsync()
-	//{
-	//    var popup = new StartWorkOrderPopupView(this);
-	//    var result = await Shell.Current.ShowPopupAsync(popup);
-	//    if (result is bool boolResult)
-	//    {
-	//        if (boolResult)
-	//        {
-
-	//        }
-	//        else
-	//        {
-	//            return;
-	//        }
-	//    }
-	//}
 
 
 	[RelayCommand]
