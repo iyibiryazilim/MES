@@ -12,10 +12,21 @@
                                         EventName="Loaded" />
     </ContentPage.Behaviors>
 
-    <Grid RowSpacing="5" RowDefinitions="Auto,*" Padding="50">
-        <Label Grid.Row="0" Text=" Ürünler" FontSize="Title" />
+    <Grid RowSpacing="5" RowDefinitions="Auto,Auto,*" Padding="50">
+        <Label Grid.Row="0"
+               Text="{Binding Title}"
+               FontSize="18"
+               
+               FontAttributes="Bold" />
+        <Grid  Grid.Row="1" >
+            <Border StrokeShape="RoundRectangle 20"
+                    >
+                <SearchBar Placeholder="Arama"  />
+            </Border>
+        </Grid>
+        
         <CollectionView ItemsSource="{Binding Result}"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         VerticalOptions="End">
 
             <CollectionView.ItemsLayout>
@@ -25,7 +36,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:EndProduct">
                     <Border 
-                            StrokeShape="RoundRectangle 20"
+                            StrokeShape="RoundRectangle 60"
                             HeightRequest="350"
                             WidthRequest="700">
                         <Grid ColumnDefinitions=".6*,.40*">
@@ -65,7 +76,8 @@
                                 </Grid>
                                 <Grid Grid.Row="2">
                                     <Button WidthRequest="200"
-                                            Padding="0"
+                                            Padding="3"
+                                            BackgroundColor="MediumPurple"
                                             Text="Daha Fazla"
                                             FontSize="Subtitle"
                                             CornerRadius="20"></Button>
