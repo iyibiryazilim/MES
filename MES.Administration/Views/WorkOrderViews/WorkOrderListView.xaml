@@ -11,9 +11,9 @@
         <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}"
                                         EventName="Loaded" />
     </ContentPage.Behaviors>
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto" Padding="20" RowSpacing="20" >
-        <Grid>
-            <Label Text="{Binding Title}"  HorizontalOptions="Center" FontSize="16" />
+    <Grid RowDefinitions=".05*,.07*,.65*,.07*" Padding="20" RowSpacing="20" >
+        <Grid Grid.Row="0">
+            <Label Text="{Binding Title}"  HorizontalOptions="Start" FontSize="18" FontAttributes="Bold" />
         </Grid>
         <Border StrokeShape="RoundRectangle 20" Grid.Row="1">
             <SearchBar Placeholder="Arama"/>
@@ -28,20 +28,30 @@
             </CarouselView.ItemsLayout>-->
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="model:WorkOrder">
-                    <Grid ColumnDefinitions="*,*"
+                    <Grid ColumnDefinitions=".50*,.50*"
                           Margin="0,0,0,0" ColumnSpacing="20">
-                        <Grid ColumnDefinitions="*,*"
+                        <Grid ColumnDefinitions=".50*,.50*"
                               RowDefinitions="*,Auto"
-                              Grid.Column="0" BackgroundColor="{StaticResource White}"
-                              >
-                            <Image  Source="takoz.jpg"
-                                    BackgroundColor="{StaticResource White}"
-                                    HeightRequest="300"
-                                    Aspect="AspectFit"
-                                    Grid.ColumnSpan="2" />
+                              Grid.Column="0" 
+                              Margin="0,0,0,30" >
+                            <Border Grid.Column="0"
+                                    Grid.Row="0"
+                                    StrokeShape="RoundRectangle 30"
+                                    WidthRequest="450"
+                                    Margin="5"
+                                    HorizontalOptions="Center"
+                                    Grid.ColumnSpan="2">
+                                <Image  Source="takoz.jpg"
+                                        HeightRequest="300"
+                                        Aspect="AspectFit"
+                                        Grid.ColumnSpan="2"
+                                        Grid.Row="0" />
+                            </Border>
                             <Border Grid.Column="0"
                                     Grid.Row="1"
-                                    Padding="10">
+                                    Padding="10"
+                                   
+                                    WidthRequest="200">
                                 <Label Text="1000"
                                        HorizontalOptions="Center"
                                        TextColor="Black"
@@ -49,15 +59,17 @@
                             </Border>
                             <Border Grid.Column="1"
                                     Padding="10"
-                                    Grid.Row="1">
+                                    Grid.Row="1"
+                                     WidthRequest="200">
                                 <Label Text="10"
                                        HorizontalOptions="Center"
                                        TextColor="Black"
-                                       FontSize="18" />
+                                       FontSize="18"
+                                       />
                             </Border>
                         </Grid>
-                        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto" >
                             <!--<Label Text=" Üretim Detayları"  HorizontalOptions="Center"/>-->
+                            <ScrollView Grid.Column="1" Margin="0,0,0,30">
                             <TableView Intent="Menu">
                                 <TableRoot>
                                     <TableSection Title="Üretim Detayları">
@@ -71,24 +83,36 @@
                                                   Detail="{Binding OperationBeginTime}" />
                                         <TextCell Text="Operasyon Bitiş Tarihi"
                                                   Detail="{Binding OperationDueDate, StringFormat='{0:c}'}" />
-                                        <TextCell Text="Operasyon Bitiiş Zamanı"
+                                        <TextCell Text="Operasyon Bitiş Zamanı"
                                                   Detail="{Binding OperationDueTime}"/>
-                                        <TextCell Text="5. XAML vs code"
-                                                  Detail="Learn more about creating your UI in XAML." />
-                                        <TextCell Text="5. XAML vs code"
-                                                  Detail="Learn more about creating your UI in XAML." />
-                                        
+                                        <TextCell Text="Marka Kodu"
+                                                  Detail="{Binding BrandCode}" />
+                                        <TextCell Text="Marka Adı"
+                                                  Detail="{Binding BrandName}" />
+                                        <TextCell Text="Ürün Kodu"
+                                                  Detail="{Binding ProductName}" />
+                                        <TextCell Text="İş İstasyonu Kodu"
+                                                  Detail="{Binding WorkstationCode}" />
+                                        <TextCell Text="İş İstasyonu Adı"
+                                                  Detail="{Binding WorkstationName}" />
+                                        <TextCell Text="Ürün Adı"
+                                                  Detail="{Binding ProductionName}" />
+                                        <TextCell Text="Unitset Kodu"
+                                                  Detail="{Binding UnitsetCode}" />
+                                        <TextCell Text="Sub Unitset Kodu"
+                                                  Detail="{Binding SubUnitsetCode}" />
+                                      
+
                                     </TableSection>
                                 </TableRoot>
                             </TableView>
 
-
-                        </Grid>
+                            </ScrollView>
                     </Grid>
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
-        <IndicatorView x:Name="indicatorView" Grid.Row="3"
+        <IndicatorView x:Name="indicatorView" Grid.Row="3" Margin="-28"
                        IndicatorColor="LightGray"
                        SelectedIndicatorColor="{StaticResource Primary}" />
     </Grid>
