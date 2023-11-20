@@ -373,6 +373,7 @@
                         RowSpacing="5">
 
                         <ProgressBar
+                            x:Name="detailProgressBar"
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -388,7 +389,7 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <!--<Span Text="%" />-->
-                                    <Span Text="{Binding ObjCount}" />
+                                    <Span Text="{Binding Quantity}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

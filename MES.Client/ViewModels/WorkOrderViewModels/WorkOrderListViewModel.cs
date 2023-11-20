@@ -19,6 +19,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 {
 	IHttpClientService _httpClientService;
 	IWorkOrderService _workOrderService;
+	DeviceCommandHelper deviceCommandHelper;
 
 	[ObservableProperty]
 	string currentEmployee;
@@ -50,11 +51,26 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		}
 	}
 
-	public WorkOrderListViewModel(IHttpClientService httpClientService, IWorkOrderService workOrderService)
+	public double ItemQuantity
+	{
+		get
+		{
+			var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
+			if (workOrderDetailService is not null)
+			{
+				return workOrderDetailService.Quantity;
+
+			}
+			return 0;
+		}
+	}
+
+	public WorkOrderListViewModel(IHttpClientService httpClientService, IWorkOrderService workOrderService, DeviceCommandHelper _deviceCommandHelper)
 	{
 		Title = "İş Listesi";
 		_httpClientService = httpClientService;
 		_workOrderService = workOrderService;
+		deviceCommandHelper = _deviceCommandHelper;
 
 		//GetItemsCommand = new Command(async () => await GetItemsAsync());
 		//LoadMoreCommand = new Command(LoadMoreAsync);
@@ -66,7 +82,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		});
 	}
 
-
+	
 	//[RelayCommand]
 	//async Task SetSelectedItemAsync(ProductionWorkOrderList item)
 	//{
@@ -148,7 +164,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			{
 				if (result.Data.Any())
 				{
-					foreach (var item in result.Data.Where(x => x.WorkstationCode == "E-02").Take(10))
+					foreach (var item in result.Data.Take(10))
 					{
 						Items.Add(item);
 						Results.Add(item);
@@ -179,16 +195,16 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		{
 			IsBusy = true;
 			IsRefreshing = true;
-			DeviceCommandHelper deviceCommandHelper = new();
-			//await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.18:32000");
-			//await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.18:32000");
-			//await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.18:32000");
+			
 			var popup = new StartWorkOrderPopupView(this);
 			var result = await Shell.Current.ShowPopupAsync(popup);
 			if (result is bool boolResult)
 			{
 				if (boolResult)
 				{
+					await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.7:32000");
+					await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.7:32000");
+					await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.7:32000");
 					await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
 					{
 						[nameof(WorkOrder)] = workOrder

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using MES.Client.Databases.SQLiteDatabase;
+using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.ViewModels.LoginViewModels;
 using MES.Client.ViewModels.StopCauseViewModels;
@@ -59,6 +60,7 @@ public static class MauiProgram
 	{
 		mauiAppBuilder.Services.AddSingleton<IHttpClientService, HttpClientService>();
 		mauiAppBuilder.Services.AddSingleton<MESDatabase>();
+		mauiAppBuilder.Services.AddSingleton<DeviceCommandHelper>();
 		mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 		//mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
 		mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
