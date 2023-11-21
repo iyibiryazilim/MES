@@ -176,7 +176,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		catch (Exception ex)
 		{
 			Debug.WriteLine(ex);
-			await Shell.Current.DisplayAlert("Customer Error: ", $"{ex.Message}", "Tamam");
+			await Shell.Current.DisplayAlert(" Error: ", $"{ex.Message}", "Tamam");
 		}
 		finally
 		{
@@ -202,9 +202,10 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			{
 				if (boolResult)
 				{
-					await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.7:32000");
-					await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.7:32000");
-					await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.7:32000");
+					await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.3:32000");
+					await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.3:32000");
+					await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.3:32000");
+					await Task.Delay(1000);
 					await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
 					{
 						[nameof(WorkOrder)] = workOrder

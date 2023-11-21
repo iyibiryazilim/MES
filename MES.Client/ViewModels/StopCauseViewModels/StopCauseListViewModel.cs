@@ -15,12 +15,16 @@ public partial class StopCauseListViewModel : BaseViewModel
 	IHttpClientService _httpClientService;
 	IStopCauseService _stopCauseService;
 
-	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService)
+	WorkOrderDetailViewModel workOrderDetailViewModel;
+
+	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService, WorkOrderDetailViewModel _workOrderDetailViewModel)
 	{
 		_httpClientService = httpClientService;
 		_stopCauseService = stopCauseService;
+		workOrderDetailViewModel = _workOrderDetailViewModel;
 
 		GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
+		
 	}
 	public Command GetStopCauseListItemsCommand { get; }
 
@@ -102,13 +106,13 @@ public partial class StopCauseListViewModel : BaseViewModel
 	[RelayCommand]
 	async Task StopButtonAsync()
 	{
-		var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
-		if(workOrderDetailService is not null)
+		//var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
+		
+		if(workOrderDetailViewModel is not null)
 		{
-			workOrderDetailService.timer.Stop();
+			workOrderDetailViewModel.timer.Stop();
 			//workOrderDetailService.Quantity = 0;
-			workOrderDetailService.StartButtonEnabled = true;
-			
+			workOrderDetailViewModel.StartButtonEnabled = true;
 		}
 		await Shell.Current.GoToAsync("../..");
 	}
