@@ -23,7 +23,7 @@
         <Setter Property="StrokeThickness"
                 Value="1" />
         <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light={StaticResource White}, Dark=Transparent}" />
+                Value="{AppThemeBinding Light={StaticResource White}, Dark= {StaticResource BlackSolid}}" />
     </Style>
 
     <Style TargetType="BoxView">
@@ -507,7 +507,7 @@
     <Style ApplyToDerivedTypes="True"
            TargetType="Shell">
         <Setter Property="Shell.BackgroundColor"
-                Value="{AppThemeBinding Light={StaticResource WhiteSmoke}, Dark={StaticResource Black}}" />
+                Value="{AppThemeBinding Light={StaticResource WhiteSmoke}, Dark={StaticResource BlackSolid}}" />
         <Setter Property="Shell.ForegroundColor"
                 Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="Shell.TitleColor"
@@ -519,7 +519,7 @@
         <Setter Property="Shell.NavBarHasShadow"
                 Value="True" />
         <Setter Property="Shell.TabBarBackgroundColor"
-                Value="{AppThemeBinding Light={StaticResource WhiteSmoke}, Dark={StaticResource Black}}" />
+                Value="{AppThemeBinding Light={StaticResource WhiteSmoke}, Dark={StaticResource BlackSolid}}" />
         <Setter Property="Shell.TabBarForegroundColor"
                 Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Danger}}" />
         <Setter Property="Shell.TabBarTitleColor"

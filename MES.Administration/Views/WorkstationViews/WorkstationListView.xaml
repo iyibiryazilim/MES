@@ -14,11 +14,11 @@
                                         EventName="Loaded" />
     </ContentPage.Behaviors>
     <Grid RowDefinitions="Auto,Auto,*"
-          RowSpacing="10">
+          RowSpacing="23" Padding="20" >
         <Label Text="{Binding Title}"
-               FontSize="18" FontAttributes="Bold"
-               HorizontalOptions="Start" />
-        <Border StrokeShape="RoundRectangle 20"
+               FontSize="20" FontAttributes="Bold"
+               HorizontalOptions="Start" Padding="-2" />
+        <Border StrokeShape="RoundRectangle 20" WidthRequest="940" HeightRequest="35" HorizontalOptions="Start"
                 Grid.Row="1">
             <SearchBar />
 

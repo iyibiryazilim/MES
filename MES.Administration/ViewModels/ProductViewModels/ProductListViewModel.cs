@@ -3,6 +3,7 @@ using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace MES.Administration.ViewModels.ProductViewModels;
 
@@ -27,24 +28,27 @@ public partial class ProductListViewModel : BaseViewModel
 
     async Task GetItemsAsync()
     {
-        if (IsBusy)
-        {
-            return;
+        if (IsBusy) return;
 
-        }
         try
         {
             IsBusy = true;
+            if (Result.Any())
+                Result.Clear();
+
             var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
+            
             var result= await _endProduct.GetObjects(httpClient);
            if (result.IsSuccess)
             {
-                if(result.Data.Any()) {
+               
+                if (result.Data.Any()) {
                     foreach (var item in result.Data)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(100);
                         Result.Add(item);
                     }
+                        
                 }
             }
 
@@ -52,7 +56,8 @@ public partial class ProductListViewModel : BaseViewModel
         }
         catch(Exception ex) 
         {
-            throw ex;
+            Debug.WriteLine(ex.Message);
+            await Application.Current.MainPage.DisplayAlert("Error", "Load Product Error", "Tamam");
 
         }
         finally

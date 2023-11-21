@@ -49,7 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.7" />
+		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="LBS.WebAPI.Service" Version="1.0.40" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
