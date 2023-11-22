@@ -166,6 +166,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 				{
 					foreach (var item in result.Data.Take(10))
 					{
+						await Task.Delay(250);
 						Items.Add(item);
 						Results.Add(item);
 					}
