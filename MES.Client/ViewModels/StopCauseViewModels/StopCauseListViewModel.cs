@@ -43,6 +43,9 @@ public partial class StopCauseListViewModel : BaseViewModel
 			IsBusy = true;
 			IsRefreshing = true;
 
+			if (StopCauseListItems.Count > 0)
+				StopCauseListItems.Clear();
+
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
 			var result = await _stopCauseService.GetObjects(httpClient);
 

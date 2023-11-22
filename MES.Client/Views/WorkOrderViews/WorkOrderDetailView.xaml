@@ -32,6 +32,10 @@
                             WidthRequest="210" />
 
                         <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
+                        <Slider
+                            Maximum="250"
+                            Minimum="0"
+                            Value="{Binding SliderValue}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout
@@ -81,11 +85,11 @@
                         HorizontalOptions="Center"
                         Text="{Binding Time, StringFormat='{0:HH:mm:ss}'}"
                         VerticalOptions="End" />
-                    <Label
+                    <!--<Label
                         FontSize="Small"
                         HorizontalOptions="Center"
                         Text="v1.0.1"
-                        VerticalOptions="End" />
+                        VerticalOptions="End" />-->
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
@@ -108,7 +112,7 @@
                             FontAttributes="Bold"
                             FontSize="35"
                             HorizontalOptions="Start"
-                            Text="{Binding DeviceOpenCloseState}"
+                            Text="Devam ediyor..."
                             VerticalOptions="Center" />
                         <Label
                             Grid.Column="1"
@@ -377,7 +381,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Progress="0.67"
+                            Progress="{Binding WorkOrder.ActualRate}"
                             ProgressColor="{StaticResource Warning}"
                             ScaleY="5" />
 
@@ -398,7 +402,8 @@
                             Grid.Column="1"
                             HorizontalOptions="End"
                             IsEnabled="False"
-                            IsToggled="{Binding IsDeviceOpen}" />
+                            IsToggled="{Binding IsDeviceOpen}"
+                            OnColor="{StaticResource Primary}" />
                     </Grid>
                 </VerticalStackLayout>
             </Grid>

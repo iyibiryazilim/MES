@@ -18,10 +18,7 @@ public class MESDatabase
 		if (Database is not null)
 			return;
 		Database = new SQLiteAsyncConnection(Constants.DbConfiguration.DatabasePath, Constants.DbConfiguration.Flags);
-		//if(Database is null)
-		//{
-		//	Database = new SQLiteAsyncConnection(Constants.DbConfiguration.DatabasePath, Constants.DbConfiguration.Flags);
-		//}
+		
 		await Database.CreateTableAsync<Models.WorkOrderTable>();
 	}
 

@@ -1,14 +1,15 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using AndroidX.Annotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Java.Nio.Channels;
 using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.Databases.SQLiteDatabase.Models;
+using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.MESAPIHelper;
 using MES.Client.Views.StopCauseViews;
 using Microcharts;
 using Newtonsoft.Json;
-using Shared.Entity.BaseModels;
-using Shared.Entity.Models;
+using Shared.Entity.DTOs;
+using Shared.Middleware.Services;
 using SkiaSharp;
 using System.Diagnostics;
 using WorkOrder = Shared.Entity.Models.WorkOrder;
@@ -21,6 +22,8 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	//StopCauseListViewModel _stopCauseListViewModel;
 	public IDispatcherTimer timer;
 	public IDispatcherTimer logoTimer;
+	IWorkOrderService _workOrderService;
+	IHttpClientService _httpClientService;
 
 	private readonly MESDatabase mesDatabase;
 
@@ -49,9 +52,14 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[ObservableProperty]
 	bool isDeviceOpen;
 
-	public WorkOrderDetailViewModel(MESDatabase mesDB)
+	[ObservableProperty]
+	double sliderValue;
+
+	public WorkOrderDetailViewModel(MESDatabase mesDB, IWorkOrderService workOrderService, IHttpClientService httpClientService)
 	{
 		Title = "İş Emri Detay Sayfası";
+		_workOrderService = workOrderService;
+		_httpClientService = httpClientService;
 		//GetDeviceStateCommand = new Command(async () => await GetDeviceStateAsync());
 		mesDatabase = mesDB;
 	}
@@ -71,7 +79,17 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		get => DeviceOpenCloseState;
 		set
 		{
-			DeviceOpenCloseState = value; 
+			DeviceOpenCloseState = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public double SliderValueChanged
+	{
+		get => SliderValue;
+		set
+		{
+			SliderValue = value;
 			OnPropertyChanged();
 		}
 	}
@@ -286,13 +304,13 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		await Task.Run(() =>
 		{
 			timer = Application.Current.Dispatcher.CreateTimer();
-			timer.Interval = TimeSpan.FromSeconds(1);
-			timer.Tick += (s, e) => DoSomething();
-			timer.Start();
 			logoTimer = Application.Current.Dispatcher.CreateTimer();
+			timer.Interval = TimeSpan.FromSeconds(1);
 			logoTimer.Interval = TimeSpan.FromSeconds(60);
-			logoTimer.Tick += (s, e) => DoSomething();
-			//logoTimer.Start();
+			timer.Tick += (s, e) => DoSomething();
+			logoTimer.Tick += async (s,e) => await InsertWorkOrderTableToLogoAsync();
+			timer.Start();
+			logoTimer.Start();
 		});
 	}
 
@@ -304,44 +322,73 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			ReferenceId = WorkOrder.ReferenceId,
 			Date = DateTime.Now,
 			Quantity = Quantity,
-			IsIntegrated = false
+			IsIntegrated = false,
+			SubUnitsetReferenceId = WorkOrder.SubUnitsetReferenceId,
+			ProductReferenceId = WorkOrder.ProductReferenceId
 		};
 		await mesDatabase.InsertWorkOrderAsync(workOrderTable);
 	}
 
-	// Insert WorkOrderTable to Logo
+	// Insert not integrated items to Logo
 	public async Task InsertWorkOrderTableToLogoAsync()
 	{
+		List<WorkOrderDto> results = new List<WorkOrderDto>();
 		var items = await mesDatabase.GetItemsNotIntegratedAsync();
-		if(items is not null)
+		
+		if (items is not null)
 		{
-			foreach (var item in items)
+			if (items.Any())
 			{
-				item.IsIntegrated = true;
-				await mesDatabase.InsertWorkOrderAsync(item);
+				var httpClient = _httpClientService.GetOrCreateHttpClient();
+				foreach (var item in items)
+				{
+					WorkOrderDto workOrderDto = new WorkOrderDto();
+					workOrderDto.WorkOrderReferenceId = item.ReferenceId;
+					workOrderDto.ActualQuantity = item.Quantity;
+					workOrderDto.CalculatedMethod = 0;
+					workOrderDto.IsIncludeSideProduct = false;
+					workOrderDto.ProductReferenceId = item.ProductReferenceId;
+					workOrderDto.SubUnitsetReferenceId = item.SubUnitsetReferenceId;
+					results.Add(workOrderDto);
+				}
+				var operationResult = await _workOrderService.InsertAsync(httpClient, results);
+				if (operationResult.IsSuccess)
+				{
+					foreach (var item in items)
+					{
+						item.IsIntegrated = true;
+						await mesDatabase.InsertWorkOrderAsync(item);
+					}
+				}
 			}
 		}
-    }
+		return;
+	}
 
 	public async Task DeleteAllItemsAsync()
 	{
 		await mesDatabase.DeleteAllItemAsync();
 	}
 
+	//public void DoInsertLogo()
+	//{
+	//	MainThread.BeginInvokeOnMainThread(async () =>
+	//	{
+	//		await GetDeviceStateAsync();
+	//		await InsertWorkOrderTableAsync();
+	//	});
+	//}
 
 	public void DoSomething()
 	{
-		
+
 		StartButtonEnabled = false;
 		MainThread.BeginInvokeOnMainThread(async () =>
 		{
 			await GetDeviceStateAsync();
-			
 			//Quantity += 1;
 			Time += TimeSpan.FromSeconds(1);
-			//await DeleteAllItemsAsync();
 			await InsertWorkOrderTableAsync();
-			
 		});
 	}
 
@@ -372,17 +419,19 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 					if (deviceStateResult.encoder.Count > 0)
 					{
 						var openCloseState = deviceStateResult.din[0];
-						if(openCloseState == 60 || openCloseState == 62)
+						if (openCloseState == 60 || openCloseState == 62)
 						{
 							IsDeviceOpen = true;
 							DeviceOpenCloseState = "Açık";
-						} else if(openCloseState == 61 || openCloseState == 63)
+						}
+						else if (openCloseState == 61 || openCloseState == 63)
 						{
 							IsDeviceOpen = false;
 							DeviceOpenCloseState = "Kapalı";
 						}
 						var firstArray = deviceStateResult.encoder[0];
 						Quantity = firstArray[0];
+						SliderValue = firstArray[1];
 					}
 				}
 
