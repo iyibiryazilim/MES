@@ -108,7 +108,7 @@
                             FontAttributes="Bold"
                             FontSize="35"
                             HorizontalOptions="Start"
-                            Text="Devam ediyor..."
+                            Text="{Binding DeviceOpenCloseState}"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Column="1"
@@ -393,12 +393,12 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <Label
+                        <Switch
                             Grid.Row="1"
                             Grid.Column="1"
-                            FontSize="Title"
                             HorizontalOptions="End"
-                            Text="RPM 72" />
+                            IsEnabled="False"
+                            IsToggled="{Binding IsDeviceOpen}" />
                     </Grid>
                 </VerticalStackLayout>
             </Grid>

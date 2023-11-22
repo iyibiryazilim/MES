@@ -20,6 +20,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 {
 	//StopCauseListViewModel _stopCauseListViewModel;
 	public IDispatcherTimer timer;
+	public IDispatcherTimer logoTimer;
 
 	private readonly MESDatabase mesDatabase;
 
@@ -41,14 +42,38 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[ObservableProperty]
 	DateTime time;
 
+	[ObservableProperty]
+	string deviceOpenCloseState;
 	//public Command GetDeviceStateCommand { get; }
 
+	[ObservableProperty]
+	bool isDeviceOpen;
 
 	public WorkOrderDetailViewModel(MESDatabase mesDB)
 	{
 		Title = "İş Emri Detay Sayfası";
 		//GetDeviceStateCommand = new Command(async () => await GetDeviceStateAsync());
 		mesDatabase = mesDB;
+	}
+
+	public bool IsDeviceOpenStateChanged
+	{
+		get { return IsDeviceOpen; }
+		set
+		{
+			IsDeviceOpen = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public string DeviceOpenCloseStateChanged
+	{
+		get => DeviceOpenCloseState;
+		set
+		{
+			DeviceOpenCloseState = value; 
+			OnPropertyChanged();
+		}
 	}
 
 	public double QuantityChanged
@@ -264,9 +289,14 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += (s, e) => DoSomething();
 			timer.Start();
+			logoTimer = Application.Current.Dispatcher.CreateTimer();
+			logoTimer.Interval = TimeSpan.FromSeconds(60);
+			logoTimer.Tick += (s, e) => DoSomething();
+			//logoTimer.Start();
 		});
 	}
 
+	// Insert WorkOrderTable to SQLite (local db)
 	public async Task InsertWorkOrderTableAsync()
 	{
 		WorkOrderTable workOrderTable = new()
@@ -278,6 +308,20 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		};
 		await mesDatabase.InsertWorkOrderAsync(workOrderTable);
 	}
+
+	// Insert WorkOrderTable to Logo
+	public async Task InsertWorkOrderTableToLogoAsync()
+	{
+		var items = await mesDatabase.GetItemsNotIntegratedAsync();
+		if(items is not null)
+		{
+			foreach (var item in items)
+			{
+				item.IsIntegrated = true;
+				await mesDatabase.InsertWorkOrderAsync(item);
+			}
+		}
+    }
 
 	public async Task DeleteAllItemsAsync()
 	{
@@ -308,7 +352,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		{
 
 			var httpClient = new HttpClient();
-			httpClient.BaseAddress = new Uri("http://192.168.1.7:32000");
+			httpClient.BaseAddress = new Uri("http://192.168.1.3:32000");
 
 			var body = "{\"cmd\": \"getDeviceState\"}";
 			StringContent stringContent = new StringContent(body);
@@ -327,6 +371,16 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 				{
 					if (deviceStateResult.encoder.Count > 0)
 					{
+						var openCloseState = deviceStateResult.din[0];
+						if(openCloseState == 60 || openCloseState == 62)
+						{
+							IsDeviceOpen = true;
+							DeviceOpenCloseState = "Açık";
+						} else if(openCloseState == 61 || openCloseState == 63)
+						{
+							IsDeviceOpen = false;
+							DeviceOpenCloseState = "Kapalı";
+						}
 						var firstArray = deviceStateResult.encoder[0];
 						Quantity = firstArray[0];
 					}
