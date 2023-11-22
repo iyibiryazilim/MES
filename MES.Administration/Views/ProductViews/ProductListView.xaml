@@ -15,70 +15,165 @@
                                         EventName="Loaded" />
     </ContentPage.Behaviors>
 
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20" RowSpacing="15" Margin="20,15,5,0">
+        <Grid Grid.Row="0">
+            <Label Text="{Binding Title}"
+                   HorizontalOptions="Start"
+                   FontSize="20"
+                   FontAttributes="Bold" />
+        </Grid>
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+            <Border StrokeShape="RoundRectangle 10">
+                <SearchBar Grid.Row="1"
+                           Grid.Column="0" />
+            </Border>
+            <ImageButton Grid.Row="1"
+                         Grid.Column="1"
+                         Aspect="AspectFit"
+                         HeightRequest="22"
+                         WidthRequest="22">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FAS"
+                                     Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
+                                     Color="{AppThemeBinding Light={StaticResource Black},
+                            Dark={StaticResource White}}" />
+                </ImageButton.Source>
+            </ImageButton>
+            <ImageButton Grid.Row="1"
+                         Grid.Column="2"
+                         Aspect="AspectFit" 
+                         HeightRequest="22"
+                         WidthRequest="22">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FAS"
+                                     Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
+                                     Color="{AppThemeBinding Light={StaticResource Black},
+                Dark={StaticResource White}}" />
+                </ImageButton.Source>
+            </ImageButton>
 
-    <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*" Padding="25" RowSpacing="20" >
-        <Label Grid.Row="0"
-               Text="{Binding Title}"
-               FontSize="20"
-               FontAttributes="Bold" />
-        <Border Grid.Row="1" StrokeShape="RoundRectangle 20">
-            <SearchBar Placeholder="Arama" />
-        </Border>
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Result}">
+        </Grid>
+        <CollectionView Grid.Row="2" 
+                        ItemsSource="{Binding Result}"
+                        VerticalOptions="End" Margin="0,0,5,45" >
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal"
-                                   ItemSpacing="40" />
+                                   ItemSpacing="30" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:EndProduct">
-                    <Border StrokeShape="RoundRectangle 60"
+                    <Border StrokeShape="RoundRectangle 15"
                             HeightRequest="350"
-                            WidthRequest="600"
-                            Padding="10">
-                        <Grid ColumnDefinitions="Auto,Auto">
-                            <Grid Grid.Column="0">
-                                <Image  Source="takoz.jpg"
-                                       ></Image>
+                            WidthRequest="700">
+                        <Grid ColumnDefinitions=".4*,.60*" ColumnSpacing="5" >
+                            <Grid Grid.Column="0" >
 
+                                <Image  Source="takoz.jpg"
+                                        BackgroundColor="Transparent"></Image>
                             </Grid>
-                            <Grid Grid.Column="1" RowDefinitions="*,*,*,*" ColumnDefinitions="*,*" Padding="20">
-                                <Grid Grid.Row="0">
+                            <Grid Grid.Column="1"
+                                 
+                                  RowDefinitions="*,*,.30*" Padding="20">
+                                <Grid Grid.Column="1" Padding="5"
+                                      Grid.Row="0" >
                                     <VerticalStackLayout Spacing="10">
                                         <Label Text="{Binding Code,StringFormat='Kod: {0}'}"
-                                               FontSize="15" />
+                                               FontSize="20" FontAttributes="Bold" />
                                         <Label Text="{Binding Name,StringFormat='Adı: {0}'}"
-                                               FontSize="15" />
+                                               FontSize="20"
+                                               FontAttributes="Bold" />
 
-                                        <BoxView HeightRequest="3"
-                                                 Color="DarkGray">
+                                        <BoxView HeightRequest="3" HorizontalOptions="Start"
+                                                 Color="{StaticResource Gray400}">
                                         </BoxView>
                                     </VerticalStackLayout>
 
                                 </Grid>
-                                <Grid Grid.Row="1" Grid.Column="0">
-                                    <Label Text="Deneme"></Label>
-                                    
-                                    
-                                    
-                                    
+                                <Grid Grid.Column="1"
+                                      Grid.Row="1"
+                                     
+                                      ColumnDefinitions="*,0.5*"
+                                      RowDefinitions="Auto,Auto,Auto" ColumnSpacing="5" RowSpacing="5"  >
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           Text="Stok Miktarı: " FontSize="16" />
+                                    <Border Grid.Column="1"
+                                            Grid.Row="0"
+                                            HeightRequest="30"
+                                            StrokeShape="RoundRectangle 10"
+                                            VerticalOptions="End"
+                                            BackgroundColor="{DynamicResource Success}">
+                                        <Label Text="700"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               TextColor="White">
+
+                                        </Label>
+                                    </Border>
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Text="Planlanan Miktar:"
+                                           FontSize="16" />
+                                    <Border Grid.Column="1"
+                                            Grid.Row="1"
+                                            HeightRequest="30"
+                                            StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="{DynamicResource Danger}">
+                                        <Label Text="500"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               FontAttributes="Bold"
+                                               TextColor="White">
+
+                                        </Label>
+                                    </Border>
+                                    <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Text="Gerçekleşen Miktar:"
+                                           FontSize="16" />
+                                    <Border Grid.Column="1"
+                                            Grid.Row="2"
+                                            HeightRequest="30"
+                                            StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="{DynamicResource Tertiary}">
+                                        <Label Text="200"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               FontAttributes="Bold" TextColor="White">
+
+                                        </Label>
+                                    </Border>
+
+
+
+
+
+
                                 </Grid>
-                                
+                               
+                                <Grid Grid.Row="2">
+                                    <Button   Text="Daha Fazla"
+                                              FontSize="Subtitle">
+
+                                    </Button>
+
+                                </Grid>
+
+
                             </Grid>
-                            
                         </Grid>
+
                     </Border>
-                    
-                    
-                    
-                    
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            
-            
-            
-            
+
         </CollectionView>
 
     </Grid>
-  
+
+
+
 </ContentPage>
