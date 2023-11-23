@@ -22,7 +22,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 	DeviceCommandHelper deviceCommandHelper;
 
 	[ObservableProperty]
-	string currentEmployee;
+	public string currentEmployee;
 
 	public ObservableCollection<WorkOrder> Items { get; } = new();
 	public ObservableCollection<WorkOrder> Results { get; } = new();
@@ -116,7 +116,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 	//    }
 	//}
 
-	async Task GetCurrentEmployeeAsync()
+	public async Task GetCurrentEmployeeAsync()
 	{
 		if (IsBusy)
 			return;
@@ -206,7 +206,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 					await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.3:32000");
 					await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.3:32000");
 					await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.3:32000");
-					await Task.Delay(1000);
+					await Task.Delay(300);
 					await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
 					{
 						[nameof(WorkOrder)] = workOrder

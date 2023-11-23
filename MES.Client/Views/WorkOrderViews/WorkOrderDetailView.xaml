@@ -17,7 +17,7 @@
         <!--  start:: Left Frame  -->
         <Frame Grid.Column="0" Padding="10">
             <Grid RowDefinitions="Auto,*,Auto">
-                <!--  start:: Image, BoxView and Slider  -->
+                <!--  start:: Image, BoxView, Operand name and Slider  -->
                 <VerticalStackLayout
                     Grid.Row="0"
                     Padding="10,10,10,0"
@@ -28,13 +28,13 @@
                         HeightRequest="125"
                         MaximumWidthRequest="250"
                         Source="takoz.png"
-                        WidthRequest="2100" />
+                        WidthRequest="210" />
 
                     <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
                     <Label
                         FontAttributes="Bold"
                         HorizontalOptions="Center"
-                        Text="HALİL İBRAHİM KARABULUT"
+                        Text="{Binding CurrentEmployee}"
                         VerticalOptions="Center" />
                     <Slider
                         Maximum="250"

@@ -26,6 +26,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	IHttpClientService _httpClientService;
 
 	private readonly MESDatabase mesDatabase;
+	private WorkOrderListViewModel workOrderListViewModel;
 
 	[ObservableProperty]
 	WorkOrder workOrder;
@@ -55,13 +56,23 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[ObservableProperty]
 	double sliderValue;
 
-	public WorkOrderDetailViewModel(MESDatabase mesDB, IWorkOrderService workOrderService, IHttpClientService httpClientService)
+	[ObservableProperty]
+	string currentEmployee;
+	public Command GetCurrentEmployeeCommand { get; }
+
+	public WorkOrderDetailViewModel(MESDatabase mesDB, IWorkOrderService workOrderService, IHttpClientService httpClientService, WorkOrderListViewModel _workOrderListViewModel)
 	{
 		Title = "İş Emri Detay Sayfası";
 		_workOrderService = workOrderService;
 		_httpClientService = httpClientService;
 		//GetDeviceStateCommand = new Command(async () => await GetDeviceStateAsync());
 		mesDatabase = mesDB;
+		
+
+		MainThread.BeginInvokeOnMainThread(async () =>
+		{
+			 await GetCurrentEmployeeAsync();
+		});
 	}
 
 	public bool IsDeviceOpenStateChanged
@@ -411,8 +422,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			if (response.IsSuccessStatusCode)
 			{
 				json = await response.Content.ReadAsStringAsync();
-				//Console.WriteLine(json);
-				//Debug.WriteLine(json);
 				DeviceStateResult deviceStateResult = JsonConvert.DeserializeObject<DeviceStateResult>(json);
 				if (deviceStateResult != null)
 				{
@@ -441,6 +450,35 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		{
 			Debug.WriteLine(ex.Message);
 			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "tamam");
+		}
+	}
+
+	public async Task GetCurrentEmployeeAsync()
+	{
+		if (IsBusy)
+			return;
+		try
+		{
+			IsBusy = true;
+
+			string oauthToken = await SecureStorage.GetAsync("CurrentUserName");
+			if (oauthToken == null)
+			{
+				CurrentEmployee = "Kullanıcı Bulunamadı";
+			}
+			else
+			{
+				CurrentEmployee = oauthToken;
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex.Message);
+			await Application.Current.MainPage.DisplayAlert("Auth Error", "Get Current Employee Error", "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
 		}
 	}
 
