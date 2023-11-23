@@ -81,7 +81,7 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
 	{
 		mauiAppBuilder.Services.AddTransient<LoginViewModel>();
-		mauiAppBuilder.Services.AddScoped<WorkOrderListViewModel>();
+		mauiAppBuilder.Services.AddTransient<WorkOrderListViewModel>();
 		mauiAppBuilder.Services.AddScoped<WorkOrderDetailViewModel>();
 		mauiAppBuilder.Services.AddScoped<StopCauseListViewModel>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalViewModel>();
@@ -93,7 +93,7 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
 	{
 		mauiAppBuilder.Services.AddTransient<LoginView>();
-		mauiAppBuilder.Services.AddScoped<WorkOrderListView>();
+		mauiAppBuilder.Services.AddTransient<WorkOrderListView>();
 		mauiAppBuilder.Services.AddScoped<WorkOrderDetailView>();
 		mauiAppBuilder.Services.AddScoped<StopCauseListView>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalView>();
