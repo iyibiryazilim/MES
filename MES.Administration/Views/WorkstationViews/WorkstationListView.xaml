@@ -14,7 +14,7 @@
                                         EventName="Loaded" />
     </ContentPage.Behaviors>
     <Grid RowDefinitions="Auto,Auto,*"
-          RowSpacing="23" Padding="20" >
+          RowSpacing="18" Padding="20" >
         <Label Grid.Row="0" Text="{Binding Title}"
                FontSize="20" FontAttributes="Bold"
                HorizontalOptions="Start"
@@ -65,86 +65,160 @@
                 <DataTemplate x:DataType="model:Workstation">
                     <Border  WidthRequest="700"
                              StrokeShape="RoundRectangle 20">
-                        <Grid RowDefinitions="Auto,*" >
-                            <Grid Grid.Row="0"
-                                  ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Padding="10"
+                        <Grid RowDefinitions="Auto,Auto,*"  >
+                            <Grid Grid.Row="0" 
+                                  ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Padding="10" 
                                   >
-                                <Border Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Padding="10"
-                                       >
-                                    <Label  Text="Çalışıyor"
-                                            FontAttributes="Bold"
-                                            FontSize="22"
-                                            TextColor="{DynamicResource DarkGray}" />
-
-                                </Border>
                                 <ImageButton Grid.Row="0"
-                                            Padding="2"
                                              Grid.Column="0"
+                                             
                                              HorizontalOptions="Center"
                                              VerticalOptions="Center"
                                              Aspect="AspectFit"
-                                             HeightRequest="15"
-                                             WidthRequest="15">
+                                             HeightRequest="18"
+                                             WidthRequest="18">
                                     <ImageButton.Source>
                                         <FontImageSource FontFamily="FAS"
-                                                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.Circle}"
+                                                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.CircleDot}"
                                                          Color="{AppThemeBinding Light={StaticResource Success},
 Dark={StaticResource White}}" />
                                     </ImageButton.Source>
                                 </ImageButton>
+                               
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                          
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"
+                                           Text="Çalışıyor"
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            TextColor="{DynamicResource DarkGray}" />
 
-
-                                <Label Text="{Binding Code }" Grid.Row="0" Grid.Column="2"/>
-
+                                <Label  Grid.Row="0"
+                                        Grid.Column="2" VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Bakıma Kalan Süre : "
+                                                  FontSize="16" />
+                                            <Span Text="{Binding Code}"
+                                                 
+                                                  FontSize="18"
+                                                  FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
 
                             </Grid>
-                             <Grid Grid.Row="1"  ColumnDefinitions=".50*,.50*" >
-                                <Grid Grid.Row="1" Grid.Column="0"  >
-                                    <Grid RowDefinitions=".40*,.60*" ColumnDefinitions="*,Auto" RowSpacing="10" >
+                            <Grid Grid.Row="1" >
+                                <BoxView Grid.Row="1" 
+                                         HeightRequest="2"
+                                         HorizontalOptions="Start"
+                                         Margin="0,0,0,10"
+                                         Color="{StaticResource Gray300}">
+                                </BoxView>
+                            </Grid>
+                             <Grid Grid.Row="2"  ColumnDefinitions=".50*,.50*" >
+                                <Grid Grid.Row="2" Grid.Column="0"  >
+                                    <Grid RowDefinitions=".40*,.60*" ColumnDefinitions="*,Auto" RowSpacing="-15"  >
 
                                         <VerticalStackLayout>
+                                          
                                             <toolkit:AvatarView Grid.Row="0"
-                                                                BorderWidth="2"
-                                                                
+                                                                BorderWidth="4"
+                                                                WidthRequest="90"
+                                                                HeightRequest="90"
                                                                 BorderColor="{StaticResource Danger}"
-                                                                Text="%70" />
-                                            <Label Text="OEEE" HorizontalOptions="Center"/>
+                                                                CornerRadius="100"
+                                                                FontSize="22"
+                                                                
+                                                                FontAttributes="Bold"
+                                                                Text="%80" />
+                                            <Label Text="OEEE"
+                                                   HorizontalOptions="Center"
+                                                   FontSize="22"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource Gray400}" />
+
+                                        </VerticalStackLayout>
+                                            
 
                                             <Grid Grid.Row="1"
                                                   ColumnDefinitions="*,*,*" RowDefinitions="*,*,*"
                                                   ColumnSpacing="-60">
+                                            <VerticalStackLayout Grid.Row="1"
+                                                                 Grid.Column="0">
                                                 <toolkit:AvatarView Grid.Row="1"
                                                                     Grid.Column="0"
-                                                                    BorderWidth="2"
+                                                                    BorderWidth="3"
+                                                                    WidthRequest="75"
+                                                                    HeightRequest="75"
+                                                                    CornerRadius="100"
+                                                                    FontSize="18"
                                                                     BorderColor="{StaticResource Info}"
+                                                                    FontAttributes="Bold"
                                                                     Text="%50" />
-                                            
+                                                <Label Text="Quantity"
+                                                       HorizontalOptions="Center"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Gray400}" />
 
-                                            <toolkit:AvatarView Grid.Row="1"
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Row="1"
+                                                                 Grid.Column="1">
+
+                                                <toolkit:AvatarView Grid.Row="1"
                                                                     Grid.Column="1"
-                                                                    BorderWidth="2"
+                                                                    BorderWidth="3"
+                                                                    WidthRequest="75"
+                                                                    HeightRequest="75"
+                                                                    CornerRadius="100"
+                                                                    FontSize="18"
                                                                     BorderColor="{StaticResource Primary}"
+                                                                    FontAttributes="Bold"
                                                                     Text="%70" />
-                                                
+                                                <Label Text="Quantity"
+                                                       HorizontalOptions="Center"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Gray400}" />
+
+                                            </VerticalStackLayout>
+
+                                            <VerticalStackLayout Grid.Row="1"
+                                                                 Grid.Column="2">
                                                 <toolkit:AvatarView Grid.Row="1"
                                                                     Grid.Column="2"
-                                                                    BorderWidth="2"
+                                                                    BorderWidth="3"
+                                                                    WidthRequest="75"
+                                                                    HeightRequest="75"
+                                                                    CornerRadius="100"
+                                                                    FontSize="18"
                                                                     BorderColor="{StaticResource Warning}"
+                                                                    FontAttributes="Bold"
                                                                     Text="%30" />
+                                                <Label Text="Quantity"
+                                                       HorizontalOptions="Center"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Gray400}" />
+
+                                            </VerticalStackLayout>
+                                               
+                                            
+
+                                                
+                                              
 
                                             </Grid>
-                                        </VerticalStackLayout>
+                                       
 
 
                                     </Grid>
                                     
                                 </Grid>
-                                <Grid Grid.Row="1" Grid.Column="1" Padding="8" >
-                                    <Grid RowDefinitions=".80*,.20*" RowSpacing="5">
+                                <Grid Grid.Row="1" Grid.Column="1" Padding="15" >
+                                    <Grid RowDefinitions="*,Auto" RowSpacing="5">
                                         <Grid Grid.Row="0">
-                                            <VerticalStackLayout Spacing="15"
+                                            <VerticalStackLayout Spacing="19"
                                                                  Grid.Row="1">
                                                 <Label>
                                                     <Label.FormattedText>
@@ -203,7 +277,7 @@ Dark={StaticResource White}}" />
 
 
                                         </Grid>
-                                        <Grid Grid.Row="1" >
+                                        <Grid Grid.Row="1"  >
                                             <Button Text="Daha Fazla"></Button>
 
 
