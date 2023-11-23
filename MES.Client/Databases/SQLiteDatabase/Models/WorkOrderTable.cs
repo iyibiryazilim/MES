@@ -19,5 +19,7 @@ public class WorkOrderTable
 	public DateTime Date { get; set; }	
 	public double Quantity { get; set; }
 	public bool IsIntegrated { get; set; }
+	public int SubUnitsetReferenceId { get; set; }
+	public int ProductReferenceId { get; set; }
 	#endregion
 }

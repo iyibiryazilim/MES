@@ -79,7 +79,7 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
 	{
 		mauiAppBuilder.Services.AddTransient<LoginViewModel>();
-		mauiAppBuilder.Services.AddTransient<WorkOrderListViewModel>();
+		mauiAppBuilder.Services.AddScoped<WorkOrderListViewModel>();
 		mauiAppBuilder.Services.AddScoped<WorkOrderDetailViewModel>();
 		mauiAppBuilder.Services.AddScoped<StopCauseListViewModel>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalViewModel>();
