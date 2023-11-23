@@ -129,6 +129,9 @@
 	  <MauiIcon Include="Resources\AppIcon\iyibiricon.png" />
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="Views\PanelViews\MainPanelView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\PopupViews\StartWorkOrderPopupView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -114,6 +114,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 		if(workOrderDetailViewModel is not null)
 		{
 			workOrderDetailViewModel.timer.Stop();
+			workOrderDetailViewModel.logoTimer.Stop();
 			//workOrderDetailService.Quantity = 0;
 			workOrderDetailViewModel.StartButtonEnabled = true;
 		}
