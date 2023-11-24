@@ -11,12 +11,27 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}"
                                         EventName="Loaded" />
+       
     </ContentPage.Behaviors>
 
     <Grid RowDefinitions="Auto,Auto,*,Auto"
-          Padding="20"
+         Padding="13"
           RowSpacing="15"
-          Margin="20,15,5,0">
+          >
+        <Grid.Background>
+
+            <LinearGradientBrush EndPoint="1,1">
+                <GradientStop Color="{DynamicResource Warning}"
+                              Offset="0.1" />
+
+           
+
+                <GradientStop Color="{DynamicResource Black}"
+                              Offset="1.1" />
+            </LinearGradientBrush>
+
+
+        </Grid.Background>
         <Label Grid.Row="0"
                Text="{Binding Title}"
                HorizontalOptions="Start"

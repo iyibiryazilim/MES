@@ -14,46 +14,54 @@
                                         EventName="Loaded" />
     </ContentPage.Behaviors>
     <Grid RowDefinitions="Auto,Auto,*"
-          RowSpacing="18" Padding="20" >
+          RowSpacing="18" Padding="13" >
         <Label Grid.Row="0" Text="{Binding Title}"
                FontSize="20" FontAttributes="Bold"
                HorizontalOptions="Start"
                Padding="-2"
               />
         <Grid Grid.Row="1"
-              ColumnDefinitions="*,Auto,Auto"
-              ColumnSpacing="8">
-            <Border StrokeShape="RoundRectangle 10" >
-                <SearchBar />
+             >
+            <Border StrokeShape="RoundRectangle 10"   >
+                <Grid  ColumnDefinitions="*,Auto,Auto"
+                       ColumnSpacing="10"  >
+                    <SearchBar Grid.Column="0"  />
+                    <ImageButton 
+                                 BackgroundColor="Transparent"
+                                 Grid.Column="1"
+                                 Aspect="AspectFit"
+                                 HeightRequest="22"
+                                 WidthRequest="22">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="FAS"
+                                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
+                                             Color="{AppThemeBinding Light={StaticResource Black},
+                 Dark={StaticResource White}}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <ImageButton 
+                       HorizontalOptions="Start"
+                                 Margin="8"
+                                 Grid.Column="2"
+                                 Aspect="AspectFit"
+                                 HeightRequest="22"
+                                 WidthRequest="22">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="FAS"
+                                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
+                                             Color="{AppThemeBinding Light={StaticResource Black},
+     Dark={StaticResource White}}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                </Grid>
+               
+                
             </Border>
-            <ImageButton Grid.Row="1"
-                         Grid.Column="1"
-                         Aspect="AspectFit"
-                         HeightRequest="22"
-                         WidthRequest="22">
-                <ImageButton.Source>
-                    <FontImageSource FontFamily="FAS"
-                                     Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
-                                     Color="{AppThemeBinding Light={StaticResource Black},
-                   Dark={StaticResource White}}" />
-                </ImageButton.Source>
-            </ImageButton>
-            <ImageButton Grid.Row="1"
-                         Grid.Column="2"
-                         Aspect="AspectFit"
-                         HeightRequest="22"
-                         WidthRequest="22">
-                <ImageButton.Source>
-                    <FontImageSource FontFamily="FAS"
-                                     Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
-                                     Color="{AppThemeBinding Light={StaticResource Black},
-       Dark={StaticResource White}}" />
-                </ImageButton.Source>
-            </ImageButton>
+           
 
 
         </Grid>
-        <CollectionView ItemsSource="{Binding Result}" Grid.Row="2" VerticalOptions="End">
+        <CollectionView ItemsSource="{Binding Result}" Grid.Row="2" VerticalOptions="End" >
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal"
                                    ItemSpacing="30">
@@ -65,13 +73,12 @@
                 <DataTemplate x:DataType="model:Workstation">
                     <Border  WidthRequest="700"
                              StrokeShape="RoundRectangle 20">
-                        <Grid RowDefinitions="Auto,Auto,*"  >
+                        <Grid RowDefinitions="Auto,Auto,*" Padding="7" >
                             <Grid Grid.Row="0" 
                                   ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Padding="10" 
                                   >
                                 <ImageButton Grid.Row="0"
                                              Grid.Column="0"
-                                             
                                              HorizontalOptions="Center"
                                              VerticalOptions="Center"
                                              Aspect="AspectFit"
@@ -81,7 +88,7 @@
                                         <FontImageSource FontFamily="FAS"
                                                          Glyph="{x:Static fontAwesome:FontAwesomeIcons.CircleDot}"
                                                          Color="{AppThemeBinding Light={StaticResource Success},
-Dark={StaticResource White}}" />
+Dark={StaticResource Success}}" />
                                     </ImageButton.Source>
                                 </ImageButton>
                                
@@ -91,12 +98,15 @@ Dark={StaticResource White}}" />
                                            HorizontalOptions="Start"
                                            VerticalOptions="Center"
                                            Text="Çalışıyor"
+                                          
                                             FontAttributes="Bold"
                                             FontSize="20"
-                                            TextColor="{DynamicResource DarkGray}" />
+                                       TextColor="{DynamicResource Success}" />
 
                                 <Label  Grid.Row="0"
-                                        Grid.Column="2" VerticalOptions="Center">
+                                        Grid.Column="2"
+                                        VerticalOptions="Center"
+                                        HorizontalTextAlignment="End">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Bakıma Kalan Süre : "
@@ -104,7 +114,10 @@ Dark={StaticResource White}}" />
                                             <Span Text="{Binding Code}"
                                                  
                                                   FontSize="18"
-                                                  FontAttributes="Bold" />
+                                                  FontAttributes="Bold"
+                                                  
+                                                  
+                                                   />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -112,6 +125,7 @@ Dark={StaticResource White}}" />
                             </Grid>
                             <Grid Grid.Row="1" >
                                 <BoxView Grid.Row="1" 
+                                        WidthRequest="800"
                                          HeightRequest="2"
                                          HorizontalOptions="Start"
                                          Margin="0,0,0,10"
@@ -122,16 +136,17 @@ Dark={StaticResource White}}" />
                                 <Grid Grid.Row="2" Grid.Column="0"  >
                                     <Grid RowDefinitions=".40*,.60*" ColumnDefinitions="*,Auto" RowSpacing="-15"  >
 
-                                        <VerticalStackLayout>
+                                        <VerticalStackLayout  VerticalOptions="End" HorizontalOptions="Center"  Margin="0,-30">
                                           
-                                            <toolkit:AvatarView Grid.Row="0"
+                                            <toolkit:AvatarView  Grid.Row="0"
                                                                 BorderWidth="4"
                                                                 WidthRequest="90"
                                                                 HeightRequest="90"
+                                                                 BackgroundColor="Transparent"
                                                                 BorderColor="{StaticResource Danger}"
                                                                 CornerRadius="100"
                                                                 FontSize="22"
-                                                                
+                                                                 
                                                                 FontAttributes="Bold"
                                                                 Text="%80" />
                                             <Label Text="OEEE"
@@ -155,6 +170,7 @@ Dark={StaticResource White}}" />
                                                                     HeightRequest="75"
                                                                     CornerRadius="100"
                                                                     FontSize="18"
+                                                                    BackgroundColor="Transparent"
                                                                     BorderColor="{StaticResource Info}"
                                                                     FontAttributes="Bold"
                                                                     Text="%50" />
@@ -174,6 +190,7 @@ Dark={StaticResource White}}" />
                                                                     HeightRequest="75"
                                                                     CornerRadius="100"
                                                                     FontSize="18"
+                                                                    BackgroundColor="Transparent"
                                                                     BorderColor="{StaticResource Primary}"
                                                                     FontAttributes="Bold"
                                                                     Text="%70" />
@@ -194,6 +211,7 @@ Dark={StaticResource White}}" />
                                                                     CornerRadius="100"
                                                                     FontSize="18"
                                                                     BorderColor="{StaticResource Warning}"
+                                                                    BackgroundColor="Transparent"
                                                                     FontAttributes="Bold"
                                                                     Text="%30" />
                                                 <Label Text="Quantity"
@@ -216,22 +234,18 @@ Dark={StaticResource White}}" />
                                     
                                 </Grid>
                                 <Grid Grid.Row="1" Grid.Column="1" Padding="15" >
-                                    <Grid RowDefinitions="*,Auto" RowSpacing="5">
+                                    <Grid RowDefinitions="Auto,Auto" RowSpacing="34">
                                         <Grid Grid.Row="0">
                                             <VerticalStackLayout Spacing="19"
                                                                  Grid.Row="1">
-                                                <Label>
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="Kodu : "
-                                                                  FontSize="16"
-                                                                   />
-                                                            <Span Text="{Binding Code}"
-                                                                  FontSize="18"
-                                                                  FontAttributes="Bold" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label Text="Kodu : "
+                                                           FontSize="16" />
+                                                    <Label Text="{Binding Code}"
+                                                           FontSize="18"
+                                                           FontAttributes="Bold"
+                                                           HorizontalOptions="EndAndExpand" />
+                                                </StackLayout>
 
                                                 <Label>
                                                     <Label.FormattedText>
@@ -277,7 +291,7 @@ Dark={StaticResource White}}" />
 
 
                                         </Grid>
-                                        <Grid Grid.Row="1"  >
+                                        <Grid Grid.Row="1"  VerticalOptions="End" >
                                             <Button Text="Daha Fazla"></Button>
 
 
