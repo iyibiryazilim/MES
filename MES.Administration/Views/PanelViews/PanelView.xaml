@@ -10,6 +10,29 @@
 
     <Grid RowDefinitions="Auto,*"
           Padding="20">
+         <Grid.Background>
+
+     <LinearGradientBrush StartPoint="0,0"
+                          EndPoint="1,1">
+
+
+
+
+
+                <GradientStop Color="#8c9948"
+                       Offset="0" />
+
+                <GradientStop Color="#41472f"
+                       Offset="0.65" />
+
+                <GradientStop Color="#31362a"
+                       Offset="1.0" />
+         
+     </LinearGradientBrush>
+
+
+
+ </Grid.Background>
 
         <Grid Grid.Row="0"
               ColumnDefinitions="*,Auto,Auto"

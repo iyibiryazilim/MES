@@ -28,14 +28,14 @@
 
     <Style TargetType="BoxView">
         <Setter Property="Color"
-                Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+                Value="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource Warning}}" />
     </Style>
 
     <Style TargetType="Button">
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor"
                 Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Black}}" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource Warning}}" />
         <Setter Property="FontFamily"
                 Value="RobotoRegular" />
         <Setter Property="FontSize"

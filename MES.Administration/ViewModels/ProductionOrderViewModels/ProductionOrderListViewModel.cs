@@ -5,6 +5,7 @@ public partial class ProductionOrderListViewModel : BaseViewModel
 {
     public ProductionOrderListViewModel()
     {
+        Title = "Üretim Emirleri";
     }
 }
 

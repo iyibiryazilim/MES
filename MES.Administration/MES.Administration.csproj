@@ -52,7 +52,6 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
 		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="LBS.WebAPI.Service" Version="1.0.40" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
 		<PackageReference Include="SimpleToolkit.SimpleShell" Version="3.0.1" />
@@ -92,8 +91,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
-	  <Folder Include="ViewModels\" />
-	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\WorkstationViewModels\" />
 	  <Folder Include="ViewModels\WorkOrderViewModels\" />
 	  <Folder Include="ViewModels\ProductionOrderViewModels\" />
@@ -118,6 +115,11 @@
 	  <Folder Include="Views\PanelViews\" />
 	  <Folder Include="ViewModels\PanelViewModels\" />
 	  <Folder Include="Helpers\FontawesomeHelper\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Views\LoginViews\LoginView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMESAdministrationHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 </Project>

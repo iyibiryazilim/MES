@@ -1,8 +1,6 @@
-﻿using LBS.WebAPI.Service.Services;
-using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
+﻿using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
-using System;
 using System.Collections.ObjectModel;
 
 namespace MES.Administration.ViewModels.WorkstationViewModels;

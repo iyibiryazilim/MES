@@ -6,28 +6,48 @@
              x:Class="MES.Administration.Views.WorkstationViews.WorkstationListView"
              xmlns:viewModel="clr-namespace:MES.Administration.ViewModels.WorkstationViewModels"
              x:DataType="viewModel:WorkstationListViewModel"
-             xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
-             Padding="20,20,20,85"
-             Title="{Binding Title}">
+             xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}"
                                         EventName="Loaded" />
     </ContentPage.Behaviors>
     <Grid RowDefinitions="Auto,Auto,*"
-          RowSpacing="18" Padding="13" >
-        <Label Grid.Row="0" Text="{Binding Title}"
-               FontSize="20" FontAttributes="Bold"
+          RowSpacing="18"
+          Padding="30">
+        <Grid.Background>
+
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,1">
+
+
+                <GradientStop Color="#8c9948"
+                              Offset="0.02" />
+                <GradientStop Color="#656f3b"
+                              Offset="0.10" />
+
+                <GradientStop Color="#31362a"
+                              Offset="0.65" />
+                <GradientStop Color="#31362a"
+                              Offset="0.95" />
+
+
+            </LinearGradientBrush>
+
+
+
+        </Grid.Background>
+        <Label Grid.Row="0"
+               Text="{Binding Title}"
+               FontSize="20"
+               FontAttributes="Bold"
                HorizontalOptions="Start"
-               Padding="-2"
-              />
-        <Grid Grid.Row="1"
-             >
-            <Border StrokeShape="RoundRectangle 10"   >
+               Padding="-2" />
+        <Grid Grid.Row="1">
+            <Border StrokeShape="RoundRectangle 10">
                 <Grid  ColumnDefinitions="*,Auto,Auto"
-                       ColumnSpacing="10"  >
-                    <SearchBar Grid.Column="0"  />
-                    <ImageButton 
-                                 BackgroundColor="Transparent"
+                       ColumnSpacing="10">
+                    <SearchBar Grid.Column="0" />
+                    <ImageButton BackgroundColor="Transparent"
                                  Grid.Column="1"
                                  Aspect="AspectFit"
                                  HeightRequest="22"
@@ -39,8 +59,7 @@
                  Dark={StaticResource White}}" />
                         </ImageButton.Source>
                     </ImageButton>
-                    <ImageButton 
-                       HorizontalOptions="Start"
+                    <ImageButton HorizontalOptions="Start"
                                  Margin="8"
                                  Grid.Column="2"
                                  Aspect="AspectFit"
@@ -54,14 +73,17 @@
                         </ImageButton.Source>
                     </ImageButton>
                 </Grid>
-               
-                
+
+
             </Border>
-           
+
 
 
         </Grid>
-        <CollectionView ItemsSource="{Binding Result}" Grid.Row="2" VerticalOptions="End" >
+        <CollectionView ItemsSource="{Binding Result}"
+                        Grid.Row="2"
+                        VerticalOptions="End"
+                        Margin="0,0,0,60">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal"
                                    ItemSpacing="30">
@@ -73,10 +95,12 @@
                 <DataTemplate x:DataType="model:Workstation">
                     <Border  WidthRequest="700"
                              StrokeShape="RoundRectangle 20">
-                        <Grid RowDefinitions="Auto,Auto,*" Padding="7" >
-                            <Grid Grid.Row="0" 
-                                  ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Padding="10" 
-                                  >
+                        <Grid RowDefinitions="Auto,Auto,*"
+                              Padding="5">
+                            <Grid Grid.Row="0"
+                                  ColumnDefinitions="Auto,*,Auto"
+                                  ColumnSpacing="10"
+                                  Padding="10">
                                 <ImageButton Grid.Row="0"
                                              Grid.Column="0"
                                              HorizontalOptions="Center"
@@ -91,16 +115,14 @@
 Dark={StaticResource Success}}" />
                                     </ImageButton.Source>
                                 </ImageButton>
-                               
-                                    <Label Grid.Row="0"
-                                           Grid.Column="1"
-                                          
-                                           HorizontalOptions="Start"
-                                           VerticalOptions="Center"
-                                           Text="Çalışıyor"
-                                          
-                                            FontAttributes="Bold"
-                                            FontSize="20"
+
+                                <Label Grid.Row="0"
+                                       Grid.Column="1"
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"
+                                       Text="Çalışıyor"
+                                       FontAttributes="Bold"
+                                       FontSize="20"
                                        TextColor="{DynamicResource Success}" />
 
                                 <Label  Grid.Row="0"
@@ -112,43 +134,44 @@ Dark={StaticResource Success}}" />
                                             <Span Text="Bakıma Kalan Süre : "
                                                   FontSize="16" />
                                             <Span Text="{Binding Code}"
-                                                 
                                                   FontSize="18"
-                                                  FontAttributes="Bold"
-                                                  
-                                                  
-                                                   />
+                                                  FontAttributes="Bold" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
 
                             </Grid>
-                            <Grid Grid.Row="1" >
-                                <BoxView Grid.Row="1" 
-                                        WidthRequest="800"
+                            <Grid Grid.Row="1">
+                                <BoxView Grid.Row="1"
+                                         WidthRequest="800"
                                          HeightRequest="2"
                                          HorizontalOptions="Start"
                                          Margin="0,0,0,10"
                                          Color="{StaticResource Gray300}">
                                 </BoxView>
                             </Grid>
-                             <Grid Grid.Row="2"  ColumnDefinitions=".50*,.50*" >
-                                <Grid Grid.Row="2" Grid.Column="0"  >
-                                    <Grid RowDefinitions=".40*,.60*" ColumnDefinitions="*,Auto" RowSpacing="-15"  >
+                            <Grid Grid.Row="2"
+                                  ColumnDefinitions=".50*,.50*">
+                                <Grid Grid.Row="2"
+                                      Grid.Column="0">
+                                    <Grid RowDefinitions=".40*,.60*"
+                                          ColumnDefinitions="*,Auto"
+                                          RowSpacing="-15">
 
-                                        <VerticalStackLayout  VerticalOptions="End" HorizontalOptions="Center"  Margin="0,-30">
-                                          
+                                        <VerticalStackLayout  VerticalOptions="End"
+                                                              HorizontalOptions="Center"
+                                                              Margin="0,-30">
+
                                             <toolkit:AvatarView  Grid.Row="0"
-                                                                BorderWidth="4"
-                                                                WidthRequest="90"
-                                                                HeightRequest="90"
+                                                                 BorderWidth="4"
+                                                                 WidthRequest="90"
+                                                                 HeightRequest="90"
                                                                  BackgroundColor="Transparent"
-                                                                BorderColor="{StaticResource Danger}"
-                                                                CornerRadius="100"
-                                                                FontSize="22"
-                                                                 
-                                                                FontAttributes="Bold"
-                                                                Text="%80" />
+                                                                 BorderColor="{StaticResource Danger}"
+                                                                 CornerRadius="100"
+                                                                 FontSize="22"
+                                                                 FontAttributes="Bold"
+                                                                 Text="%80" />
                                             <Label Text="OEEE"
                                                    HorizontalOptions="Center"
                                                    FontSize="22"
@@ -156,11 +179,12 @@ Dark={StaticResource Success}}" />
                                                    TextColor="{StaticResource Gray400}" />
 
                                         </VerticalStackLayout>
-                                            
 
-                                            <Grid Grid.Row="1"
-                                                  ColumnDefinitions="*,*,*" RowDefinitions="*,*,*"
-                                                  ColumnSpacing="-60">
+
+                                        <Grid Grid.Row="1"
+                                              ColumnDefinitions="*,*,*"
+                                              RowDefinitions="*,*,*"
+                                              ColumnSpacing="-60">
                                             <VerticalStackLayout Grid.Row="1"
                                                                  Grid.Column="0">
                                                 <toolkit:AvatarView Grid.Row="1"
@@ -220,21 +244,24 @@ Dark={StaticResource Success}}" />
                                                        TextColor="{StaticResource Gray400}" />
 
                                             </VerticalStackLayout>
-                                               
-                                            
 
-                                                
-                                              
 
-                                            </Grid>
-                                       
+
+
+
+
+                                        </Grid>
+
 
 
                                     </Grid>
-                                    
+
                                 </Grid>
-                                <Grid Grid.Row="1" Grid.Column="1" Padding="15" >
-                                    <Grid RowDefinitions="Auto,Auto" RowSpacing="34">
+                                <Grid Grid.Row="1"
+                                      Grid.Column="1"
+                                      Padding="15">
+                                    <Grid RowDefinitions="Auto,Auto"
+                                          RowSpacing="40">
                                         <Grid Grid.Row="0">
                                             <VerticalStackLayout Spacing="19"
                                                                  Grid.Row="1">
@@ -251,8 +278,7 @@ Dark={StaticResource Success}}" />
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span Text="Adı : "
-                                                                  FontSize="16"
-                                                                  />
+                                                                  FontSize="16" />
                                                             <Span Text="{Binding Name}"
                                                                   FontSize="18"
                                                                   FontAttributes="Bold" />
@@ -263,8 +289,7 @@ Dark={StaticResource Success}}" />
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span Text="Grubu : "
-                                                                  FontSize="16"
-                                                                  />
+                                                                  FontSize="16" />
                                                             <Span Text="{Binding Code}"
                                                                   FontSize="18"
                                                                   FontAttributes="Bold" />
@@ -276,22 +301,22 @@ Dark={StaticResource Success}}" />
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span Text="Son Bakım Tarihi : "
-                                                                  FontSize="16"
-                                                                   />
+                                                                  FontSize="16" />
                                                             <Span Text="{Binding Code}"
                                                                   FontSize="18"
                                                                   FontAttributes="Bold" />
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>
-                                               
+
 
 
                                             </VerticalStackLayout>
 
 
                                         </Grid>
-                                        <Grid Grid.Row="1"  VerticalOptions="End" >
+                                        <Grid Grid.Row="1"
+                                              VerticalOptions="End">
                                             <Button Text="Daha Fazla"></Button>
 
 
@@ -299,23 +324,23 @@ Dark={StaticResource Success}}" />
 
                                         </Grid>
                                     </Grid>
-                                    
-                                    
+
+
                                 </Grid>
-     
- </Grid>
-                            
-                            
+
+                            </Grid>
+
+
                         </Grid>
                     </Border>
-                    
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            
+
         </CollectionView>
-        
-       
-        
+
+
+
     </Grid>
 
 </ContentPage>

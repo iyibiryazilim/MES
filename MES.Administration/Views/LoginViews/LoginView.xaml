@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MES.Administration.Views.LoginViews.LoginView"
+             xmlns:fontAwesome="clr-namespace:MES.Administration.Helpers.FontawesomeHelper"
+             Title="LoginView">
+    <Grid Padding="0"
+          ColumnDefinitions=".50*,.50*">
+        <Image Grid.Column="0" />
+       
+        <Border Grid.Column="1"
+                Margin="100,50,50,50"
+                BackgroundColor="{StaticResource White}"
+                StrokeShape="RoundRectangle 15">
+            <Grid Padding="20"
+                  RowDefinitions="Auto, *, Auto" RowSpacing="5" >
+                <VerticalStackLayout Margin="0,100,0,-50"
+                                     VerticalOptions="Start" Grid.Row="0" >
+                   
+
+
+
+                    <Label 
+                           Grid.Row="0"
+                           FontSize="28"
+                           HorizontalOptions="Center"
+                           Text="Hoşgeldiniz"
+                           TextColor="{StaticResource Gray900}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="1"
+                                     Padding="10"
+                                     Spacing="5"
+                                     VerticalOptions="Center"  >
+
+                    <Grid RowDefinitions="*,Auto">
+
+
+                        <Border Grid.Row="1"
+                                Padding="2"  
+                                Background="yellow"
+                            Stroke="{StaticResource Black}"
+                            StrokeShape="RoundRectangle 15"
+                            StrokeThickness="0.5" Margin="0,10">
+                        <Entry 
+                                   FontSize="Subtitle"
+                               Placeholder="Şifre"
+                               TextColor="{StaticResource White}">
+                           
+                        </Entry>
+                        </Border>
+                            <ImageButton BackgroundColor="Blue"
+                                         HorizontalOptions="End"
+                                         
+                                         Grid.Row="1"
+                                        
+                                         Aspect="AspectFit"
+                                         HeightRequest="18"
+                                         WidthRequest="20"
+                                         Margin="0,0,10,0">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="FAS"
+                                                     Glyph="{x:Static fontAwesome:FontAwesomeIcons.Lock}"
+                                                     Color="{AppThemeBinding Light={StaticResource Black},
+Dark={StaticResource White}}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+
+                        
+                    </Grid>
+                    <Label FontSize="14"
+                           HorizontalTextAlignment="End"
+                           Text="Şifremi unuttum"
+                           TextColor="{StaticResource Black}" />
+
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="2"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="End">
+                    <Label FontSize="12"
+                           HorizontalTextAlignment="Center"
+                           Text="Copyright 2023 İyibir Yazılım ve Teknoloji"
+                           TextColor="{StaticResource Black}" />
+                   
+                </VerticalStackLayout>
+               
+               
+            </Grid>
+        </Border>
+
+
+    </Grid>
+</ContentPage>
