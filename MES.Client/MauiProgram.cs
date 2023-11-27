@@ -3,9 +3,11 @@ using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.ViewModels.LoginViewModels;
+using MES.Client.ViewModels.PanelViewModels;
 using MES.Client.ViewModels.StopCauseViewModels;
 using MES.Client.ViewModels.WorkOrderViewModels;
 using MES.Client.Views.LoginViews;
+using MES.Client.Views.PanelViews;
 using MES.Client.Views.StopCauseViews;
 using MES.Client.Views.WorkOrderViews;
 using Microcharts.Maui;
@@ -79,10 +81,11 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
 	{
 		mauiAppBuilder.Services.AddTransient<LoginViewModel>();
-		mauiAppBuilder.Services.AddScoped<WorkOrderListViewModel>();
+		mauiAppBuilder.Services.AddTransient<WorkOrderListViewModel>();
 		mauiAppBuilder.Services.AddScoped<WorkOrderDetailViewModel>();
 		mauiAppBuilder.Services.AddScoped<StopCauseListViewModel>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalViewModel>();
+		mauiAppBuilder.Services.AddTransient<MainPanelViewModel>();
 
 		return mauiAppBuilder;
 	}
@@ -94,6 +97,7 @@ public static class MauiProgram
 		mauiAppBuilder.Services.AddScoped<WorkOrderDetailView>();
 		mauiAppBuilder.Services.AddScoped<StopCauseListView>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalView>();
+		mauiAppBuilder.Services.AddTransient<MainPanelView>();
 
 		return mauiAppBuilder;
 	}

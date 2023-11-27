@@ -24,6 +24,19 @@ public partial class WorkOrderListViewModel : BaseViewModel
 	[ObservableProperty]
 	public string currentEmployee;
 
+	public string CurrentEmployeeChanged
+	{
+		get => CurrentEmployee;
+		set
+		{
+			CurrentEmployee = value;
+			OnPropertyChanged();
+		}
+	}
+
+	[ObservableProperty]
+	string searchText = string.Empty;
+
 	public ObservableCollection<WorkOrder> Items { get; } = new();
 	public ObservableCollection<WorkOrder> Results { get; } = new();
 	public ObservableRangeCollection<dynamic> DisplayItems { get; } = new();
@@ -31,12 +44,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 	public Command GetItemsCommand { get; }
 
 	public Command GetCurrentEmployeeCommand { get; }
-
-	//[ObservableProperty]
-	//ProductionWorkOrderList selectedItem;
-
-	[ObservableProperty]
-	string searchText = string.Empty;
 
 	// SearchBar genişliğini ekrana göre ayarlama fonksiyonu
 	public double ScreenWidth

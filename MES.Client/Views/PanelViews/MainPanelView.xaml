@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MES.Client.Views.PanelViews.MainPanelView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModel="clr-namespace:MES.Client.ViewModels.PanelViewModels"
+    Title="{Binding Title}"
+    x:DataType="viewModel:MainPanelViewModel"
+    Shell.NavBarIsVisible="False">
+    <Grid Padding="25" RowDefinitions="*, Auto">
+        <Grid RowDefinitions="Auto, *" RowSpacing="15">
+            <Label
+                Grid.Row="0"
+                FontAttributes="Bold"
+                FontSize="Title"
+                Text="Ana Panel" />
+            <VerticalStackLayout Grid.Row="1">
+                <Label Text="İş Emirlerinin Durumları" />
+
+            </VerticalStackLayout>
+        </Grid>
+        <!--#region İş emirleri sayfasına git butonu-->
+        <Button
+            Grid.Row="1"
+            Text="İş Emirleri sayfasına git"
+            VerticalOptions="End">
+            <Button.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToWorkOrderListCommand}" />
+            </Button.GestureRecognizers>
+        </Button>
+        <!--#endregion-->
+        <!--#region Loading icon-->
+        <StackLayout
+            Grid.Row="0"
+            AbsoluteLayout.LayoutBounds="0.5, 1, -1 ,-1"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            HorizontalOptions="End"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="End">
+            <ActivityIndicator
+                HeightRequest="50"
+                IsRunning="{Binding IsBusy}"
+                Color="{StaticResource Primary}" />
+        </StackLayout>
+        <!--#endregion-->
+    </Grid>
+</ContentPage>
