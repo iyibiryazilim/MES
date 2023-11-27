@@ -80,24 +80,24 @@ public static class MauiProgram
 
 	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
 	{
-		mauiAppBuilder.Services.AddTransient<LoginViewModel>();
-		mauiAppBuilder.Services.AddTransient<WorkOrderListViewModel>();
+		mauiAppBuilder.Services.AddScoped<LoginViewModel>();
+		mauiAppBuilder.Services.AddScoped<WorkOrderListViewModel>();
 		mauiAppBuilder.Services.AddScoped<WorkOrderDetailViewModel>();
 		mauiAppBuilder.Services.AddScoped<StopCauseListViewModel>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalViewModel>();
-		mauiAppBuilder.Services.AddTransient<MainPanelViewModel>();
+		mauiAppBuilder.Services.AddSingleton<MainPanelViewModel>();
 
 		return mauiAppBuilder;
 	}
 
 	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
 	{
-		mauiAppBuilder.Services.AddTransient<LoginView>();
-		mauiAppBuilder.Services.AddTransient<WorkOrderListView>();
+		mauiAppBuilder.Services.AddScoped<LoginView>();
+		mauiAppBuilder.Services.AddScoped<WorkOrderListView>();
 		mauiAppBuilder.Services.AddScoped<WorkOrderDetailView>();
 		mauiAppBuilder.Services.AddScoped<StopCauseListView>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalView>();
-		mauiAppBuilder.Services.AddTransient<MainPanelView>();
+		mauiAppBuilder.Services.AddSingleton<MainPanelView>();
 
 		return mauiAppBuilder;
 	}

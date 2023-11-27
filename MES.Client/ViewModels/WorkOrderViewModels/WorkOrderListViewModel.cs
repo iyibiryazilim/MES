@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MES.Client.Helpers.DeviceHelper;
+using MES.Client.Helpers;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Views;
 using MES.Client.Views.LoginViews;
@@ -19,30 +19,17 @@ public partial class WorkOrderListViewModel : BaseViewModel
 {
 	IHttpClientService _httpClientService;
 	IWorkOrderService _workOrderService;
-	DeviceCommandHelper deviceCommandHelper;
 
 	[ObservableProperty]
 	public string currentEmployee;
-
-	public string CurrentEmployeeChanged
-	{
-		get => CurrentEmployee;
-		set
-		{
-			CurrentEmployee = value;
-			OnPropertyChanged();
-		}
-	}
 
 	[ObservableProperty]
 	string searchText = string.Empty;
 
 	public ObservableCollection<WorkOrder> Items { get; } = new();
 	public ObservableCollection<WorkOrder> Results { get; } = new();
-	public ObservableRangeCollection<dynamic> DisplayItems { get; } = new();
 
 	public Command GetItemsCommand { get; }
-
 	public Command GetCurrentEmployeeCommand { get; }
 
 	// SearchBar genişliğini ekrana göre ayarlama fonksiyonu
@@ -58,97 +45,15 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		}
 	}
 
-	public double ItemQuantity
-	{
-		get
-		{
-			var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
-			if (workOrderDetailService is not null)
-			{
-				return workOrderDetailService.Quantity;
-
-			}
-			return 0;
-		}
-	}
-
-	public WorkOrderListViewModel(IHttpClientService httpClientService, IWorkOrderService workOrderService, DeviceCommandHelper _deviceCommandHelper)
+	public WorkOrderListViewModel(IHttpClientService httpClientService, IWorkOrderService workOrderService)
 	{
 		Title = "İş Listesi";
 		_httpClientService = httpClientService;
 		_workOrderService = workOrderService;
-		deviceCommandHelper = _deviceCommandHelper;
+		GetItemsCommand = new Command(async () => await GetItemsAsync());
+		GetCurrentEmployeeCommand = new Command(async () => await GetCurrentUserAsync());
 
-		//GetItemsCommand = new Command(async () => await GetItemsAsync());
-		//LoadMoreCommand = new Command(LoadMoreAsync);
-
-		MainThread.BeginInvokeOnMainThread(async () =>
-		{
-			await GetCurrentEmployeeAsync();
-			await GetItemsAsync();
-		});
-	}
-
-	
-	//[RelayCommand]
-	//async Task SetSelectedItemAsync(ProductionWorkOrderList item)
-	//{
-	//    if (IsBusy)
-	//        return;
-
-	//    try
-	//    {
-	//        IsBusy = true;
-	//        IsRefreshing = true;
-
-	//        if (item == null)
-	//            return;
-
-	//        foreach(var workOrder in Items)
-	//        {
-	//            workOrder.IsSelected = false;
-
-	//        }
-	//        Items.FirstOrDefault(x => x.ReferenceId == item.ReferenceId).IsSelected = true;
-	//        SelectedItem = item;
-
-	//    } catch(Exception ex)
-	//    {
-	//        Debug.WriteLine(ex);
-	//        await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
-	//    } finally
-	//    {
-	//        IsBusy = false;
-	//        IsRefreshing = false;
-	//    }
-	//}
-
-	public async Task GetCurrentEmployeeAsync()
-	{
-		if (IsBusy)
-			return;
-		try
-		{
-			IsBusy = true;
-
-			string oauthToken = await SecureStorage.GetAsync("CurrentUserName");
-			if(oauthToken == null)
-			{
-				CurrentEmployee = "Kullanıcı Bulunamadı";
-			} else
-			{
-				CurrentEmployee = oauthToken;
-			}
-		}
-		catch(Exception ex)
-		{
-			Debug.WriteLine(ex.Message);
-			await Application.Current.MainPage.DisplayAlert("Auth Error", "Get Current Employee Error", "Tamam");
-		}
-		finally
-		{
-			IsBusy = false;
-		}
+		GetCurrentEmployeeCommand.Execute(null);
 	}
 
 	async Task GetItemsAsync()
@@ -165,13 +70,13 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			if (Results.Count > 0)
 				Results.Clear();
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
-			var result = await _workOrderService.GetObjects(httpClient);
+			var result = await _workOrderService.GetObjects(httpClient);//Canberk tarafından bekleniyor..
 
 			if (result.IsSuccess)
 			{
 				if (result.Data.Any())
 				{
-					foreach (var item in result.Data.Take(10))
+					foreach (var item in result.Data.Where(x=> x.Status == 0 | x.Status == 3))
 					{
 						await Task.Delay(250);
 						Items.Add(item);
@@ -185,6 +90,32 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		{
 			Debug.WriteLine(ex);
 			await Shell.Current.DisplayAlert(" Error: ", $"{ex.Message}", "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
+	}
+
+	async Task GetCurrentUserAsync()
+	{
+		if (IsBusy) return;
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
+
+			var result = await new CurrentUserHelper().GetCurrentEmployeeAsync();
+			if (result is not null)
+			{
+				CurrentEmployee = result ?? string.Empty;
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Shell.Current.DisplayAlert("Error :", ex.Message, "Tamam");
 		}
 		finally
 		{
@@ -210,9 +141,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			{
 				if (boolResult)
 				{
-					await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.3:32000");
-					await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.3:32000");
-					await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.3:32000");
 					await Task.Delay(300);
 					await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
 					{
@@ -224,7 +152,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 					return;
 				}
 			}
-
 
 		}
 		catch (Exception ex)
@@ -288,6 +215,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			}
 			else
 			{
+				Results.Clear();
 				foreach (WorkOrder item in Items)
 					Results.Add(item);
 			}
