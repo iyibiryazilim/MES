@@ -5,10 +5,12 @@ using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.ViewModels.LoginViewModels;
 using MES.Client.ViewModels.PanelViewModels;
 using MES.Client.ViewModels.StopCauseViewModels;
+using MES.Client.ViewModels.StopTransactionViewModels;
 using MES.Client.ViewModels.WorkOrderViewModels;
 using MES.Client.Views.LoginViews;
 using MES.Client.Views.PanelViews;
 using MES.Client.Views.StopCauseViews;
+using MES.Client.Views.StopTransactionViews;
 using MES.Client.Views.WorkOrderViews;
 using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
@@ -67,6 +69,7 @@ public static class MauiProgram
 		mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
 		mauiAppBuilder.Services.AddTransient<IEmployeeService, EmployeeDataStore>();
 		mauiAppBuilder.Services.AddTransient<IWorkOrderService, WorkOrderDataStore>();
+		mauiAppBuilder.Services.AddTransient<IStopTransactionService, StopTransactionDataStore>();
 
 		return mauiAppBuilder;
 	}
@@ -86,6 +89,7 @@ public static class MauiProgram
 		mauiAppBuilder.Services.AddScoped<StopCauseListViewModel>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalViewModel>();
 		mauiAppBuilder.Services.AddSingleton<MainPanelViewModel>();
+		mauiAppBuilder.Services.AddScoped<StopTransactionListViewModel>();
 
 		return mauiAppBuilder;
 	}
@@ -98,6 +102,7 @@ public static class MauiProgram
 		mauiAppBuilder.Services.AddScoped<StopCauseListView>();
 		mauiAppBuilder.Services.AddTransient<WorkOrderListModalView>();
 		mauiAppBuilder.Services.AddSingleton<MainPanelView>();
+		mauiAppBuilder.Services.AddScoped<StopTransactionListView>();
 
 		return mauiAppBuilder;
 	}

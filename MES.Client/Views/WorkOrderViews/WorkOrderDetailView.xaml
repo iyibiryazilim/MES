@@ -63,7 +63,10 @@
                     </Button>
                     <Button FontSize="Subtitle" Text="Malzeme Hareketleri" />
                     <Button FontSize="Subtitle" Text="Setup" />
-                    <Button FontSize="Subtitle" Text="Duruş Hareketleri" />
+                    <Button
+                        Command="{Binding GoToStopTransactionListCommand}"
+                        FontSize="Subtitle"
+                        Text="Duruş Hareketleri" />
                     <Button FontSize="Subtitle" Text="Bileşenler" />
 
                     <Button

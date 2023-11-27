@@ -116,8 +116,6 @@ public partial class StopCauseListViewModel : BaseViewModel
 		{
 			workOrderDetailViewModel.Timer.Stop();
 			workOrderDetailViewModel.LogoTimer.Stop();
-			//workOrderDetailService.Quantity = 0;
-			workOrderDetailViewModel.StartButtonEnabled = true;
 		}
 		await Shell.Current.GoToAsync("../..");
 	}

@@ -6,10 +6,12 @@ using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.MESAPIHelper;
 using MES.Client.Views.StopCauseViews;
+using MES.Client.Views.StopTransactionViews;
 using Newtonsoft.Json;
 using Shared.Entity.DTOs;
 using Shared.Middleware.Services;
 using System.Diagnostics;
+using Xamarin.Google.Crypto.Tink.Signature;
 using WorkOrder = Shared.Entity.Models.WorkOrder;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
@@ -32,7 +34,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	WorkOrder workOrder;
 
 	[ObservableProperty]
-	bool startButtonEnabled = true;
+	bool startButtonEnabled;
 
 	[ObservableProperty]
 	DateTime time;
@@ -82,6 +84,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	public Command InProgressWorkOrderCommand { get; }
 	public Command StartDeviceCommand { get; }
 	public Command GoToStopCauseListCommand { get; }
+	public Command GoToStopTransactionListCommand { get; }
 	public Command GoToBackCommand { get; }
 
 	public WorkOrderDetailViewModel(MESDatabase mesDB, IWorkOrderService workOrderService, IHttpClientService httpClientService, DeviceCommandHelper _deviceCommandHelper)
@@ -94,10 +97,12 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		StartDeviceCommand = new Command(async () => await StartDeviceAsync());
 		InProgressWorkOrderCommand = new Command(async () => await InProgressWorkOrderAsync());
 		GoToStopCauseListCommand = new Command(async () => await GoToStopCauseListAsync());
+		GoToStopTransactionListCommand = new Command(async () => await GoToStopTransactionListAsync());
 		GoToBackCommand = new Command(async () => await GoToBackAsync());
 
 		mesDatabase = mesDB;
 
+		StartButtonEnabled = true;
 
 	}
 
@@ -167,6 +172,28 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			IsBusy = true;
 
 			await Shell.Current.GoToAsync($"{nameof(StopCauseListView)}");
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
+	}
+
+	async Task GoToStopTransactionListAsync()
+	{
+		if (IsBusy)
+			return;
+
+		try
+		{
+			IsBusy = true;
+
+			await Shell.Current.GoToAsync($"{nameof(StopTransactionListView)}");
 		}
 		catch (Exception ex)
 		{
