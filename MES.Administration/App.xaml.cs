@@ -1,12 +1,22 @@
-﻿namespace MES.Administration;
+﻿using MES.Administration.ViewModels.LoginViewModels;
+using MES.Administration.Views.LoginViews;
+
+namespace MES.Administration;
 
 public partial class App : Application
 {
-	public App()
+    IServiceProvider _serviceProvider;
+    public App(IServiceProvider serviceProvider)
 	{
-		InitializeComponent();
 
-		MainPage = new AppShell();
+       
+
+        InitializeComponent();
+        _serviceProvider = serviceProvider;
+       //LoginViewModel viewModel = _serviceProvider.GetService<LoginViewModel>();
+       //MainPage = new LoginView(viewModel);
+
+      MainPage = new AppShell();
 	}
 }
 

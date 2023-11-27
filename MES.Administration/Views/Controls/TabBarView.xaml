@@ -84,7 +84,7 @@
                      <c:TabBarIconView.Source>
                         <FontImageSource FontFamily="FAS"
                                             Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
-                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.House}"/>
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.Box}"/>
 
                     </c:TabBarIconView.Source>
 
@@ -97,7 +97,7 @@
                      <c:TabBarIconView.Source>
                         <FontImageSource FontFamily="FAS"
                                             Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
-                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.House}"/>
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.Gear}"/>
 
                     </c:TabBarIconView.Source>
 

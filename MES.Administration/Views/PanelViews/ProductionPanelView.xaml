@@ -2,13 +2,79 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MES.Administration.Views.PanelViews.ProductionPanelView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:fontAwesome="clr-namespace:MES.Administration.Helpers.FontawesomeHelper"
              xmlns:viewModel="clr-namespace:MES.Administration.ViewModels.PanelViewModels"
-             x:DataType="viewModel:ProductionPanelViewModel"
-             Title="{Binding Title}">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="viewModel:ProductionPanelViewModel">
+
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="30"   RowSpacing="18">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0"
+                       EndPoint="1,1">
+                <GradientStop Color="#8c9948"
+                    Offset="0.02" />
+                <GradientStop Color="#656f3b"
+                    Offset="0.10" />
+
+                <GradientStop Color="#31362a"
+                    Offset="0.65" />
+                <GradientStop Color="#31362a"
+                    Offset="0.95" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Label Grid.Row="0"
+          Text="{Binding Title}"
+          FontSize="20"
+          FontAttributes="Bold"
+          HorizontalOptions="Start"
+          Padding="-2" />
+        <Grid Grid.Row="1">
+            <Border StrokeShape="RoundRectangle 10" BackgroundColor="{StaticResource Black}">
+                <Grid  ColumnDefinitions="*,Auto,Auto"
+                  ColumnSpacing="10">
+                    <SearchBar Grid.Column="0" BackgroundColor="Transparent" />
+                    <ImageButton BackgroundColor="Transparent"
+                            Grid.Column="1"
+                            Aspect="AspectFit"
+                            HeightRequest="22"
+                            WidthRequest="22">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="FAS"
+                                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
+                                        Color="{AppThemeBinding Light={StaticResource Black},
+            Dark={StaticResource White}}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <ImageButton HorizontalOptions="Start"
+                            Margin="8"
+                            Grid.Column="2"
+                            Aspect="AspectFit"
+                            HeightRequest="22"
+                            WidthRequest="22">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="FAS"
+                                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
+                                        Color="{AppThemeBinding Light={StaticResource Black},
+Dark={StaticResource White}}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                </Grid>
+
+
+            </Border>
+
+
+
+        </Grid>
+
+
+
+    </Grid>
+
+
+
+
+
 </ContentPage>
+    
