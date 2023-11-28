@@ -3,28 +3,44 @@
     x:Class="MES.Client.Views.PopupViews.StartWorkOrderPopupView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Size="375,225">
-    <Grid Padding="20" RowDefinitions=" Auto, *">
-
-        <Label
-            FontSize="16"
-            HorizontalOptions="Center"
-            Text="İş Emrini Başlatmak İstediğinize Emin Misiniz?" />
-        <Grid
-            Grid.Row="1"
-            ColumnDefinitions="*,*"
-            ColumnSpacing="60"
-            VerticalOptions="End">
-            <Button
-                Grid.Column="0"
-                Clicked="OnYesButtonClicked"
-                Text="Evet" />
-            <Button
-                Grid.Column="1"
-                Clicked="OnNoButtonClicked"
-                Text="Hayır" />
+    Size="400,250"
+    Color="Transparent">
+    <Border StrokeShape="RoundRectangle 15">
+        <Grid Padding="20" RowDefinitions=" Auto, *, Auto">
+            <Label
+                FontSize="17"
+                HorizontalOptions="Center"
+                Text="İş Emrini Başlatmak İstediğinize Emin Misiniz?" />
+            <Image
+                Grid.Row="1"
+                HeightRequest="60"
+                WidthRequest="60">
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="FAS"
+                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.TriangleExclamation}"
+                        Color="{AppThemeBinding Light={StaticResource Danger},
+                                                Dark={StaticResource Danger}}" />
+                </Image.Source>
+            </Image>
+            <Grid
+                Grid.Row="2"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="60"
+                VerticalOptions="End">
+                <Button
+                    Grid.Column="0"
+                    Clicked="OnYesButtonClicked"
+                    FontSize="16"
+                    Text="Evet" />
+                <Button
+                    Grid.Column="1"
+                    Clicked="OnNoButtonClicked"
+                    FontSize="16"
+                    Text="Hayır" />
+            </Grid>
         </Grid>
-
-    </Grid>
+    </Border>
 </toolkit:Popup>

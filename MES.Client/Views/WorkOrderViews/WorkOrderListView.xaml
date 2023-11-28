@@ -50,7 +50,7 @@
                 HeightRequest="30"
                 WidthRequest="30">
                 <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding LogoutHandlerCommand}" />
+                    <TapGestureRecognizer Command="{Binding LogoutCommand}" />
                 </Image.GestureRecognizers>
                 <Image.Source>
                     <FontImageSource
@@ -210,7 +210,7 @@
                                         <Label
                                             FontSize="Title"
                                             HorizontalOptions="Center"
-                                            Text="{Binding Quantity, StringFormat='1000 / {0:N0}'}" />
+                                            Text="{Binding PlanningQuantity, StringFormat='1000 / {0:N0}'}" />
                                     </Border>
                                     <ProgressBar
                                         Progress="{Binding ActualRate}"
@@ -337,8 +337,8 @@
                                         </TableSection>
                                         <TableSection Title="Miktar Bilgileri" TextColor="{StaticResource Primary}">
                                             <TextCell
-                                                Detail="{Binding Quantity}"
-                                                Text="Ana miktar(Quantity)"
+                                                Detail="{Binding PlanningQuantity}"
+                                                Text="Planlanan Miktar"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
                                                 Detail="{Binding ActualQuantity}"

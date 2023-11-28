@@ -308,7 +308,7 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <!--<Span Text="%" />-->
-                                    <Span Text="{Binding WorkOrder.Quantity}" />
+                                    <Span Text="{Binding WorkOrder.PlanningQuantity}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

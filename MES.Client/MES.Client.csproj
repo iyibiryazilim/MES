@@ -63,7 +63,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.11" />
+		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.15" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />

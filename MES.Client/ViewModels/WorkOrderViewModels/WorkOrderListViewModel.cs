@@ -31,6 +31,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 
 	public Command GetItemsCommand { get; }
 	public Command GetCurrentEmployeeCommand { get; }
+	public Command LogoutCommand { get; }
 
 	// SearchBar genişliğini ekrana göre ayarlama fonksiyonu
 	public double ScreenWidth
@@ -50,8 +51,10 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		Title = "İş Listesi";
 		_httpClientService = httpClientService;
 		_workOrderService = workOrderService;
+
 		GetItemsCommand = new Command(async () => await GetItemsAsync());
 		GetCurrentEmployeeCommand = new Command(async () => await GetCurrentUserAsync());
+		LogoutCommand = new Command(async () => await LogoutHandlerAsync());
 
 		GetCurrentEmployeeCommand.Execute(null);
 	}
@@ -70,13 +73,14 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			if (Results.Count > 0)
 				Results.Clear();
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
-			var result = await _workOrderService.GetObjects(httpClient);//Canberk tarafından bekleniyor..
-
+			int[] status = new int[] { 0, 3 };
+			var result = await _workOrderService.GetByStatus(httpClient, status);
+			
 			if (result.IsSuccess)
 			{
 				if (result.Data.Any())
 				{
-					foreach (var item in result.Data.Where(x=> x.Status == 0 | x.Status == 3))
+					foreach (var item in result.Data)
 					{
 						await Task.Delay(250);
 						Items.Add(item);
@@ -98,7 +102,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		}
 	}
 
-	async Task GetCurrentUserAsync()
+	public async Task GetCurrentUserAsync()
 	{
 		if (IsBusy) return;
 		try
@@ -173,7 +177,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		await Shell.Current.GoToAsync($"{nameof(WorkOrderListModalView)}");
 	}
 
-	[RelayCommand]
 	async Task LogoutHandlerAsync()
 	{
 		if(IsBusy)
