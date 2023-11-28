@@ -12,14 +12,15 @@
     x:DataType="viewModel:WorkOrderListViewModel"
     Shell.NavBarIsVisible="False">
 
-    <!--<ContentPage.Behaviors>
+    <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}" EventName="Loaded" />
-    </ContentPage.Behaviors>-->
+    </ContentPage.Behaviors>
 
     <Grid
         Padding="25"
         RowDefinitions="Auto,Auto, *, Auto"
         RowSpacing="10">
+        <!--#region Operator's name and Logout button-->
         <Grid
             Grid.Row="0"
             ColumnDefinitions="Auto, *, Auto"
@@ -61,6 +62,8 @@
             </Image>
 
         </Grid>
+        <!--#endregion-->
+        <!--#region Searching Area-->
         <Border Grid.Row="1" StrokeShape="RoundRectangle 20">
             <SearchBar
                 x:Name="searchBar"
@@ -74,6 +77,8 @@
                 </SearchBar.Behaviors>
             </SearchBar>
         </Border>
+        <!--#endregion-->
+        <!--#region Loading Indicator-->
         <ActivityIndicator
             Grid.Row="2"
             AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
@@ -83,8 +88,9 @@
             IsVisible="{Binding IsBusy}"
             WidthRequest="50"
             Color="{StaticResource Primary}" />
+        <!--#endregion-->
+        <!--#region Carousel View-->
         <CarouselView
-            x:Name="carouselList"
             Grid.Row="2"
             IndicatorView="workOrderIndicatorView"
             ItemsSource="{Binding Results}"
@@ -104,6 +110,7 @@
                             ColumnDefinitions=".60*,.40*"
                             ColumnSpacing="10"
                             RowDefinitions="Auto, *, Auto">
+                            <!--#region Right Column-->
                             <Grid
                                 Grid.RowSpan="2"
                                 Grid.Column="1"
@@ -141,6 +148,8 @@
                                     VerticalOptions="Start" />
 
                             </Grid>
+                            <!--#endregion-->
+                            <!--#region Left Column and First Row-->
                             <Grid
                                 Grid.Column="0"
                                 Padding="20,10,0,10"
@@ -211,7 +220,9 @@
 
                                 </VerticalStackLayout>
                             </Grid>
+                            <!--#endregion-->
 
+                            <!--#region Left Column and Second Row-->
                             <Grid
                                 Grid.Row="1"
                                 Grid.Column="0"
@@ -249,27 +260,6 @@
                                                     ColumnDefinitions="*, *, *"
                                                     ColumnSpacing="30"
                                                     HorizontalOptions="StartAndExpand">
-                                                    <!--<Border
-                                                        Grid.Column="0"
-                                                        Padding="5"
-                                                        HeightRequest="60"
-                                                        HorizontalOptions="Start"
-                                                        StrokeShape="RoundRectangle 10">
-                                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
-                                                            <Label
-                                                                FontAttributes="Bold"
-                                                                FontSize="14"
-                                                                HorizontalOptions="Center"
-                                                                Text="{Binding PlanningEndDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                                                TextColor="{StaticResource Black}" />
-
-                                                            <Label
-                                                                FontSize="12"
-                                                                HorizontalOptions="Center"
-                                                                Text="Planlanan Bitiş Tarihi"
-                                                                TextColor="{StaticResource Gray500}" />
-                                                        </VerticalStackLayout>
-                                                    </Border>-->
                                                     <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
                                                         <!--  Planning End Date  -->
                                                         <Label
@@ -319,7 +309,7 @@
                                                             FontAttributes="Bold"
                                                             FontSize="14"
                                                             HorizontalOptions="Center"
-                                                            Text="{Binding OperationActualDueDate}"
+                                                            Text="{Binding OperationActualDueDate, StringFormat='{0:dd/MM/yyyy}'}"
                                                             TextColor="{AppThemeBinding Light={StaticResource Black},
                                                                                         Dark={StaticResource Gray200}}" />
                                                         <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}">
@@ -347,16 +337,16 @@
                                         </TableSection>
                                         <TableSection Title="Miktar Bilgileri" TextColor="{StaticResource Primary}">
                                             <TextCell
-                                                Detail="?"
+                                                Detail="{Binding Quantity}"
                                                 Text="Ana miktar(Quantity)"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="?"
+                                                Detail="{Binding ActualQuantity}"
                                                 Text="Gerçek Miktar"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
-                                                Detail="?"
-                                                Text="Unitset Adı:"
+                                                Detail="{Binding UnitsetCode}"
+                                                Text="Unitset Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
                                                 Detail="{Binding SubUnitsetCode}"
@@ -376,16 +366,16 @@
                                                 Detail="{Binding WorkstationName}"
                                                 Text="İş İstasyonu Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
-                                            <TextCell
+                                            <!--<TextCell
                                                 Detail="?"
                                                 Text="İş İstasyonu Grup Kodu:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                             <TextCell
                                                 Detail="?"
                                                 Text="İş İstasyonu Grup Adı:"
-                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />-->
                                         </TableSection>
-                                        <TableSection Title="BOM Master" TextColor="{StaticResource Primary}">
+                                        <!--<TableSection Title="BOM Master" TextColor="{StaticResource Primary}">
                                             <TextCell
                                                 Detail="?"
                                                 Text="BOM Master Kodu:"
@@ -394,10 +384,13 @@
                                                 Detail="?"
                                                 Text="BOM Master Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
-                                        </TableSection>
+                                        </TableSection>-->
                                     </TableRoot>
                                 </TableView>
                             </Grid>
+                            <!--#endregion-->
+
+                            <!--#region Start Button-->
                             <Grid
                                 Grid.Row="2"
                                 Grid.ColumnSpan="2"
@@ -411,11 +404,14 @@
                                     </Button.GestureRecognizers>
                                 </Button>
                             </Grid>
+                            <!--#endregion-->
                         </Grid>
                     </Border>
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
+        <!--#endregion-->
+        <!--#region Indicator view of Carousel-->
         <IndicatorView
             x:Name="workOrderIndicatorView"
             Grid.Row="3"
@@ -423,6 +419,7 @@
             HorizontalOptions="Center"
             IndicatorColor="{StaticResource Gray400}"
             SelectedIndicatorColor="{StaticResource Primary}" />
+        <!--#endregion-->
     </Grid>
 
 </ContentPage>

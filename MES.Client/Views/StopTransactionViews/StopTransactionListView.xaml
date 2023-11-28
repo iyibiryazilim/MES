@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MES.Client.Views.StopTransactionViews.StopTransactionListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
+    xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModel="clr-namespace:MES.Client.ViewModels.StopTransactionViewModels"
+    Title="{Binding Title}"
+    x:DataType="viewModel:StopTransactionListViewModel"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Modal">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}" EventName="Loaded" />
+    </ContentPage.Behaviors>
+
+    <Grid
+        Padding="50,30,50,50"
+        ColumnDefinitions="*,*"
+        RowDefinitions="Auto, *, Auto"
+        RowSpacing="15">
+
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            ColumnDefinitions="*,*">
+            <!--#region Page Title-->
+            <Label
+                Grid.Column="0"
+                FontAttributes="Bold"
+                FontSize="Title"
+                Text="{Binding Title}"
+                VerticalOptions="Center" />
+            <!--#endregion-->
+
+            <!--#region Close Button-->
+            <Image
+                Grid.Column="1"
+                HeightRequest="30"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                WidthRequest="30">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToBackCommand}" />
+                </Image.GestureRecognizers>
+
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="FAS"
+                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.Xmark}"
+                        Color="{AppThemeBinding Light={StaticResource Black},
+                                                Dark={StaticResource White}}" />
+                </Image.Source>
+            </Image>
+            <!--#endregion-->
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <CollectionView ItemsSource="{Binding StopTransactionListItems}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:StopTransaction">
+                        <Border Padding="20" StrokeShape="RoundRectangle 10">
+                            <Grid ColumnDefinitions="*,*">
+                                <!--#region Left Column-->
+                                <Grid Grid.Column="0">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Duruş Nedeni Kodu: " TextColor="{StaticResource Gray300}" />
+                                                    <Span Text="{Binding StopCauseCode}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Operasyon Kodu: " TextColor="{StaticResource Gray300}" />
+                                                    <Span Text="{Binding OperationCode}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Üretim Kodu: " TextColor="{StaticResource Gray300}" />
+                                                    <Span Text="{Binding ProductionCode}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="5">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label>
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding StopDate, StringFormat='{0:dd} {0:MMMM} {0:yyyy}'}" TextColor="{StaticResource Primary}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <BoxView
+                                                    HeightRequest="1"
+                                                    HorizontalOptions="Start"
+                                                    WidthRequest="93"
+                                                    Color="{StaticResource Primary}" />
+                                                <Label>
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding StopDate, StringFormat='{0:hh:mm:ss}'}" TextColor="{StaticResource Primary}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </VerticalStackLayout>
+                                            <Label
+                                                Grid.Column="1"
+                                                Text=" tarihinde durduruldu"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Grid>
+                                <!--#endregion-->
+                                <!--#region Right Column-->
+                                <!--#endregion-->
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+
+        <Button
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            FontSize="Title"
+            Text="Durdur" />
+
+    </Grid>
+
+</ContentPage>

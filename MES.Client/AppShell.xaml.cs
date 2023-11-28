@@ -1,5 +1,6 @@
 ﻿using MES.Client.Views.LoginViews;
 using MES.Client.Views.StopCauseViews;
+using MES.Client.Views.StopTransactionViews;
 using MES.Client.Views.WorkOrderViews;
 
 namespace MES.Client;
@@ -15,6 +16,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(route: nameof(LoginView), type: typeof(LoginView));
         Routing.RegisterRoute(route: nameof(WorkOrderListModalView), type: typeof(WorkOrderListModalView));
         Routing.RegisterRoute(route: nameof(WorkOrderListView), type: typeof(WorkOrderListView));
+        Routing.RegisterRoute(route: nameof(StopTransactionListView), type: typeof(StopTransactionListView));
     }
 }
 

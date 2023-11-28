@@ -138,6 +138,9 @@
 	  <MauiXaml Update="Views\StopCauseViews\StopCauseListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\StopTransactionViews\StopTransactionListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\WorkOrderViews\WorkOrderListModalView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

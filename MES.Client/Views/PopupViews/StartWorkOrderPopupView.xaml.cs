@@ -16,9 +16,9 @@ public partial class StartWorkOrderPopupView : Popup
 	{
 	}
 
-	async void OnYesButtonClicked(object? sender, EventArgs e) => await CloseAsync(true);
+	async void OnYesButtonClicked(object sender, EventArgs e) => await CloseAsync(true);
 
-	async void OnNoButtonClicked(object? sender, EventArgs e) => await CloseAsync(false);
+	async void OnNoButtonClicked(object sender, EventArgs e) => await CloseAsync(false);
 
 
 }

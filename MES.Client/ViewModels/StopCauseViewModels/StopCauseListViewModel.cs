@@ -55,6 +55,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 				{
 					foreach (var item in result.Data)
 					{
+						await Task.Delay(250);
 						StopCauseListItems.Add(item);
 					}
 				}
@@ -113,10 +114,8 @@ public partial class StopCauseListViewModel : BaseViewModel
 		
 		if(workOrderDetailViewModel is not null)
 		{
-			workOrderDetailViewModel.timer.Stop();
-			workOrderDetailViewModel.logoTimer.Stop();
-			//workOrderDetailService.Quantity = 0;
-			workOrderDetailViewModel.StartButtonEnabled = true;
+			workOrderDetailViewModel.Timer.Stop();
+			workOrderDetailViewModel.LogoTimer.Stop();
 		}
 		await Shell.Current.GoToAsync("../..");
 	}

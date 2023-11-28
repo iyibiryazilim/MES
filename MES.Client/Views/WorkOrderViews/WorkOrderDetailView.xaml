@@ -11,6 +11,9 @@
     x:DataType="viewModel:WorkOrderDetailViewModel"
     Shell.NavBarIsVisible="False">
 
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding StartDeviceCommand}" EventName="Loaded" />
+    </ContentPage.Behaviors>
 
     <Grid Padding="10" ColumnDefinitions=".20*,.80*">
 
@@ -58,14 +61,14 @@
                             </Trigger>
                         </Button.Triggers>
                     </Button>
-                    <Button
-                        Command="{Binding GetDBCountCommand}"
-                        FontSize="Subtitle"
-                        Text="Malzeme Hareketleri" />
+                    <Button FontSize="Subtitle" Text="Malzeme Hareketleri" />
                     <Button FontSize="Subtitle" Text="Setup" />
-                    <Button FontSize="Subtitle" Text="Duruş Hareketleri" />
-                    <Button FontSize="Subtitle" Text="Kalıp Bilgileri" />
-                    <Button FontSize="Subtitle" Text="Sarf Malzemeler" />
+                    <Button
+                        Command="{Binding GoToStopTransactionListCommand}"
+                        FontSize="Subtitle"
+                        Text="Duruş Hareketleri" />
+                    <Button FontSize="Subtitle" Text="Bileşenler" />
+
                     <Button
                         BackgroundColor="{StaticResource Warning}"
                         Command="{Binding GoToStopCauseListCommand}"
@@ -126,7 +129,7 @@
                             FontAttributes="Bold"
                             FontSize="40"
                             HorizontalOptions="End"
-                            Text="{Binding Quantity, StringFormat='1000 / {0:N0}'}"
+                            Text="{Binding WorkOrder.ActualQuantity, StringFormat='1000 / {0:N0}'}"
                             VerticalOptions="Center" />
                     </Grid>
                 </Border>
@@ -305,7 +308,7 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <!--<Span Text="%" />-->
-                                    <Span Text="{Binding Quantity}" />
+                                    <Span Text="{Binding WorkOrder.Quantity}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
