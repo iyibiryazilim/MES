@@ -9,6 +9,7 @@
     <Color x:Key="Info">#7239ea</Color>
     <Color x:Key="Warning">#EAFE69</Color>
     <Color x:Key="Danger">#f1416c</Color>
+    <Color x:Key="Primary2">#00fff0</Color>
 
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="White">White</Color>

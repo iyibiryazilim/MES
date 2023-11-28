@@ -5,72 +5,262 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:fontAwesome="clr-namespace:MES.Administration.Helpers.FontawesomeHelper"
              xmlns:viewModel="clr-namespace:MES.Administration.ViewModels.PanelViewModels"
-             x:DataType="viewModel:ProductionPanelViewModel">
+             x:DataType="viewModel:ProductionPanelViewModel"
+             xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}"
+                                        EventName="Loaded" />
+    </ContentPage.Behaviors>
 
+    <Grid>
+        <Grid RowDefinitions="Auto,Auto,*,Auto"
+              Padding="30"
+              RowSpacing="18">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Color="#8c9948"
+                                  Offset="0.02" />
+                    <GradientStop Color="#656f3b"
+                                  Offset="0.10" />
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="30"   RowSpacing="18">
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0"
-                       EndPoint="1,1">
-                <GradientStop Color="#8c9948"
-                    Offset="0.02" />
-                <GradientStop Color="#656f3b"
-                    Offset="0.10" />
-
-                <GradientStop Color="#31362a"
-                    Offset="0.65" />
-                <GradientStop Color="#31362a"
-                    Offset="0.95" />
-            </LinearGradientBrush>
-        </Grid.Background>
-        <Label Grid.Row="0"
-          Text="{Binding Title}"
-          FontSize="20"
-          FontAttributes="Bold"
-          HorizontalOptions="Start"
-          Padding="-2" />
-        <Grid Grid.Row="1">
-            <Border StrokeShape="RoundRectangle 10" BackgroundColor="{StaticResource Black}">
-                <Grid  ColumnDefinitions="*,Auto,Auto"
-                  ColumnSpacing="10">
-                    <SearchBar Grid.Column="0" BackgroundColor="Transparent" />
-                    <ImageButton BackgroundColor="Transparent"
-                            Grid.Column="1"
-                            Aspect="AspectFit"
-                            HeightRequest="22"
-                            WidthRequest="22">
-                        <ImageButton.Source>
-                            <FontImageSource FontFamily="FAS"
-                                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
-                                        Color="{AppThemeBinding Light={StaticResource Black},
+                    <GradientStop Color="#31362a"
+                                  Offset="0.65" />
+                    <GradientStop Color="#31362a"
+                                  Offset="0.95" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Label Grid.Row="0"
+                   Text="{Binding Title}"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Start"
+                   Padding="-2" />
+            <Grid Grid.Row="1">
+                <Border StrokeShape="RoundRectangle 10"
+                        BackgroundColor="{StaticResource Black}">
+                    <Grid  ColumnDefinitions="*,Auto,Auto"
+                           ColumnSpacing="10">
+                        <SearchBar Grid.Column="0"
+                                   BackgroundColor="Transparent" />
+                        <ImageButton BackgroundColor="Transparent"
+                                     Grid.Column="1"
+                                     Aspect="AspectFit"
+                                     HeightRequest="22"
+                                     WidthRequest="22">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="FAS"
+                                                 Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
+                                                 Color="{AppThemeBinding Light={StaticResource Black},
             Dark={StaticResource White}}" />
-                        </ImageButton.Source>
-                    </ImageButton>
-                    <ImageButton HorizontalOptions="Start"
-                            Margin="8"
-                            Grid.Column="2"
-                            Aspect="AspectFit"
-                            HeightRequest="22"
-                            WidthRequest="22">
-                        <ImageButton.Source>
-                            <FontImageSource FontFamily="FAS"
-                                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
-                                        Color="{AppThemeBinding Light={StaticResource Black},
+                            </ImageButton.Source>
+                        </ImageButton>
+                        <ImageButton HorizontalOptions="Start"
+                                     Margin="8"
+                                     Grid.Column="2"
+                                     Aspect="AspectFit"
+                                     HeightRequest="22"
+                                     WidthRequest="22">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="FAS"
+                                                 Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
+                                                 Color="{AppThemeBinding Light={StaticResource Black},
 Dark={StaticResource White}}" />
-                        </ImageButton.Source>
-                    </ImageButton>
-                </Grid>
+                            </ImageButton.Source>
+                        </ImageButton>
+                    </Grid>
+
+                </Border>
+            </Grid>
+
+            <CarouselView Grid.Row="2"
+                          ItemsSource="{Binding Items}"
+                          IndicatorView="indicatorView">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate x:DataType="model:ProductionOrder">
+                        <Border  BackgroundColor="{StaticResource Black}"
+                                 WidthRequest="950"
+                                 HeightRequest="380"
+                                 VerticalOptions="Start"
+                                 StrokeShape="RoundRectangle 20">
+                            <Grid ColumnDefinitions=".35*,.65*">
+                                <Grid Grid.Column="0">
+                                    <Image  Source="takoz1.png"
+                                            HeightRequest="300"
+                                            Aspect="AspectFit" />
+                                </Grid>
+                                
+                                    <VerticalStackLayout  Grid.Column="1"
+                                                          VerticalOptions="Start"
+                                                          Padding="20"
+                                                          Spacing="10"
+                                                          >
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span  FontSize="18"
+                                                           FontAttributes="Bold"
+                                                           Text="Kodu :   "></Span>
+                                                    <Span  FontSize="18"
+                                                           FontAttributes="Bold"
+                                                           Text="{Binding Code}"></Span>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+
+                                        </Label>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span  FontSize="18"
+                                                           FontAttributes="Bold"
+                                                           Text="Adı :   "></Span>
+                                                    <Span  FontSize="18"
+                                                           FontAttributes="Bold"
+                                                           Text="{Binding Code}"></Span>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+
+                                        </Label>
+                                    <VerticalStackLayout  VerticalOptions="End"
+                                                          HorizontalOptions="End"
+                                                          Margin="0,-80">
+
+                                        <toolkit:AvatarView  Grid.Row="0"
+                                                             BorderWidth="2"
+                                                             WidthRequest="65"
+                                                             HeightRequest="65"
+                                                             BackgroundColor="Transparent"
+                                                             BorderColor="{StaticResource Danger}"
+                                                             CornerRadius="100"
+                                                             FontSize="18"
+                                                             FontAttributes="Bold"
+                                                             Text="%80" />
+                                        <Label Text="OEEE"
+                                               HorizontalOptions="Center"
+                                               FontSize="22"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Gray400}" />
+
+                                    </VerticalStackLayout>
+
+                                </VerticalStackLayout>
+                                    
+                                    
+
+                               
+                                    
+                                   
 
 
-            </Border>
 
 
+
+
+                                
+                                
+                                
+                                <VerticalStackLayout Grid.Column="1" Padding="20" VerticalOptions="Center">
+                                    <VerticalStackLayout Spacing="10">
+                                        
+                                        <Grid ColumnDefinitions="*,*"
+                                              ColumnSpacing="5">
+                                            
+                                                <Border Grid.Column="0"
+                                                       
+                                                        StrokeShape="RoundRectangle 20"
+                                                        Padding="10">
+                                                    <VerticalStackLayout Spacing="10">
+                                                        <Label 
+                                                               Text="Oluşturulan Miktar" />
+                                                        <BoxView 
+                                                                 WidthRequest="800"
+                                                                 HeightRequest="0.7"
+                                                                 HorizontalOptions="Start"
+                                                                 Color="{StaticResource Primary2}">
+                                                        </BoxView>
+                                                        <Label 
+                                                               Text="56.789" />
+                                                        <Label 
+                                                               Text="Hedef Tarih" />
+                                                        <BoxView Grid.Row="4"
+                                                                 WidthRequest="100"
+                                                                 HeightRequest="0.7"
+                                                                 HorizontalOptions="Start"
+                                                                 Color="{StaticResource Primary2}">
+                                                        </BoxView>
+                                                        <Label
+                                                               Text="{Binding PlannedBeginDate,StringFormat='{0:c}'}" />
+                                                    </VerticalStackLayout>
+
+                                                </Border>
+
+                                            <Border Grid.Column="1"
+                                                    StrokeShape="RoundRectangle 20"
+                                                    Padding="10">
+                                                <VerticalStackLayout Spacing="10">
+                                                    <Label Text="Gerçekleşen Miktar" />
+                                                    <BoxView WidthRequest="800"
+                                                             HeightRequest="0.7"
+                                                             HorizontalOptions="Start"
+                                                             Color="{StaticResource Danger}">
+                                                    </BoxView>
+                                                    <Label Text="56.789" />
+                                                    <Label Text="Hedef Tarih" />
+                                                    <BoxView Grid.Row="4"
+                                                             WidthRequest="100"
+                                                             HeightRequest="0.7"
+                                                             HorizontalOptions="Start"
+                                                             Color="{StaticResource Danger}">
+                                                    </BoxView>
+                                                    <Label Text="{Binding PlannedBeginDate,StringFormat='{0:c}'}" />
+                                                </VerticalStackLayout>
+
+                                            </Border>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                          </VerticalStackLayout>
+                                <VerticalStackLayout  Grid.Column="1" VerticalOptions="End" Padding="10">
+
+                                    <ProgressBar ScaleY="2.65"
+                                                 Progress="0.65"
+                                                 ProgressColor="{StaticResource Warning}" />
+
+                                    <Label Text="%65" />
+                                </VerticalStackLayout>
+
+
+                            </Grid>
+
+
+                        </Border>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+
+            </CarouselView>
+            <IndicatorView x:Name="indicatorView"
+                           Grid.Row="4"
+                           Margin="-70"
+                           IndicatorColor="White"
+                           HorizontalOptions="Center"
+                           SelectedIndicatorColor="{StaticResource Warning}" />
+
+
+            <!--<StackLayout IsVisible="{Binding IsBusy}"
+              Padding="12"
+              AbsoluteLayout.LayoutFlags="PositionProportional"
+              AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+              HorizontalOptions="Center"
+              VerticalOptions="Center"
+              Opacity="0.6">
+     <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Warning}" />
+     <Label Text="Yükleniyor..."
+            TextColor="{StaticResource Warning}"
+            HorizontalOptions="Center" />
+ </StackLayout>-->
 
         </Grid>
-
-
-
     </Grid>
+
 
 
 
