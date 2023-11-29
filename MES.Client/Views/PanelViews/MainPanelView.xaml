@@ -24,6 +24,7 @@
         <!--#region İş emirleri sayfasına git butonu-->
         <Button
             Grid.Row="1"
+            FontSize="17"
             Text="İş Emirleri sayfasına git"
             VerticalOptions="End">
             <Button.GestureRecognizers>
@@ -39,10 +40,7 @@
             HorizontalOptions="End"
             IsVisible="{Binding IsBusy}"
             VerticalOptions="End">
-            <ActivityIndicator
-                HeightRequest="50"
-                IsRunning="{Binding IsBusy}"
-                Color="{StaticResource Primary}" />
+            <ActivityIndicator HeightRequest="50" IsRunning="{Binding IsBusy}" />
         </StackLayout>
         <!--#endregion-->
     </Grid>

@@ -2,20 +2,21 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="Primary">#009ef7</Color>
+    <Color x:Key="Primary">#4C85F7</Color>
     <Color x:Key="Secondary">#E1E3EA</Color>
-    <Color x:Key="Success">#50cd89</Color>
+    <Color x:Key="Success">#A1EF67</Color>
     <Color x:Key="Info">#7239ea</Color>
-    <Color x:Key="Warning">#ffc700</Color>
+    <Color x:Key="Warning">#EAFE69</Color>
     <Color x:Key="Danger">#f1416c</Color>
-
+    <Color x:Key="Primary2">#00fff0</Color>
+    >
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="WhiteSmoke">WhiteSmoke</Color>
     <!--<Color x:Key="Black">#080c1f</Color>-->
-    <Color x:Key="Black">#1e1e2c</Color>
+    <Color x:Key="Black">#1F2224</Color>
     <!--<Color x:Key="BlackSolid">#1c234d</Color>-->
-    <Color x:Key="BlackSolid">#282837</Color>
+    <Color x:Key="BlackSolid">#2F3236</Color>
 
     <Color x:Key="DarkGray">#3F4254</Color>
 

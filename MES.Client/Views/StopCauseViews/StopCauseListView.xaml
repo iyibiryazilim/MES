@@ -111,6 +111,7 @@
                 Command="{Binding StopButtonCommand}"
                 FontSize="Title"
                 Text="Durdur"
+                TextColor="{AppThemeBinding Dark={StaticResource White}}"
                 VerticalOptions="End" />
         </Grid>
         <ActivityIndicator
@@ -118,7 +119,6 @@
             Grid.RowSpan="2"
             HeightRequest="50"
             IsRunning="{Binding IsBusy}"
-            WidthRequest="50"
-            Color="{StaticResource Primary}" />
+            WidthRequest="50" />
     </Grid>
 </ContentPage>

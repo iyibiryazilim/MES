@@ -7,7 +7,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Size="400,250"
     Color="Transparent">
-    <Border StrokeShape="RoundRectangle 15">
+    <Border BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray}}" StrokeShape="RoundRectangle 15">
         <Grid Padding="20" RowDefinitions=" Auto, *, Auto">
             <Label
                 FontSize="17"
@@ -32,11 +32,13 @@
                 VerticalOptions="End">
                 <Button
                     Grid.Column="0"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Success}}"
                     Clicked="OnYesButtonClicked"
                     FontSize="16"
                     Text="Evet" />
                 <Button
                     Grid.Column="1"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Danger}}"
                     Clicked="OnNoButtonClicked"
                     FontSize="16"
                     Text="Hayır" />
