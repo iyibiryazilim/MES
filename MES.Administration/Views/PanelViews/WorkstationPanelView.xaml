@@ -49,7 +49,15 @@
                 <Border StrokeShape="RoundRectangle 10" BackgroundColor="{StaticResource Black}">
                     <Grid  ColumnDefinitions="*,Auto,Auto"
                        ColumnSpacing="10">
-                        <SearchBar Grid.Column="0" BackgroundColor="Transparent" />
+                        <SearchBar Grid.Column="0"
+                                   BackgroundColor="Transparent"
+                                   x:Name="searchBar">
+                            <SearchBar.Behaviors>
+                                <toolkit:EventToCommandBehavior Command="{Binding PerformSearchCommand}"
+                                                                CommandParameter="{Binding Text , Source={x:Reference searchBar}}"
+                                                                EventName="TextChanged" />
+                            </SearchBar.Behaviors>
+                           </SearchBar>
                         <ImageButton BackgroundColor="Transparent"
                                  Grid.Column="1"
                                  Aspect="AspectFit"
@@ -83,7 +91,7 @@
 
 
             </Grid>
-            <CollectionView ItemsSource="{Binding Items}"
+            <CollectionView ItemsSource="{Binding Results}"
                         Grid.Row="2"
                         VerticalOptions="End"
                         Margin="0,0,0,60">

@@ -1,4 +1,7 @@
-﻿using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
+﻿using Android.Speech;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System;
@@ -12,6 +15,10 @@ public partial class ProductPanelViewModel : BaseViewModel
     IEndProductService _endProduct;
     public ObservableCollection<EndProduct> Items { get; } = new();
 
+    public ObservableCollection<EndProduct> Results { get; } = new();
+
+    [ObservableProperty]
+    string searchText = string.Empty;
     public Command GetItemsCommand { get; }
     public ProductPanelViewModel(IHttpClientLBSService httpClientLBSService, IEndProductService endProduct)
     {
@@ -47,6 +54,7 @@ public partial class ProductPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(100);
                         Items.Add(item);
+                        Results.Add(item);
                     }
 
                 }
@@ -65,6 +73,44 @@ public partial class ProductPanelViewModel : BaseViewModel
             IsBusy = false;
         }
     }
+
+    [RelayCommand]
+    async Task PerformSearchAsync(object text)
+    {
+        if(!IsBusy) return;
+        try
+        {
+            IsBusy = true;
+            if (!string.IsNullOrEmpty(text.ToString()))
+            {
+                Results.Clear();
+                foreach (EndProduct item in Items.Where(x=> x.Code.ToLower().Contains(text.ToString().ToLower())))
+                   Results.Add(item);   
+            }
+            else
+            {
+                Results.Clear();
+                foreach (EndProduct item in Items)
+                {
+                    Results.Add(item);  
+
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+    }
+
+
 
 }
 
