@@ -76,6 +76,7 @@
                         Text="Durdur" />
                     <Button
                         BackgroundColor="{StaticResource Danger}"
+                        Command="{Binding ShutdownWorkOrderCommand}"
                         FontSize="Subtitle"
                         Text="Bitir" />
 

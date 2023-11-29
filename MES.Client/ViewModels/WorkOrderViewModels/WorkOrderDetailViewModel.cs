@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.Databases.SQLiteDatabase.Models;
@@ -6,6 +7,7 @@ using MES.Client.Helpers;
 using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.MESAPIHelper;
+using MES.Client.Views.PopupViews;
 using MES.Client.Views.StopCauseViews;
 using MES.Client.Views.StopTransactionViews;
 using Newtonsoft.Json;
@@ -103,7 +105,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		GoToStopCauseListCommand = new Command(async () => await GoToStopCauseListAsync());
 		GoToStopTransactionListCommand = new Command(async () => await GoToStopTransactionListAsync());
 		GoToBackCommand = new Command(async () => await GoToBackAsync());
-		//ShutdownWorkOrderCommand = new Command(async () => await ShutdownWorkOrderAsync());
+		ShutdownWorkOrderCommand = new Command(async () => await ShutdownWorkOrderAsync());
 		GetCurrentEmployeeCommand = new Command(async () => await GetCurrentUserAsync());
 		GetCurrentEmployeeCommand.Execute(null);
 
@@ -258,30 +260,55 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		});
 	}
 
-	//async Task ShutdownWorkOrderAsync()
-	//{
-	//	if (IsBusy)
-	//		return;
 
-	//	try
-	//	{
-	//		IsBusy = true;
-	//		IsRefreshing = true;
+	async Task ShutdownWorkOrderAsync()
+	{
+		if (IsBusy)
+			return;
 
-	//		var httpClient = _httpClientService.GetOrCreateHttpClient();
-	//		var result = await _workOrderService.
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
 
-	//	} catch(Exception ex)
-	//	{
-	//		Debug.WriteLine(ex);
-	//	}
-	//	finally
-	//	{
-	//		IsBusy = false;
-	//		IsRefreshing = false;
-	//	}
+			var popup = new ShutdownWorkOrderPopupView(this);
+			var popupResult = await Shell.Current.ShowPopupAsync(popup);
 
-	//}
+			if(popupResult is bool boolResult)
+			{
+				if(boolResult)
+				{
+					var httpClient = _httpClientService.GetOrCreateHttpClient();
+					var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
+					if (result.Data.Status != 4)
+					{
+						WorkOrderChangeStatusInsertDto workOrderChangeStatusInsertDto = new()
+						{
+							FicheNo = result.Data.Code,
+							DeleteFiche = 0,
+							Status = 4
+						};
+						await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+						await Task.Delay(250);
+						await Shell.Current.GoToAsync("..");
+					}
+					else
+					{
+						return;
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
+	}
 
 	private async void LogoTimer_Tick(object sender, EventArgs e)
 	{
