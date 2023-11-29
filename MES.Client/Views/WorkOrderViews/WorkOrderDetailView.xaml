@@ -213,7 +213,8 @@
                     <Label
                         FontSize="Title"
                         Text="OEE Bilgileri"
-                        TextColor="{StaticResource Gray300}" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray300},
+                                                    Dark={StaticResource White}}" />
 
                     <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
 
@@ -320,8 +321,8 @@
                     <Label
                         FontSize="Title"
                         Text="Devir Bilgileri"
-                        TextColor="{StaticResource Gray300}" />
-
+                        TextColor="{AppThemeBinding Light={StaticResource Gray300},
+                                                    Dark={StaticResource White}}" />
                     <Grid
                         ColumnDefinitions="*,*"
                         RowDefinitions="Auto,Auto"

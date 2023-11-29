@@ -83,13 +83,13 @@
 
                 </VerticalStackLayout>
                 <!--  begin::Loading  -->
-                <StackLayout
+                <ActivityIndicator
+                    Grid.Row="1"
                     AbsoluteLayout.LayoutBounds="0.5, 1, -1 ,-1"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
-                    IsVisible="{Binding IsBusy}"
-                    VerticalOptions="End">
-                    <ActivityIndicator HeightRequest="50" IsRunning="{Binding IsBusy}" />
-                </StackLayout>
+                    HeightRequest="50"
+                    IsRunning="{Binding IsBusy}"
+                    VerticalOptions="End" />
                 <!--  end::Loading  -->
             </Grid>
         </Border>

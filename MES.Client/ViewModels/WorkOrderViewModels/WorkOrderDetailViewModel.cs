@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 using Shared.Entity.DTOs;
 using Shared.Middleware.Services;
 using System.Diagnostics;
-using System.Net.WebSockets;
 using WorkOrder = Shared.Entity.Models.WorkOrder;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
@@ -140,6 +139,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		}
 	}
 
+
 	async Task InProgressWorkOrderAsync()
 	{
 		//if (IsBusy)
@@ -159,7 +159,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 					DeleteFiche = 0,
 					Status = 1
 				};
-				await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+				//await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
 			}
 			else
 			{
@@ -177,6 +177,8 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			IsBusy = false;
 		}
 	}
+
+
 	async Task StartDeviceAsync()
 	{
 		if (IsBusy)
@@ -286,9 +288,9 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			var popup = new ShutdownWorkOrderPopupView(this);
 			var popupResult = await Shell.Current.ShowPopupAsync(popup);
 
-			if(popupResult is bool boolResult)
+			if (popupResult is bool boolResult)
 			{
-				if(boolResult)
+				if (boolResult)
 				{
 					var httpClient = _httpClientService.GetOrCreateHttpClient();
 					var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
@@ -371,7 +373,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 					results.WorkOrders.Add(workOrderDto);
 				}
 				var operationResult = await _workOrderService.InsertAsync(httpClient, results);
-				
+
 				if (operationResult.IsSuccess)
 				{
 					foreach (var item in items)
