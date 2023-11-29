@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup
-    x:Class="MES.Client.Views.PopupViews.StartWorkOrderPopupView"
+    x:Class="MES.Client.Views.PopupViews.ShutdownWorkOrderPopupView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:MES.Client.Helpers.FontAwesomeHelper"
@@ -12,7 +12,7 @@
             <Label
                 FontSize="17"
                 HorizontalOptions="Center"
-                Text="İş Emrini Başlatmak İstediğinize Emin Misiniz?" />
+                Text="İş Emrini Bitirmek İstediğinize Emin Misiniz?" />
             <Image
                 Grid.Row="1"
                 HeightRequest="60"

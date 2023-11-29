@@ -1,17 +1,20 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.Databases.SQLiteDatabase.Models;
+using MES.Client.Helpers;
 using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.MESAPIHelper;
+using MES.Client.Views.PopupViews;
 using MES.Client.Views.StopCauseViews;
 using MES.Client.Views.StopTransactionViews;
 using Newtonsoft.Json;
 using Shared.Entity.DTOs;
 using Shared.Middleware.Services;
 using System.Diagnostics;
-using Xamarin.Google.Crypto.Tink.Signature;
+using System.Net.WebSockets;
 using WorkOrder = Shared.Entity.Models.WorkOrder;
 
 namespace MES.Client.ViewModels.WorkOrderViewModels;
@@ -86,6 +89,8 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	public Command GoToStopCauseListCommand { get; }
 	public Command GoToStopTransactionListCommand { get; }
 	public Command GoToBackCommand { get; }
+	public Command GetCurrentEmployeeCommand { get; }
+	public Command ShutdownWorkOrderCommand { get; }
 
 	public WorkOrderDetailViewModel(MESDatabase mesDB, IWorkOrderService workOrderService, IHttpClientService httpClientService, DeviceCommandHelper _deviceCommandHelper)
 	{
@@ -93,22 +98,51 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		_workOrderService = workOrderService;
 		_httpClientService = httpClientService;
 		deviceCommandHelper = _deviceCommandHelper;
-		
+		mesDatabase = mesDB;
+
 		StartDeviceCommand = new Command(async () => await StartDeviceAsync());
 		InProgressWorkOrderCommand = new Command(async () => await InProgressWorkOrderAsync());
 		GoToStopCauseListCommand = new Command(async () => await GoToStopCauseListAsync());
 		GoToStopTransactionListCommand = new Command(async () => await GoToStopTransactionListAsync());
 		GoToBackCommand = new Command(async () => await GoToBackAsync());
-
-		mesDatabase = mesDB;
+		ShutdownWorkOrderCommand = new Command(async () => await ShutdownWorkOrderAsync());
+		GetCurrentEmployeeCommand = new Command(async () => await GetCurrentUserAsync());
+		GetCurrentEmployeeCommand.Execute(null);
 
 		StartButtonEnabled = true;
+	}
 
+	async Task GetCurrentUserAsync()
+	{
+		if (IsBusy)
+			return;
+
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
+
+			var result = await new CurrentUserHelper().GetCurrentEmployeeAsync();
+			if (result is not null)
+			{
+				CurrentEmployee = result ?? String.Empty;
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Shell.Current.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
 	}
 
 	async Task InProgressWorkOrderAsync()
 	{
-		if(IsBusy)
+		if (IsBusy)
 			return;
 
 		try
@@ -116,7 +150,10 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			IsBusy = true;
 
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
-			//_workOrderService.InProgressWorkOrderAsync(httpClient, WorkOrder.ReferenceId);
+			
+			//var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
+			//var result2 = result.Data.Status;
+			//_workOrderService.
 		}
 		catch (Exception ex)
 		{
@@ -223,13 +260,63 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		});
 	}
 
+
+	async Task ShutdownWorkOrderAsync()
+	{
+		if (IsBusy)
+			return;
+
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
+
+			var popup = new ShutdownWorkOrderPopupView(this);
+			var popupResult = await Shell.Current.ShowPopupAsync(popup);
+
+			if(popupResult is bool boolResult)
+			{
+				if(boolResult)
+				{
+					var httpClient = _httpClientService.GetOrCreateHttpClient();
+					var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
+					if (result.Data.Status != 4)
+					{
+						WorkOrderChangeStatusInsertDto workOrderChangeStatusInsertDto = new()
+						{
+							FicheNo = result.Data.Code,
+							DeleteFiche = 0,
+							Status = 4
+						};
+						await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+						await Task.Delay(250);
+						await Shell.Current.GoToAsync("..");
+					}
+					else
+					{
+						return;
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
+	}
+
 	private async void LogoTimer_Tick(object sender, EventArgs e)
 	{
 		await InsertWorkOrderTableToLogoAsync();
 	}
 
 	/// <summary>
-	/// 
+	/// Insert WorkOrderTable to SQLite Database
 	/// </summary>
 	/// <returns></returns>
 	public async Task InsertWorkOrderTableAsync()
@@ -252,7 +339,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	/// <returns></returns>
 	public async Task InsertWorkOrderTableToLogoAsync()
 	{
-		List<WorkOrderDto> results = new List<WorkOrderDto>();
+		WorkOrderInsertDto results = new();
 		var items = await mesDatabase.GetItemsNotIntegratedAsync();
 
 		if (items is not null)
@@ -269,9 +356,10 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 					workOrderDto.IsIncludeSideProduct = false;
 					workOrderDto.ProductReferenceId = item.ProductReferenceId;
 					workOrderDto.SubUnitsetReferenceId = item.SubUnitsetReferenceId;
-					results.Add(workOrderDto);
+					results.WorkOrders.Add(workOrderDto);
 				}
 				var operationResult = await _workOrderService.InsertAsync(httpClient, results);
+				
 				if (operationResult.IsSuccess)
 				{
 					foreach (var item in items)
@@ -286,7 +374,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	}
 
 	/// <summary>
-	/// 
+	///  Delete all items from WorkOrderTable
 	/// </summary>
 	/// <returns></returns>
 	public async Task DeleteAllItemsAsync()
@@ -324,7 +412,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	{
 		try
 		{
-
 			var httpClient = new HttpClient();
 			httpClient.BaseAddress = new Uri("http://192.168.1.15:32000");
 
@@ -371,7 +458,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
 	async Task GoToBackAsync()
 	{
-		if(IsBusy)
+		if (IsBusy)
 			return;
 
 		try
@@ -388,6 +475,5 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		{
 			IsBusy = false;
 		}
-		
 	}
 }
