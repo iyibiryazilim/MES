@@ -57,7 +57,7 @@
                         FontFamily="FAS"
                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.PowerOff}"
                         Color="{AppThemeBinding Light={StaticResource Black},
-                                                Dark={StaticResource Black}}" />
+                                                Dark={StaticResource White}}" />
                 </Image.Source>
             </Image>
 
@@ -86,8 +86,7 @@
             HeightRequest="50"
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
-            WidthRequest="50"
-            Color="{StaticResource Primary}" />
+            WidthRequest="50" />
         <!--#endregion-->
         <!--#region Carousel View-->
         <CarouselView
@@ -135,16 +134,16 @@
                                             FontFamily="FAS"
                                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.Ellipsis}"
                                             Color="{AppThemeBinding Light={StaticResource Black},
-                                                                    Dark={StaticResource White}}" />
+                                                                    Dark={StaticResource Primary2}}" />
                                     </Image.Source>
                                 </Image>
                                 <Image
                                     x:Name="productImage"
                                     Grid.Row="1"
-                                    Aspect="AspectFill"
+                                    Aspect="AspectFit"
+                                    BackgroundColor="{AppThemeBinding Dark={StaticResource BlackSolid}}"
                                     ClassId="productImage"
-                                    HeightRequest="500"
-                                    Source="takoz.jpg"
+                                    Source="tire.png"
                                     VerticalOptions="Start" />
 
                             </Grid>
@@ -229,7 +228,7 @@
                                 Padding="0">
                                 <TableView HasUnevenRows="True" Intent="Data">
                                     <TableRoot>
-                                        <TableSection Title="Ürün Bilgileri" TextColor="{StaticResource Primary}">
+                                        <TableSection Title="Ürün Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">
                                             <TextCell
                                                 Detail="{Binding ProductCode}"
                                                 Text="Ürün Kodu:"
@@ -241,7 +240,7 @@
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
 
                                         </TableSection>
-                                        <TableSection Title="İş Emri Bilgileri" TextColor="{StaticResource Primary}">
+                                        <TableSection Title="İş Emri Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">
                                             <TextCell
                                                 Detail="?"
                                                 Text="İş Emri Numarası:"
@@ -325,7 +324,7 @@
                                                 </Grid>
                                             </ViewCell>
                                         </TableSection>
-                                        <TableSection Title="Operasyon Bilgileri" TextColor="{StaticResource Primary}">
+                                        <TableSection Title="Operasyon Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">
                                             <TextCell
                                                 Detail="{Binding OperationCode}"
                                                 Text="Operasyon Kodu:"
@@ -335,7 +334,7 @@
                                                 Text="Operasyon Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>
-                                        <TableSection Title="Miktar Bilgileri" TextColor="{StaticResource Primary}">
+                                        <TableSection Title="Miktar Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">
                                             <TextCell
                                                 Detail="{Binding PlanningQuantity}"
                                                 Text="Planlanan Miktar"
@@ -357,7 +356,7 @@
                                                 Text="SubUnitset Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>
-                                        <TableSection Title="İş İstasyonu Bilgileri" TextColor="{StaticResource Primary}">
+                                        <TableSection Title="İş İstasyonu Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">
                                             <TextCell
                                                 Detail="{Binding WorkstationCode}"
                                                 Text="İş İstasyonu Kodu:"
@@ -396,7 +395,7 @@
                                 Grid.ColumnSpan="2"
                                 Padding="10">
                                 <Button
-                                    BackgroundColor="{StaticResource Primary}"
+                                    BackgroundColor="{StaticResource Primary2}"
                                     FontSize="16"
                                     Text="Başlat">
                                     <Button.GestureRecognizers>
@@ -418,7 +417,7 @@
             Margin="0,10,0,0"
             HorizontalOptions="Center"
             IndicatorColor="{StaticResource Gray400}"
-            SelectedIndicatorColor="{StaticResource Primary}" />
+            SelectedIndicatorColor="{StaticResource Primary2}" />
         <!--#endregion-->
     </Grid>
 

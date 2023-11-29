@@ -22,7 +22,8 @@
         <Border
             Grid.Column="1"
             Margin="150,50,60,50"
-            BackgroundColor="{StaticResource White}"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                              Dark={StaticResource White}}"
             StrokeShape="RoundRectangle 20">
             <Grid Padding="20" RowDefinitions="Auto, *, Auto">
                 <VerticalStackLayout Margin="0,20,0,0" VerticalOptions="Start">
@@ -87,10 +88,7 @@
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     IsVisible="{Binding IsBusy}"
                     VerticalOptions="End">
-                    <ActivityIndicator
-                        HeightRequest="50"
-                        IsRunning="{Binding IsBusy}"
-                        Color="{StaticResource Primary}" />
+                    <ActivityIndicator HeightRequest="50" IsRunning="{Binding IsBusy}" />
                 </StackLayout>
                 <!--  end::Loading  -->
             </Grid>

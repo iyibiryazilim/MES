@@ -142,18 +142,30 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
 	async Task InProgressWorkOrderAsync()
 	{
-		if (IsBusy)
-			return;
+		//if (IsBusy)
+		//	return;
 
 		try
 		{
 			IsBusy = true;
 
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
-			
-			//var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
-			//var result2 = result.Data.Status;
-			//_workOrderService.
+			var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
+			if (result.Data.Status != 1)
+			{
+				WorkOrderChangeStatusInsertDto workOrderChangeStatusInsertDto = new()
+				{
+					FicheNo = result.Data.Code,
+					DeleteFiche = 0,
+					Status = 1
+				};
+				await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+			}
+			else
+			{
+				return;
+			}
+
 		}
 		catch (Exception ex)
 		{
