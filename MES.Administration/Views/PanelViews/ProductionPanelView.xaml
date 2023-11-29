@@ -41,8 +41,18 @@
                         BackgroundColor="{StaticResource Black}">
                     <Grid  ColumnDefinitions="*,Auto,Auto"
                            ColumnSpacing="10">
-                        <SearchBar Grid.Column="0"
-                                   BackgroundColor="Transparent" />
+                        <SearchBar x:Name="searchBar"
+                                   Grid.Column="0"
+                                   BackgroundColor="Transparent">
+                            <SearchBar.Behaviors>
+                                <toolkit:EventToCommandBehavior Command="{Binding PerformSearchCommand}"
+                                                                CommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                                                                EventName="TextChanged" />
+                            </SearchBar.Behaviors>
+                        </SearchBar>
+                                   
+                                   
+                                   
                         <ImageButton BackgroundColor="Transparent"
                                      Grid.Column="1"
                                      Aspect="AspectFit"
@@ -74,7 +84,7 @@ Dark={StaticResource White}}" />
             </Grid>
 
             <CarouselView Grid.Row="2"
-                          ItemsSource="{Binding Items}"
+                          ItemsSource="{Binding Results}"
                           IndicatorView="indicatorView">
                 <CarouselView.ItemTemplate>
                     <DataTemplate x:DataType="model:ProductionOrder">
@@ -89,41 +99,40 @@ Dark={StaticResource White}}" />
                                             HeightRequest="300"
                                             Aspect="AspectFit" />
                                 </Grid>
-                                
-                                    <VerticalStackLayout  Grid.Column="1"
-                                                          VerticalOptions="Start"
-                                                          Padding="20"
-                                                          Spacing="10"
-                                                          >
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span  FontSize="18"
-                                                           FontAttributes="Bold"
-                                                           Text="Kodu :   "></Span>
-                                                    <Span  FontSize="18"
-                                                           FontAttributes="Bold"
-                                                           Text="{Binding Code}"></Span>
-                                                </FormattedString>
-                                            </Label.FormattedText>
 
-                                        </Label>
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span  FontSize="18"
-                                                           FontAttributes="Bold"
-                                                           Text="Adı :   "></Span>
-                                                    <Span  FontSize="18"
-                                                           FontAttributes="Bold"
-                                                           Text="{Binding Code}"></Span>
-                                                </FormattedString>
-                                            </Label.FormattedText>
+                                <VerticalStackLayout  Grid.Column="1"
+                                                      VerticalOptions="Start"
+                                                      Padding="20"
+                                                      Spacing="10">
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span  FontSize="18"
+                                                       FontAttributes="Bold"
+                                                       Text="Kodu :   "></Span>
+                                                <Span  FontSize="18"
+                                                       FontAttributes="Bold"
+                                                       Text="{Binding Code}"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
 
-                                        </Label>
+                                    </Label>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span  FontSize="18"
+                                                       FontAttributes="Bold"
+                                                       Text="Adı :   "></Span>
+                                                <Span  FontSize="18"
+                                                       FontAttributes="Bold"
+                                                       Text="{Binding Code}"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+
+                                    </Label>
                                     <VerticalStackLayout  VerticalOptions="End"
                                                           HorizontalOptions="End"
-                                                          Margin="0,-80">
+                                                          Margin="0,-80,10,0">
 
                                         <toolkit:AvatarView  Grid.Row="0"
                                                              BorderWidth="2"
@@ -144,21 +153,6 @@ Dark={StaticResource White}}" />
                                     </VerticalStackLayout>
 
                                 </VerticalStackLayout>
-                                    
-                                    
-
-                               
-                                    
-                                   
-
-
-
-
-
-
-                                
-                                
-                                
                                 <VerticalStackLayout Grid.Column="1" Padding="20" VerticalOptions="Center">
                                     <VerticalStackLayout Spacing="10">
                                         
@@ -179,7 +173,7 @@ Dark={StaticResource White}}" />
                                                                  Color="{StaticResource Primary2}">
                                                         </BoxView>
                                                         <Label 
-                                                               Text="56.789" />
+                                                               Text="{Binding PlannedAmount}" />
                                                         <Label 
                                                                Text="Hedef Tarih" />
                                                         <BoxView Grid.Row="4"
@@ -204,7 +198,7 @@ Dark={StaticResource White}}" />
                                                              HorizontalOptions="Start"
                                                              Color="{StaticResource Danger}">
                                                     </BoxView>
-                                                    <Label Text="56.789" />
+                                                    <Label Text="{Binding ActualAmount}"  />
                                                     <Label Text="Hedef Tarih" />
                                                     <BoxView Grid.Row="4"
                                                              WidthRequest="100"
@@ -219,10 +213,11 @@ Dark={StaticResource White}}" />
                                         </Grid>
                                     </VerticalStackLayout>
                           </VerticalStackLayout>
-                                <VerticalStackLayout  Grid.Column="1" VerticalOptions="End" Padding="10">
+                                <VerticalStackLayout  Grid.Column="1" VerticalOptions="End" Padding="20">
 
                                     <ProgressBar ScaleY="2.65"
-                                                 Progress="0.65"
+                                                 
+                                                 Progress="{Binding ActualRate}"
                                                  ProgressColor="{StaticResource Warning}" />
 
                                     <Label Text="%65" />

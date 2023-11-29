@@ -1,4 +1,6 @@
-﻿using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -11,7 +13,12 @@ public partial class WorkstationPanelViewModel : BaseViewModel
     IWorkstationService _workStationservice;
 
     public ObservableCollection<Workstation> Items { get; } = new();
+   
+    //Searchbar listesi
+    public ObservableCollection<Workstation> Results { get; } = new();
 
+    [ObservableProperty]
+    string searchText = string.Empty;
     public Command GetItemsCommand { get; }
 
     public WorkstationPanelViewModel(IHttpClientLBSService httpClientLBSService, IWorkstationService workStationservice)
@@ -47,6 +54,7 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(100);
                         Items.Add(item);
+                        Results.Add(item);
                     }
                 }
             }
@@ -65,5 +73,46 @@ public partial class WorkstationPanelViewModel : BaseViewModel
         }
 
     }
+
+    [RelayCommand]
+    async Task PerformSearchAsync(object text)
+    {
+        if (IsBusy) return;
+
+        try
+        {
+            IsBusy = true;
+            if (!string.IsNullOrEmpty(text.ToString()))
+            {
+                Results.Clear();
+                foreach (Workstation item in Items.Where(x => x.Code.ToLower().Contains(text.ToString().ToLower())))
+                    Results.Add(item);
+
+
+            }
+            else
+            {
+                Results.Clear();
+                foreach (Workstation item in Items)
+                {
+                    Results.Add(item);
+
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+    }
+
+
+
 }
 

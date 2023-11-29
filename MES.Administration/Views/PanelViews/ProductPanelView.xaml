@@ -51,7 +51,15 @@
             <Border StrokeShape="RoundRectangle 10" BackgroundColor="{StaticResource Black}">
                 <Grid  ColumnDefinitions="*,Auto,Auto"
                      ColumnSpacing="10">
-                    <SearchBar Grid.Column="0"  BackgroundColor="Transparent" />
+                        <SearchBar Grid.Column="0"
+                                   BackgroundColor="Transparent"
+                                   x:Name="searchBar">
+                            <SearchBar.Behaviors>
+                                <toolkit:EventToCommandBehavior Command="{Binding PerformSearchCommand}"
+                                                                CommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                                                                EventName="TextChanged" />
+                            </SearchBar.Behaviors>
+                            </SearchBar>
                     <ImageButton BackgroundColor="Transparent"
                                Grid.Column="1"
                                Aspect="AspectFit"
@@ -85,7 +93,7 @@ Dark={StaticResource White}}" />
 
         </Grid>
         <CollectionView Grid.Row="2" 
-                      ItemsSource="{Binding Items}"
+                      ItemsSource="{Binding Results}"
                       VerticalOptions="End" Margin="0,0,5,70" >
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal"
@@ -100,7 +108,7 @@ Dark={StaticResource White}}" />
                         <Grid ColumnDefinitions=".4*,.60*" ColumnSpacing="5" >
                             <Grid Grid.Column="0" >
 
-                                <Image  Source="takoz.jpg" Margin="10"
+                                <Image  Source="takoz1.png" Margin="10"
                                       BackgroundColor="Transparent"></Image>
                             </Grid>
                             <Grid Grid.Column="1"
