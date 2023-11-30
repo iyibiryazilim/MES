@@ -71,7 +71,8 @@
                     <DataTemplate x:DataType="model:StopTransaction">
                         <Border
                             Padding="20,20,20,10"
-                            Stroke="{AppThemeBinding Dark={StaticResource WhiteSmoke}}"
+                            MinimumWidthRequest="335"
+                            Stroke="{AppThemeBinding Dark={StaticResource Primary2}}"
                             StrokeShape="RoundRectangle 10">
                             <Grid>
                                 <!--#region Left Column-->
@@ -89,7 +90,7 @@
                                             </Label.FormattedText>
                                         </Label>
 
-                                        <BoxView HeightRequest="0.5" Color="{StaticResource Danger}" />
+                                        <BoxView HeightRequest="0.5" Color="{StaticResource Primary2}" />
                                         <!--#region StopDate-->
                                         <Grid ColumnDefinitions="Auto, *" ColumnSpacing="5">
                                             <VerticalStackLayout Spacing="2">
@@ -104,7 +105,7 @@
                                                     HeightRequest="1"
                                                     HorizontalOptions="Start"
                                                     WidthRequest="93"
-                                                    Color="{StaticResource Primary}" />
+                                                    Color="{StaticResource Primary2}" />
                                                 <Label HorizontalOptions="Center">
                                                     <Label.FormattedText>
                                                         <FormattedString>
@@ -125,14 +126,14 @@
                                         <Grid ColumnDefinitions="*,Auto">
                                             <Line
                                                 Grid.Column="0"
-                                                Stroke="{StaticResource Primary}"
+                                                Stroke="{StaticResource Primary2}"
                                                 StrokeDashArray="2,3"
                                                 StrokeDashOffset="6"
                                                 X1="40"
                                                 X2="40"
                                                 Y1="0"
                                                 Y2="45" />
-                                            <Border
+                                            <!--<Border
                                                 Grid.Column="1"
                                                 Padding="10,5,10,5"
                                                 HorizontalOptions="End"
@@ -146,8 +147,13 @@
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>
-                                            </Border>
-                                            <toolkit:AvatarView Padding="4" Text="{Binding StopDuration, StringFormat='{0:N0} dk'}" />
+                                            </Border>-->
+                                            <toolkit:AvatarView
+                                                Grid.Column="1"
+                                                Padding="4"
+                                                BorderColor="{StaticResource Primary2}"
+                                                Text="{Binding StopDuration, StringFormat='{0:N0} dk'}"
+                                                VerticalOptions="Center" />
 
                                         </Grid>
                                         <Grid ColumnDefinitions="Auto, *" ColumnSpacing="5">
@@ -163,7 +169,7 @@
                                                     HeightRequest="1"
                                                     HorizontalOptions="Start"
                                                     WidthRequest="93"
-                                                    Color="{StaticResource Primary}" />
+                                                    Color="{StaticResource Primary2}" />
                                                 <Label HorizontalOptions="Center">
                                                     <Label.FormattedText>
                                                         <FormattedString>
