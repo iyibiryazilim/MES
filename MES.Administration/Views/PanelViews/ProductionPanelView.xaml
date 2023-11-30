@@ -50,9 +50,6 @@
                                                                 EventName="TextChanged" />
                             </SearchBar.Behaviors>
                         </SearchBar>
-                                   
-                                   
-                                   
                         <ImageButton BackgroundColor="Transparent"
                                      Grid.Column="1"
                                      Aspect="AspectFit"
@@ -220,7 +217,7 @@ Dark={StaticResource White}}" />
                                                  Progress="{Binding ActualRate}"
                                                  ProgressColor="{StaticResource Warning}" />
 
-                                    <Label Text="%65" />
+                                    <Label Text="{Binding ActualRate, StringFormat='{0}%'}" />
                                 </VerticalStackLayout>
 
 

@@ -6,7 +6,8 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewModel="clr-namespace:MES.Administration.ViewModels.PanelViewModels"
              x:DataType="viewModel:ProductPanelViewModel"
-              xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
+             xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
+             xmlns:listModel ="clr-namespace:MES.Administration.Models.ProductModels"
              >
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding GetItemsCommand}"
@@ -100,7 +101,7 @@ Dark={StaticResource White}}" />
                                  ItemSpacing="30" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:EndProduct">
+                <DataTemplate x:DataType="listModel:EndProductModel">
                     <Border StrokeShape="RoundRectangle 15"
                              BackgroundColor="{StaticResource Black}"
                           
@@ -145,7 +146,7 @@ Dark={StaticResource White}}" />
                                             StrokeThickness="2"
                                           VerticalOptions="End"
                                           BackgroundColor="Transparent"  >
-                                        <Label Text="700"
+                                        <Label Text="{Binding StockQuantity}"
                                              FontAttributes="Bold"
                                              HorizontalOptions="Center"
                                              VerticalOptions="Center"
@@ -164,7 +165,7 @@ Dark={StaticResource White}}" />
                                             Stroke="{StaticResource Danger}"
                                              StrokeThickness="2"
                                           BackgroundColor="Transparent">
-                                        <Label Text="500"
+                                            <Label Text="{Binding PlanningQuantity}"
                                              HorizontalOptions="Center"
                                              VerticalOptions="Center"
                                              FontAttributes="Bold"
@@ -178,12 +179,12 @@ Dark={StaticResource White}}" />
                                          FontSize="16" />
                                     <Border Grid.Column="1"
                                           Grid.Row="2"
-                                            Stroke="{StaticResource Info}"
+                                                Stroke="{StaticResource Primary2}"
                                              StrokeThickness="2"
                                           HeightRequest="30"
                                           StrokeShape="RoundRectangle 10"
                                           BackgroundColor="Transparent">
-                                        <Label Text="200"
+                                            <Label Text="{Binding ActualQuantity }"
                                              HorizontalOptions="Center"
                                              VerticalOptions="Center"
                                              FontAttributes="Bold" TextColor="White">

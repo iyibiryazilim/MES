@@ -48,7 +48,7 @@ public partial class WorkstationListViewModel : BaseViewModel
            
 
         }
-        catch(Exception ex) { }
+        catch(Exception  ex) { }
         
         finally
         {
