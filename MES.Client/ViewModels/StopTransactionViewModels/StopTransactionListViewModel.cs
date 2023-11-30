@@ -1,5 +1,7 @@
-﻿using MES.Client.Helpers.HttpClientHelpers;
+﻿using CommunityToolkit.Mvvm.Input;
+using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.ViewModels.WorkOrderViewModels;
+using Shared.Entity.DTOs;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -11,7 +13,6 @@ public partial class StopTransactionListViewModel : BaseViewModel
 {
 	IHttpClientService _httpClientService;
 	IStopTransactionService _stopTransactionService;
-	WorkOrderDetailViewModel workOrderDetailViewModel;
 	public ObservableCollection<StopTransaction> StopTransactionListItems { get; } = new();
 
 	public Command GetItemsCommand { get; }
@@ -22,8 +23,7 @@ public partial class StopTransactionListViewModel : BaseViewModel
 		Title = "Duruş Hareketleri";
 		_httpClientService = httpClientService;
 		_stopTransactionService = stopTransactionService;
-		workOrderDetailViewModel = _workOrderDetailViewModel;
-
+	
 		GetItemsCommand = new Command(async () => await GetItemsAsync());
 		GoToBackCommand = new Command(async () => await GoToBackAsync());
 	}
@@ -43,7 +43,6 @@ public partial class StopTransactionListViewModel : BaseViewModel
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
 
 			var result = await _stopTransactionService.GetObjects(httpClient);
-			//var result = await _stopTransactionService.GetObjectById(httpClient, workOrderDetailViewModel.WorkOrder.ReferenceId);
 
 			if (result.IsSuccess)
 			{

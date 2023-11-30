@@ -139,7 +139,10 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		}
 	}
 
-
+	/// <summary>
+	/// When WorkOrderDetail page is opened, this method change the status of related work order to 1 (InProgress)
+	/// </summary>
+	/// <returns></returns>
 	async Task InProgressWorkOrderAsync()
 	{
 		//if (IsBusy)
@@ -260,7 +263,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	[RelayCommand]
 	public async Task StartWorkOrderAsync()
 	{
-		//await GetDeviceStateAsync();
 		await Task.Run(() =>
 		{
 			Timer = Application.Current.Dispatcher.CreateTimer();
