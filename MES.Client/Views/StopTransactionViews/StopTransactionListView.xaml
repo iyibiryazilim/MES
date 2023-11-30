@@ -19,7 +19,7 @@
     <Grid
         Padding="50,30,50,50"
         ColumnDefinitions="*,*"
-        RowDefinitions="Auto, *, Auto"
+        RowDefinitions="Auto, Auto, *, Auto"
         RowSpacing="15">
 
         <Grid
@@ -64,13 +64,22 @@
             Grid.ColumnSpan="2"
             VerticalOptions="Start">
             <CollectionView ItemsSource="{Binding StopTransactionListItems}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:StopTransaction">
-                        <Border Padding="20" StrokeShape="RoundRectangle 10">
-                            <Grid ColumnDefinitions="*,*">
+                        <Border
+                            Padding="20,20,20,10"
+                            Stroke="{AppThemeBinding Dark={StaticResource WhiteSmoke}}"
+                            StrokeShape="RoundRectangle 10">
+                            <Grid>
                                 <!--#region Left Column-->
-                                <Grid Grid.Column="0">
-                                    <VerticalStackLayout Spacing="10">
+                                <Grid
+                                    Grid.Column="0"
+                                    RowDefinitions="*, Auto"
+                                    RowSpacing="10">
+                                    <VerticalStackLayout Spacing="4">
                                         <Label>
                                             <Label.FormattedText>
                                                 <FormattedString>
@@ -79,30 +88,15 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Operasyon Kodu: " TextColor="{StaticResource Gray300}" />
-                                                    <Span Text="{Binding OperationCode}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Üretim Kodu: " TextColor="{StaticResource Gray300}" />
-                                                    <Span Text="{Binding ProductionCode}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <BoxView HeightRequest="0.5" Color="{StaticResource Primary}" />
+
+                                        <BoxView HeightRequest="0.5" Color="{StaticResource Danger}" />
                                         <!--#region StopDate-->
                                         <Grid ColumnDefinitions="Auto, *" ColumnSpacing="5">
                                             <VerticalStackLayout Spacing="2">
                                                 <Label>
                                                     <Label.FormattedText>
                                                         <FormattedString>
-                                                            <Span Text="{Binding StopDate, StringFormat='{0:dd} {0:MMMM} {0:yyyy}'}" TextColor="{StaticResource Primary}" />
+                                                            <Span Text="{Binding StartDate, StringFormat='{0:dd} {0:MMMM} {0:yyyy}'}" TextColor="{StaticResource White}" />
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>
@@ -111,10 +105,69 @@
                                                     HorizontalOptions="Start"
                                                     WidthRequest="93"
                                                     Color="{StaticResource Primary}" />
+                                                <Label HorizontalOptions="Center">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <!--  StartTime Değeri Konulacak  -->
+                                                            <Span Text="{Binding StartDate, StringFormat='{0:hh:mm:ss}'}" TextColor="{StaticResource White}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </VerticalStackLayout>
+                                            <Label
+                                                Grid.Column="1"
+                                                Margin="0,-10,0,0"
+                                                HorizontalOptions="Start"
+                                                Text=" tarihinde başlatıldı"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Line
+                                                Grid.Column="0"
+                                                Stroke="{StaticResource Primary}"
+                                                StrokeDashArray="2,3"
+                                                StrokeDashOffset="6"
+                                                X1="40"
+                                                X2="40"
+                                                Y1="0"
+                                                Y2="45" />
+                                            <Border
+                                                Grid.Column="1"
+                                                Padding="10,5,10,5"
+                                                HorizontalOptions="End"
+                                                Stroke="{AppThemeBinding Dark={StaticResource Primary}}"
+                                                StrokeShape="RoundRectangle 10">
+                                                <Label VerticalTextAlignment="Center">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding StopDuration}" />
+                                                            <Span Text=" dk" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Border>
+                                            <toolkit:AvatarView Padding="4" Text="{Binding StopDuration, StringFormat='{0:N0} dk'}" />
+
+                                        </Grid>
+                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="5">
+                                            <VerticalStackLayout Spacing="2">
                                                 <Label>
                                                     <Label.FormattedText>
                                                         <FormattedString>
-                                                            <Span Text="{Binding StopDate, StringFormat='{0:hh:mm:ss}'}" TextColor="{StaticResource Primary}" />
+                                                            <Span Text="{Binding StopDate, StringFormat='{0:dd} {0:MMMM} {0:yyyy}'}" TextColor="{StaticResource White}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <BoxView
+                                                    HeightRequest="1"
+                                                    HorizontalOptions="Start"
+                                                    WidthRequest="93"
+                                                    Color="{StaticResource Primary}" />
+                                                <Label HorizontalOptions="Center">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding StopTime, StringFormat='{0:hh:mm:ss}'}" TextColor="{StaticResource White}" />
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>
@@ -125,40 +178,11 @@
                                                 Text=" tarihinde durduruldu"
                                                 VerticalOptions="Center" />
                                         </Grid>
-                                        <!--#endregion-->
-                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="5">
-                                            <VerticalStackLayout Spacing="2">
-                                                <Label>
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding StartDate, StringFormat='{0:dd} {0:MMMM} {0:yyyy}'}" TextColor="{StaticResource Primary}" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
-                                                <BoxView
-                                                    HeightRequest="1"
-                                                    HorizontalOptions="Start"
-                                                    WidthRequest="93"
-                                                    Color="{StaticResource Primary}" />
-                                                <Label>
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding StartDate, StringFormat='{0:hh:mm:ss}'}" TextColor="{StaticResource Primary}" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
-                                            </VerticalStackLayout>
-                                            <Label
-                                                Grid.Column="1"
-                                                Margin="0,-10,0,0"
-                                                Text=" tarihinde başlatıldı"
-                                                VerticalOptions="Center" />
-                                        </Grid>
 
+                                        <!--#endregion-->
                                     </VerticalStackLayout>
+                                    <ProgressBar Grid.Row="1" ScaleY="3" />
                                 </Grid>
-                                <!--#endregion-->
-                                <!--#region Right Column-->
                                 <!--#endregion-->
                             </Grid>
                         </Border>
@@ -170,7 +194,7 @@
 
 
         <Button
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.ColumnSpan="2"
             FontSize="Title"
             Text="Durdur"
