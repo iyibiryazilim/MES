@@ -1,13 +1,11 @@
-﻿using static Android.Content.ClipData;
+﻿namespace MES.Administration.Helpers.Queries;
 
-namespace MES.Administration.Helpers.Queries;
-
-public class ProductQuery
+public class ProductionOrder
 {
-    public string ProductListQuery()
+
+    public string ProductionFilterQuery(short status)
     {
-        string query = $@"
-SELECT 
+        string query = $@"SELECT 
 [ReferenceId]=ITEMS.LOGICALREF,
 [Code] =ITEMS.CODE,
 [Name]=ITEMS.NAME,
@@ -32,10 +30,8 @@ ELSE
 FROM LG_003_PRODORD AS [PRODORD] WITH (NOLOCK)
 LEFT JOIN LG_003_ITEMS AS [ITEMS] WITH (NOLOCK) ON PRODORD.ITEMREF=ITEMS.LOGICALREF
 LEFT JOIN LG_003_UNITSETF AS [UNITSETF] WITH (NOLOCK) ON ITEMS.UNITSETREF=UNITSETF.LOGICALREF
-LEFT JOIN LG_003_UNITSETL AS [UNITSETL] WITH (NOLOCK) ON UNITSETF.LOGICALREF=UNITSETL.UNITSETREF AND UNITSETL.MAINUNIT=1";
-            return query;
+LEFT JOIN LG_003_UNITSETL AS [UNITSETL] WITH (NOLOCK) ON UNITSETF.LOGICALREF=UNITSETL.UNITSETREF AND UNITSETL.MAINUNIT=1
+where PRODORD.STATUS ={status}";
+        return query;
     }
-
-    
-
 }
