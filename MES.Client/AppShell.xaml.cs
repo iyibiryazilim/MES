@@ -14,6 +14,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(route: nameof(StopCauseListView), type: typeof(StopCauseListView));
         Routing.RegisterRoute(route: nameof(LoginView), type: typeof(LoginView));
         Routing.RegisterRoute(route: nameof(WorkOrderListModalView), type: typeof(WorkOrderListModalView));
+        Routing.RegisterRoute(route: nameof(WorkOrderListView), type: typeof(WorkOrderListView));
     }
 }
 

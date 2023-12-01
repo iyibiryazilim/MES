@@ -19,9 +19,23 @@ public partial class WorkOrderListViewModel : BaseViewModel
 {
 	IHttpClientService _httpClientService;
 	IWorkOrderService _workOrderService;
+	DeviceCommandHelper deviceCommandHelper;
 
 	[ObservableProperty]
-	string currentEmployee;
+	public string currentEmployee;
+
+	public string CurrentEmployeeChanged
+	{
+		get => CurrentEmployee;
+		set
+		{
+			CurrentEmployee = value;
+			OnPropertyChanged();
+		}
+	}
+
+	[ObservableProperty]
+	string searchText = string.Empty;
 
 	public ObservableCollection<WorkOrder> Items { get; } = new();
 	public ObservableCollection<WorkOrder> Results { get; } = new();
@@ -30,12 +44,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 	public Command GetItemsCommand { get; }
 
 	public Command GetCurrentEmployeeCommand { get; }
-
-	//[ObservableProperty]
-	//ProductionWorkOrderList selectedItem;
-
-	[ObservableProperty]
-	string searchText = string.Empty;
 
 	// SearchBar genişliğini ekrana göre ayarlama fonksiyonu
 	public double ScreenWidth
@@ -50,11 +58,26 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		}
 	}
 
-	public WorkOrderListViewModel(IHttpClientService httpClientService, IWorkOrderService workOrderService)
+	public double ItemQuantity
+	{
+		get
+		{
+			var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
+			if (workOrderDetailService is not null)
+			{
+				return workOrderDetailService.Quantity;
+
+			}
+			return 0;
+		}
+	}
+
+	public WorkOrderListViewModel(IHttpClientService httpClientService, IWorkOrderService workOrderService, DeviceCommandHelper _deviceCommandHelper)
 	{
 		Title = "İş Listesi";
 		_httpClientService = httpClientService;
 		_workOrderService = workOrderService;
+		deviceCommandHelper = _deviceCommandHelper;
 
 		//GetItemsCommand = new Command(async () => await GetItemsAsync());
 		//LoadMoreCommand = new Command(LoadMoreAsync);
@@ -66,7 +89,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		});
 	}
 
-
+	
 	//[RelayCommand]
 	//async Task SetSelectedItemAsync(ProductionWorkOrderList item)
 	//{
@@ -100,7 +123,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 	//    }
 	//}
 
-	async Task GetCurrentEmployeeAsync()
+	public async Task GetCurrentEmployeeAsync()
 	{
 		if (IsBusy)
 			return;
@@ -148,8 +171,9 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			{
 				if (result.Data.Any())
 				{
-					foreach (var item in result.Data.Where(x => x.WorkstationCode == "E-02"))
+					foreach (var item in result.Data.Take(10))
 					{
+						await Task.Delay(250);
 						Items.Add(item);
 						Results.Add(item);
 					}
@@ -160,7 +184,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		catch (Exception ex)
 		{
 			Debug.WriteLine(ex);
-			await Shell.Current.DisplayAlert("Customer Error: ", $"{ex.Message}", "Tamam");
+			await Shell.Current.DisplayAlert(" Error: ", $"{ex.Message}", "Tamam");
 		}
 		finally
 		{
@@ -179,16 +203,17 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		{
 			IsBusy = true;
 			IsRefreshing = true;
-			DeviceCommandHelper deviceCommandHelper = new();
-			//await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.18:32000");
-			//await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.18:32000");
-			//await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.18:32000");
+			
 			var popup = new StartWorkOrderPopupView(this);
 			var result = await Shell.Current.ShowPopupAsync(popup);
 			if (result is bool boolResult)
 			{
 				if (boolResult)
 				{
+					await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.3:32000");
+					await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.3:32000");
+					await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.3:32000");
+					await Task.Delay(300);
 					await Shell.Current.GoToAsync($"{nameof(WorkOrderDetailView)}", new Dictionary<string, object>
 					{
 						[nameof(WorkOrder)] = workOrder
@@ -213,25 +238,6 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			IsRefreshing = false;
 		}
 	}
-
-
-	//[RelayCommand]
-	//async Task OpenStartWorkOrderPopupAsync()
-	//{
-	//    var popup = new StartWorkOrderPopupView(this);
-	//    var result = await Shell.Current.ShowPopupAsync(popup);
-	//    if (result is bool boolResult)
-	//    {
-	//        if (boolResult)
-	//        {
-
-	//        }
-	//        else
-	//        {
-	//            return;
-	//        }
-	//    }
-	//}
 
 
 	[RelayCommand]

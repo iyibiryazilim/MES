@@ -41,17 +41,21 @@ public partial class LoginViewModel : BaseViewModel
 				{
 					if(employeeResult.Data.Any())
 					{
+						
 						var currentEmployee = employeeResult.Data.FirstOrDefault(x => x.Code == usercode);
-						if(currentEmployee != null)
+						if (currentEmployee != null)
 						{
+							
 							UserCode = currentEmployee.Code;
 							await SecureStorage.Default.SetAsync("CurrentUserName", currentEmployee.Name);
 							Application.Current.MainPage = new AppShell();
-						} else
+						}
+						else
 						{
 							await new Helpers.ToastMessageHelper.ToastMessageHelper().ShowToastMessageAsync($"{usercode} kodunda kullanıcı bulunamadı", CommunityToolkit.Maui.Core.ToastDuration.Short);
 						}
-						
+
+
 					}
 				}
 			}
@@ -74,6 +78,7 @@ public partial class LoginViewModel : BaseViewModel
 		try
 		{
 			await Task.Delay(500);
+			//Application.Current.MainPage = new AppShell();
 			Application.Current.MainPage = new AppShell();
 		}
 		catch (Exception ex)

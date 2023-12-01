@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Maui;
 using MES.Client.Databases.SQLiteDatabase;
+using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.ViewModels.LoginViewModels;
+using MES.Client.ViewModels.PanelViewModels;
 using MES.Client.ViewModels.StopCauseViewModels;
 using MES.Client.ViewModels.WorkOrderViewModels;
 using MES.Client.Views.LoginViews;
+using MES.Client.Views.PanelViews;
 using MES.Client.Views.StopCauseViews;
 using MES.Client.Views.WorkOrderViews;
 using Microcharts.Maui;
@@ -31,7 +34,6 @@ public static class MauiProgram
 			.UseMicrocharts()
 			.RegisterAppDataServices()
 			.RegisterViewModels()
-			.RegisterAppDB()
 			.RegisterViews()
 			.ConfigureFonts(fonts =>
 			{
@@ -58,6 +60,8 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterAppDataServices(this MauiAppBuilder mauiAppBuilder)
 	{
 		mauiAppBuilder.Services.AddSingleton<IHttpClientService, HttpClientService>();
+		mauiAppBuilder.Services.AddSingleton<MESDatabase>();
+		mauiAppBuilder.Services.AddSingleton<DeviceCommandHelper>();
 		mauiAppBuilder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 		//mauiAppBuilder.Services.AddTransient<ICustomQueryService, CustomQueryDataStore>();
 		mauiAppBuilder.Services.AddTransient<IStopCauseService, StopCauseDataStore>();
@@ -74,31 +78,26 @@ public static class MauiProgram
 	//    return mauiAppBuilder;
 	//}
 
-	public static MauiAppBuilder RegisterAppDB(this MauiAppBuilder mauiAppBuilder)
-	{
-		mauiAppBuilder.Services.AddSingleton<MESDatabase>();
-
-		return mauiAppBuilder;
-	}
-
 	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
 	{
-		mauiAppBuilder.Services.AddSingleton<LoginViewModel>();
-		mauiAppBuilder.Services.AddSingleton<WorkOrderListViewModel>();
-		mauiAppBuilder.Services.AddSingleton<WorkOrderDetailViewModel>();
-		mauiAppBuilder.Services.AddSingleton<StopCauseListViewModel>();
-		mauiAppBuilder.Services.AddSingleton<WorkOrderListModalViewModel>();
+		mauiAppBuilder.Services.AddTransient<LoginViewModel>();
+		mauiAppBuilder.Services.AddTransient<WorkOrderListViewModel>();
+		mauiAppBuilder.Services.AddScoped<WorkOrderDetailViewModel>();
+		mauiAppBuilder.Services.AddScoped<StopCauseListViewModel>();
+		mauiAppBuilder.Services.AddTransient<WorkOrderListModalViewModel>();
+		mauiAppBuilder.Services.AddTransient<MainPanelViewModel>();
 
 		return mauiAppBuilder;
 	}
 
 	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
 	{
-		mauiAppBuilder.Services.AddSingleton<WorkOrderListView>();
-		mauiAppBuilder.Services.AddSingleton<WorkOrderDetailView>();
-		mauiAppBuilder.Services.AddSingleton<LoginView>();
-		mauiAppBuilder.Services.AddSingleton<StopCauseListView>();
-		mauiAppBuilder.Services.AddSingleton<WorkOrderListModalView>();
+		mauiAppBuilder.Services.AddTransient<LoginView>();
+		mauiAppBuilder.Services.AddTransient<WorkOrderListView>();
+		mauiAppBuilder.Services.AddScoped<WorkOrderDetailView>();
+		mauiAppBuilder.Services.AddScoped<StopCauseListView>();
+		mauiAppBuilder.Services.AddTransient<WorkOrderListModalView>();
+		mauiAppBuilder.Services.AddTransient<MainPanelView>();
 
 		return mauiAppBuilder;
 	}

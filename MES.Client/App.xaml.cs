@@ -7,21 +7,22 @@ namespace MES.Client;
 public partial class App : Application
 {
     IServiceProvider _serviceProvider;
-    public App(IServiceProvider serviceProvider)
+    MESDatabase _database;
+    public App(IServiceProvider serviceProvider, MESDatabase db)
     {
         InitializeComponent();
         _serviceProvider = serviceProvider;
-
+        _database = db;
         //MainPage = new AppShell();
 
         LoginViewModel viewModel = _serviceProvider.GetService<LoginViewModel>();
         MainPage = new LoginView(viewModel);
     }
-	protected override async void OnStart()
+
+	protected async override void OnStart()
 	{
 		base.OnStart();
-        MESDatabase mesDatabase = new MESDatabase();
-        await mesDatabase.Init();
+        await _database.DeleteAllItemAsync();
 	}
 }
 

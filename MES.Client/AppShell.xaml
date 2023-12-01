@@ -4,13 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MES.Client"
+    xmlns:panelViews="clr-namespace:MES.Client.Views.PanelViews"
     xmlns:workOrderViews="clr-namespace:MES.Client.Views.WorkOrderViews"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
+    <!--<ShellContent
         Title="İş Listesi"
         ContentTemplate="{DataTemplate workOrderViews:WorkOrderListView}"
-        Route="MainPage" />
+        Route="MainPage" />-->
 
+    <ShellContent
+        Title="Ana Panel"
+        ContentTemplate="{DataTemplate panelViews:MainPanelView}"
+        Route="MainPage" />
 </Shell>
 

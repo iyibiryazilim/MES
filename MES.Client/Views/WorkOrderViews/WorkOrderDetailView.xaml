@@ -14,83 +14,97 @@
 
     <Grid Padding="10" ColumnDefinitions=".20*,.80*">
 
+        <!--  start:: Left Frame  -->
         <Frame Grid.Column="0" Padding="10">
-
-            <VerticalStackLayout>
-
-                <Grid RowDefinitions="Auto,*,Auto">
-
-                    <VerticalStackLayout
-                        Grid.Row="0"
-                        Padding="10"
-                        Spacing="10">
-
-                        <Image
-                            Aspect="AspectFit"
-                            HeightRequest="125"
-                            Source="takoz.png"
-                            WidthRequest="210" />
-
-                        <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout
-                        Grid.Row="1"
-                        Padding="10"
-                        Spacing="10">
-                        <Button
-                            Command="{Binding StartWorkOrderCommand}"
-                            FontSize="Subtitle"
-                            IsEnabled="{Binding StartButtonEnabled}"
-                            Text="Başlat">
-                            <Button.Triggers>
-                                <Trigger TargetType="Button" Property="IsEnabled" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Secondary}}" />
-                                </Trigger>
-                            </Button.Triggers>
-                        </Button>
-                        <Button FontSize="Subtitle" Text="Malzeme Hareketleri" />
-                        <Button FontSize="Subtitle" Text="Setup" />
-                        <Button FontSize="Subtitle" Text="Duruş Hareketleri" />
-                        <Button FontSize="Subtitle" Text="Kalıp Bilgileri" />
-                        <Button FontSize="Subtitle" Text="Sarf Malzemeler" />
-                        <Button
-                            BackgroundColor="{StaticResource Warning}"
-                            Command="{Binding GoToStopCauseListCommand}"
-                            FontSize="Subtitle"
-                            Text="Durdur" />
-                        <Button
-                            BackgroundColor="{StaticResource Danger}"
-                            FontSize="Subtitle"
-                            Text="Bitir" />
-
-                    </VerticalStackLayout>
-
-                </Grid>
-
+            <Grid RowDefinitions="Auto,*,Auto">
+                <!--  start:: Image, BoxView, Operand name and Slider  -->
                 <VerticalStackLayout
-                    Grid.Row="2"
+                    Grid.Row="0"
+                    Padding="10,10,10,0"
+                    Spacing="10">
+
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="125"
+                        MaximumWidthRequest="250"
+                        Source="takoz.png"
+                        WidthRequest="210" />
+
+                    <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="{Binding CurrentEmployee}"
+                        VerticalOptions="Center" />
+                    <Slider
+                        Maximum="250"
+                        Minimum="0"
+                        Value="{Binding SliderValue}" />
+                </VerticalStackLayout>
+                <!--  end:: Image and Slider  -->
+                <!--  start:: Butonlar  -->
+                <VerticalStackLayout
+                    Grid.Row="1"
                     Padding="10"
-                    Spacing="2"
+                    Spacing="10">
+                    <Button
+                        Command="{Binding StartWorkOrderCommand}"
+                        FontSize="Subtitle"
+                        IsEnabled="{Binding StartButtonEnabled}"
+                        Text="Başlat">
+                        <Button.Triggers>
+                            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Secondary}}" />
+                            </Trigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button
+                        Command="{Binding GetDBCountCommand}"
+                        FontSize="Subtitle"
+                        Text="Malzeme Hareketleri" />
+                    <Button FontSize="Subtitle" Text="Setup" />
+                    <Button FontSize="Subtitle" Text="Duruş Hareketleri" />
+                    <Button FontSize="Subtitle" Text="Kalıp Bilgileri" />
+                    <Button FontSize="Subtitle" Text="Sarf Malzemeler" />
+                    <Button
+                        BackgroundColor="{StaticResource Warning}"
+                        Command="{Binding GoToStopCauseListCommand}"
+                        FontSize="Subtitle"
+                        Text="Durdur" />
+                    <Button
+                        BackgroundColor="{StaticResource Danger}"
+                        FontSize="Subtitle"
+                        Text="Bitir" />
+
+                </VerticalStackLayout>
+                <!--  end:: Butonlar  -->
+                <!--  start:: timer and project version  -->
+                <Grid
+                    Grid.Row="2"
+                    RowDefinitions="Auto"
                     VerticalOptions="End">
                     <Label
                         FontSize="Title"
                         HorizontalOptions="Center"
                         Text="{Binding Time, StringFormat='{0:HH:mm:ss}'}"
                         VerticalOptions="End" />
-                    <Label
+                    <!--<Label
+                        Grid.Row="1"
                         FontSize="Small"
                         HorizontalOptions="Center"
                         Text="v1.0.1"
-                        VerticalOptions="End" />
+                        VerticalOptions="End" />-->
 
-                </VerticalStackLayout>
-            </VerticalStackLayout>
+                </Grid>
+                <!--  end:: timer and project version  -->
+            </Grid>
         </Frame>
-
+        <!--  end :: Left Frame  -->
+        <!--  start:: Right Frame  -->
         <Frame Grid.Column="1" Padding="1">
 
             <Grid RowDefinitions="Auto,*,Auto,Auto">
+                <!--  start:: Header  -->
                 <Border
                     Grid.Row="0"
                     Margin="0,-1,0,0"
@@ -116,36 +130,12 @@
                             VerticalOptions="Center" />
                     </Grid>
                 </Border>
-
+                <!--  end:: Header  -->
                 <Grid
                     Grid.Row="1"
                     Padding="20"
                     ColumnDefinitions="*,*"
                     ColumnSpacing="10">
-
-                    <!--<VerticalStackLayout Grid.Column="0" Spacing="5">
-                            <Label
-                                FontSize="20"
-                                Text="İş Emri Bilgileri"
-                                TextColor="{StaticResource Gray400}" />
-                            <Border
-                                Padding="10"
-                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
-                                                                  Light={StaticResource White}}"
-                                MaximumHeightRequest="72"
-                                StrokeShape="RoundRectangle 10">
-                                <VerticalStackLayout>
-                                    <Label
-                                        FontSize="15"
-                                        Text="Operasyon Kodu"
-                                        TextColor="{StaticResource Gray300}" />
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="{Binding ProductionWorkOrderList.OperationCode}" />
-                                </VerticalStackLayout>
-                            </Border>
-                        </VerticalStackLayout>-->
                     <!--  start::İş Emri Bilgileri  -->
                     <TableView Grid.Column="0" Intent="Data">
                         <TableRoot>
@@ -173,77 +163,6 @@
                         </TableRoot>
                     </TableView>
                     <!--  end::Ürün Bilgileri  -->
-                    <!--<VerticalStackLayout Grid.Column="1" Spacing="5">
-                            <Label
-                                FontSize="20"
-                                Text="Ürün Bilgileri"
-                                TextColor="{StaticResource Gray400}" />
-                            <Border
-                                Padding="10"
-                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
-                                                                  Light={StaticResource White}}"
-                                StrokeShape="RoundRectangle 10">
-                                <VerticalStackLayout>
-                                    <Label
-                                        FontSize="15"
-                                        Text="Ürün Kodu"
-                                        TextColor="{StaticResource Gray300}" />
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="{Binding ProductionWorkOrderList.MainProductCode}" />
-                                </VerticalStackLayout>
-                            </Border>
-                            <Border
-                                Padding="10"
-                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
-                                                                  Light={StaticResource White}}"
-                                StrokeShape="RoundRectangle 10">
-                                <VerticalStackLayout>
-                                    <Label
-                                        FontSize="15"
-                                        Text="Ürün Adı"
-                                        TextColor="{StaticResource Gray300}" />
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="16"
-                                        Text="{Binding ProductionWorkOrderList.MainProductName}" />
-                                </VerticalStackLayout>
-                            </Border>
-                            <Border
-                                Padding="10"
-                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
-                                                                  Light={StaticResource White}}"
-                                StrokeShape="RoundRectangle 10">
-                                <VerticalStackLayout>
-                                    <Label
-                                        FontSize="15"
-                                        Text="Ana Birim (unit)"
-                                        TextColor="{StaticResource Gray300}" />
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="{Binding ProductionWorkOrderList.UnitsetCode}" />
-                                </VerticalStackLayout>
-                            </Border>
-                            <Border
-                                Padding="10"
-                                BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray},
-                                                                  Light={StaticResource White}}"
-                                StrokeShape="RoundRectangle 10">
-                                <VerticalStackLayout>
-                                    <Label
-                                        FontSize="15"
-                                        Text="Ana Birim (subunit)"
-                                        TextColor="{StaticResource Gray300}" />
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="{Binding ProductionWorkOrderList.SubUnitsetCode}" />
-                                </VerticalStackLayout>
-                            </Border>
-
-                        </VerticalStackLayout>-->
                 </Grid>
 
                 <VerticalStackLayout
@@ -370,10 +289,11 @@
                         RowSpacing="5">
 
                         <ProgressBar
+                            x:Name="detailProgressBar"
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Progress="0.67"
+                            Progress="{Binding WorkOrder.ActualRate}"
                             ProgressColor="{StaticResource Warning}"
                             ScaleY="5" />
 
@@ -384,22 +304,24 @@
                             HorizontalOptions="Start">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="%" />
-                                    <Span Text="{Binding ActualRate}" />
+                                    <!--<Span Text="%" />-->
+                                    <Span Text="{Binding Quantity}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <Label
+                        <Switch
                             Grid.Row="1"
                             Grid.Column="1"
-                            FontSize="Title"
                             HorizontalOptions="End"
-                            Text="RPM 72" />
+                            IsEnabled="False"
+                            IsToggled="{Binding IsDeviceOpen}"
+                            OnColor="{StaticResource Primary}" />
                     </Grid>
                 </VerticalStackLayout>
             </Grid>
 
         </Frame>
+        <!--  end:: Right Frame  -->
     </Grid>
 
 </ContentPage>

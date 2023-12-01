@@ -10,18 +10,16 @@ using System.Threading.Tasks;
 
 namespace MES.Client.Databases.SQLiteDatabase.Models;
 
-public class WorkOrder
+public class WorkOrderTable
 {
 	#region Fields
-
-	//int id;
-
-	//[PrimaryKey, AutoIncrement]
-	//public int ID { get; set; }
+	[PrimaryKey, AutoIncrement]
+	public int ID { get; set; }
 	public int ReferenceId { get; set; }
-	public DateTime Date { get; set; }
-	public string ProductCode { get; set; }
-	public string WorkStationCode { get; set; }
+	public DateTime Date { get; set; }	
+	public double Quantity { get; set; }
 	public bool IsIntegrated { get; set; }
+	public int SubUnitsetReferenceId { get; set; }
+	public int ProductReferenceId { get; set; }
 	#endregion
 }

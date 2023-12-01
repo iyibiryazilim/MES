@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.HttpClientHelpers;
+using MES.Client.ViewModels.WorkOrderViewModels;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -14,12 +15,16 @@ public partial class StopCauseListViewModel : BaseViewModel
 	IHttpClientService _httpClientService;
 	IStopCauseService _stopCauseService;
 
-	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService)
+	WorkOrderDetailViewModel workOrderDetailViewModel;
+
+	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService, WorkOrderDetailViewModel _workOrderDetailViewModel)
 	{
 		_httpClientService = httpClientService;
 		_stopCauseService = stopCauseService;
+		workOrderDetailViewModel = _workOrderDetailViewModel;
 
 		GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
+		
 	}
 	public Command GetStopCauseListItemsCommand { get; }
 
@@ -37,6 +42,9 @@ public partial class StopCauseListViewModel : BaseViewModel
 		{
 			IsBusy = true;
 			IsRefreshing = true;
+
+			if (StopCauseListItems.Count > 0)
+				StopCauseListItems.Clear();
 
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
 			var result = await _stopCauseService.GetObjects(httpClient);
@@ -101,6 +109,15 @@ public partial class StopCauseListViewModel : BaseViewModel
 	[RelayCommand]
 	async Task StopButtonAsync()
 	{
+		//var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
+		
+		if(workOrderDetailViewModel is not null)
+		{
+			workOrderDetailViewModel.timer.Stop();
+			workOrderDetailViewModel.logoTimer.Stop();
+			//workOrderDetailService.Quantity = 0;
+			workOrderDetailViewModel.StartButtonEnabled = true;
+		}
 		await Shell.Current.GoToAsync("../..");
 	}
 
