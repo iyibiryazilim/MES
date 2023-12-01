@@ -2,29 +2,35 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
+using MES.Administration.Helpers.Mappers;
+using MES.Administration.Helpers.Queries;
+using MES.Administration.Models.ProductModels;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using static Android.Content.ClipData;
 namespace MES.Administration.ViewModels.PanelViewModels;
 
 public partial class ProductPanelViewModel : BaseViewModel
 {
     IHttpClientLBSService _httpClientLBSService;
     IEndProductService _endProduct;
-    public ObservableCollection<EndProduct> Items { get; } = new();
+    ICustomQueryService _customQueryService;
+    public ObservableCollection<EndProductModel> Items { get; } = new();
 
-    public ObservableCollection<EndProduct> Results { get; } = new();
+    public ObservableCollection<EndProductModel> Results { get; } = new();
 
     [ObservableProperty]
     string searchText = string.Empty;
     public Command GetItemsCommand { get; }
-    public ProductPanelViewModel(IHttpClientLBSService httpClientLBSService, IEndProductService endProduct)
+    public ProductPanelViewModel(IHttpClientLBSService httpClientLBSService, IEndProductService endProduct,ICustomQueryService customQueryService)
     {
         Title = "Ürün Genel Bakış";
         _httpClientLBSService = httpClientLBSService;
         _endProduct = endProduct;
+        _customQueryService = customQueryService;
 
         GetItemsCommand = new Command(async () => await GetItemsAsync());
     }
@@ -44,7 +50,7 @@ public partial class ProductPanelViewModel : BaseViewModel
 
             var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
 
-            var result = await _endProduct.GetObjects(httpClient);
+            var result = await _customQueryService.GetObjects(httpClient, new ProductQuery().ProductListQuery());
             if (result.IsSuccess)
             {
 
@@ -53,8 +59,9 @@ public partial class ProductPanelViewModel : BaseViewModel
                     foreach (var item in result.Data)
                     {
                         await Task.Delay(100);
-                        Items.Add(item);
-                        Results.Add(item);
+                        var obj = Mapping.Mapper.Map<EndProductModel>(item);
+                        Items.Add(obj);
+                        Results.Add(obj);
                     }
 
                 }
@@ -77,22 +84,22 @@ public partial class ProductPanelViewModel : BaseViewModel
     [RelayCommand]
     async Task PerformSearchAsync(object text)
     {
-        if(!IsBusy) return;
+        if (!IsBusy) return;
         try
         {
             IsBusy = true;
             if (!string.IsNullOrEmpty(text.ToString()))
             {
                 Results.Clear();
-                foreach (EndProduct item in Items.Where(x=> x.Code.ToLower().Contains(text.ToString().ToLower())))
-                   Results.Add(item);   
+                foreach (EndProductModel item in Items.Where(x => x.Code.ToLower().Contains(text.ToString().ToLower())))
+                    Results.Add(item);
             }
             else
             {
                 Results.Clear();
-                foreach (EndProduct item in Items)
+                foreach (EndProductModel item in Items)
                 {
-                    Results.Add(item);  
+                    Results.Add(item);
 
                 }
             }
