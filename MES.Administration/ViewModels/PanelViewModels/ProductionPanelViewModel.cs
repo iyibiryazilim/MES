@@ -32,8 +32,6 @@ public partial class ProductionPanelViewModel : BaseViewModel
 
        GetItemsCommand = new Command(async () => await GetItemsAsync());
         
-
-
     }
 
     async Task GetItemsAsync()
@@ -179,6 +177,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
             IsBusy = false;   
         }
     }
+
 
 
 

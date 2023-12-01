@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.ViewModels.WorkOrderViewModels;
+using Shared.Entity.DTOs;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -14,25 +15,28 @@ public partial class StopCauseListViewModel : BaseViewModel
 {
 	IHttpClientService _httpClientService;
 	IStopCauseService _stopCauseService;
-
+	IWorkOrderService _workOrderService;
+	
 	WorkOrderDetailViewModel workOrderDetailViewModel;
-
-	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService, WorkOrderDetailViewModel _workOrderDetailViewModel)
-	{
-		_httpClientService = httpClientService;
-		_stopCauseService = stopCauseService;
-		workOrderDetailViewModel = _workOrderDetailViewModel;
-
-		GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
-		
-	}
-	public Command GetStopCauseListItemsCommand { get; }
-
 	public ObservableCollection<StopCause> StopCauseListItems { get; } = new();
 
 	[ObservableProperty]
 	StopCause selectedItem;
 
+	public Command GetStopCauseListItemsCommand { get; }
+	public Command InsertStopTransactionCommand { get; }
+
+	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService, WorkOrderDetailViewModel _workOrderDetailViewModel, IWorkOrderService workOrderService)
+	{
+		_httpClientService = httpClientService;
+		_stopCauseService = stopCauseService;
+		_workOrderService = workOrderService;
+		workOrderDetailViewModel = _workOrderDetailViewModel;
+
+		GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
+		InsertStopTransactionCommand = new Command(async () => await InsertStopTransactionAsync());
+	}
+	
 	async Task GetStopCauseListItemsAsync()
 	{
 		if (IsBusy)
@@ -55,6 +59,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 				{
 					foreach (var item in result.Data)
 					{
+						await Task.Delay(250);
 						StopCauseListItems.Add(item);
 					}
 				}
@@ -72,15 +77,46 @@ public partial class StopCauseListViewModel : BaseViewModel
 		}
 	}
 
-	[RelayCommand]
-	async Task SetSelectedItemAsync(StopCause item)
+	async Task InsertStopTransactionAsync()
 	{
-		if (IsBusy)
-			return;
+		//if (IsBusy)
+		//	return;
 
 		try
 		{
 			IsBusy = true;
+			var httpClient = _httpClientService.GetOrCreateHttpClient();
+			StopTransactionForWorkOrderInsertDto stopTransactionForWorkOrderInsertDto = new()
+			{
+				WorkOrderReferenceId = workOrderDetailViewModel.WorkOrder.ReferenceId,
+				StopCauseReferenceId = SelectedItem.ReferenceId,
+				StopDate = DateTime.Now,
+				StopTime = DateTime.Now.TimeOfDay
+			};
+
+			await _workOrderService.AddStopTransaction(httpClient, stopTransactionForWorkOrderInsertDto);
+		} 
+		catch(Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
+
+	}
+
+	[RelayCommand]
+	async Task SetSelectedItemAsync(StopCause item)
+	{
+		//if (IsBusy)
+		//	return;
+
+		try
+		{
+			//IsBusy = true;
 			IsRefreshing = true;
 
 			if (item == null)
@@ -101,7 +137,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 		}
 		finally
 		{
-			IsBusy = false;
+			//IsBusy = false;
 			IsRefreshing = false;
 		}
 	}
@@ -109,14 +145,12 @@ public partial class StopCauseListViewModel : BaseViewModel
 	[RelayCommand]
 	async Task StopButtonAsync()
 	{
-		//var workOrderDetailService = Application.Current.Handler.MauiContext.Services.GetService(typeof(WorkOrderDetailViewModel)) as WorkOrderDetailViewModel;
 		
 		if(workOrderDetailViewModel is not null)
 		{
-			workOrderDetailViewModel.timer.Stop();
-			workOrderDetailViewModel.logoTimer.Stop();
-			//workOrderDetailService.Quantity = 0;
-			workOrderDetailViewModel.StartButtonEnabled = true;
+			workOrderDetailViewModel.Timer.Stop();
+			workOrderDetailViewModel.LogoTimer.Stop();
+			InsertStopTransactionCommand.Execute(null);
 		}
 		await Shell.Current.GoToAsync("../..");
 	}

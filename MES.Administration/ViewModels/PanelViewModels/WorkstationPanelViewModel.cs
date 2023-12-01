@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
 using MES.Administration.Helpers.Mappers;
@@ -60,6 +60,7 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     foreach (var item in result.Data)
                     {
                         await Task.Delay(100);
+
                         var obj = Mapping.Mapper.Map<WorkstationModel>(item);
                         Items.Add(obj);
                         Results.Add(obj);
@@ -85,6 +86,7 @@ public partial class WorkstationPanelViewModel : BaseViewModel
     [RelayCommand]
     async Task PerformSearchAsync(object text)
     {
+
         if (!IsBusy) return;
 
         try
@@ -94,14 +96,15 @@ public partial class WorkstationPanelViewModel : BaseViewModel
             {
                 Results.Clear();
                 foreach (WorkstationModel item in Items.Where(x => x.Code.ToLower().Contains(text.ToString().ToLower())))
+
                     Results.Add(item);
-
-
             }
             else
             {
                 Results.Clear();
+
                 foreach (WorkstationModel item in Items)
+
                 {
                     Results.Add(item);
 
@@ -119,8 +122,6 @@ public partial class WorkstationPanelViewModel : BaseViewModel
         }
 
     }
-
-
 
 }
 

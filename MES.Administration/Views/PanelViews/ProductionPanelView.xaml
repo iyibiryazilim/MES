@@ -54,6 +54,7 @@
                                      Grid.Column="1"
                                      Aspect="AspectFit"
                                      HeightRequest="22"
+
                                      WidthRequest="22"
                                      Command="{Binding ShowFilterCommand}"
                                      >
@@ -64,6 +65,7 @@
             Dark={StaticResource White}}" />
                             </ImageButton.Source>
                            
+
                         </ImageButton>
                         <ImageButton HorizontalOptions="Start"
                                      Margin="8"

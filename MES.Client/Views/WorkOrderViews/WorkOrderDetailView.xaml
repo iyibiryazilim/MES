@@ -11,6 +11,9 @@
     x:DataType="viewModel:WorkOrderDetailViewModel"
     Shell.NavBarIsVisible="False">
 
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding StartDeviceCommand}" EventName="Loaded" />
+    </ContentPage.Behaviors>
 
     <Grid Padding="10" ColumnDefinitions=".20*,.80*">
 
@@ -27,18 +30,22 @@
                         Aspect="AspectFit"
                         HeightRequest="125"
                         MaximumWidthRequest="250"
-                        Source="takoz.png"
+                        Source="tire.png"
                         WidthRequest="210" />
 
-                    <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
+                    <BoxView HeightRequest="2" Color="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}" />
                     <Label
                         FontAttributes="Bold"
                         HorizontalOptions="Center"
                         Text="{Binding CurrentEmployee}"
                         VerticalOptions="Center" />
                     <Slider
+                        IsEnabled="False"
                         Maximum="250"
+                        MaximumTrackColor="{AppThemeBinding Dark={StaticResource White}}"
                         Minimum="0"
+                        MinimumTrackColor="{AppThemeBinding Dark={StaticResource White}}"
+                        ThumbColor="{AppThemeBinding Dark={StaticResource White}}"
                         Value="{Binding SliderValue}" />
                 </VerticalStackLayout>
                 <!--  end:: Image and Slider  -->
@@ -58,14 +65,14 @@
                             </Trigger>
                         </Button.Triggers>
                     </Button>
-                    <Button
-                        Command="{Binding GetDBCountCommand}"
-                        FontSize="Subtitle"
-                        Text="Malzeme Hareketleri" />
+                    <Button FontSize="Subtitle" Text="Malzeme Hareketleri" />
                     <Button FontSize="Subtitle" Text="Setup" />
-                    <Button FontSize="Subtitle" Text="Duruş Hareketleri" />
-                    <Button FontSize="Subtitle" Text="Kalıp Bilgileri" />
-                    <Button FontSize="Subtitle" Text="Sarf Malzemeler" />
+                    <Button
+                        Command="{Binding GoToStopTransactionListCommand}"
+                        FontSize="Subtitle"
+                        Text="Duruş Hareketleri" />
+                    <Button FontSize="Subtitle" Text="Bileşenler" />
+
                     <Button
                         BackgroundColor="{StaticResource Warning}"
                         Command="{Binding GoToStopCauseListCommand}"
@@ -73,6 +80,7 @@
                         Text="Durdur" />
                     <Button
                         BackgroundColor="{StaticResource Danger}"
+                        Command="{Binding ShutdownWorkOrderCommand}"
                         FontSize="Subtitle"
                         Text="Bitir" />
 
@@ -109,7 +117,8 @@
                     Grid.Row="0"
                     Margin="0,-1,0,0"
                     Padding="20,10,20,10"
-                    Background="{StaticResource Success}"
+                    Background="{AppThemeBinding Light='#50cd89',
+                                                 Dark='#50cd89'}"
                     StrokeShape="RoundRectangle 9,9,0,0"
                     StrokeThickness="1">
 
@@ -126,7 +135,7 @@
                             FontAttributes="Bold"
                             FontSize="40"
                             HorizontalOptions="End"
-                            Text="{Binding Quantity, StringFormat='1000 / {0:N0}'}"
+                            Text="{Binding WorkOrder.ActualQuantity, StringFormat='1000 / {0:N0}'}"
                             VerticalOptions="Center" />
                     </Grid>
                 </Border>
@@ -139,11 +148,23 @@
                     <!--  start::İş Emri Bilgileri  -->
                     <TableView Grid.Column="0" Intent="Data">
                         <TableRoot>
-                            <TableSection Title="İş Emri Bilgileri">
-                                <TextCell Detail="{Binding WorkOrder.OperationCode}" Text="Operasyon Kodu" />
-                                <TextCell Detail="{Binding WorkOrder.OperationName}" Text="Operasyon Adı" />
-                                <TextCell Detail="{Binding WorkOrder.WorkstationCode}" Text="İş İstasyonu Kodu" />
-                                <TextCell Detail="{Binding WorkOrder.WorkstationName}" Text="İş İstasyonu Adı" />
+                            <TableSection Title="İş Emri Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">
+                                <TextCell
+                                    Detail="{Binding WorkOrder.OperationCode}"
+                                    Text="Operasyon Kodu"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.OperationName}"
+                                    Text="Operasyon Adı"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.WorkstationCode}"
+                                    Text="İş İstasyonu Kodu"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.WorkstationName}"
+                                    Text="İş İstasyonu Adı"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                             </TableSection>
                         </TableRoot>
                     </TableView>
@@ -152,13 +173,31 @@
                     <!--  start::Ürün Bilgileri  -->
                     <TableView Grid.Column="1" Intent="Data">
                         <TableRoot>
-                            <TableSection Title="Ürün Bilgileri">
-                                <TextCell Detail="{Binding WorkOrder.ProductCode}" Text="Ürün Kodu" />
-                                <TextCell Detail="{Binding WorkOrder.ProductName}" Text="Ürün Adı" />
-                                <TextCell Detail="{Binding WorkOrder.OperationActualDueDate}" Text="Gerçek Bitiş Tarihi" />
-                                <TextCell Detail="{Binding WorkOrder.OperationDueDate}" Text="Planlanan Bitiş Tarihi" />
-                                <TextCell Detail="{Binding WorkOrder.UnitsetCode}" Text="Ana Birim (unit)" />
-                                <TextCell Detail="{Binding WorkOrder.SubUnitsetCode}" Text="Ana Birim (subunit)" />
+                            <TableSection Title="Ürün Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">
+                                <TextCell
+                                    Detail="{Binding WorkOrder.ProductCode}"
+                                    Text="Ürün Kodu"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.ProductName}"
+                                    Text="Ürün Adı"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.OperationActualDueDate}"
+                                    Text="Gerçek Bitiş Tarihi"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.OperationDueDate}"
+                                    Text="Planlanan Bitiş Tarihi"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.UnitsetCode}"
+                                    Text="Ana Birim (unit)"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
+                                <TextCell
+                                    Detail="{Binding WorkOrder.SubUnitsetCode}"
+                                    Text="Ana Birim (subunit)"
+                                    TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                             </TableSection>
                         </TableRoot>
                     </TableView>
@@ -174,7 +213,8 @@
                     <Label
                         FontSize="Title"
                         Text="OEE Bilgileri"
-                        TextColor="{StaticResource Gray300}" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray300},
+                                                    Dark={StaticResource White}}" />
 
                     <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
 
@@ -281,8 +321,8 @@
                     <Label
                         FontSize="Title"
                         Text="Devir Bilgileri"
-                        TextColor="{StaticResource Gray300}" />
-
+                        TextColor="{AppThemeBinding Light={StaticResource Gray300},
+                                                    Dark={StaticResource White}}" />
                     <Grid
                         ColumnDefinitions="*,*"
                         RowDefinitions="Auto,Auto"
@@ -305,7 +345,7 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <!--<Span Text="%" />-->
-                                    <Span Text="{Binding Quantity}" />
+                                    <Span Text="{Binding WorkOrder.PlanningQuantity}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -315,7 +355,10 @@
                             HorizontalOptions="End"
                             IsEnabled="False"
                             IsToggled="{Binding IsDeviceOpen}"
-                            OnColor="{StaticResource Primary}" />
+                            OnColor="{AppThemeBinding Light={StaticResource Primary},
+                                                      Dark={StaticResource Success}}"
+                            ThumbColor="{AppThemeBinding Light={StaticResource Primary},
+                                                         Dark={StaticResource White}}" />
                     </Grid>
                 </VerticalStackLayout>
             </Grid>

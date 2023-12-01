@@ -63,7 +63,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.11" />
+		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.16" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
@@ -109,7 +109,6 @@
 	  <Folder Include="Helpers\HttpClientHelpers\" />
 	  <Folder Include="Helpers\Mappers\" />
 	  <Folder Include="ViewModels\LoginViewModels\" />
-	  <Folder Include="Views\SharedViews\" />
 	  <Folder Include="Views\LoginViews\" />
 	  <Folder Include="DataStores\" />
 	  <Folder Include="Services\" />
@@ -132,10 +131,16 @@
 	  <MauiXaml Update="Views\PanelViews\MainPanelView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\PopupViews\ShutdownWorkOrderPopupView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\PopupViews\StartWorkOrderPopupView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\StopCauseViews\StopCauseListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\StopTransactionViews\StopTransactionListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\WorkOrderViews\WorkOrderListModalView.xaml">
