@@ -50,7 +50,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
-		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.23" />
+		<PackageReference Include="IyibirYazilim.Shared.Middleware" Version="1.0.26" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
@@ -108,7 +108,6 @@
 	  <Folder Include="Models\BOMModels\" />
 	  <Folder Include="Models\ProductionOrderModels\" />
 	  <Folder Include="Models\WorkOrderModels\" />
-	  <Folder Include="Models\WorkstationModels\" />
 	  <Folder Include="Views\Controls\" />
 	  <Folder Include="Views\PanelViews\" />
 	  <Folder Include="ViewModels\PanelViewModels\" />

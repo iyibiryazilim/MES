@@ -7,6 +7,8 @@
              xmlns:fontAwesome="clr-namespace:MES.Administration.Helpers.FontawesomeHelper"
              x:DataType="viewModel:WorkstationPanelViewModel"
              xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
+             
+             xmlns:listModel="clr-namespace:MES.Administration.Models.WorkstationModels"
              Title="{Binding Title}">
 
     <ContentPage.Behaviors>
@@ -103,7 +105,7 @@
 
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:Workstation">
+                    <DataTemplate x:DataType="listModel:WorkstationModel">
                         <Border  WidthRequest="700"
                                  BackgroundColor="{StaticResource Black}"
                              StrokeShape="RoundRectangle 20">
@@ -132,7 +134,7 @@ Dark={StaticResource Success}}" />
                                        Grid.Column="1"
                                        HorizontalOptions="Start"
                                        VerticalOptions="Center"
-                                       Text="Çalışıyor"
+                                       Text="{Binding StatusName}"
                                        FontAttributes="Bold"
                                        FontSize="20"
                                        
@@ -146,7 +148,7 @@ Dark={StaticResource Success}}" />
                                             <FormattedString>
                                                 <Span Text="Bakıma Kalan Süre : "
                                                   FontSize="16" />
-                                                <Span Text="{Binding Code}"
+                                                <Span Text="0"
                                                   FontSize="18"
                                                   FontAttributes="Bold" />
                                             </FormattedString>
@@ -184,7 +186,7 @@ Dark={StaticResource Success}}" />
                                                                  CornerRadius="100"
                                                                  FontSize="22"
                                                                  FontAttributes="Bold"
-                                                                 Text="%80" />
+                                                                 Text="{Binding OEE}" />
                                                 <Label Text="OEEE"
                                                    HorizontalOptions="Center"
                                                    FontSize="22"
@@ -210,7 +212,7 @@ Dark={StaticResource Success}}" />
                                                                     BackgroundColor="Transparent"
                                                                     BorderColor="{StaticResource Info}"
                                                                     FontAttributes="Bold"
-                                                                    Text="%50" />
+                                                                        Text="{Binding Probability}" />
                                                     <Label Text="Quantity"
                                                        HorizontalOptions="Center"
                                                        FontAttributes="Bold"
@@ -230,7 +232,7 @@ Dark={StaticResource Success}}" />
                                                                     BackgroundColor="Transparent"
                                                                     BorderColor="{StaticResource Primary}"
                                                                     FontAttributes="Bold"
-                                                                    Text="%70" />
+                                                                    Text="{Binding Performance}" />
                                                     <Label Text="Quantity"
                                                        HorizontalOptions="Center"
                                                        FontAttributes="Bold"
@@ -250,7 +252,7 @@ Dark={StaticResource Success}}" />
                                                                     BorderColor="{StaticResource Warning}"
                                                                     BackgroundColor="Transparent"
                                                                     FontAttributes="Bold"
-                                                                    Text="%30" />
+                                                                        Text="{Binding Quality}" />
                                                     <Label Text="Quantity"
                                                        HorizontalOptions="Center"
                                                        FontAttributes="Bold"
@@ -283,8 +285,9 @@ Dark={StaticResource Success}}" />
                                                            FontSize="16" />
                                                         <Label Text="{Binding Code}"
                                                            FontSize="18"
+                                                               TextColor="White"
                                                            FontAttributes="Bold"
-                                                           HorizontalOptions="EndAndExpand" />
+                                                           />
                                                     </StackLayout>
 
                                                     <Label>
@@ -310,17 +313,21 @@ Dark={StaticResource Success}}" />
                                                         </Label.FormattedText>
                                                     </Label>
 
-                                                    <Label>
-                                                        <Label.FormattedText>
-                                                            <FormattedString>
-                                                                <Span Text="Son Bakım Tarihi : "
-                                                                  FontSize="16" />
-                                                                <Span Text="{Binding Code}"
-                                                                  FontSize="18"
-                                                                  FontAttributes="Bold" />
-                                                            </FormattedString>
-                                                        </Label.FormattedText>
-                                                    </Label>
+                                                    <Border StrokeShape="RoundRectangle 6"
+                                                            Stroke="{StaticResource Danger}"
+                                                            StrokeThickness="1" Padding="4" BackgroundColor="Transparent">
+                                                        <Label >
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Son Bakım Tarihi : "
+                                                                          FontSize="16" />
+                                                                    <Span Text="{Binding MaintenanceOn}"
+                                                                          FontSize="18"
+                                                                          FontAttributes="Bold" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </Border>
 
 
 

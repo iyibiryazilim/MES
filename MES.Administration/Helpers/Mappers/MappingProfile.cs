@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AutoMapper;
 using MES.Administration.Models.ProductModels;
 using MES.Administration.Models.WorkstationModels;
@@ -10,10 +10,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<WorkstationListModel, dynamic>();
-        CreateMap<EndProduct,EndProductModel>().ReverseMap();
-        CreateMap<EndProductModel, dynamic>();
 
+        CreateMap<EndProductModel, dynamic>();
+        CreateMap<WorkstationModel, dynamic>();
 
     }
 }

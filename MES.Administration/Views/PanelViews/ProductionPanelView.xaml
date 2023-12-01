@@ -54,13 +54,18 @@
                                      Grid.Column="1"
                                      Aspect="AspectFit"
                                      HeightRequest="22"
-                                     WidthRequest="22">
+
+                                     WidthRequest="22"
+                                     Command="{Binding ShowFilterCommand}"
+                                     >
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="FAS"
                                                  Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
                                                  Color="{AppThemeBinding Light={StaticResource Black},
             Dark={StaticResource White}}" />
                             </ImageButton.Source>
+                           
+
                         </ImageButton>
                         <ImageButton HorizontalOptions="Start"
                                      Margin="8"

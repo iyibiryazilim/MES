@@ -32,8 +32,6 @@ public partial class ProductionPanelViewModel : BaseViewModel
 
        GetItemsCommand = new Command(async () => await GetItemsAsync());
         
-
-
     }
 
     async Task GetItemsAsync()
@@ -54,7 +52,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
             {
                 if (result.Data.Any())
                 {
-                    foreach (var item in result.Data.Take(5))
+                    foreach (var item in result.Data.Take(15))
                     {
 
                         await Task.Delay(100);
@@ -114,6 +112,72 @@ public partial class ProductionPanelViewModel : BaseViewModel
         }
 
     }
+
+    [RelayCommand]
+    public async Task ShowFilterAsync()
+    {
+        if (IsBusy) return;
+        try
+        {
+            IsBusy = true;
+            string response = await Shell.Current.DisplayActionSheet("Filtrele", "Vazgeç", null, "Başlamadı", "Devam Ediyor", "Durduruldu", "Tamamlandı", "Kapandı");
+            switch (response)
+            {
+                case "Başlamadı":
+                    Results.Clear();
+                    foreach (ProductionOrder item in Items.Where(p => p.Status == 0))
+                    {
+                        await Task.Delay(500);
+                        Results.Add(item);
+                    }                   
+                    break;
+                case "Devam Ediyor":
+                    Results.Clear();
+                    foreach (ProductionOrder item in Items.Where(p => p.Status == 1))
+                    {
+                        await Task.Delay(500);
+                        Results.Add(item);
+                    }
+                    break;
+                case "Durduruldu":
+                    Results.Clear();
+                    foreach (ProductionOrder item in Items.Where(p => p.Status == 2))
+                    {
+                        await Task.Delay(500);
+                        Results.Add(item);
+                    }
+                    break;
+                case "Tamamlandı":
+                    Results.Clear();
+                    foreach (ProductionOrder item in Items.Where(p => p.Status == 3))
+                    {
+                        await Task.Delay(500);
+                        Results.Add(item);
+                    }
+                    break;
+                case "Kapandı":
+                    Results.Clear();
+                    foreach (ProductionOrder item in Items.Where(p => p.Status == 4))
+                    {
+                        await Task.Delay(500);
+                        Results.Add(item);
+                    }
+                    break;
+            }
+
+        }
+        catch(Exception ex) 
+        {
+            Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Filter Error :", ex.Message, "Tamam");
+
+        }
+        finally
+        {
+            IsBusy = false;   
+        }
+    }
+
 
 
 

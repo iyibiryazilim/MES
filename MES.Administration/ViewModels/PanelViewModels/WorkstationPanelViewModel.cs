@@ -1,6 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
+using MES.Administration.Helpers.Mappers;
+using MES.Administration.Helpers.Queries;
+using MES.Administration.Models.ProductModels;
+using MES.Administration.Models.WorkstationModels;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -11,21 +15,23 @@ public partial class WorkstationPanelViewModel : BaseViewModel
 {
     IHttpClientLBSService _httpClientLBSService;
     IWorkstationService _workStationservice;
+    ICustomQueryService _customQueryService;
 
-    public ObservableCollection<Workstation> Items { get; } = new();
+    public ObservableCollection<WorkstationModel> Items { get; } = new();
    
     //Searchbar listesi
-    public ObservableCollection<Workstation> Results { get; } = new();
+    public ObservableCollection<WorkstationModel> Results { get; } = new();
 
     [ObservableProperty]
     string searchText = string.Empty;
     public Command GetItemsCommand { get; }
 
-    public WorkstationPanelViewModel(IHttpClientLBSService httpClientLBSService, IWorkstationService workStationservice)
+    public WorkstationPanelViewModel(IHttpClientLBSService httpClientLBSService, IWorkstationService workStationservice, ICustomQueryService customQueryService)
     {
         Title = "İş İstasyonları Genel Bakış";
         _httpClientLBSService = httpClientLBSService;
         _workStationservice = workStationservice;
+        _customQueryService = customQueryService;
 
         GetItemsCommand = new Command(async () => await GetItemsAsync());
     }
@@ -44,7 +50,8 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                 Items.Clear();
 
             var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
-            var result = await _workStationservice.GetObjects(httpClient);
+
+            var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery());
 
             if (result.IsSuccess)
             {
@@ -53,8 +60,10 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     foreach (var item in result.Data)
                     {
                         await Task.Delay(100);
-                        Items.Add(item);
-                        Results.Add(item);
+
+                        var obj = Mapping.Mapper.Map<WorkstationModel>(item);
+                        Items.Add(obj);
+                        Results.Add(obj);
                     }
                 }
             }
@@ -77,7 +86,8 @@ public partial class WorkstationPanelViewModel : BaseViewModel
     [RelayCommand]
     async Task PerformSearchAsync(object text)
     {
-        if (IsBusy) return;
+
+        if (!IsBusy) return;
 
         try
         {
@@ -85,15 +95,16 @@ public partial class WorkstationPanelViewModel : BaseViewModel
             if (!string.IsNullOrEmpty(text.ToString()))
             {
                 Results.Clear();
-                foreach (Workstation item in Items.Where(x => x.Code.ToLower().Contains(text.ToString().ToLower())))
+                foreach (WorkstationModel item in Items.Where(x => x.Code.ToLower().Contains(text.ToString().ToLower())))
+
                     Results.Add(item);
-
-
             }
             else
             {
                 Results.Clear();
-                foreach (Workstation item in Items)
+
+                foreach (WorkstationModel item in Items)
+
                 {
                     Results.Add(item);
 
@@ -111,8 +122,6 @@ public partial class WorkstationPanelViewModel : BaseViewModel
         }
 
     }
-
-
 
 }
 
