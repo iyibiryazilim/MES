@@ -198,14 +198,26 @@
             </CollectionView>
         </Grid>
 
+        <!--#region Loading-->
+        <ActivityIndicator
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            AbsoluteLayout.LayoutBounds="0.5, 1, -1 ,-1"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            HeightRequest="50"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsBusy}"
+            VerticalOptions="Center" />
+        <!--#endregion-->
 
+        <!--#region Durdur Button-->
         <Button
             Grid.Row="3"
             Grid.ColumnSpan="2"
             FontSize="Title"
             Text="Durdur"
             VerticalOptions="End" />
-
+        <!--#endregion-->
     </Grid>
 
 </ContentPage>

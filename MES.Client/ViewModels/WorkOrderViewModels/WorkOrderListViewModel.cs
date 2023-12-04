@@ -73,9 +73,8 @@ public partial class WorkOrderListViewModel : BaseViewModel
 			if (Results.Count > 0)
 				Results.Clear();
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
-			int[] status = new int[] { 0, 3 };
+			int[] status = new int[] { 0, 2, 1, 3, 4 };
 			var result = await _workOrderService.GetByStatus(httpClient, status);
-			
 			if (result.IsSuccess)
 			{
 				if (result.Data.Any())

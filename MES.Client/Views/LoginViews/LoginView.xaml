@@ -53,7 +53,7 @@
                             TextColor="{StaticResource Black}">
                             <Entry.Behaviors>
                                 <toolkit:EventToCommandBehavior
-                                    Command="{Binding AuthenticateCommand}"
+                                    Command="{Binding TextChangedCommand}"
                                     CommandParameter="{Binding Text, Source={x:Reference txtUsername}}"
                                     EventName="Completed" />
                             </Entry.Behaviors>
