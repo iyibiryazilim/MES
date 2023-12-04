@@ -19,7 +19,7 @@ using WorkOrder = Shared.Entity.Models.WorkOrder;
 namespace MES.Client.ViewModels.WorkOrderViewModels;
 
 [QueryProperty(name: nameof(WorkOrder), queryId: nameof(WorkOrder))]
-public partial class WorkOrderDetailViewModel : BaseViewModel
+public partial class WorkOrderDetailViewModel : BaseViewModel//, IDisposable
 {
 	readonly IWorkOrderService _workOrderService;
 	readonly IHttpClientService _httpClientService;
@@ -109,6 +109,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		GetCurrentEmployeeCommand.Execute(null);
 
 		StartButtonEnabled = true;
+		//Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
 	}
 
 	async Task GetCurrentUserAsync()
@@ -150,7 +151,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
 		try
 		{
-			IsBusy = true;
+			//IsBusy = true;
 
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
 			var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
@@ -162,13 +163,12 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 					DeleteFiche = 0,
 					Status = 1
 				};
-				//await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+				await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
 			}
 			else
 			{
 				return;
 			}
-
 		}
 		catch (Exception ex)
 		{
@@ -194,13 +194,13 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			CancellationToken cancellationToken = new();
 
 			await Task.Delay(250);
-			await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.15:32000").WaitAsync(cancellationToken);
+			await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.6:32000").WaitAsync(cancellationToken);
 
 			await Task.Delay(250);
-			await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.15:32000").WaitAsync(cancellationToken);
+			await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.6:32000").WaitAsync(cancellationToken);
 
 			await Task.Delay(250);
-			await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.15:32000").WaitAsync(cancellationToken);
+			await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.6:32000").WaitAsync(cancellationToken);
 
 			await Task.Delay(250);
 			InProgressWorkOrderCommand.Execute(null);
@@ -343,8 +343,8 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			Date = DateTime.Now,
 			Quantity = WorkOrder.ActualQuantity,
 			IsIntegrated = false,
-			SubUnitsetReferenceId = WorkOrder.SubUnitsetReferenceId,
-			ProductReferenceId = WorkOrder.ProductReferenceId
+			SubUnitsetReferenceId = (int)WorkOrder.SubUnitsetReferenceId,
+			ProductReferenceId = (int)WorkOrder.ProductReferenceId
 		};
 		await mesDatabase.InsertWorkOrderAsync(workOrderTable);
 	}
@@ -429,7 +429,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		try
 		{
 			var httpClient = new HttpClient();
-			httpClient.BaseAddress = new Uri("http://192.168.1.15:32000");
+			httpClient.BaseAddress = new Uri("http://192.168.1.6:32000");
 
 			var body = "{\"cmd\": \"getDeviceState\"}";
 			StringContent stringContent = new StringContent(body);
@@ -492,4 +492,11 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 			IsBusy = false;
 		}
 	}
+
+	//public void Dispose()
+	//{
+	//	Timer.Stop();
+	//	LogoTimer.Stop();
+	//	GC.SuppressFinalize(this);
+	//}
 }

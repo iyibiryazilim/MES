@@ -25,6 +25,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 
 	public Command GetStopCauseListItemsCommand { get; }
 	public Command InsertStopTransactionCommand { get; }
+	public Command ChangeWorkOrderStatusToStoppedCommand { get; }	
 
 	public StopCauseListViewModel(IHttpClientService httpClientService, IStopCauseService stopCauseService, WorkOrderDetailViewModel _workOrderDetailViewModel, IWorkOrderService workOrderService)
 	{
@@ -35,6 +36,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 
 		GetStopCauseListItemsCommand = new Command(async () => await GetStopCauseListItemsAsync());
 		InsertStopTransactionCommand = new Command(async () => await InsertStopTransactionAsync());
+		ChangeWorkOrderStatusToStoppedCommand = new Command(async () => await ChangeWorkOrderStatusToStoppedAsync());
 	}
 	
 	async Task GetStopCauseListItemsAsync()
@@ -108,6 +110,43 @@ public partial class StopCauseListViewModel : BaseViewModel
 
 	}
 
+	async Task ChangeWorkOrderStatusToStoppedAsync()
+	{
+		//if (IsBusy)
+		//	return;
+
+		try
+		{
+			IsBusy = true;
+
+			var httpClient = _httpClientService.GetOrCreateHttpClient();
+			var result = await _workOrderService.GetObjectById(httpClient, workOrderDetailViewModel.WorkOrder.ReferenceId);
+			if (result.Data.Status != 2)
+			{
+				WorkOrderChangeStatusInsertDto workOrderChangeStatusInsertDto = new()
+				{
+					Status = 2,
+					DeleteFiche = 0,
+					FicheNo = result.Data.Code,
+				};
+				await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+			}
+			else
+			{
+				return;
+			}
+
+		}
+		catch (Exception ex)
+		{
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
+	}
+
 	[RelayCommand]
 	async Task SetSelectedItemAsync(StopCause item)
 	{
@@ -151,6 +190,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 			workOrderDetailViewModel.Timer.Stop();
 			workOrderDetailViewModel.LogoTimer.Stop();
 			InsertStopTransactionCommand.Execute(null);
+			ChangeWorkOrderStatusToStoppedCommand.Execute(null);
 		}
 		await Shell.Current.GoToAsync("../..");
 	}

@@ -132,11 +132,17 @@
                             VerticalOptions="Center" />
                         <Label
                             Grid.Column="1"
-                            FontAttributes="Bold"
                             FontSize="40"
                             HorizontalOptions="End"
-                            Text="{Binding WorkOrder.ActualQuantity, StringFormat='1000 / {0:N0}'}"
-                            VerticalOptions="Center" />
+                            VerticalOptions="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontAttributes="Bold" Text="{Binding WorkOrder.PlanningQuantity}" />
+                                    <Span FontAttributes="Bold" Text=" / " />
+                                    <Span FontAttributes="Bold" Text="{Binding WorkOrder.ActualQuantity}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                     </Grid>
                 </Border>
                 <!--  end:: Header  -->

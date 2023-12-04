@@ -78,7 +78,6 @@ public partial class LoginViewModel : BaseViewModel
 		try
 		{
 			await Task.Delay(500);
-			//Application.Current.MainPage = new AppShell();
 			Application.Current.MainPage = new AppShell();
 		}
 		catch (Exception ex)

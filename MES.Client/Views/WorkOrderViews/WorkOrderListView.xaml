@@ -167,31 +167,53 @@
                                     <Border
                                         Padding="10,8"
                                         HorizontalOptions="Start"
-                                        Stroke="#50cd89"
+                                        Stroke="{StaticResource White}"
                                         StrokeShape="RoundRectangle 10">
-                                        <Border.Triggers>
-                                            <DataTrigger
-                                                Binding="{Binding StatusName}"
-                                                TargetType="Border"
-                                                Value="Kapandı">
-                                                <Setter Property="Stroke" Value="{StaticResource Danger}" />
-                                            </DataTrigger>
-                                        </Border.Triggers>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding StatusName}"
+                                                        TargetType="Border"
+                                                        Value="Başlamadı">
+                                                        <Setter Property="Stroke" Value="{StaticResource Primary2}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding StatusName}"
+                                                        TargetType="Border"
+                                                        Value="Durduruldu">
+                                                        <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
                                         <HorizontalStackLayout Spacing="5">
                                             <Border
-                                                BackgroundColor="{StaticResource Success}"
+                                                BackgroundColor="{StaticResource White}"
                                                 HeightRequest="10"
                                                 StrokeShape="RoundRectangle 50"
                                                 StrokeThickness="0"
                                                 WidthRequest="10">
-                                                <Border.Triggers>
-                                                    <DataTrigger
-                                                        Binding="{Binding StatusName}"
-                                                        TargetType="Border"
-                                                        Value="Kapandı">
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource Danger}" />
-                                                    </DataTrigger>
-                                                </Border.Triggers>
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Style.Triggers>
+                                                            <DataTrigger
+                                                                Binding="{Binding StatusName}"
+                                                                TargetType="Border"
+                                                                Value="Başlamadı">
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource Primary2}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger
+                                                                Binding="{Binding StatusName}"
+                                                                TargetType="Border"
+                                                                Value="Durduruldu">
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+
+                                                </Border.Style>
                                             </Border>
                                             <Label Text="{Binding StatusName}" />
                                         </HorizontalStackLayout>
@@ -205,10 +227,15 @@
                                         Stroke="{AppThemeBinding Dark={StaticResource White},
                                                                  Light={StaticResource Black}}"
                                         StrokeShape="RoundRectangle 10">
-                                        <Label
-                                            FontSize="Title"
-                                            HorizontalOptions="Center"
-                                            Text="{Binding PlanningQuantity, StringFormat='1000 / {0:N0}'}" />
+                                        <Label FontSize="Title" HorizontalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding PlanningQuantity}" />
+                                                    <Span Text=" / " />
+                                                    <Span Text="{Binding ActualQuantity}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                     </Border>
                                     <ProgressBar
                                         Progress="{Binding ActualRate}"
@@ -352,10 +379,6 @@
                                             <TextCell
                                                 Detail="{Binding SubUnitsetCode}"
                                                 Text="SubUnitset Kodu:"
-                                                TextColor="{AppThemeBinding Dark={StaticResource White}}" />
-                                            <TextCell
-                                                Detail="?"
-                                                Text="SubUnitset Adı:"
                                                 TextColor="{AppThemeBinding Dark={StaticResource White}}" />
                                         </TableSection>
                                         <TableSection Title="İş İstasyonu Bilgileri" TextColor="{AppThemeBinding Dark={StaticResource Primary2}, Light={StaticResource Primary}}">

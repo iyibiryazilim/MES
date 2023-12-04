@@ -53,7 +53,6 @@ public class MESDatabase
 	public async Task<int> DeleteAllItemAsync()
 	{
 		await Init();
-		//return await Database.DeleteAllAsync(item);
 		return await Database.DeleteAllAsync<Models.WorkOrderTable>();
 
 	}

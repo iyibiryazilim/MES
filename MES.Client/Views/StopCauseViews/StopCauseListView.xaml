@@ -17,10 +17,7 @@
         Padding="50,30,50,50"
         RowDefinitions="Auto, *, Auto"
         RowSpacing="15">
-        <Grid
-            Grid.Row="0"
-            ColumnDefinitions="Auto, *"
-            IsVisible="{Binding IsNotBusy}">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *">
             <!--  start::BackButton  -->
             <Image
                 Grid.Column="0"
@@ -101,10 +98,7 @@
         </Grid>
 
 
-        <Grid
-            Grid.Row="2"
-            IsVisible="{Binding IsNotBusy}"
-            VerticalOptions="End">
+        <Grid Grid.Row="2" VerticalOptions="End">
             <Button
                 Grid.Row="2"
                 BackgroundColor="{StaticResource Danger}"
