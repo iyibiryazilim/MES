@@ -5,6 +5,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:fontAwesome="clr-namespace:MES.Administration.Helpers.FontawesomeHelper"
              xmlns:viewModel="clr-namespace:MES.Administration.ViewModels.PanelViewModels"
+             xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
              Title="{Binding Title}">
 
 
@@ -94,9 +95,18 @@
 
         </Grid>
 
-        <VerticalStackLayout Grid.Row="1">
+        <Grid  Grid.Row="1" ColumnDefinitions="*,*" Padding="10" >
+            <VerticalStackLayout >
+                <cal:Calendar SelectedDayBackgroundColor="{StaticResource Black}"
+                              DeselectedDayTextColor="{StaticResource Black}"
+                              MonthLabelColor="{DynamicResource Black}"
+                              YearLabelColor="{DynamicResource Black}"
+                              SelectedDateColor="{StaticResource Black}"
+                              TodayOutlineColor="{StaticResource BlackSolid}"
+                              />
 
         </VerticalStackLayout>
+        </Grid>
 
     </Grid>
 </ContentPage>

@@ -7,7 +7,6 @@
              xmlns:fontAwesome="clr-namespace:MES.Administration.Helpers.FontawesomeHelper"
              x:DataType="viewModel:WorkstationPanelViewModel"
              xmlns:model="clr-namespace:Shared.Entity.Models;assembly=Shared.Entity"
-             
              xmlns:listModel="clr-namespace:MES.Administration.Models.WorkstationModels"
              Title="{Binding Title}">
 
@@ -17,23 +16,23 @@
     </ContentPage.Behaviors>
     <Grid>
         <Grid RowDefinitions="Auto,Auto,*"
-          RowSpacing="18"
-          Padding="30">
+              RowSpacing="18"
+              Padding="30">
             <Grid.Background>
 
                 <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
+                                     EndPoint="1,1">
 
 
                     <GradientStop Color="#8c9948"
-                              Offset="0.02" />
+                                  Offset="0.02" />
                     <GradientStop Color="#656f3b"
-                              Offset="0.10" />
+                                  Offset="0.10" />
 
                     <GradientStop Color="#31362a"
-                              Offset="0.65" />
+                                  Offset="0.65" />
                     <GradientStop Color="#31362a"
-                              Offset="0.95" />
+                                  Offset="0.95" />
 
 
                 </LinearGradientBrush>
@@ -42,15 +41,16 @@
 
             </Grid.Background>
             <Label Grid.Row="0"
-               Text="{Binding Title}"
-               FontSize="20"
-               FontAttributes="Bold"
-               HorizontalOptions="Start"
-               Padding="-2" />
+                   Text="{Binding Title}"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Start"
+                   Padding="-2" />
             <Grid Grid.Row="1">
-                <Border StrokeShape="RoundRectangle 10" BackgroundColor="{StaticResource Black}">
+                <Border StrokeShape="RoundRectangle 10"
+                        BackgroundColor="{StaticResource Black}">
                     <Grid  ColumnDefinitions="*,Auto,Auto"
-                       ColumnSpacing="10">
+                           ColumnSpacing="10">
                         <SearchBar Grid.Column="0"
                                    BackgroundColor="Transparent"
                                    x:Name="searchBar">
@@ -59,29 +59,31 @@
                                                                 CommandParameter="{Binding Text , Source={x:Reference searchBar}}"
                                                                 EventName="TextChanged" />
                             </SearchBar.Behaviors>
-                           </SearchBar>
+                        </SearchBar>
                         <ImageButton BackgroundColor="Transparent"
-                                 Grid.Column="1"
-                                 Aspect="AspectFit"
-                                 HeightRequest="22"
-                                 WidthRequest="22">
+                                     Grid.Column="1"
+                                     Aspect="AspectFit"
+                                     HeightRequest="22"
+                                     WidthRequest="22"
+                                     Command="{Binding ShowFilterCommand}">
+
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="FAS"
-                                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
-                                             Color="{AppThemeBinding Light={StaticResource Black},
+                                                 Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
+                                                 Color="{AppThemeBinding Light={StaticResource Black},
                  Dark={StaticResource White}}" />
                             </ImageButton.Source>
                         </ImageButton>
                         <ImageButton HorizontalOptions="Start"
-                                 Margin="8"
-                                 Grid.Column="2"
-                                 Aspect="AspectFit"
-                                 HeightRequest="22"
-                                 WidthRequest="22">
+                                     Margin="8"
+                                     Grid.Column="2"
+                                     Aspect="AspectFit"
+                                     HeightRequest="22"
+                                     WidthRequest="22">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="FAS"
-                                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
-                                             Color="{AppThemeBinding Light={StaticResource Black},
+                                                 Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDownWideShort}"
+                                                 Color="{AppThemeBinding Light={StaticResource Black},
      Dark={StaticResource White}}" />
                             </ImageButton.Source>
                         </ImageButton>
@@ -94,12 +96,14 @@
 
             </Grid>
             <CollectionView ItemsSource="{Binding Results}"
-                        Grid.Row="2"
-                        VerticalOptions="End"
-                        Margin="0,0,0,60">
+                            Grid.Row="2"
+                            RemainingItemsThreshold="6"
+                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                            VerticalOptions="End"
+                            Margin="0,0,0,60">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal"
-                                   ItemSpacing="30">
+                                       ItemSpacing="30">
 
                     </LinearItemsLayout>
 
@@ -108,49 +112,110 @@
                     <DataTemplate x:DataType="listModel:WorkstationModel">
                         <Border  WidthRequest="700"
                                  BackgroundColor="{StaticResource Black}"
-                             StrokeShape="RoundRectangle 20">
+                                 StrokeShape="RoundRectangle 20">
                             <Grid RowDefinitions="Auto,Auto,*"
-                              Padding="5">
+                                  Padding="5">
                                 <Grid Grid.Row="0"
-                                  ColumnDefinitions="Auto,*,Auto"
-                                  ColumnSpacing="10"
-                                  Padding="10">
-                                    <ImageButton Grid.Row="0"
-                                             Grid.Column="0"
-                                             HorizontalOptions="Center"
-                                             VerticalOptions="Center"
-                                             Aspect="AspectFit"
-                                             HeightRequest="18"
-                                             WidthRequest="18">
-                                        <ImageButton.Source>
-                                            <FontImageSource FontFamily="FAS"
-                                                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.CircleDot}"
-                                                         Color="{AppThemeBinding Light={StaticResource Success},
-Dark={StaticResource Success}}" />
-                                        </ImageButton.Source>
-                                    </ImageButton>
+                                      ColumnDefinitions="Auto,*,Auto"
+                                      ColumnSpacing="10"
+                                      Padding="10">
+                                    <Border Grid.Row="0"
+                                                 Grid.Column="0"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"
+                                                 StrokeShape="RoundRectangle 20"
+                                                 HeightRequest="16"
+                                                 WidthRequest="16">
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Başlamadı">
+                                                <Setter Property="BackgroundColor"
+                                                        Value="{StaticResource Primary2}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Devam Ediyor">
+                                                <Setter Property="BackgroundColor"
+                                                        Value="{StaticResource Warning}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Durduruldu">
+                                                <Setter Property="BackgroundColor"
+                                                        Value="{StaticResource Primary}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Tamamlandı">
+                                                <Setter Property="BackgroundColor"
+                                                        Value="{StaticResource Success}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Kapandı">
+                                                <Setter Property="BackgroundColor"
+                                                        Value="{StaticResource Danger}" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                       
+                                    </Border>
+                                  
 
                                     <Label Grid.Row="0"
-                                       Grid.Column="1"
-                                       HorizontalOptions="Start"
-                                       VerticalOptions="Center"
-                                       Text="{Binding StatusName}"
-                                       FontAttributes="Bold"
-                                       FontSize="20"
-                                       
-                                       TextColor="{DynamicResource Success}" />
+                                           Grid.Column="1"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"
+                                           Text="{Binding StatusName}"
+                                           FontAttributes="Bold"
+                                           FontSize="20"
+                                           TextColor="{DynamicResource Black}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Başlamadı">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource Primary2}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Devam Ediyor">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource Warning}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Durduruldu">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource Primary}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Tamamlandı">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource Success}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding StatusName}"
+                                                         Value="Kapandı">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource Danger}" />
+                                            </DataTrigger>
+
+                                        </Label.Triggers>
+                                    </Label>
 
                                     <Label  Grid.Row="0"
-                                        Grid.Column="2"
-                                        VerticalOptions="Center"
-                                        HorizontalTextAlignment="End">
+                                            Grid.Column="2"
+                                            VerticalOptions="Center"
+                                            HorizontalTextAlignment="End">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Bakıma Kalan Süre : "
-                                                  FontSize="16" />
+                                                      FontSize="16" />
                                                 <Span Text="0"
-                                                  FontSize="18"
-                                                  FontAttributes="Bold" />
+                                                      FontSize="18"
+                                                      FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -158,105 +223,104 @@ Dark={StaticResource Success}}" />
                                 </Grid>
                                 <Grid Grid.Row="1">
                                     <BoxView Grid.Row="1"
-                                         WidthRequest="800"
-                                         HeightRequest="2"
-                                         HorizontalOptions="Start"
-                                         Margin="0,0,0,10"
-                                         >
+                                             WidthRequest="800"
+                                             HeightRequest="2"
+                                             HorizontalOptions="Start"
+                                             Margin="0,0,0,10" Color="{StaticResource BlackSolid}">
                                     </BoxView>
                                 </Grid>
                                 <Grid Grid.Row="2"
-                                  ColumnDefinitions=".50*,.50*">
+                                      ColumnDefinitions=".50*,.50*">
                                     <Grid Grid.Row="2"
-                                      Grid.Column="0">
+                                          Grid.Column="0">
                                         <Grid RowDefinitions=".40*,.60*"
-                                          ColumnDefinitions="*,Auto"
-                                          RowSpacing="-15">
+                                              ColumnDefinitions="*,Auto"
+                                              RowSpacing="-15">
 
                                             <VerticalStackLayout  VerticalOptions="End"
-                                                              HorizontalOptions="Center"
-                                                              Margin="0,-30">
+                                                                  HorizontalOptions="Center"
+                                                                  Margin="0,-30">
 
                                                 <toolkit:AvatarView  Grid.Row="0"
-                                                                 BorderWidth="4"
-                                                                 WidthRequest="90"
-                                                                 HeightRequest="90"
-                                                                 BackgroundColor="Transparent"
-                                                                 BorderColor="{StaticResource Danger}"
-                                                                 CornerRadius="100"
-                                                                 FontSize="22"
-                                                                 FontAttributes="Bold"
-                                                                 Text="{Binding OEE}" />
+                                                                     BorderWidth="4"
+                                                                     WidthRequest="90"
+                                                                     HeightRequest="90"
+                                                                     BackgroundColor="Transparent"
+                                                                     BorderColor="{StaticResource Danger}"
+                                                                     CornerRadius="100"
+                                                                     FontSize="22"
+                                                                     FontAttributes="Bold"
+                                                                     Text="{Binding OEE}" />
                                                 <Label Text="OEEE"
-                                                   HorizontalOptions="Center"
-                                                   FontSize="22"
-                                                   FontAttributes="Bold"
-                                                   TextColor="{StaticResource Gray400}" />
+                                                       HorizontalOptions="Center"
+                                                       FontSize="22"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Gray400}" />
 
                                             </VerticalStackLayout>
 
 
                                             <Grid Grid.Row="1"
-                                              ColumnDefinitions="*,*,*"
-                                              RowDefinitions="*,*,*"
-                                              ColumnSpacing="-60">
+                                                  ColumnDefinitions="*,*,*"
+                                                  RowDefinitions="*,*,*"
+                                                  ColumnSpacing="-60">
                                                 <VerticalStackLayout Grid.Row="1"
-                                                                 Grid.Column="0">
+                                                                     Grid.Column="0">
                                                     <toolkit:AvatarView Grid.Row="1"
-                                                                    Grid.Column="0"
-                                                                    BorderWidth="3"
-                                                                    WidthRequest="75"
-                                                                    HeightRequest="75"
-                                                                    CornerRadius="100"
-                                                                    FontSize="18"
-                                                                    BackgroundColor="Transparent"
-                                                                    BorderColor="{StaticResource Info}"
-                                                                    FontAttributes="Bold"
+                                                                        Grid.Column="0"
+                                                                        BorderWidth="3"
+                                                                        WidthRequest="75"
+                                                                        HeightRequest="75"
+                                                                        CornerRadius="100"
+                                                                        FontSize="18"
+                                                                        BackgroundColor="Transparent"
+                                                                        BorderColor="{StaticResource Info}"
+                                                                        FontAttributes="Bold"
                                                                         Text="{Binding Probability}" />
                                                     <Label Text="Quantity"
-                                                       HorizontalOptions="Center"
-                                                       FontAttributes="Bold"
-                                                       TextColor="{StaticResource Gray400}" />
+                                                           HorizontalOptions="Center"
+                                                           FontAttributes="Bold"
+                                                           TextColor="{StaticResource Gray400}" />
 
                                                 </VerticalStackLayout>
                                                 <VerticalStackLayout Grid.Row="1"
-                                                                 Grid.Column="1">
+                                                                     Grid.Column="1">
 
                                                     <toolkit:AvatarView Grid.Row="1"
-                                                                    Grid.Column="1"
-                                                                    BorderWidth="3"
-                                                                    WidthRequest="75"
-                                                                    HeightRequest="75"
-                                                                    CornerRadius="100"
-                                                                    FontSize="18"
-                                                                    BackgroundColor="Transparent"
-                                                                    BorderColor="{StaticResource Primary}"
-                                                                    FontAttributes="Bold"
-                                                                    Text="{Binding Performance}" />
+                                                                        Grid.Column="1"
+                                                                        BorderWidth="3"
+                                                                        WidthRequest="75"
+                                                                        HeightRequest="75"
+                                                                        CornerRadius="100"
+                                                                        FontSize="18"
+                                                                        BackgroundColor="Transparent"
+                                                                        BorderColor="{StaticResource Primary}"
+                                                                        FontAttributes="Bold"
+                                                                        Text="{Binding Performance}" />
                                                     <Label Text="Quantity"
-                                                       HorizontalOptions="Center"
-                                                       FontAttributes="Bold"
-                                                       TextColor="{StaticResource Gray400}" />
+                                                           HorizontalOptions="Center"
+                                                           FontAttributes="Bold"
+                                                           TextColor="{StaticResource Gray400}" />
 
                                                 </VerticalStackLayout>
 
                                                 <VerticalStackLayout Grid.Row="1"
-                                                                 Grid.Column="2">
+                                                                     Grid.Column="2">
                                                     <toolkit:AvatarView Grid.Row="1"
-                                                                    Grid.Column="2"
-                                                                    BorderWidth="3"
-                                                                    WidthRequest="75"
-                                                                    HeightRequest="75"
-                                                                    CornerRadius="100"
-                                                                    FontSize="18"
-                                                                    BorderColor="{StaticResource Warning}"
-                                                                    BackgroundColor="Transparent"
-                                                                    FontAttributes="Bold"
+                                                                        Grid.Column="2"
+                                                                        BorderWidth="3"
+                                                                        WidthRequest="75"
+                                                                        HeightRequest="75"
+                                                                        CornerRadius="100"
+                                                                        FontSize="18"
+                                                                        BorderColor="{StaticResource Warning}"
+                                                                        BackgroundColor="Transparent"
+                                                                        FontAttributes="Bold"
                                                                         Text="{Binding Quality}" />
                                                     <Label Text="Quantity"
-                                                       HorizontalOptions="Center"
-                                                       FontAttributes="Bold"
-                                                       TextColor="{StaticResource Gray400}" />
+                                                           HorizontalOptions="Center"
+                                                           FontAttributes="Bold"
+                                                           TextColor="{StaticResource Gray400}" />
 
                                                 </VerticalStackLayout>
 
@@ -273,31 +337,30 @@ Dark={StaticResource Success}}" />
 
                                     </Grid>
                                     <Grid Grid.Row="1"
-                                      Grid.Column="1"
-                                      Padding="15">
+                                          Grid.Column="1"
+                                          Padding="15">
                                         <Grid RowDefinitions="Auto,Auto"
-                                          RowSpacing="40">
+                                              RowSpacing="40">
                                             <Grid Grid.Row="0">
                                                 <VerticalStackLayout Spacing="19"
-                                                                 Grid.Row="1">
+                                                                     Grid.Row="1">
                                                     <StackLayout Orientation="Horizontal">
                                                         <Label Text="Kodu : "
-                                                           FontSize="16" />
+                                                               FontSize="16" />
                                                         <Label Text="{Binding Code}"
-                                                           FontSize="18"
+                                                               FontSize="18"
                                                                TextColor="White"
-                                                           FontAttributes="Bold"
-                                                           />
+                                                               FontAttributes="Bold" />
                                                     </StackLayout>
 
                                                     <Label>
                                                         <Label.FormattedText>
                                                             <FormattedString>
                                                                 <Span Text="Adı : "
-                                                                  FontSize="16" />
+                                                                      FontSize="16" />
                                                                 <Span Text="{Binding Name}"
-                                                                  FontSize="18"
-                                                                  FontAttributes="Bold" />
+                                                                      FontSize="18"
+                                                                      FontAttributes="Bold" />
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>
@@ -305,18 +368,20 @@ Dark={StaticResource Success}}" />
                                                         <Label.FormattedText>
                                                             <FormattedString>
                                                                 <Span Text="Grubu : "
-                                                                  FontSize="16" />
+                                                                      FontSize="16" />
                                                                 <Span Text="{Binding Code}"
-                                                                  FontSize="18"
-                                                                  FontAttributes="Bold" />
+                                                                      FontSize="18"
+                                                                      FontAttributes="Bold" />
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>
 
                                                     <Border StrokeShape="RoundRectangle 6"
                                                             Stroke="{StaticResource Danger}"
-                                                            StrokeThickness="1" Padding="4" BackgroundColor="Transparent">
-                                                        <Label >
+                                                            StrokeThickness="1"
+                                                            Padding="4"
+                                                            BackgroundColor="Transparent">
+                                                        <Label>
                                                             <Label.FormattedText>
                                                                 <FormattedString>
                                                                     <Span Text="Son Bakım Tarihi : "
@@ -336,7 +401,7 @@ Dark={StaticResource Success}}" />
 
                                             </Grid>
                                             <Grid Grid.Row="1"
-                                              VerticalOptions="End">
+                                                  VerticalOptions="End">
                                                 <Button Text="Daha Fazla"></Button>
 
 
@@ -369,7 +434,8 @@ Dark={StaticResource Success}}" />
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
                      Opacity="0.6">
-            <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Warning}" />
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               Color="{StaticResource Warning}" />
             <Label Text="Yükleniyor..."
                    TextColor="{StaticResource Warning}"
                    HorizontalOptions="Center" />

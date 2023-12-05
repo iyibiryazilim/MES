@@ -52,7 +52,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
             {
                 if (result.Data.Any())
                 {
-                    foreach (var item in result.Data.Take(15))
+                    foreach (var item in result.Data.Take(30))
                     {
 
                         await Task.Delay(100);
@@ -121,6 +121,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
         {
             IsBusy = true;
             string response = await Shell.Current.DisplayActionSheet("Filtrele", "Vazgeç", null, "Başlamadı", "Devam Ediyor", "Durduruldu", "Tamamlandı", "Kapandı");
+            bool hasResults = false;
             switch (response)
             {
                 case "Başlamadı":
@@ -129,6 +130,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(500);
                         Results.Add(item);
+                        hasResults = true;
                     }                   
                     break;
                 case "Devam Ediyor":
@@ -137,6 +139,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(500);
                         Results.Add(item);
+                        hasResults = true;
                     }
                     break;
                 case "Durduruldu":
@@ -145,6 +148,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(500);
                         Results.Add(item);
+                        hasResults = true;
                     }
                     break;
                 case "Tamamlandı":
@@ -153,6 +157,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(500);
                         Results.Add(item);
+                        hasResults = true;
                     }
                     break;
                 case "Kapandı":
@@ -161,8 +166,17 @@ public partial class ProductionPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(500);
                         Results.Add(item);
+                        hasResults = true;
                     }
                     break;
+                default:
+                    //geçerli durum yoksa
+                    hasResults = false;
+                    break;
+            }
+            if (!hasResults)
+            {
+                await Application.Current.MainPage.DisplayAlert("Bilgi", "Seçilen duruma uygun veri bulunamadı.", "Tamam");
             }
 
         }

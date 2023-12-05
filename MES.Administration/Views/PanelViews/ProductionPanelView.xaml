@@ -54,17 +54,14 @@
                                      Grid.Column="1"
                                      Aspect="AspectFit"
                                      HeightRequest="22"
-
                                      WidthRequest="22"
-                                     Command="{Binding ShowFilterCommand}"
-                                     >
+                                     Command="{Binding ShowFilterCommand}">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="FAS"
                                                  Glyph="{x:Static fontAwesome:FontAwesomeIcons.Filter}"
                                                  Color="{AppThemeBinding Light={StaticResource Black},
             Dark={StaticResource White}}" />
                             </ImageButton.Source>
-                           
 
                         </ImageButton>
                         <ImageButton HorizontalOptions="Start"
@@ -96,10 +93,38 @@ Dark={StaticResource White}}" />
                                  VerticalOptions="Start"
                                  StrokeShape="RoundRectangle 20">
                             <Grid ColumnDefinitions=".35*,.65*">
-                                <Grid Grid.Column="0">
-                                    <Image  Source="takoz1.png"
-                                            HeightRequest="300"
-                                            Aspect="AspectFit" />
+                                <Grid Grid.Column="0"
+                                      RowDefinitions="Auto,*">
+                                    <Grid Grid.Row="0">
+                                        <HorizontalStackLayout Grid.Row="0"
+                                                               Spacing="10"
+                                                               Padding="8">
+                                           
+                                            <Border BackgroundColor="Transparent"
+                                                   >
+                                                <StackLayout Orientation="Horizontal"
+                                                             Spacing="3"
+                                                             Padding="5">
+                                                    <BoxView Color="{StaticResource Success}"
+                                                             WidthRequest="12"
+                                                             HeightRequest="12"
+                                                             CornerRadius="8" />
+                                                    <Label Padding="5"
+                                                           HorizontalOptions="Start"
+                                                           VerticalOptions="Start"
+                                                           Text="Tamamlandı"
+                                                           FontAttributes="Bold"
+                                                           FontSize="18"
+                                                           TextColor="{DynamicResource Success}" />
+                                                </StackLayout>
+                                            </Border>
+                                        </HorizontalStackLayout>
+
+                                    </Grid>
+                                    <Image Grid.Row="1"
+                                           Source="takoz1.png"
+                                           HeightRequest="300"
+                                           Aspect="AspectFit" />
                                 </Grid>
 
                                 <VerticalStackLayout  Grid.Column="1"
@@ -155,40 +180,36 @@ Dark={StaticResource White}}" />
                                     </VerticalStackLayout>
 
                                 </VerticalStackLayout>
-                                <VerticalStackLayout Grid.Column="1" Padding="20" VerticalOptions="Center">
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Padding="20"
+                                                     VerticalOptions="Center">
                                     <VerticalStackLayout Spacing="10">
-                                        
+
                                         <Grid ColumnDefinitions="*,*"
                                               ColumnSpacing="5">
-                                            
-                                                <Border Grid.Column="0"
-                                                       
-                                                        StrokeShape="RoundRectangle 20"
-                                                        Padding="10">
-                                                    <VerticalStackLayout Spacing="10">
-                                                        <Label 
-                                                               Text="Oluşturulan Miktar" />
-                                                        <BoxView 
-                                                                 WidthRequest="800"
-                                                                 HeightRequest="0.7"
-                                                                 HorizontalOptions="Start"
-                                                                 Color="{StaticResource Primary2}">
-                                                        </BoxView>
-                                                        <Label 
-                                                               Text="{Binding PlannedAmount}" />
-                                                        <Label 
-                                                               Text="Hedef Tarih" />
-                                                        <BoxView Grid.Row="4"
-                                                                 WidthRequest="100"
-                                                                 HeightRequest="0.7"
-                                                                 HorizontalOptions="Start"
-                                                                 Color="{StaticResource Primary2}">
-                                                        </BoxView>
-                                                        <Label
-                                                               Text="{Binding PlannedBeginDate,StringFormat='{0:c}'}" />
-                                                    </VerticalStackLayout>
 
-                                                </Border>
+                                            <Border Grid.Column="0"
+                                                    StrokeShape="RoundRectangle 20"
+                                                    Padding="10">
+                                                <VerticalStackLayout Spacing="10">
+                                                    <Label Text="Oluşturulan Miktar" />
+                                                    <BoxView WidthRequest="800"
+                                                             HeightRequest="0.7"
+                                                             HorizontalOptions="Start"
+                                                             Color="{StaticResource Primary2}">
+                                                    </BoxView>
+                                                    <Label Text="{Binding PlannedAmount}" />
+                                                    <Label Text="Hedef Tarih" />
+                                                    <BoxView Grid.Row="4"
+                                                             WidthRequest="100"
+                                                             HeightRequest="0.7"
+                                                             HorizontalOptions="Start"
+                                                             Color="{StaticResource Primary2}">
+                                                    </BoxView>
+                                                    <Label Text="{Binding PlannedBeginDate,StringFormat='{0:c}'}" />
+                                                </VerticalStackLayout>
+
+                                            </Border>
 
                                             <Border Grid.Column="1"
                                                     StrokeShape="RoundRectangle 20"
@@ -200,7 +221,7 @@ Dark={StaticResource White}}" />
                                                              HorizontalOptions="Start"
                                                              Color="{StaticResource Danger}">
                                                     </BoxView>
-                                                    <Label Text="{Binding ActualAmount}"  />
+                                                    <Label Text="{Binding ActualAmount}" />
                                                     <Label Text="Hedef Tarih" />
                                                     <BoxView Grid.Row="4"
                                                              WidthRequest="100"
@@ -214,11 +235,12 @@ Dark={StaticResource White}}" />
                                             </Border>
                                         </Grid>
                                     </VerticalStackLayout>
-                          </VerticalStackLayout>
-                                <VerticalStackLayout  Grid.Column="1" VerticalOptions="End" Padding="20">
+                                </VerticalStackLayout>
+                                <VerticalStackLayout  Grid.Column="1"
+                                                      VerticalOptions="End"
+                                                      Padding="20">
 
-                                    <ProgressBar ScaleY="2.65"
-                                                 
+                                    <ProgressBar ScaleY="3"
                                                  Progress="{Binding ActualRate}"
                                                  ProgressColor="{StaticResource Warning}" />
 
@@ -241,21 +263,20 @@ Dark={StaticResource White}}" />
                            HorizontalOptions="Center"
                            SelectedIndicatorColor="{StaticResource Warning}" />
 
-
-            <!--<StackLayout IsVisible="{Binding IsBusy}"
-              Padding="12"
-              AbsoluteLayout.LayoutFlags="PositionProportional"
-              AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
-              HorizontalOptions="Center"
-              VerticalOptions="Center"
-              Opacity="0.6">
-     <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Warning}" />
-     <Label Text="Yükleniyor..."
-            TextColor="{StaticResource Warning}"
-            HorizontalOptions="Center" />
- </StackLayout>-->
-
         </Grid>
+        <StackLayout IsVisible="{Binding IsBusy}"
+                     Padding="12"
+                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                     AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"
+                     Opacity="0.6">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               Color="{StaticResource Warning}" />
+            <Label Text="Yükleniyor..."
+                   TextColor="{StaticResource Warning}"
+                   HorizontalOptions="Center" />
+        </StackLayout>
     </Grid>
 
 
