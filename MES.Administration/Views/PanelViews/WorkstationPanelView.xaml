@@ -97,6 +97,8 @@
             </Grid>
             <CollectionView ItemsSource="{Binding Results}"
                             Grid.Row="2"
+                            RemainingItemsThreshold="6"
+                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
                             VerticalOptions="End"
                             Margin="0,0,0,60">
                 <CollectionView.ItemsLayout>
@@ -224,7 +226,7 @@
                                              WidthRequest="800"
                                              HeightRequest="2"
                                              HorizontalOptions="Start"
-                                             Margin="0,0,0,10">
+                                             Margin="0,0,0,10" Color="{StaticResource BlackSolid}">
                                     </BoxView>
                                 </Grid>
                                 <Grid Grid.Row="2"

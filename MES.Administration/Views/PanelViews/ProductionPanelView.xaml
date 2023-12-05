@@ -97,31 +97,29 @@ Dark={StaticResource White}}" />
                                       RowDefinitions="Auto,*">
                                     <Grid Grid.Row="0">
                                         <HorizontalStackLayout Grid.Row="0"
-                                                               Spacing="5"
-                                                               Padding="8-">
-                                            <ImageButton Grid.Row="0"
-                                                         HorizontalOptions="Start"
-                                                         VerticalOptions="Center"
-                                                         Aspect="AspectFit"
-                                                         HeightRequest="13"
-                                                         WidthRequest="13">
-                                                <ImageButton.Source>
-                                                    <FontImageSource FontFamily="FAS"
-                                                                     Glyph="{x:Static fontAwesome:FontAwesomeIcons.CircleDot}"
-                                                                     Color="{AppThemeBinding Light={StaticResource Success},
-Dark={StaticResource Success}}" />
-                                                </ImageButton.Source>
-                                            </ImageButton>
-                                            <Label Grid.Row="0"
-                                                   Padding="5"
-                                                   HorizontalOptions="Start"
-                                                   VerticalOptions="Start"
-                                                   Text="Tamamlandı"
-                                                   FontAttributes="Bold"
-                                                   FontSize="20"
-                                                   TextColor="{DynamicResource Success}" />
-
+                                                               Spacing="10"
+                                                               Padding="8">
+                                           
+                                            <Border BackgroundColor="Transparent"
+                                                   >
+                                                <StackLayout Orientation="Horizontal"
+                                                             Spacing="3"
+                                                             Padding="5">
+                                                    <BoxView Color="{StaticResource Success}"
+                                                             WidthRequest="12"
+                                                             HeightRequest="12"
+                                                             CornerRadius="8" />
+                                                    <Label Padding="5"
+                                                           HorizontalOptions="Start"
+                                                           VerticalOptions="Start"
+                                                           Text="Tamamlandı"
+                                                           FontAttributes="Bold"
+                                                           FontSize="18"
+                                                           TextColor="{DynamicResource Success}" />
+                                                </StackLayout>
+                                            </Border>
                                         </HorizontalStackLayout>
+
                                     </Grid>
                                     <Image Grid.Row="1"
                                            Source="takoz1.png"

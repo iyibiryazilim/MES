@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Kotlin.Properties;
 using MES.Administration.Helpers.HttpClientHelpers.HttpClientLBS;
 using MES.Administration.Helpers.Mappers;
 using MES.Administration.Helpers.Queries;
@@ -19,13 +20,22 @@ public partial class WorkstationPanelViewModel : BaseViewModel
     IWorkstationService _workStationservice;
     ICustomQueryService _customQueryService;
 
-    public ObservableCollection<WorkstationModel> Items { get; } = new();
    
     //Searchbar listesi
     public ObservableCollection<WorkstationModel> Results { get; } = new();
 
     [ObservableProperty]
     string searchText = string.Empty;
+
+    [ObservableProperty]
+    int currentIndex = 0;
+
+    [ObservableProperty]
+    int pageSize = 10;
+
+    [ObservableProperty]
+    string status = StatusTypes.WithoutStatus;
+
     public Command GetItemsCommand { get; }
 
     public WorkstationPanelViewModel(IHttpClientLBSService httpClientLBSService, IWorkstationService workStationservice, ICustomQueryService customQueryService)
@@ -48,15 +58,13 @@ public partial class WorkstationPanelViewModel : BaseViewModel
         {
             IsBusy = true;
 
-            if (Items.Count > 0)
-                Items.Clear();
             if (Results.Count > 0)
                 Results.Clear();
 
-
+            CurrentIndex = Results.Count;
             var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
 
-            var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery());
+            var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex,PageSize,SearchText,Status));
 
             if (result.IsSuccess)
             {
@@ -66,7 +74,6 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     {
                         await Task.Delay(100);
                         var obj = Mapping.Mapper.Map<WorkstationModel>(item);
-                        Items.Add(obj);
                         Results.Add(obj);
                     }
                 }
@@ -88,43 +95,123 @@ public partial class WorkstationPanelViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task PerformSearchAsync(object text)
+    async Task LoadMoreAsync()
     {
-        if (!IsBusy) return;
+        if (IsBusy)
+            return;
+
 
         try
         {
             IsBusy = true;
-            if (!string.IsNullOrEmpty(text.ToString()))
-            {
-                Results.Clear();
-                foreach (WorkstationModel item in Items.Where(x => x.Code.ToLower().Contains(text.ToString().ToLower())))
-                    Results.Add(item);
 
+            if (Results.Count >= PageSize)
+            {
+                CurrentIndex=Results.Count;
+                var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
+
+                var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize,SearchText, Status));
+
+                if (result.IsSuccess)
+                {
+                    if (result.Data.Any())
+                    {
+                        foreach (var item in result.Data)
+                        {
+                            await Task.Delay(100);
+                            var obj = Mapping.Mapper.Map<WorkstationModel>(item);
+                            Results.Add(obj);
+                        }
+                    }
+                }
+            }
+         
+
+        }
+        catch (Exception ex)
+        {
+
+            Debug.WriteLine(ex.Message);
+            await Application.Current.MainPage.DisplayAlert("Workstation Load Error :", ex.Message, "Tamam");
+        }
+
+        finally
+        {
+            IsBusy = false;
+
+        }
+
+    }
+
+    [RelayCommand]
+    public async Task PerformSearch(string text)
+    {
+        if (IsBusy)
+            return;
+        try
+        {
+            IsBusy = true;
+            if (!string.IsNullOrEmpty(text))
+            {
+                if (text.Length >= 3)
+                {
+                    SearchText = text;
+                    Results.Clear();
+                    CurrentIndex = Results.Count;
+
+                    var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
+
+                    var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize, SearchText,Status));
+
+                    if (result.IsSuccess)
+                    {
+                        if (result.Data.Any())
+                        {
+                            foreach (var item in result.Data)
+                            {
+                                await Task.Delay(100);
+                                var obj = Mapping.Mapper.Map<WorkstationModel>(item);
+                                Results.Add(obj);
+                            }
+                        }
+                    }
+                }
 
             }
             else
             {
+                SearchText = string.Empty;
                 Results.Clear();
-                foreach (WorkstationModel item in Items)
-                {
-                    Results.Add(item);
+                CurrentIndex = Results.Count;
+                var httpClient = _httpClientLBSService.GetOrCreateHttpClient();
 
+                var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize, SearchText,Status));
+
+                if (result.IsSuccess)
+                {
+                    if (result.Data.Any())
+                    {
+                        foreach (var item in result.Data)
+                        {
+                            await Task.Delay(100);
+                            var obj = Mapping.Mapper.Map<WorkstationModel>(item);
+                            Results.Add(obj);
+                        }
+                    }
                 }
+
             }
+
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
-            await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
         }
         finally
         {
             IsBusy = false;
         }
-
     }
-
     [RelayCommand]
     public async Task ShowFilterAsync()
     {
@@ -143,7 +230,9 @@ public partial class WorkstationPanelViewModel : BaseViewModel
             {
                 case "Başlamadı":
                     Results.Clear();
-                    var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationFilterQuery(0));
+                    CurrentIndex = Results.Count;
+                    Status = StatusTypes.baslamadı;
+                    var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex,PageSize,SearchText, Status));
                     foreach (var item in result.Data)
                     {
                         await Task.Delay(500);
@@ -154,7 +243,10 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     break;
                 case "Devam Ediyor":
                     Results.Clear();
-                    var result1 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationFilterQuery(1));
+                    CurrentIndex = Results.Count;
+                    Status = StatusTypes.devam;
+
+                    var result1 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize, SearchText, Status));
                     foreach (var item in result1.Data)
                     {
                         await Task.Delay(500);
@@ -165,7 +257,10 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     break;
                 case "Durduruldu":
                     Results.Clear();
-                    var result2 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationFilterQuery(2));
+                    CurrentIndex = Results.Count;
+                    Status = StatusTypes.durduruldu;
+
+                    var result2 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize, SearchText, Status));
                     foreach (var item in result2.Data)
                     {
                         await Task.Delay(500);
@@ -176,7 +271,10 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     break;
                 case "Tamamlandı":
                     Results.Clear();
-                    var result3 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationFilterQuery(3));
+                    CurrentIndex = Results.Count;
+                    Status = StatusTypes.tamamlandı;
+
+                    var result3 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize, SearchText, Status));
                     foreach (var item in result3.Data)
                     {
                         await Task.Delay(500);
@@ -187,7 +285,10 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     break;
                 case "Kapandı":
                     Results.Clear();
-                    var result4 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationFilterQuery(4));
+                    CurrentIndex = Results.Count;
+                    Status = StatusTypes.kapandı;
+
+                    var result4 = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize, SearchText, Status));
                     foreach (var item in result4.Data)
                     {
                         await Task.Delay(500);
