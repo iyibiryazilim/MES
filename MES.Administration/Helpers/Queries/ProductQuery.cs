@@ -6,8 +6,8 @@ public class ProductQuery
 {
     public string ProductListQuery()
     {
-        string query = $@"
-SELECT 
+        string query = $@"SELECT 
+
 [ReferenceId]=ITEMS.LOGICALREF,
 [Code] =ITEMS.CODE,
 [Name]=ITEMS.NAME,
@@ -35,7 +35,5 @@ LEFT JOIN LG_008_UNITSETF AS [UNITSETF] WITH (NOLOCK) ON ITEMS.UNITSETREF=UNITSE
 LEFT JOIN LG_008_UNITSETL AS [UNITSETL] WITH (NOLOCK) ON UNITSETF.LOGICALREF=UNITSETL.UNITSETREF AND UNITSETL.MAINUNIT=1";
             return query;
     }
-
-    
 
 }

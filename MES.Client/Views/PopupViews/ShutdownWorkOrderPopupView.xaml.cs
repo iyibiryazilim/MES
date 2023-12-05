@@ -3,22 +3,15 @@ using MES.Client.ViewModels.WorkOrderViewModels;
 
 namespace MES.Client.Views.PopupViews;
 
-public partial class StartWorkOrderPopupView : Popup
+public partial class ShutdownWorkOrderPopupView : Popup
 {
-	WorkOrderListViewModel _viewModel;
-	public StartWorkOrderPopupView(WorkOrderListViewModel viewModel)
+	WorkOrderDetailViewModel viewModel;
+	public ShutdownWorkOrderPopupView(WorkOrderDetailViewModel _viewModel)
 	{
 		InitializeComponent();
-		BindingContext = _viewModel = viewModel;
+		BindingContext = viewModel = _viewModel;
 	}
-
-	public StartWorkOrderPopupView()
-	{
-	}
-
 	async void OnYesButtonClicked(object sender, EventArgs e) => await CloseAsync(true);
 
 	async void OnNoButtonClicked(object sender, EventArgs e) => await CloseAsync(false);
-
-
 }

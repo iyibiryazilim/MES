@@ -1,4 +1,4 @@
-﻿
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kotlin.Properties;
@@ -73,6 +73,7 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                     foreach (var item in result.Data)
                     {
                         await Task.Delay(100);
+
                         var obj = Mapping.Mapper.Map<WorkstationModel>(item);
                         Results.Add(obj);
                     }
@@ -188,6 +189,7 @@ public partial class WorkstationPanelViewModel : BaseViewModel
                 var result = await _customQueryService.GetObjects(httpClient, new WorkstationQuery().WorkstationListQuery(CurrentIndex, PageSize, SearchText,Status));
 
                 if (result.IsSuccess)
+
                 {
                     if (result.Data.Any())
                     {
@@ -206,6 +208,7 @@ public partial class WorkstationPanelViewModel : BaseViewModel
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
+            await Application.Current.MainPage.DisplayAlert("Search Error :", ex.Message, "Tamam");
         }
         finally
         {

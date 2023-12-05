@@ -1,16 +1,18 @@
-﻿using AndroidX.Annotations;
+﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MES.Client.Databases.SQLiteDatabase;
 using MES.Client.Databases.SQLiteDatabase.Models;
+using MES.Client.Helpers;
+using MES.Client.Helpers.DeviceHelper;
 using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.Helpers.MESAPIHelper;
+using MES.Client.Views.PopupViews;
 using MES.Client.Views.StopCauseViews;
-using Microcharts;
+using MES.Client.Views.StopTransactionViews;
 using Newtonsoft.Json;
 using Shared.Entity.DTOs;
 using Shared.Middleware.Services;
-using SkiaSharp;
 using System.Diagnostics;
 using WorkOrder = Shared.Entity.Models.WorkOrder;
 
@@ -19,36 +21,28 @@ namespace MES.Client.ViewModels.WorkOrderViewModels;
 [QueryProperty(name: nameof(WorkOrder), queryId: nameof(WorkOrder))]
 public partial class WorkOrderDetailViewModel : BaseViewModel
 {
-	//StopCauseListViewModel _stopCauseListViewModel;
-	public IDispatcherTimer timer;
-	public IDispatcherTimer logoTimer;
-	IWorkOrderService _workOrderService;
-	IHttpClientService _httpClientService;
+	readonly IWorkOrderService _workOrderService;
+	readonly IHttpClientService _httpClientService;
+	DeviceCommandHelper deviceCommandHelper;
+	readonly MESDatabase mesDatabase;
 
-	private readonly MESDatabase mesDatabase;
-	private WorkOrderListViewModel workOrderListViewModel;
+	[ObservableProperty]
+	IDispatcherTimer timer;
+
+	[ObservableProperty]
+	IDispatcherTimer logoTimer;
 
 	[ObservableProperty]
 	WorkOrder workOrder;
 
 	[ObservableProperty]
-	public double quantity;
-
-	[ObservableProperty]
-	double objCount;
-
-	[ObservableProperty]
-	double actualRateChange;
-
-	[ObservableProperty]
-	bool startButtonEnabled = true;
+	bool startButtonEnabled;
 
 	[ObservableProperty]
 	DateTime time;
 
 	[ObservableProperty]
 	string deviceOpenCloseState;
-	//public Command GetDeviceStateCommand { get; }
 
 	[ObservableProperty]
 	bool isDeviceOpen;
@@ -58,22 +52,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 
 	[ObservableProperty]
 	string currentEmployee;
-	public Command GetCurrentEmployeeCommand { get; }
-
-	public WorkOrderDetailViewModel(MESDatabase mesDB, IWorkOrderService workOrderService, IHttpClientService httpClientService, WorkOrderListViewModel _workOrderListViewModel)
-	{
-		Title = "İş Emri Detay Sayfası";
-		_workOrderService = workOrderService;
-		_httpClientService = httpClientService;
-		//GetDeviceStateCommand = new Command(async () => await GetDeviceStateAsync());
-		mesDatabase = mesDB;
-		
-
-		MainThread.BeginInvokeOnMainThread(async () =>
-		{
-			 await GetCurrentEmployeeAsync();
-		});
-	}
 
 	public bool IsDeviceOpenStateChanged
 	{
@@ -105,234 +83,265 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		}
 	}
 
-	public double QuantityChanged
+	public Command InProgressWorkOrderCommand { get; }
+	public Command StartDeviceCommand { get; }
+	public Command GoToStopCauseListCommand { get; }
+	public Command GoToStopTransactionListCommand { get; }
+	public Command GoToBackCommand { get; }
+	public Command GetCurrentEmployeeCommand { get; }
+	public Command ShutdownWorkOrderCommand { get; }
+
+	public WorkOrderDetailViewModel(MESDatabase mesDB, IWorkOrderService workOrderService, IHttpClientService httpClientService, DeviceCommandHelper _deviceCommandHelper)
 	{
-		get { return Quantity; }
-		set
+		Title = "İş Emri Detay Sayfası";
+		_workOrderService = workOrderService;
+		_httpClientService = httpClientService;
+		deviceCommandHelper = _deviceCommandHelper;
+		mesDatabase = mesDB;
+
+		StartDeviceCommand = new Command(async () => await StartDeviceAsync());
+		InProgressWorkOrderCommand = new Command(async () => await InProgressWorkOrderAsync());
+		GoToStopCauseListCommand = new Command(async () => await GoToStopCauseListAsync());
+		GoToStopTransactionListCommand = new Command(async () => await GoToStopTransactionListAsync());
+		GoToBackCommand = new Command(async () => await GoToBackAsync());
+		ShutdownWorkOrderCommand = new Command(async () => await ShutdownWorkOrderAsync());
+		GetCurrentEmployeeCommand = new Command(async () => await GetCurrentUserAsync());
+		GetCurrentEmployeeCommand.Execute(null);
+
+		StartButtonEnabled = true;
+	}
+
+	async Task GetCurrentUserAsync()
+	{
+		if (IsBusy)
+			return;
+
+		try
 		{
-			Quantity = value;
-			OnPropertyChanged();
+			IsBusy = true;
+			IsRefreshing = true;
+
+			var result = await new CurrentUserHelper().GetCurrentEmployeeAsync();
+			if (result is not null)
+			{
+				CurrentEmployee = result ?? String.Empty;
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Shell.Current.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
 		}
 	}
 
-	public double ActualRate
+	/// <summary>
+	/// When WorkOrderDetail page is opened, this method change the status of related work order to 1 (InProgress)
+	/// </summary>
+	/// <returns></returns>
+	async Task InProgressWorkOrderAsync()
 	{
-		//get
-		//{
-		//	if (WorkOrder is null)
-		//	{
-		//		return 0;
-		//	}
-		//	else
-		//	{
-		//		if (WorkOrder. == 0)
-		//		{
-		//			return 0;
-		//		}
-		//		else
-		//		{
-		//			return ((double)WorkOrder.ActualQuantity / (double)WorkOrder.Quantity) * 100;
-		//		}
-		//	}
-		//}
-		get { return 0; }
-		set
+		//if (IsBusy)
+		//	return;
+
+		try
 		{
-			ActualRateChange = value;
-			OnPropertyChanged();
+			IsBusy = true;
+
+			var httpClient = _httpClientService.GetOrCreateHttpClient();
+			var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
+			if (result.Data.Status != 1)
+			{
+				WorkOrderChangeStatusInsertDto workOrderChangeStatusInsertDto = new()
+				{
+					FicheNo = result.Data.Code,
+					DeleteFiche = 0,
+					Status = 1
+				};
+				//await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+			}
+			else
+			{
+				return;
+			}
+
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"InProgress Work Order Error :{ex.Message}");
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
 		}
 	}
 
-	//[RelayCommand]
-	//public async Task StopTimer()
-	//{
-	//	await Task.Run(() =>  { timer.Stop(); })
-	//}
 
-	public Chart OEE => GetOEE();
-	public Chart Availability => GetAvailability();
-	public Chart Productivity => GetProductivity();
-	public Chart Quality => GetQuality();
-
-	public Chart GetOEE()
+	async Task StartDeviceAsync()
 	{
-		return new HalfRadialGaugeChart()
-		{
-			Entries = GetOEEEntries(),
-			StartAngle = 20,
-			BackgroundColor = SKColors.Transparent,
-		};
+		if (IsBusy)
+			return;
 
+		try
+		{
+			IsBusy = true;
+
+			CancellationToken cancellationToken = new();
+
+			await Task.Delay(250);
+			await deviceCommandHelper.SendCommandAsync("connectDevice", "http://192.168.1.15:32000").WaitAsync(cancellationToken);
+
+			await Task.Delay(250);
+			await deviceCommandHelper.SendCommandAsync("initDevice", "http://192.168.1.15:32000").WaitAsync(cancellationToken);
+
+			await Task.Delay(250);
+			await deviceCommandHelper.SendCommandAsync("startDevice", "http://192.168.1.15:32000").WaitAsync(cancellationToken);
+
+			await Task.Delay(250);
+			InProgressWorkOrderCommand.Execute(null);
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"Device Start Error :{ex.Message}");
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
 
 	}
-	public Chart GetAvailability()
-	{
-		return new HalfRadialGaugeChart()
-		{
-			Entries = GetAvaibilityEntries(),
-
-			BackgroundColor = SKColors.Transparent,
-		};
-	}
-	public Chart GetProductivity()
-	{
-		return new RadialGaugeChart()
-		{
-			Entries = GetProductivityEntries(),
-			MaxValue = 100,
-			MinValue = 10,
-
-			BackgroundColor = SKColors.Transparent,
-		};
-	}
-	public Chart GetQuality()
-	{
-		return new HalfRadialGaugeChart()
-		{
-			Entries = GetQualityEntries(),
-
-			BackgroundColor = SKColors.Transparent,
-		};
-	}
-
-	private List<ChartEntry> GetOEEEntries()
-	{
-		List<ChartEntry> entries = new List<ChartEntry>();
-
-		entries.Add(new ChartEntry(80)
-		{
-			ValueLabel = "80",
-			TextColor = SKColor.Parse("434343"),
-			Label = "OEE",
-			Color = SKColors.Blue
-		});
-
-		return entries;
-	}
-
-	private List<ChartEntry> GetAvaibilityEntries()
-	{
-		List<ChartEntry> entries = new List<ChartEntry>();
-
-		entries.Add(new ChartEntry(100)
-		{
-			ValueLabel = "ValueLabel",
-			TextColor = SKColor.Parse("434343"),
-			Label = "Label",
-			Color = SKColors.Blue
-		});
-
-		entries.Add(new ChartEntry(200)
-		{
-			ValueLabel = "ValueLabel",
-			TextColor = SKColor.Parse("434343"),
-			Label = "Label",
-			Color = SKColors.Yellow
-		});
-
-		return entries;
-	}
-
-	private List<ChartEntry> GetProductivityEntries()
-	{
-		List<ChartEntry> entries = new List<ChartEntry>();
-
-		entries.Add(new ChartEntry(100)
-		{
-			ValueLabel = "%42",
-			TextColor = SKColor.Parse("009ef7"),
-			Label = "OEE",
-			Color = SKColor.Parse("009ef7")
-		});
-
-		entries.Add(new ChartEntry(200)
-		{
-			ValueLabel = "%65",
-			TextColor = SKColor.Parse("FFC700"),
-			Label = "Productivity",
-			Color = SKColor.Parse("FFC700")
-		});
-
-		entries.Add(new ChartEntry(150)
-		{
-			ValueLabel = "%73",
-			TextColor = SKColor.Parse("F1416C"),
-			Label = "Avaibility",
-			Color = SKColor.Parse("F1416C"),
-		});
-
-		entries.Add(new ChartEntry(30)
-		{
-			ValueLabel = "%30",
-			TextColor = SKColor.Parse("2B0B98"),
-			Label = "Quality",
-			Color = SKColor.Parse("2B0B98")
-		});
-
-		return entries;
-	}
-
-	private List<ChartEntry> GetQualityEntries()
-	{
-		List<ChartEntry> entries = new List<ChartEntry>();
-
-		entries.Add(new ChartEntry(100)
-		{
-			ValueLabel = "ValueLabel",
-			TextColor = SKColor.Parse("434343"),
-			Label = "Label",
-			Color = SKColors.Blue
-		});
-
-		entries.Add(new ChartEntry(200)
-		{
-			ValueLabel = "ValueLabel",
-			TextColor = SKColor.Parse("434343"),
-			Label = "Label",
-			Color = SKColors.Yellow
-		});
-
-		return entries;
-	}
-
-	[RelayCommand]
-	async Task GetDBCountAsync()
-	{
-		var count = await mesDatabase.GetItemsAsync();
-		ObjCount = count.Count;
-	}
-
-	[RelayCommand]
 	async Task GoToStopCauseListAsync()
 	{
-		await Shell.Current.GoToAsync($"{nameof(StopCauseListView)}");
+		if (IsBusy)
+			return;
+
+		try
+		{
+			IsBusy = true;
+
+			await Shell.Current.GoToAsync($"{nameof(StopCauseListView)}");
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
+	}
+
+	async Task GoToStopTransactionListAsync()
+	{
+		if (IsBusy)
+			return;
+
+		try
+		{
+			IsBusy = true;
+
+			await Shell.Current.GoToAsync($"{nameof(StopTransactionListView)}");
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
 	}
 
 	[RelayCommand]
 	public async Task StartWorkOrderAsync()
 	{
-		//await GetDeviceStateAsync();
 		await Task.Run(() =>
 		{
-			timer = Application.Current.Dispatcher.CreateTimer();
-			logoTimer = Application.Current.Dispatcher.CreateTimer();
-			timer.Interval = TimeSpan.FromSeconds(1);
-			logoTimer.Interval = TimeSpan.FromSeconds(60);
-			timer.Tick += (s, e) => DoSomething();
-			logoTimer.Tick += async (s,e) => await InsertWorkOrderTableToLogoAsync();
-			timer.Start();
-			logoTimer.Start();
+			Timer = Application.Current.Dispatcher.CreateTimer();
+			LogoTimer = Application.Current.Dispatcher.CreateTimer();
+			Timer.Interval = TimeSpan.FromSeconds(1);
+			LogoTimer.Interval = TimeSpan.FromSeconds(60);
+			Timer.Tick += (s, e) => DoSomething();
+			LogoTimer.Tick += LogoTimer_Tick;
+			Timer.Start();
+			LogoTimer.Start();
 		});
 	}
 
-	// Insert WorkOrderTable to SQLite (local db)
+
+	async Task ShutdownWorkOrderAsync()
+	{
+		if (IsBusy)
+			return;
+
+		try
+		{
+			IsBusy = true;
+			IsRefreshing = true;
+
+			var popup = new ShutdownWorkOrderPopupView(this);
+			var popupResult = await Shell.Current.ShowPopupAsync(popup);
+
+			if (popupResult is bool boolResult)
+			{
+				if (boolResult)
+				{
+					var httpClient = _httpClientService.GetOrCreateHttpClient();
+					var result = await _workOrderService.GetObjectById(httpClient, WorkOrder.ReferenceId);
+					if (result.Data.Status != 4)
+					{
+						WorkOrderChangeStatusInsertDto workOrderChangeStatusInsertDto = new()
+						{
+							FicheNo = result.Data.Code,
+							DeleteFiche = 0,
+							Status = 4
+						};
+						await _workOrderService.ChangeStatus(httpClient, workOrderChangeStatusInsertDto);
+						await Task.Delay(250);
+						await Shell.Current.GoToAsync("..");
+					}
+					else
+					{
+						return;
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+		}
+		finally
+		{
+			IsBusy = false;
+			IsRefreshing = false;
+		}
+	}
+
+	private async void LogoTimer_Tick(object sender, EventArgs e)
+	{
+		await InsertWorkOrderTableToLogoAsync();
+	}
+
+	/// <summary>
+	/// Insert WorkOrderTable to SQLite Database
+	/// </summary>
+	/// <returns></returns>
 	public async Task InsertWorkOrderTableAsync()
 	{
 		WorkOrderTable workOrderTable = new()
 		{
 			ReferenceId = WorkOrder.ReferenceId,
 			Date = DateTime.Now,
-			Quantity = Quantity,
+			Quantity = WorkOrder.ActualQuantity,
 			IsIntegrated = false,
 			SubUnitsetReferenceId = WorkOrder.SubUnitsetReferenceId,
 			ProductReferenceId = WorkOrder.ProductReferenceId
@@ -340,12 +349,15 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		await mesDatabase.InsertWorkOrderAsync(workOrderTable);
 	}
 
-	// Insert not integrated items to Logo
+	/// <summary>
+	/// Insert not integrated items to Logo
+	/// </summary>
+	/// <returns></returns>
 	public async Task InsertWorkOrderTableToLogoAsync()
 	{
-		List<WorkOrderDto> results = new List<WorkOrderDto>();
+		WorkOrderInsertDto results = new();
 		var items = await mesDatabase.GetItemsNotIntegratedAsync();
-		
+
 		if (items is not null)
 		{
 			if (items.Any())
@@ -360,9 +372,10 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 					workOrderDto.IsIncludeSideProduct = false;
 					workOrderDto.ProductReferenceId = item.ProductReferenceId;
 					workOrderDto.SubUnitsetReferenceId = item.SubUnitsetReferenceId;
-					results.Add(workOrderDto);
+					results.WorkOrders.Add(workOrderDto);
 				}
 				var operationResult = await _workOrderService.InsertAsync(httpClient, results);
+
 				if (operationResult.IsSuccess)
 				{
 					foreach (var item in items)
@@ -376,31 +389,38 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		return;
 	}
 
+	/// <summary>
+	///  Delete all items from WorkOrderTable
+	/// </summary>
+	/// <returns></returns>
 	public async Task DeleteAllItemsAsync()
 	{
 		await mesDatabase.DeleteAllItemAsync();
 	}
 
-	//public void DoInsertLogo()
-	//{
-	//	MainThread.BeginInvokeOnMainThread(async () =>
-	//	{
-	//		await GetDeviceStateAsync();
-	//		await InsertWorkOrderTableAsync();
-	//	});
-	//}
-
-	public void DoSomething()
+	public async void DoSomething()
 	{
+		if (IsBusy)
+			return;
 
-		StartButtonEnabled = false;
-		MainThread.BeginInvokeOnMainThread(async () =>
+		try
 		{
+			IsBusy = true;
+
+			StartButtonEnabled = false;
 			await GetDeviceStateAsync();
-			//Quantity += 1;
 			Time += TimeSpan.FromSeconds(1);
 			await InsertWorkOrderTableAsync();
-		});
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
 	}
 
 	string json = string.Empty;
@@ -408,9 +428,8 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 	{
 		try
 		{
-
 			var httpClient = new HttpClient();
-			httpClient.BaseAddress = new Uri("http://192.168.1.3:32000");
+			httpClient.BaseAddress = new Uri("http://192.168.1.15:32000");
 
 			var body = "{\"cmd\": \"getDeviceState\"}";
 			StringContent stringContent = new StringContent(body);
@@ -439,7 +458,7 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 							DeviceOpenCloseState = "Kapalı";
 						}
 						var firstArray = deviceStateResult.encoder[0];
-						Quantity = firstArray[0];
+						WorkOrder.ActualQuantity = firstArray[0];
 						SliderValue = firstArray[1];
 					}
 				}
@@ -453,38 +472,24 @@ public partial class WorkOrderDetailViewModel : BaseViewModel
 		}
 	}
 
-	public async Task GetCurrentEmployeeAsync()
+	async Task GoToBackAsync()
 	{
 		if (IsBusy)
 			return;
+
 		try
 		{
 			IsBusy = true;
-
-			string oauthToken = await SecureStorage.GetAsync("CurrentUserName");
-			if (oauthToken == null)
-			{
-				CurrentEmployee = "Kullanıcı Bulunamadı";
-			}
-			else
-			{
-				CurrentEmployee = oauthToken;
-			}
+			await Shell.Current.GoToAsync("..");
 		}
 		catch (Exception ex)
 		{
-			Debug.WriteLine(ex.Message);
-			await Application.Current.MainPage.DisplayAlert("Auth Error", "Get Current Employee Error", "Tamam");
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
 		}
 		finally
 		{
 			IsBusy = false;
 		}
-	}
-
-	[RelayCommand]
-	async Task GoToBackAsync()
-	{
-		await Shell.Current.GoToAsync("..");
 	}
 }
