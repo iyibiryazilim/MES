@@ -42,9 +42,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel//, IDisposable
 	DateTime time;
 
 	[ObservableProperty]
-	string deviceOpenCloseState;
-
-	[ObservableProperty]
 	bool isDeviceOpen;
 
 	[ObservableProperty]
@@ -59,16 +56,6 @@ public partial class WorkOrderDetailViewModel : BaseViewModel//, IDisposable
 		set
 		{
 			IsDeviceOpen = value;
-			OnPropertyChanged();
-		}
-	}
-
-	public string DeviceOpenCloseStateChanged
-	{
-		get => DeviceOpenCloseState;
-		set
-		{
-			DeviceOpenCloseState = value;
 			OnPropertyChanged();
 		}
 	}
@@ -450,15 +437,21 @@ public partial class WorkOrderDetailViewModel : BaseViewModel//, IDisposable
 						if (openCloseState == 60 || openCloseState == 62)
 						{
 							IsDeviceOpen = true;
-							DeviceOpenCloseState = "Açık";
 						}
 						else if (openCloseState == 61 || openCloseState == 63)
 						{
 							IsDeviceOpen = false;
-							DeviceOpenCloseState = "Kapalı";
 						}
 						var firstArray = deviceStateResult.encoder[0];
 						WorkOrder.ActualQuantity = firstArray[0];
+						//if(firstArray[0] != WorkOrder.ActualQuantity)
+						//{
+						//	firstArray[0] = (int)WorkOrder.ActualQuantity;
+						//	WorkOrder.ActualQuantity = firstArray[0];
+						//} else
+						//{
+						//	WorkOrder.ActualQuantity = firstArray[0];
+						//}
 						SliderValue = firstArray[1];
 					}
 				}

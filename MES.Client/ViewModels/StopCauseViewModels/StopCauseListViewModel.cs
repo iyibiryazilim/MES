@@ -155,7 +155,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 
 		try
 		{
-			//IsBusy = true;
+			IsBusy = true;
 			IsRefreshing = true;
 
 			if (item == null)
@@ -176,7 +176,7 @@ public partial class StopCauseListViewModel : BaseViewModel
 		}
 		finally
 		{
-			//IsBusy = false;
+			IsBusy = false;
 			IsRefreshing = false;
 		}
 	}
@@ -184,20 +184,54 @@ public partial class StopCauseListViewModel : BaseViewModel
 	[RelayCommand]
 	async Task StopButtonAsync()
 	{
-		
-		if(workOrderDetailViewModel is not null)
+		//if(IsBusy) 
+		//	return;
+
+		if (SelectedItem is null)
+			return;
+
+		try
 		{
-			workOrderDetailViewModel.Timer.Stop();
-			workOrderDetailViewModel.LogoTimer.Stop();
-			InsertStopTransactionCommand.Execute(null);
-			ChangeWorkOrderStatusToStoppedCommand.Execute(null);
+			IsBusy = true;
+			if (workOrderDetailViewModel is not null)
+			{
+				workOrderDetailViewModel?.Timer?.Stop();
+				workOrderDetailViewModel?.LogoTimer?.Stop();
+				InsertStopTransactionCommand.Execute(null);
+				ChangeWorkOrderStatusToStoppedCommand.Execute(null);
+			}
+			await Shell.Current.GoToAsync("../..");
+			SelectedItem = null;
 		}
-		await Shell.Current.GoToAsync("../..");
+		catch(Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+
+			IsBusy = false;
+		}
 	}
 
 	[RelayCommand]
 	async Task GoToBackAsync()
 	{
-		await Shell.Current.GoToAsync("..");
+		//if (IsBusy)
+		//	return;
+		try
+		{
+			IsBusy = true;
+			await Shell.Current.GoToAsync("..");
+		} catch(Exception ex)
+		{
+			Debug.WriteLine(ex);
+			await Application.Current.MainPage.DisplayAlert("Error :", ex.Message, "Tamam");
+		}
+		finally
+		{
+			IsBusy = false;
+		}
 	}
 }

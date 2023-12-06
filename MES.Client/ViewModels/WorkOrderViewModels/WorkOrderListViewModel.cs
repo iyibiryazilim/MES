@@ -186,7 +186,7 @@ public partial class WorkOrderListViewModel : BaseViewModel
 		{
 			IsBusy = true;
 
-			SecureStorage.RemoveAll();
+			SecureStorage.Remove("CurrentUserName");
 			await Shell.Current.GoToAsync(nameof(LoginView));
 		} catch(Exception ex)
 		{

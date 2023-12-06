@@ -1,7 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using MES.Client.Helpers.HttpClientHelpers;
+﻿using MES.Client.Helpers.HttpClientHelpers;
 using MES.Client.ViewModels.WorkOrderViewModels;
-using Shared.Entity.DTOs;
 using Shared.Entity.Models;
 using Shared.Middleware.Services;
 using System.Collections.ObjectModel;
@@ -18,26 +16,26 @@ public partial class StopTransactionListViewModel : BaseViewModel
 	public Command GetItemsCommand { get; }
 	public Command GoToBackCommand { get; }
 
-	public StopTransactionListViewModel(IHttpClientService httpClientService, IStopTransactionService stopTransactionService, WorkOrderDetailViewModel _workOrderDetailViewModel)
+	public StopTransactionListViewModel(IHttpClientService httpClientService, IStopTransactionService stopTransactionService)
 	{
 		Title = "Duruş Hareketleri";
 		_httpClientService = httpClientService;
 		_stopTransactionService = stopTransactionService;
-	
+
 		GetItemsCommand = new Command(async () => await GetItemsAsync());
 		GoToBackCommand = new Command(async () => await GoToBackAsync());
 	}
 
 	async Task GetItemsAsync()
 	{
-		if(IsBusy)
+		if (IsBusy)
 			return;
 
 		try
 		{
 			IsBusy = true;
 
-			if(StopTransactionListItems.Count > 0)
+			if (StopTransactionListItems.Count > 0)
 				StopTransactionListItems.Clear();
 
 			var httpClient = _httpClientService.GetOrCreateHttpClient();
@@ -69,15 +67,15 @@ public partial class StopTransactionListViewModel : BaseViewModel
 
 	async Task GoToBackAsync()
 	{
-		if(IsBusy)
+		if (IsBusy)
 			return;
 
 		try
 		{
-			IsBusy = true;	
+			IsBusy = true;
 			await Shell.Current.GoToAsync("..");
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			Debug.WriteLine(ex);
 		}
@@ -85,6 +83,6 @@ public partial class StopTransactionListViewModel : BaseViewModel
 		{
 			IsBusy = false;
 		}
-		
+
 	}
 }
