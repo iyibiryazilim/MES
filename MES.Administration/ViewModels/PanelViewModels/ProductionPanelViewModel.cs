@@ -12,6 +12,7 @@ public partial class ProductionPanelViewModel : BaseViewModel
 {
     IHttpClientLBSService _httpClientLBSService;
     IProductionOrderService _productionOrderService;
+    //ICustomQueryService _customQueryService;
 
     public ObservableCollection<ProductionOrder> Items { get; } = new();
 
