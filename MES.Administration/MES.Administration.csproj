@@ -107,7 +107,6 @@
 	  <Folder Include="Helpers\HttpClientHelpers\HttpClientLocal\" />
 	  <Folder Include="Helpers\Mappers\" />
 	  <Folder Include="Models\BOMModels\" />
-	  <Folder Include="Models\ProductionOrderModels\" />
 	  <Folder Include="Models\WorkOrderModels\" />
 	  <Folder Include="Views\Controls\" />
 	  <Folder Include="Views\PanelViews\" />

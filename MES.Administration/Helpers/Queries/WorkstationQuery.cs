@@ -65,11 +65,11 @@ WHERE DISPLINE.LINESTATUS={status}";
 public class StatusTypes
 {
     public const string WithoutStatus = "";
-    public const string baslamadı = " AND DISPLINE.LINESTATUS=0 ";
-    public const string devam = " AND DISPLINE.LINESTATUS=1";
-    public const string durduruldu = " AND DISPLINE.LINESTATUS=2";
-    public const string tamamlandı = "AND DISPLINE.LINESTATUS=3";
-    public const string kapandı = " AND DISPLINE.LINESTATUS=4";
+    public const string NotStarted = " AND DISPLINE.LINESTATUS=0 ";
+    public const string Continues = " AND DISPLINE.LINESTATUS=1";
+    public const string Stopped = " AND DISPLINE.LINESTATUS=2";
+    public const string Completed = "AND DISPLINE.LINESTATUS=3";
+    public const string Closed = " AND DISPLINE.LINESTATUS=4";
 }
 
 
